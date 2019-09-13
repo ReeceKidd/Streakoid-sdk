@@ -1,44 +1,47 @@
 import { streakoid } from "../src/streakoid";
 
-const registeredEmail = "delete-feedback-user@gmail.com";
-const registeredUsername = "delete-feedback-user";
+const email = "delete-feedback-user@gmail.com";
+const username = "delete-feedback-user";
 
 jest.setTimeout(120000);
 
 describe("DELETE /feedbacks/:feedbackId", () => {
-  let registeredUserId: string;
+    let registeredUserId: string;
 
-  beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
-    );
-    registeredUserId = registrationResponse.data._id;
-  });
+    beforeAll(async () => {
+        const registrationResponse = await streakoid.users.create(
+            {
+                email,
+                username
+            }
+        );
+        registeredUserId = registrationResponse._id;
+    });
 
-  afterAll(async () => {
-    await streakoid.users.deleteOne(registeredUserId);
-  });
+    afterAll(async () => {
+        await streakoid.users.deleteOne(registeredUserId);
+    });
 
-  test(`deletes feedback`, async () => {
-    expect.assertions(1);
+    test(`deletes feedback`, async () => {
+        expect.assertions(1);
 
-    const feedbackPageUrl = "/solo-streaks";
-    const feedbackUsername = "username";
-    const feedbackUserEmail = "userEmail";
-    const feedbackText = "feedback";
+        const feedbackPageUrl = "/solo-streaks";
+        const feedbackUsername = "username";
+        const feedbackUserEmail = "userEmail";
+        const feedbackText = "feedback";
 
-    const createFeedbackResponse = await streakoid.feedbacks.create(
-      registeredUserId,
-      feedbackPageUrl,
-      feedbackUsername,
-      feedbackUserEmail,
-      feedbackText
-    );
+        const feedback = await streakoid.feedbacks.create({
+            userId: registeredUserId,
+            pageUrl: feedbackPageUrl,
+            username: feedbackUsername,
+            userEmail: feedbackUserEmail,
+            feedbackText
+        }
+        );
 
-    const { _id } = createFeedbackResponse.data;
+        const { _id } = feedback;
 
-    const response = await streakoid.feedbacks.deleteOne(_id);
-    expect(response.status).toEqual(204);
-  });
+        const response = await streakoid.feedbacks.deleteOne(_id);
+        expect(response.status).toEqual(204);
+    });
 });

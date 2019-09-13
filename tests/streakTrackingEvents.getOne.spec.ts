@@ -5,8 +5,8 @@ import { StreakTrackingEventType } from "../src/types";
 const registeredEmail = "get-one-streak-tracking@gmail.com";
 const registeredUsername = "get-one-streak-tracking";
 
-const name = "Daily yoga";
-const description = "Every day I must do yoga before 12pm";
+const streakName = "Daily yoga";
+const streakDescription = "Every day I must do yoga before 12pm";
 
 const timezone = "Europe/London";
 
@@ -19,26 +19,31 @@ describe("GET /streak-tracking-events", () => {
 
     beforeAll(async () => {
         const registrationResponse = await streakoid.users.create(
-            registeredUsername,
-            registeredEmail
+            {
+                username: registeredUsername,
+                email: registeredEmail
+            }
         );
-        userId = registrationResponse.data._id;
+        userId = registrationResponse._id;
 
-        const soloStreakRegistration = await streakoid.soloStreaks.create(
+        const soloStreakRegistration = await streakoid.soloStreaks.create({
             userId,
-            name,
+            streakName,
             timezone,
-            description
+            streakDescription
+        }
         );
-        soloStreakId = soloStreakRegistration.data._id;
+        soloStreakId = soloStreakRegistration._id;
 
         const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create(
-            StreakTrackingEventType.LostStreak,
-            soloStreakId,
-            userId
+            {
+                type: StreakTrackingEventType.LostStreak,
+                streakId: soloStreakId,
+                userId
+            }
         );
 
-        streakTrackingEventId = createStreakTrackingEventResponse.data._id;
+        streakTrackingEventId = createStreakTrackingEventResponse._id;
     });
 
     afterAll(async () => {
@@ -48,22 +53,18 @@ describe("GET /streak-tracking-events", () => {
     });
 
     test(`retreives individual streak tracking event`, async () => {
-        expect.assertions(7);
+        expect.assertions(6);
 
-        const response = await streakoid.streakTrackingEvents.getOne(
+        const streakTrackingEvent = await streakoid.streakTrackingEvents.getOne(
             streakTrackingEventId
         );
 
-        const { data } = response;
-
-        expect(response.status).toEqual(200);
-
-        expect(data.userId).toBeDefined();
-        expect(data.streakId).toBeDefined();
-        expect(data._id).toBeDefined();
-        expect(data.createdAt).toBeDefined();
-        expect(data.updatedAt).toBeDefined();
-        expect(Object.keys(data)).toEqual([
+        expect(streakTrackingEvent.userId).toBeDefined();
+        expect(streakTrackingEvent.streakId).toBeDefined();
+        expect(streakTrackingEvent._id).toEqual(expect.any(String));
+        expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
+        expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(streakTrackingEvent).sort()).toEqual([
             "_id",
             "type",
             "streakId",
@@ -71,6 +72,6 @@ describe("GET /streak-tracking-events", () => {
             "createdAt",
             "updatedAt",
             "__v"
-        ]);
+        ].sort());
     });
 });

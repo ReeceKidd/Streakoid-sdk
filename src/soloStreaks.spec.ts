@@ -85,7 +85,7 @@ describe("SDK soloStreaks", () => {
   });
 
   describe("create", () => {
-    test("calls POST with correct URL and data parmaters", async () => {
+    test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
       axios.post = jest.fn();
       const userId = "userId";
@@ -112,7 +112,7 @@ describe("SDK soloStreaks", () => {
   });
 
   describe("update", () => {
-    test("calls PATCH with correct URL and data parmaters", async () => {
+    test("calls PATCH with correct URL and  parmaters", async () => {
       expect.assertions(1);
       axios.patch = jest.fn();
       const name = "name";
@@ -124,7 +124,7 @@ describe("SDK soloStreaks", () => {
       };
       const timezone = "timezone";
 
-      await streakoid.soloStreaks.update("id", timezone, data);
+      await streakoid.soloStreaks.update("id", timezone);
 
       expect(axios.patch).toBeCalledWith(
         `${APPLICATION_URL}/v1/solo-streaks/id`,

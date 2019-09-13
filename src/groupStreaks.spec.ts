@@ -76,7 +76,7 @@ describe("SDK groupStreaks", () => {
   });
 
   describe("create", () => {
-    test("calls POST with correct URL and data parmaters", async () => {
+    test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
       axios.post = jest.fn();
 
@@ -113,7 +113,7 @@ describe("SDK groupStreaks", () => {
   });
 
   describe("update", () => {
-    test("calls PATCH with correct URL and data parmaters", async () => {
+    test("calls PATCH with correct URL and  parmaters", async () => {
       expect.assertions(1);
       axios.patch = jest.fn();
       const streakName = "streakName";

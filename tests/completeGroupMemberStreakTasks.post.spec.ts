@@ -1,4 +1,5 @@
 import { streakoid } from '../src/streakoid';
+import { StreakTypes } from '../src/models/StreakTypes';
 
 const registeredEmail =
   "create-complete-group-member-streak-tasks-user@gmail.com";
@@ -19,10 +20,12 @@ describe("POST /complete-group-member-streak-tasks", () => {
 
   beforeAll(async () => {
     const registrationResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
+      {
+        username: registeredUsername,
+        email: registeredEmail
+      }
     );
-    userId = registrationResponse.data._id;
+    userId = registrationResponse._id;
     const members = [{ memberId: userId }];
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
@@ -32,14 +35,16 @@ describe("POST /complete-group-member-streak-tasks", () => {
       timezone,
       members
     });
-    groupStreakId = createGroupStreakResponse.data._id;
+    groupStreakId = createGroupStreakResponse._id;
 
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-      userId,
-      groupStreakId,
-      timezone
+      {
+        userId,
+        groupStreakId,
+        timezone
+      }
     );
-    groupMemberStreakId = createGroupMemberStreakResponse.data._id;
+    groupMemberStreakId = createGroupMemberStreakResponse._id;
   });
 
   afterAll(async () => {
@@ -49,23 +54,18 @@ describe("POST /complete-group-member-streak-tasks", () => {
 
   describe("POST /v1/complete-group-member-streak-tasks", () => {
     test("user can say that a group streak member task has been completed for the day", async () => {
-      expect.assertions(12);
+      expect.assertions(15);
 
-      const completeGroupMemberStreakTaskResponse = await streakoid.completeGroupMemberStreakTasks.create(
-        userId,
-        groupStreakId,
-        groupMemberStreakId,
-        timezone
+      const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create(
+        {
+          userId,
+          groupStreakId,
+          groupMemberStreakId,
+          timezone
+        }
       );
-      const {
-        completeGroupMemberStreakTask
-      } = completeGroupMemberStreakTaskResponse.data;
 
-      expect(completeGroupMemberStreakTaskResponse.status).toEqual(201);
-      expect(completeGroupMemberStreakTask._id).toBeDefined();
-      expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(
-        expect.any(String)
-      );
+      expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
       expect(completeGroupMemberStreakTask.userId).toEqual(userId);
       expect(completeGroupMemberStreakTask.groupStreakId).toEqual(
         groupStreakId
@@ -73,8 +73,14 @@ describe("POST /complete-group-member-streak-tasks", () => {
       expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(
         groupMemberStreakId
       );
-
-      expect(Object.keys(completeGroupMemberStreakTask)).toEqual([
+      expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(
+        expect.any(String)
+      );
+      expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
+      expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.groupMemberStreak)
+      expect(completeGroupMemberStreakTask.createdAt).toEqual(expect.any(String));
+      expect(completeGroupMemberStreakTask.updatedAt).toEqual(expect.any(String));
+      expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual([
         "_id",
         "userId",
         "groupStreakId",
@@ -85,21 +91,18 @@ describe("POST /complete-group-member-streak-tasks", () => {
         "createdAt",
         "updatedAt",
         "__v"
-      ]);
+      ].sort());
 
-      const groupMemberStreakResponse = await streakoid.groupMemberStreaks.getOne(
+      const groupMemberStreak = await streakoid.groupMemberStreaks.getOne(
         groupMemberStreakId
       );
 
-      groupMemberStreakId = groupMemberStreakResponse.data._id;
-      const groupMemberStreak = groupMemberStreakResponse.data;
-
       expect(groupMemberStreak.currentStreak.startDate).toBeDefined();
       expect(groupMemberStreak.currentStreak.numberOfDaysInARow).toEqual(1);
-      expect(Object.keys(groupMemberStreak.currentStreak)).toEqual([
+      expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual([
         "startDate",
         "numberOfDaysInARow"
-      ]);
+      ].sort());
       expect(groupMemberStreak.completedToday).toEqual(true);
       expect(groupMemberStreak.active).toEqual(true);
     });
@@ -108,24 +111,30 @@ describe("POST /complete-group-member-streak-tasks", () => {
       expect.assertions(3);
 
       const secondGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-        userId,
-        groupStreakId,
-        timezone
+        {
+          userId,
+          groupStreakId,
+          timezone
+        }
       );
-      secondGroupMemberStreakId = secondGroupMemberStreakResponse.data._id;
+      secondGroupMemberStreakId = secondGroupMemberStreakResponse._id;
 
       try {
         await streakoid.completeGroupMemberStreakTasks.create(
-          userId,
-          groupStreakId,
-          secondGroupMemberStreakId,
-          timezone
+          {
+            userId,
+            groupStreakId,
+            groupMemberStreakId: secondGroupMemberStreakId,
+            timezone
+          }
         );
         await streakoid.completeGroupMemberStreakTasks.create(
-          userId,
-          groupStreakId,
-          secondGroupMemberStreakId,
-          timezone
+          {
+            userId,
+            groupStreakId,
+            groupMemberStreakId: secondGroupMemberStreakId,
+            timezone
+          }
         );
       } catch (err) {
         expect(err.response.status).toEqual(422);

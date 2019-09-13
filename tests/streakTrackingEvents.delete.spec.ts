@@ -1,9 +1,8 @@
 import { streakoid } from "../src/streakoid";
 import { StreakTrackingEventType } from "../src/types";
 
-
-const registeredEmail = "delete-solo-streak-user@gmail.com";
-const registeredUsername = "delete-solo-streak-user";
+const email = "delete-solo-streak-user@gmail.com";
+const username = "delete-solo-streak-user";
 
 const timezone = "Europe/London";
 
@@ -14,31 +13,37 @@ describe(`DELETE /solo-streaks`, () => {
     let soloStreakId: string;
     let streakTrackingEventId: string;
 
-    const name = "Reading";
-    const description = "I will read 30 minutes every day";
+    const streakName = "Reading";
+    const streakDescription = "I will read 30 minutes every day";
 
     beforeAll(async () => {
         const registrationResponse = await streakoid.users.create(
-            registeredUsername,
-            registeredEmail
+            {
+                email,
+                username
+            }
         );
-        userId = registrationResponse.data._id;
+        userId = registrationResponse._id;
 
-        const createSoloStreakResponse = await streakoid.soloStreaks.create(
+        const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,
-            name,
-            timezone,
-            description
+            streakName,
+            streakDescription,
+            timezone
+        }
         );
-        soloStreakId = createSoloStreakResponse.data._id;
+        soloStreakId = createSoloStreakResponse._id;
 
         const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create(
-            StreakTrackingEventType.LostStreak,
-            soloStreakId,
-            userId
+            {
+                type: StreakTrackingEventType.LostStreak,
+                streakId: soloStreakId,
+                userId
+            }
+
         );
 
-        streakTrackingEventId = createStreakTrackingEventResponse.data._id;
+        streakTrackingEventId = createStreakTrackingEventResponse._id;
     });
 
     afterAll(async () => {

@@ -3,10 +3,11 @@ import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
+import { CompleteSoloStreakTask } from "./models/CompleteSoloStreakTask";
 
 export default (applicationUrl: string) => {
 
-    const getAll = (userId?: string, streakId?: string) => {
+    const getAll = async ({ userId, streakId }: { userId?: string, streakId?: string }): Promise<CompleteSoloStreakTask[]> => {
         let getAllURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}?`;
         if (userId) {
             getAllURL = `${getAllURL}userId=${userId}&`;
@@ -14,12 +15,12 @@ export default (applicationUrl: string) => {
         if (streakId) {
             getAllURL = `${getAllURL}streakId=${streakId}`;
         }
-
-        return axios.get(getAllURL);
+        const { data } = await axios.get(getAllURL);
+        return data
     };
 
-    const create = (userId: string, soloStreakId: string, timezone: string) => {
-        return axios.post(
+    const create = async ({ userId, soloStreakId, timezone }: { userId: string, soloStreakId: string, timezone: string }): Promise<CompleteSoloStreakTask> => {
+        const { data } = await axios.post(
             `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}`,
             {
                 userId,
@@ -31,6 +32,7 @@ export default (applicationUrl: string) => {
                 }
             }
         );
+        return data;
     };
 
     const deleteOne = (completeSoloStreakTaskId: string) => {

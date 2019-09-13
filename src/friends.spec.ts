@@ -24,7 +24,7 @@ describe("SDK friends", () => {
   });
 
   describe("addFriend", () => {
-    test("calls POST with correct URL and data parmaters", async () => {
+    test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
       axios.post = jest.fn();
 

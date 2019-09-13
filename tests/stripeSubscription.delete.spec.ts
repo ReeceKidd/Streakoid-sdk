@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import { UserTypes } from "../src/models/User";
 
 const registeredEmail = "stripe-subscription-delete@gmail.com";
 const registeredUsername = "stripe-subscription-delete";
@@ -8,101 +9,126 @@ const basicUserUsername = "basic-subscription-user";
 jest.setTimeout(120000);
 
 describe(`DELETE /subscriptions`, () => {
-  let subscription = "";
-  let id = "";
-  let basicUserId = "";
+    let subscription: string;
+    let userId: string;
+    let basicUserId: string;
 
-  beforeAll(async () => {
-    const userResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
-    );
-    id = userResponse.data._id;
+    beforeAll(async () => {
+        const userResponse = await streakoid.users.create(
+            {
+                username: registeredUsername,
+                email: registeredEmail
+            }
+        );
+        userId = userResponse._id;
 
-    const token = "tok_visa";
-    const subscribeUserResponse = await streakoid.stripe.createSubscription(
-      token,
-      id
-    );
-    subscription = subscribeUserResponse.data.user.stripe.subscription;
+        const token = "tok_visa";
+        const subscribeUser = await streakoid.stripe.createSubscription(
+            {
+                token,
+                id: userId
+            }
+        );
+        subscription = subscribeUser.stripe.subscription;
 
-    const basicUserResponse = await streakoid.users.create(
-      basicUserUsername,
-      basicUserEmail
-    );
-    basicUserId = basicUserResponse.data._id;
-  });
+        const basicUserResponse = await streakoid.users.create(
+            {
+                username: basicUserUsername,
+                email: basicUserEmail
+            }
+        );
+        basicUserId = basicUserResponse._id;
+    });
 
-  afterAll(async () => {
-    await streakoid.users.deleteOne(id);
-    await streakoid.users.deleteOne(basicUserId);
-  });
+    afterAll(async () => {
+        await streakoid.users.deleteOne(userId);
+        await streakoid.users.deleteOne(basicUserId);
+    });
 
-  test("unsubscribes user and changes user type to basic", async () => {
-    expect.assertions(3);
+    test("unsubscribes user and changes user type to basic", async () => {
+        expect.assertions(11);
 
-    const response = await streakoid.stripe.deleteSubscription(
-      subscription,
-      id
-    );
+        const user = await streakoid.stripe.deleteSubscription(
+            {
+                subscription,
+                userId
+            }
+        );
 
-    const updatedUserResponse = await streakoid.users.getOne(id);
+        expect(Object.keys(user.stripe).sort()).toEqual(["customer", "subscription"].sort())
+        expect(user.stripe.subscription).toEqual(null);
+        expect(user.stripe.customer).toEqual(expect.any(String))
+        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.friends).toEqual([])
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(registeredUsername)
+        expect(user.email).toEqual(registeredEmail)
+        expect(user.createdAt).toEqual(expect.any(String))
+        expect(user.updatedAt).toEqual(expect.any(String))
+        expect(Object.keys(user).sort()).toEqual([
+            "_id",
+            "stripe",
+            "type",
+            "friends",
+            "username",
+            "email",
+            "createdAt",
+            "updatedAt",
+            "__v",
+        ].sort());
+    });
 
-    expect(response.status).toEqual(204);
-    expect(updatedUserResponse.data.user.type).toEqual("basic");
-    expect(updatedUserResponse.data.user.stripe.subscription).toEqual(null);
-  });
+    test("sends correct error when subscription is empty", async () => {
+        expect.assertions(2);
 
-  test("sends correct error when subscription is missing in request", async () => {
-    expect.assertions(2);
+        try {
+            await streakoid.stripe.deleteSubscription({ userId, subscription: "" });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual(
+                'child "subscription" fails because ["subscription" is not allowed to be empty]'
+            );
+        }
+    });
 
-    try {
-      await streakoid.stripe.deleteSubscription(undefined as any, id);
-    } catch (err) {
-      expect(err.response.status).toEqual(422);
-      expect(err.response.data.message).toEqual(
-        'child "subscription" fails because ["subscription" is required]'
-      );
-    }
-  });
+    test("sends correct error when user is empty", async () => {
+        expect.assertions(2);
 
-  test("sends correct error when id is missing in request", async () => {
-    expect.assertions(2);
+        try {
+            await streakoid.stripe.deleteSubscription({ userId: "", subscription });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual(
+                'child "userId" fails because ["userId" is not allowed to be empty]'
+            );
+        }
+    });
 
-    try {
-      await streakoid.stripe.deleteSubscription(subscription, undefined as any);
-    } catch (err) {
-      expect(err.response.status).toEqual(422);
-      expect(err.response.data.message).toEqual(
-        'child "id" fails because ["id" is required]'
-      );
-    }
-  });
+    test("sends correct error when user does not exist", async () => {
+        expect.assertions(3);
 
-  test("sends correct error when user does not exist", async () => {
-    expect.assertions(3);
+        try {
+            await streakoid.stripe.deleteSubscription({
+                subscription,
+                userId: "5d053a174c64143898b78455"
+            }
+            );
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.code).toEqual("400-13");
+            expect(err.response.data.message).toEqual("User does not exist.");
+        }
+    });
 
-    try {
-      await streakoid.stripe.deleteSubscription(
-        subscription,
-        "5d053a174c64143898b78455"
-      );
-    } catch (err) {
-      expect(err.response.status).toEqual(400);
-      expect(err.response.data.code).toEqual("400-13");
-      expect(err.response.data.message).toEqual("User does not exist.");
-    }
-  });
+    test("sends correct error when user is not subscribed", async () => {
+        expect.assertions(3);
 
-  test("sends correct error when user is not subscribed", async () => {
-    expect.assertions(3);
-
-    try {
-      await streakoid.stripe.deleteSubscription(subscription, basicUserId);
-    } catch (err) {
-      expect(err.response.status).toEqual(400);
-      expect(err.response.data.code).toEqual("400-14");
-      expect(err.response.data.message).toEqual("Customer is not subscribed.");
-    }
-  });
+        try {
+            await streakoid.stripe.deleteSubscription({ subscription, userId: basicUserId });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.code).toEqual("400-14");
+            expect(err.response.data.message).toEqual("Customer is not subscribed.");
+        }
+    });
 });

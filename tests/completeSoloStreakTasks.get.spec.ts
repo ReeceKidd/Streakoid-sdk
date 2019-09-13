@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import { StreakTypes } from "../src/models/StreakTypes";
 
 const email = "get-complete-solo-streak-task@gmail.com";
 const username = "get-complete-solo-streak-task";
@@ -10,69 +11,70 @@ const timezone = "Europe/London";
 jest.setTimeout(120000);
 
 describe("GET /complete-solo-streak-tasks", () => {
-  let userId: string;
-  let soloStreakId: string;
-  let completeSoloStreakTaskId: string;
+    let userId: string;
+    let soloStreakId: string;
+    let completeSoloStreakTaskId: string;
 
-  beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(username, email);
-    userId = registrationResponse.data._id;
+    beforeAll(async () => {
+        const registrationResponse = await streakoid.users.create({ username, email });
+        userId = registrationResponse._id;
 
-    const createSoloStreakResponse = await streakoid.soloStreaks.create(
-      userId,
-      streakName,
-      timezone
-    );
-    soloStreakId = createSoloStreakResponse.data._id;
+        const createSoloStreakResponse = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+            timezone
+        }
+        );
 
-    const createSoloStreakTaskCompleteResponse = await streakoid.completeSoloStreakTasks.create(
-      userId,
-      soloStreakId,
-      timezone
-    );
-    completeSoloStreakTaskId = createSoloStreakTaskCompleteResponse.data._id;
-  });
+        soloStreakId = createSoloStreakResponse._id;
 
-  afterAll(async () => {
-    await streakoid.users.deleteOne(userId);
-    await streakoid.soloStreaks.deleteOne(soloStreakId);
-    await streakoid.completeSoloStreakTasks.deleteOne(completeSoloStreakTaskId);
-  });
+        const createSoloStreakTaskCompleteResponse = await streakoid.completeSoloStreakTasks.create(
+            {
+                userId,
+                soloStreakId,
+                timezone
+            }
+        );
+        completeSoloStreakTaskId = createSoloStreakTaskCompleteResponse._id;
+    });
 
-  test(`completeSoloStreakTasks can be retreived`, async () => {
-    expect.assertions(11);
+    afterAll(async () => {
+        await streakoid.users.deleteOne(userId);
+        await streakoid.soloStreaks.deleteOne(soloStreakId);
+        await streakoid.completeSoloStreakTasks.deleteOne(completeSoloStreakTaskId);
+    });
 
-    const response = await streakoid.completeSoloStreakTasks.getAll(
-      userId,
-      soloStreakId
-    );
+    test(`completeSoloStreakTasks can be retreived`, async () => {
 
-    expect(response.status).toEqual(200);
+        expect.assertions(9);
 
-    const { completeSoloStreakTasks } = response.data;
+        const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll(
+            {
+                userId,
+                streakId: soloStreakId
+            }
+        );
 
-    expect(Object.keys(response.data)).toEqual(["completeSoloStreakTasks"]);
+        const completeSoloStreakTask = completeSoloStreakTasks[0];
 
-    const completeSoloStreakTask = completeSoloStreakTasks[0];
-
-    expect(completeSoloStreakTask._id).toBeDefined();
-    expect(completeSoloStreakTask.userId).toEqual(userId);
-    expect(completeSoloStreakTask.streakId).toEqual(soloStreakId);
-    expect(completeSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
-    expect(completeSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
-    expect(completeSoloStreakTask.streakType).toEqual('solo-streak');
-    expect(completeSoloStreakTask.createdAt).toBeDefined();
-    expect(completeSoloStreakTask.updatedAt).toBeDefined();
-    expect(Object.keys(completeSoloStreakTask)).toEqual([
-      "_id",
-      "userId",
-      "streakId",
-      "taskCompleteTime",
-      "taskCompleteDay",
-      "streakType",
-      "createdAt",
-      "updatedAt",
-      "__v"
-    ]);
-  });
+        expect(completeSoloStreakTask._id).toEqual(expect.any(String))
+        expect(completeSoloStreakTask.userId).toEqual(userId);
+        expect(completeSoloStreakTask.streakId).toEqual(soloStreakId);
+        expect(completeSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
+        expect(completeSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
+        expect(completeSoloStreakTask.streakType).toEqual(StreakTypes.soloStreak);
+        expect(completeSoloStreakTask.createdAt).toEqual(expect.any(String))
+        expect(completeSoloStreakTask.updatedAt).toEqual(expect.any(String))
+        expect(Object.keys(completeSoloStreakTask).sort()).toEqual([
+            "_id",
+            "userId",
+            "streakId",
+            "taskCompleteTime",
+            "taskCompleteDay",
+            "streakType",
+            "createdAt",
+            "updatedAt",
+            "__v"
+        ].sort());
+    });
 });

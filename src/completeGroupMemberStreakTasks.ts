@@ -2,9 +2,11 @@ import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
+import { CompleteGroupMemberStreakTask } from "./models/CompleteGroupMemberStreak";
+
 
 export default (applicatonUrl: string) => {
-    const getAll = ({
+    const getAll = async ({
         userId,
         groupStreakId,
         groupMemberStreakId
@@ -12,7 +14,7 @@ export default (applicatonUrl: string) => {
             userId?: string;
             groupStreakId?: string;
             groupMemberStreakId?: string;
-        }) => {
+        }): Promise<CompleteGroupMemberStreakTask[]> => {
         let getAllURL = `${applicatonUrl}/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}?`;
         if (userId) {
             getAllURL = `${getAllURL}userId=${userId}&`;
@@ -24,16 +26,18 @@ export default (applicatonUrl: string) => {
             getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}`;
         }
 
-        return axios.get(getAllURL);
-    };
+        const { data } = await axios.get(getAllURL);
+        return data
+    }
 
-    const create = (
+    const create = async ({ userId, groupStreakId, groupMemberStreakId, timezone }: {
         userId: string,
         groupStreakId: string,
         groupMemberStreakId: string,
         timezone: string
-    ) => {
-        return axios.post(
+    }
+    ): Promise<CompleteGroupMemberStreakTask> => {
+        const { data } = await axios.post(
             `${applicatonUrl}/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
             {
                 userId,
@@ -46,6 +50,7 @@ export default (applicatonUrl: string) => {
                 }
             }
         );
+        return data
     };
 
     const deleteOne = (completeGroupMemberStreakTaskId: string) => {

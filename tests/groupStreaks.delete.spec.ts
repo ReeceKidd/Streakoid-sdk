@@ -1,8 +1,8 @@
 import { streakoid } from "../src/streakoid";
 
 
-const registeredEmail = "delete-group-streak-user@gmail.com";
-const registeredUsername = "delete-group-streak-user";
+const email = "delete-group-streak-user@gmail.com";
+const username = "delete-group-streak-user";
 
 const timezone = "Europe/Budapest";
 
@@ -17,10 +17,12 @@ describe(`DELETE /group-streaks`, () => {
 
   beforeAll(async () => {
     const registrationResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
+      {
+        email,
+        username
+      }
     );
-    userId = registrationResponse.data._id;
+    userId = registrationResponse._id;
     const creatorId = userId;
     const members = [{ memberId: userId }];
 
@@ -31,7 +33,7 @@ describe(`DELETE /group-streaks`, () => {
       members,
       timezone
     });
-    groupStreakId = createSoloStreakResponse.data._id;
+    groupStreakId = createSoloStreakResponse._id;
   });
 
   afterAll(async () => {

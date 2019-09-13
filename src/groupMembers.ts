@@ -4,9 +4,10 @@ import ApiVersions from './ApiVersions'
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import GroupStreakRouterCategories from "./GroupStreakRouterCategories";
+import { GroupMember } from "./models/GroupMember";
 
 export default (applicationUrl: string) => {
-  const create = ({
+  const create = async ({
     friendId,
     groupStreakId,
     timezone
@@ -14,12 +15,13 @@ export default (applicationUrl: string) => {
       friendId: string;
       groupStreakId: string;
       timezone: string;
-    }) => {
-    return axios.post(
+    }): Promise<GroupMember[]> => {
+    const { data } = await axios.post(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}`,
       { friendId },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
+    return data
   };
 
   const deleteOne = ({

@@ -2,10 +2,11 @@ import axios from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
+import { StreakTrackingEvent } from "./models/StreakTrackingEvent";
 
 
 export default (applicationUrl: string) => {
-    const getAll = ({
+    const getAll = async ({
         type,
         userId,
         streakId
@@ -13,7 +14,7 @@ export default (applicationUrl: string) => {
             type?: string;
             userId?: string;
             streakId?: string;
-        }) => {
+        }): Promise<StreakTrackingEvent[]> => {
         let getAllSoloStreaksURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}?`;
 
         if (type) {
@@ -25,24 +26,32 @@ export default (applicationUrl: string) => {
         if (streakId) {
             getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakId=${streakId}`;
         }
-        return axios.get(getAllSoloStreaksURL);
+        const { data } = await axios.get(getAllSoloStreaksURL);
+        return data
     };
 
-    const getOne = (streakTrackingEventId: string) => {
-        return axios.get(
+    const getOne = async (streakTrackingEventId: string): Promise<StreakTrackingEvent> => {
+        const { data } = await axios.get(
             `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
         );
+        return data
     };
 
-    const create = (
-        type: string,
-        streakId: string,
-        userId: string
-    ) => {
-        return axios.post(
+    const create = async ({
+        type,
+        streakId,
+        userId
+    }: {
+            type: string,
+            streakId: string,
+            userId: string
+        }
+    ): Promise<StreakTrackingEvent> => {
+        const { data } = await axios.post(
             `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`,
             { type, streakId, userId }
         );
+        return data
     };
 
     const deleteOne = (streakTrackingEventId: string) => {

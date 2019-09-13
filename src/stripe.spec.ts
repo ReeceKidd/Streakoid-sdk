@@ -11,7 +11,7 @@ describe("SDK stripe", () => {
   });
 
   describe("createSubscription", () => {
-    test("calls POST with correct URL and data properties", async () => {
+    test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
       axios.post = jest.fn();
 
@@ -28,7 +28,7 @@ describe("SDK stripe", () => {
   });
 
   describe("deleteSubscription", () => {
-    test("calls POST with correct URL and data properties", async () => {
+    test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
       axios.post = jest.fn();
 

@@ -1,7 +1,7 @@
 import { streakoid } from "../src/streakoid";
 
-const registeredEmail = "delete-groupMember-streak-user@gmail.com";
-const registeredUsername = "delete-groupMember-streak-user";
+const email = "delete-groupMember-streak-user@gmail.com";
+const username = "delete-groupMember-streak-user";
 
 const timezone = "Europe/London";
 
@@ -17,10 +17,12 @@ describe("DELETE /group-member-streaks", () => {
 
   beforeAll(async () => {
     const registrationResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
+      {
+        username,
+        email
+      }
     );
-    registeredUserId = registrationResponse.data._id;
+    registeredUserId = registrationResponse._id;
 
     const members = [{ memberId: registeredUserId }];
 
@@ -31,15 +33,17 @@ describe("DELETE /group-member-streaks", () => {
       streakDescription,
       members
     });
-    createdGroupStreakId = createGroupStreakResponse.data._id;
+    createdGroupStreakId = createGroupStreakResponse._id;
 
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-      registeredUserId,
-      createdGroupStreakId,
-      timezone
+      {
+        userId: registeredUserId,
+        groupStreakId: createdGroupStreakId,
+        timezone
+      }
     );
 
-    createGroupMemberStreakId = createGroupMemberStreakResponse.data._id;
+    createGroupMemberStreakId = createGroupMemberStreakResponse._id;
   });
 
   afterAll(async () => {

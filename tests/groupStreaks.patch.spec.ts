@@ -9,55 +9,80 @@ const timezone = "Europe/Rome";
 jest.setTimeout(120000);
 
 describe(`PATCH /group-streaks`, () => {
-  let userId: string;
-  let groupStreakId: string;
+    let userId: string;
+    let groupStreakId: string;
 
-  const streakName = "Paleo";
-  const streakDescription = "I will follow the paleo diet every day";
+    const streakName = "Paleo";
+    const streakDescription = "I will follow the paleo diet every day";
 
-  beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(
-      registeredUsername,
-      registeredEmail
-    );
-    userId = registrationResponse.data._id;
+    beforeAll(async () => {
+        const registrationResponse = await streakoid.users.create(
+            {
+                username: registeredUsername,
+                email: registeredEmail
+            }
+        );
+        userId = registrationResponse._id;
 
-    const members = [{ memberId: userId }];
+        const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
-      creatorId: userId,
-      streakName,
-      streakDescription,
-      timezone,
-      members
+        const createGroupStreakResponse = await streakoid.groupStreaks.create({
+            creatorId: userId,
+            streakName,
+            streakDescription,
+            timezone,
+            members
+        });
+        groupStreakId = createGroupStreakResponse._id;
     });
-    groupStreakId = createGroupStreakResponse.data._id;
-  });
 
-  afterAll(async () => {
-    await streakoid.users.deleteOne(userId);
-    await streakoid.groupStreaks.deleteOne(groupStreakId);
-  });
+    afterAll(async () => {
+        await streakoid.users.deleteOne(userId);
+        await streakoid.groupStreaks.deleteOne(groupStreakId);
+    });
 
-  test(`that request passes when group streak is patched with correct keys`, async () => {
-    expect.assertions(6);
+    test(`that request passes when group streak is patched with correct keys`, async () => {
+        expect.assertions(13);
 
-    const updatedName = "Intermittent fasting";
-    const updatedDescription = "Cannot eat till 1pm everyday";
+        const updatedName = "Intermittent fasting";
+        const updatedDescription = "Cannot eat till 1pm everyday";
+        const numberOfMinutes = 30
+        const updatedTimezone = "Europe/Rome"
 
-    const response = await streakoid.groupStreaks.update(
-      groupStreakId,
-      timezone,
-      { streakName: updatedName, streakDescription: updatedDescription }
-    );
+        const groupStreak = await streakoid.groupStreaks.update(
+            {
+                groupStreakId,
+                timezone,
+                updateData: { streakName: updatedName, streakDescription: updatedDescription, numberOfMinutes, timezone: updatedTimezone }
+            }
+        );
 
-    expect(response.status).toEqual(200);
-    expect(response.data.groupStreak.streakName).toEqual(updatedName);
-    expect(response.data.groupStreak.streakDescription).toEqual(
-      updatedDescription
-    );
-    expect(response.data.groupStreak).toHaveProperty("_id");
-    expect(response.data.groupStreak).toHaveProperty("createdAt");
-    expect(response.data.groupStreak).toHaveProperty("updatedAt");
-  });
+        expect(groupStreak._id).toEqual(expect.any(String));
+        expect(groupStreak.creatorId).toEqual(userId);
+        expect(groupStreak.streakName).toEqual(updatedName);
+        expect(groupStreak.streakDescription).toEqual(updatedDescription);
+        expect(groupStreak.timezone).toEqual(updatedTimezone)
+        expect(groupStreak.numberOfMinutes).toEqual(numberOfMinutes);
+        expect(groupStreak.createdAt).toEqual(expect.any(String));
+        expect(groupStreak.updatedAt).toEqual(expect.any(String))
+
+        expect(Object.keys(groupStreak).sort()).toEqual([
+            "members",
+            "_id",
+            "creatorId",
+            "streakName",
+            "streakDescription",
+            "timezone",
+            "createdAt",
+            "updatedAt",
+            "__v",
+            "numberOfMinutes"
+        ].sort())
+
+        expect(groupStreak.members.length).toEqual(1);
+        const member = groupStreak.members[0];
+        expect(member.groupMemberStreakId).toEqual(expect.any(String))
+        expect(member.memberId).toEqual(userId)
+        expect(Object.keys(groupStreak.members[0]).sort()).toEqual(["memberId", "groupMemberStreakId"].sort());
+    });
 });

@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import { UserTypes } from "../src/models/User";
 
 
 jest.setTimeout(120000);
@@ -7,46 +8,61 @@ describe(`POST /users`, () => {
     const username = "tester1";
     const email = "tester1@gmail.com";
     let userId: string;
+    let registeredUserId: string
 
     beforeAll(async () => {
-        const response = await streakoid.users.create(username, email);
-        userId = response.data._id;
+        const response = await streakoid.users.create({ username, email });
+        userId = response._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
+        await streakoid.users.deleteOne(registeredUserId)
     });
 
     test("user can register successfully", async () => {
-        expect.assertions(8);
+        expect.assertions(11);
 
-        const registerUsername = "registerUsername";
-        const registerEmail = "register@gmail.com";
+        const username = "registerusername";
+        const email = "register@gmail.com";
 
-        const response = await streakoid.users.create(
-            registerUsername,
-            registerEmail
+        const user = await streakoid.users.create(
+            {
+                username,
+                email
+            }
         );
 
-        expect(response.status).toEqual(201);
-        expect(response.data).toHaveProperty("streaks");
-        expect(response.data).toHaveProperty("type");
-        expect(response.data).toHaveProperty("_id");
-        expect(response.data).toHaveProperty("email");
-        expect(response.data).toHaveProperty("username");
-        expect(response.data).toHaveProperty("createdAt");
-        expect(response.data).toHaveProperty("updatedAt");
+        expect(Object.keys(user.stripe)).toEqual(["customer", "subscription"])
+        expect(user.stripe.subscription).toEqual(null);
+        expect(user.stripe.customer).toEqual(null)
+        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.friends).toEqual([])
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(username)
+        expect(user.email).toEqual(email)
+        expect(user.createdAt).toEqual(expect.any(String))
+        expect(user.updatedAt).toEqual(expect.any(String))
+        expect(Object.keys(user).sort()).toEqual([
+            "stripe",
+            "type",
+            "friends",
+            "_id",
+            "username",
+            "email",
+            "createdAt",
+            "updatedAt",
+            "__v",
+        ].sort());
 
-        // Delete created user to clear up the database
-        const userId = response.data._id;
-        await streakoid.users.deleteOne(userId);
+        registeredUserId = user._id;
     });
 
     test("fails because username is missing from request", async () => {
         expect.assertions(2);
 
         try {
-            await streakoid.users.create("", email);
+            await streakoid.users.create({ username: "", email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
@@ -59,7 +75,7 @@ describe(`POST /users`, () => {
         expect.assertions(3);
 
         try {
-            await streakoid.users.create(username, "new-email@gmail.com");
+            await streakoid.users.create({ username, email: "new-email@gmail.com" });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toBe("400-10");
@@ -67,28 +83,16 @@ describe(`POST /users`, () => {
         }
     });
 
-    test("fails because username must be a string", async () => {
+
+    test("fails because email is not allowed to be empty", async () => {
         expect.assertions(2);
 
         try {
-            await streakoid.users.create(123456 as any, "tester001@gmail.com");
+            await streakoid.users.create({ username, email: "" });
         } catch (err) {
-            expect(err.response.status).toEqual(422);
+            expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
-                `child \"username\" fails because [\"username\" must be a string]`
-            );
-        }
-    });
-
-    test("fails because email is missing from request", async () => {
-        expect.assertions(2);
-
-        try {
-            await streakoid.users.create(username, undefined as any);
-        } catch (err) {
-            expect(err.response.status).toEqual(422);
-            expect(err.response.data.message).toEqual(
-                'child "email" fails because ["email" is required]'
+                'child "email" fails because ["email" is not allowed to be empty]'
             );
         }
     });
@@ -97,7 +101,7 @@ describe(`POST /users`, () => {
         expect.assertions(3);
 
         try {
-            await streakoid.users.create("tester01", email);
+            await streakoid.users.create({ username: "tester01", email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toEqual("400-09");
@@ -109,7 +113,7 @@ describe(`POST /users`, () => {
         expect.assertions(2);
 
         try {
-            await streakoid.users.create("tester01", "invalid email");
+            await streakoid.users.create({ username: "tester01", email: "invalid email" });
         } catch (err) {
             expect(err.response.status).toEqual(422);
             expect(err.response.data.message).toEqual(

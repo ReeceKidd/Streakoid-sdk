@@ -2,6 +2,7 @@ import axios from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
+import { User } from "./models/User";
 
 export enum stripeRouterPaths {
     subscriptions = "subscriptions",
@@ -9,18 +10,20 @@ export enum stripeRouterPaths {
 }
 
 export default (applicationUrl: string) => {
-    const createSubscription = (token: string, id: string) => {
-        return axios.post(
+    const createSubscription = async ({ token, id }: { token: string, id: string }): Promise<User> => {
+        const { data } = await axios.post(
             `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.subscriptions}`,
             { token, id }
         );
+        return data
     };
 
-    const deleteSubscription = (subscription: string, id: string) => {
-        return axios.post(
+    const deleteSubscription = async ({ subscription, userId }: { subscription: string, userId: string }): Promise<User> => {
+        const { data } = await axios.post(
             `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.deleteSubscriptions}`,
-            { subscription, id }
+            { subscription, userId }
         );
+        return data
     };
 
     return {
