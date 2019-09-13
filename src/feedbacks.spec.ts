@@ -13,20 +13,22 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+      axios.post = jest.fn().mockResolvedValue(true)
 
       const userId = "12345678";
       const pageUrl = "/solo-streaks";
       const username = "username";
       const userEmail = "userEmail";
-      const feedback = "feedback";
+      const feedbackText = "feedback";
 
       await streakoid.feedbacks.create(
-        userId,
-        pageUrl,
-        username,
-        userEmail,
-        feedback
+        {
+          userId,
+          pageUrl,
+          username,
+          userEmail,
+          feedbackText
+        }
       );
 
       expect(axios.post).toBeCalledWith(`${APPLICATION_URL}/v1/feedbacks`, {
@@ -34,7 +36,7 @@ describe("SDK completeSoloStreakTasks", () => {
         pageUrl,
         username,
         userEmail,
-        feedback
+        feedbackText
       });
     });
   });

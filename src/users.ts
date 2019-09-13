@@ -1,6 +1,4 @@
 import axios from "axios";
-
-
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import { User } from "./models/User";

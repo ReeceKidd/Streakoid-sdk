@@ -13,7 +13,7 @@ describe("SDK groupMemberStreaks", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.groupMemberStreaks.getOne("id");
 
@@ -26,15 +26,19 @@ describe("SDK groupMemberStreaks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true);
+
       const userId = "userId";
       const groupStreakId = "groupStreakId";
       const timezone = "timezone";
 
       await streakoid.groupMemberStreaks.create(
-        userId,
-        groupStreakId,
-        timezone
+        {
+          userId,
+          groupStreakId,
+          timezone
+        }
       );
 
       expect(axios.post).toBeCalledWith(

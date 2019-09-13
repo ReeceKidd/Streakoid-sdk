@@ -14,7 +14,9 @@ describe("SDK groupMembers", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true)
+
       const friendId = "friendId";
       const groupStreakId = "groupStreakId";
       const timezone = "timezone";

@@ -13,12 +13,13 @@ describe("SDK stripe", () => {
   describe("createSubscription", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true)
 
       const token = "token";
       const id = "id";
 
-      await streakoid.stripe.createSubscription(token, id);
+      await streakoid.stripe.createSubscription({ token, id });
 
       expect(axios.post).toBeCalledWith(
         `${APPLICATION_URL}/v1/stripe/subscriptions`,
@@ -30,16 +31,17 @@ describe("SDK stripe", () => {
   describe("deleteSubscription", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true)
 
       const subscription = "subscription";
-      const id = "id";
+      const userId = "id";
 
-      await streakoid.stripe.deleteSubscription(subscription, id);
+      await streakoid.stripe.deleteSubscription({ subscription, userId });
 
       expect(axios.post).toBeCalledWith(
         `${APPLICATION_URL}/v1/stripe/delete-subscriptions`,
-        { subscription, id }
+        { subscription, userId }
       );
     });
   });

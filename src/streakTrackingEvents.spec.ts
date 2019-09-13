@@ -14,7 +14,8 @@ describe("SDK streakTrackingEvents", () => {
   describe("getAll", () => {
     test("calls GET with correct URL when no query paramters are passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.streakTrackingEvents.getAll({});
 
@@ -25,7 +26,8 @@ describe("SDK streakTrackingEvents", () => {
 
     test("calls GET with correct URL when type query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       const type = "typeId";
 
@@ -38,7 +40,8 @@ describe("SDK streakTrackingEvents", () => {
 
     test("calls GET with correct URL when userId query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       const userId = "userId";
 
@@ -51,7 +54,8 @@ describe("SDK streakTrackingEvents", () => {
 
     test("calls GET with correct URL when streakId query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       const streakId = `streakId`;
 
@@ -66,7 +70,8 @@ describe("SDK streakTrackingEvents", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.streakTrackingEvents.getOne("id");
 
@@ -79,12 +84,13 @@ describe("SDK streakTrackingEvents", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true)
       const type = "lost-streak";
       const streakId = "streakId";
       const userId = "userId";
 
-      await streakoid.streakTrackingEvents.create(type, streakId, userId);
+      await streakoid.streakTrackingEvents.create({ type, streakId, userId });
 
       expect(axios.post).toBeCalledWith(
         `${APPLICATION_URL}/v1/streak-tracking-events`,

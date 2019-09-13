@@ -1,5 +1,6 @@
 import axios from "axios";
 import streakoidFactory from "./streakoid";
+jest.genMockFromModule("./streakoid");
 
 describe("SDK users", () => {
 
@@ -13,7 +14,8 @@ describe("SDK users", () => {
   describe("getAll", () => {
     test("calls GET with correct URL and searchQuery paramater", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.users.getAll("searchQuery");
 
@@ -24,7 +26,8 @@ describe("SDK users", () => {
 
     test("calls GET with correct URL without searchQuery paramater", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.users.getAll();
 
@@ -35,7 +38,8 @@ describe("SDK users", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+
+      axios.get = jest.fn().mockResolvedValue(true)
 
       await streakoid.users.getOne("userId");
 
@@ -46,11 +50,12 @@ describe("SDK users", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+
+      axios.post = jest.fn().mockResolvedValue(true)
       const username = "username";
       const email = "email@gmail.com";
 
-      await streakoid.users.create(username, email);
+      await streakoid.users.create({ username, email });
 
       expect(axios.post).toBeCalledWith(`${APPLICATION_URL}/v1/users`, {
         username,
@@ -62,7 +67,8 @@ describe("SDK users", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axios.delete = jest.fn();
+
+      axios.delete = jest.fn().mockResolvedValue(true)
 
       await streakoid.users.deleteOne("userId");
 

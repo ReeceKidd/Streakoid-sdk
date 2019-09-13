@@ -14,9 +14,9 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("getAll", () => {
     test("calls GET with correct URL when just userId is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+      axios.get = jest.fn().mockResolvedValue(true)
 
-      await streakoid.completeSoloStreakTasks.getAll("userId");
+      await streakoid.completeSoloStreakTasks.getAll({ userId: "userId" });
 
       expect(axios.get).toBeCalledWith(
         `${APPLICATION_URL}/v1/complete-solo-streak-tasks?userId=userId&`
@@ -25,9 +25,9 @@ describe("SDK completeSoloStreakTasks", () => {
 
     test("calls GET with correct URL when just streakId is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+      axios.get = jest.fn().mockResolvedValue(true)
 
-      await streakoid.completeSoloStreakTasks.getAll(undefined, "streakId");
+      await streakoid.completeSoloStreakTasks.getAll({ streakId: "streakId" });
 
       expect(axios.get).toBeCalledWith(
         `${APPLICATION_URL}/v1/complete-solo-streak-tasks?streakId=streakId`
@@ -36,9 +36,9 @@ describe("SDK completeSoloStreakTasks", () => {
 
     test("calls GET with correct URL when both userId and streakId is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+      axios.get = jest.fn().mockResolvedValue(true)
 
-      await streakoid.completeSoloStreakTasks.getAll("userId", "streakId");
+      await streakoid.completeSoloStreakTasks.getAll({ userId: "userId", streakId: "streakId" });
 
       expect(axios.get).toBeCalledWith(
         `${APPLICATION_URL}/v1/complete-solo-streak-tasks?userId=userId&streakId=streakId`
@@ -47,9 +47,9 @@ describe("SDK completeSoloStreakTasks", () => {
 
     test("calls GET with correct URL when no query paramaters are passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn();
+      axios.get = jest.fn().mockResolvedValue(true)
 
-      await streakoid.completeSoloStreakTasks.getAll();
+      await streakoid.completeSoloStreakTasks.getAll({});
 
       expect(axios.get).toBeCalledWith(
         `${APPLICATION_URL}/v1/complete-solo-streak-tasks?`
@@ -60,15 +60,17 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn();
+      axios.post = jest.fn().mockResolvedValue(true)
       const userId = "userId";
       const soloStreakId = "soloStreakId";
       const timezone = "timezone";
 
       await streakoid.completeSoloStreakTasks.create(
-        userId,
-        soloStreakId,
-        timezone
+        {
+          userId,
+          soloStreakId,
+          timezone
+        }
       );
 
       expect(axios.post).toBeCalledWith(
@@ -89,7 +91,7 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axios.delete = jest.fn();
+      axios.delete = jest.fn().mockResolvedValue(true)
 
       await streakoid.completeSoloStreakTasks.deleteOne("id");
 
