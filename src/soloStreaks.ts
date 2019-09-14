@@ -94,7 +94,7 @@ export default (applicationUrl: string) => {
           endDate: string;
         }
       ];
-      activity?: { type: StreakTrackingEventType; time: string }[];
+      activity?: [{ type: StreakTrackingEventType; time: string }];
     };
   }): Promise<SoloStreak> => {
     const { data } = await axios.patch(

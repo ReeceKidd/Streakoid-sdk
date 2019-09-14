@@ -9,20 +9,24 @@ interface SoloStreak extends mongoose.Document {
   numberOfMinutes: number;
   completedToday: boolean;
   active: boolean;
-  activity: Array<{
-    type: StreakTrackingEventType;
-    time: string;
-  }>;
+  activity: [
+    {
+      type: StreakTrackingEventType;
+      time: string;
+    }
+  ];
   currentStreak: {
     startDate: string;
     numberOfDaysInARow: number;
     endDate: string;
   };
-  pastStreaks: Array<{
-    endDate: string;
-    startDate: string;
-    numberOfDaysInARow: number;
-  }>;
+  pastStreaks: [
+    {
+      endDate: string;
+      startDate: string;
+      numberOfDaysInARow: number;
+    }
+  ];
   timezone: string;
   updatedAt: string;
   createdAt: string;
