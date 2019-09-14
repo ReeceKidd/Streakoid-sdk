@@ -1,15 +1,23 @@
 {
   "name": "@streakoid/streakoid-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Streakoid SDK",
   "main": "lib/index.js",
-  "types": "lib",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc",
     "unit-tests": "jest --config=./jest.unit.config.js --coverage",
     "lint": "eslint",
     "intergration-tests": "jest --config=./jest.intergration.config.js --runInBand --forceExit",
-    "test": "npm run unit-tests && npm run intergration-tests"
+    "test": "npm run unit-tests && npm run intergration-tests",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "author": "reecekidd",
   "license": "ISC",
