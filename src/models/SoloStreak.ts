@@ -8,8 +8,6 @@ interface SoloStreak extends mongoose.Document {
   _id: string;
   userId: string;
   streakName: string;
-  streakDescription: string;
-  numberOfMinutes: number;
   completedToday: boolean;
   active: boolean;
   activity: ActivityArray;
@@ -18,6 +16,8 @@ interface SoloStreak extends mongoose.Document {
   timezone: string;
   updatedAt: string;
   createdAt: string;
+  streakDescription?: string;
+  numberOfMinutes?: number;
 }
 
 export default SoloStreak;
