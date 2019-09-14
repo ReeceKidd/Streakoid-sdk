@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 import ActivityArray from "./ActivityArray";
 import CurrentStreak from "./CurrentStreak";
+import PastStreakArray from "./PastStreakArray";
 
 interface SoloStreak extends mongoose.Document {
   _id: string;
@@ -13,7 +14,7 @@ interface SoloStreak extends mongoose.Document {
   active: boolean;
   activity: ActivityArray;
   currentStreak: CurrentStreak;
-  pastStreaks: [{}];
+  pastStreaks: PastStreakArray;
   timezone: string;
   updatedAt: string;
   createdAt: string;
