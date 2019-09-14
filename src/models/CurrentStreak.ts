@@ -1,7 +1,7 @@
 interface CurrentStreak {
-  startDate: string;
   numberOfDaysInARow: number;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export default CurrentStreak;
