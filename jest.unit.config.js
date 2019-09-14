@@ -15,7 +15,7 @@ module.exports = {
   modulePathIgnorePatterns: [
     "./coverage/*",
     "./jest.config.js",
-    "./dist/*",
+    "./lib/*",
     "./tests/*"
   ],
   testMatch: ["**/src/**/*.spec.(ts|js)"]
