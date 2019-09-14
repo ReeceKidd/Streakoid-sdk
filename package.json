@@ -1,5 +1,5 @@
 {
-  "name": "streakoid",
+  "name": "streakr-sdk",
   "version": "1.0.1",
   "description": "Streakoid SDK",
   "main": "lib/index.js",
