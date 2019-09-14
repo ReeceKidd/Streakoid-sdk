@@ -9,8 +9,10 @@ import GroupStreak from "./models/GroupStreak";
 import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
+import { streakoidFactory } from "./streakoid";
 
 export {
+  streakoidFactory,
   AgendaJob,
   CompleteGroupMemberStreakTask,
   CompleteSoloStreakTask,
