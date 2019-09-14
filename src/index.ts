@@ -1,4 +1,31 @@
 import { streakoidFactory } from "./streakoid";
-import * as types from "./models";
+import {
+  AgendaJob,
+  CompleteGroupMemberStreakTask,
+  CompleteSoloStreakTask,
+  Feedback,
+  Friend,
+  GroupMember,
+  GroupMemberStreak,
+  GroupStreak,
+  SoloStreak,
+  StreakTrackingEvent,
+  StreakTypes,
+  User
+} from "./models";
 
-export { streakoidFactory, types };
+export {
+  streakoidFactory,
+  AgendaJob,
+  CompleteGroupMemberStreakTask,
+  CompleteSoloStreakTask,
+  Feedback,
+  Friend,
+  GroupMember,
+  GroupMemberStreak,
+  GroupStreak,
+  SoloStreak,
+  StreakTrackingEvent,
+  StreakTypes,
+  User
+};
