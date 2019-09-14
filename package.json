@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "unit-tests": "jest --config=./jest.unit.config.js --coverage",
+    "unit-tests": "jest --config=./jest.unit.config.js",
     "lint": "eslint",
     "intergration-tests": "jest --config=./jest.intergration.config.js --runInBand --forceExit",
     "test": "npm run unit-tests && npm run intergration-tests",
