@@ -1,14 +1,11 @@
 {
   "name": "@streakoid/streakoid-sdk",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Streakoid SDK",
   "main": "lib/index.js",
   "types": "lib",
-  "files": [
-    "lib/**/*"
-  ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p .",
     "unit-tests": "jest --config=./jest.unit.config.js",
     "lint": "eslint",
     "intergration-tests": "jest --config=./jest.intergration.config.js --runInBand --forceExit",
