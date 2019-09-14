@@ -1,5 +1,5 @@
 import { streakoid } from "../src/streakoid";
-import { StreakTypes } from "../src/types";
+import StreakTypes from "../src/streakTypes";
 
 const email = "get-complete-solo-streak-task@gmail.com";
 const username = "get-complete-solo-streak-task";

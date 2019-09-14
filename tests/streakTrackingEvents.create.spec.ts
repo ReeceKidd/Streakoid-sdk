@@ -1,5 +1,5 @@
 import { streakoid } from "../src/streakoid";
-import { StreakTrackingEventType } from "../src/types";
+import StreakTrackingEventType from "../src/streakTrackingEventType";
 
 const email = "create-group-streak-user@gmail.com";
 const username = "create-group-streak-user";
@@ -12,122 +12,125 @@ const timezone = "Europe/London";
 jest.setTimeout(120000);
 
 describe("POST /streak-tracking-events", () => {
-    let userId: string;
-    let soloStreakId: string;
-    let streakTrackingEventId: string;
+  let userId: string;
+  let soloStreakId: string;
+  let streakTrackingEventId: string;
 
-    beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create(
-            {
-                email,
-                username
-            }
-        );
-        userId = registrationResponse._id;
+  beforeAll(async () => {
+    const registrationResponse = await streakoid.users.create({
+      email,
+      username
+    });
+    userId = registrationResponse._id;
 
-        const soloStreakRegistration = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-            timezone
-        }
-        );
-        soloStreakId = soloStreakRegistration._id;
+    const soloStreakRegistration = await streakoid.soloStreaks.create({
+      userId,
+      streakName,
+      streakDescription,
+      timezone
+    });
+    soloStreakId = soloStreakRegistration._id;
+  });
+
+  afterAll(async () => {
+    await streakoid.users.deleteOne(userId);
+    await streakoid.soloStreaks.deleteOne(soloStreakId);
+    await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
+  });
+
+  test(`lost streak tracking events can be created`, async () => {
+    expect.assertions(7);
+
+    const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+      type: StreakTrackingEventType.LostStreak,
+      streakId: soloStreakId,
+      userId
     });
 
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
+    streakTrackingEventId = streakTrackingEvent._id;
+
+    expect(streakTrackingEvent.type).toEqual(
+      StreakTrackingEventType.LostStreak
+    );
+    expect(streakTrackingEvent.userId).toEqual(userId);
+    expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
+    expect(streakTrackingEvent._id).toEqual(expect.any(String));
+    expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
+    expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(streakTrackingEvent).sort()).toEqual(
+      [
+        "_id",
+        "type",
+        "streakId",
+        "userId",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
+
+  test(`maintained streak tracking events can be created`, async () => {
+    expect.assertions(7);
+
+    const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+      type: StreakTrackingEventType.MaintainedStreak,
+      streakId: soloStreakId,
+      userId
     });
 
-    test(`lost streak tracking events can be created`, async () => {
-        expect.assertions(7);
+    streakTrackingEventId = streakTrackingEvent._id;
 
-        const streakTrackingEvent = await streakoid.streakTrackingEvents.create(
-            {
-                type: StreakTrackingEventType.LostStreak,
-                streakId: soloStreakId,
-                userId
-            }
-        );
+    expect(streakTrackingEvent.type).toEqual(
+      StreakTrackingEventType.MaintainedStreak
+    );
+    expect(streakTrackingEvent.userId).toEqual(userId);
+    expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
+    expect(streakTrackingEvent._id).toEqual(expect.any(String));
+    expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
+    expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(streakTrackingEvent).sort()).toEqual(
+      [
+        "_id",
+        "type",
+        "streakId",
+        "userId",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
 
-        streakTrackingEventId = streakTrackingEvent._id;
+  test(`inactive streak tracking events can be created`, async () => {
+    expect.assertions(7);
 
-        expect(streakTrackingEvent.type).toEqual(StreakTrackingEventType.LostStreak);
-        expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
-        expect(streakTrackingEvent.createdAt).toEqual(expect.any(String))
-        expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(streakTrackingEvent).sort()).toEqual([
-            "_id",
-            "type",
-            "streakId",
-            "userId",
-            "createdAt",
-            "updatedAt",
-            "__v"
-        ].sort());
+    const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+      type: StreakTrackingEventType.InactiveStreak,
+      streakId: soloStreakId,
+      userId
     });
 
-    test(`maintained streak tracking events can be created`, async () => {
-        expect.assertions(7);
+    streakTrackingEventId = streakTrackingEvent._id;
 
-        const streakTrackingEvent = await streakoid.streakTrackingEvents.create(
-            {
-                type: StreakTrackingEventType.MaintainedStreak,
-                streakId: soloStreakId,
-                userId
-            }
-        );
-
-        streakTrackingEventId = streakTrackingEvent._id;
-
-        expect(streakTrackingEvent.type).toEqual(StreakTrackingEventType.MaintainedStreak);
-        expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
-        expect(streakTrackingEvent.createdAt).toEqual(expect.any(String))
-        expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(streakTrackingEvent).sort()).toEqual([
-            "_id",
-            "type",
-            "streakId",
-            "userId",
-            "createdAt",
-            "updatedAt",
-            "__v"
-        ].sort());
-    });
-
-    test(`inactive streak tracking events can be created`, async () => {
-        expect.assertions(7);
-
-        const streakTrackingEvent = await streakoid.streakTrackingEvents.create(
-            {
-                type: StreakTrackingEventType.InactiveStreak,
-                streakId: soloStreakId,
-                userId
-            }
-        );
-
-        streakTrackingEventId = streakTrackingEvent._id;
-
-        expect(streakTrackingEvent.type).toEqual(StreakTrackingEventType.InactiveStreak);
-        expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
-        expect(streakTrackingEvent.createdAt).toEqual(expect.any(String))
-        expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(streakTrackingEvent).sort()).toEqual([
-            "_id",
-            "type",
-            "streakId",
-            "userId",
-            "createdAt",
-            "updatedAt",
-            "__v"
-        ].sort());
-    });
+    expect(streakTrackingEvent.type).toEqual(
+      StreakTrackingEventType.InactiveStreak
+    );
+    expect(streakTrackingEvent.userId).toEqual(userId);
+    expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
+    expect(streakTrackingEvent._id).toEqual(expect.any(String));
+    expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
+    expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(streakTrackingEvent).sort()).toEqual(
+      [
+        "_id",
+        "type",
+        "streakId",
+        "userId",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
 });

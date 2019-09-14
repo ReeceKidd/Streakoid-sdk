@@ -1,5 +1,5 @@
 import { streakoid } from "../src/streakoid";
-import { StreakTypes } from "../src/types";
+import StreakTypes from "../src/streakTypes";
 
 const registeredEmail =
   "create-complete-group-member-streak-tasks-user@gmail.com";

@@ -1,6 +1,5 @@
 import { streakoid } from "../src/streakoid";
-import { StreakTrackingEventType } from "../src/types";
-
+import StreakTrackingEventType from "../src/streakTrackingEventType";
 
 const registeredEmail = "get-one-streak-tracking@gmail.com";
 const registeredUsername = "get-one-streak-tracking";
@@ -13,65 +12,64 @@ const timezone = "Europe/London";
 jest.setTimeout(120000);
 
 describe("GET /streak-tracking-events", () => {
-    let userId: string;
-    let soloStreakId: string;
-    let streakTrackingEventId: string;
+  let userId: string;
+  let soloStreakId: string;
+  let streakTrackingEventId: string;
 
-    beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create(
-            {
-                username: registeredUsername,
-                email: registeredEmail
-            }
-        );
-        userId = registrationResponse._id;
-
-        const soloStreakRegistration = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            timezone,
-            streakDescription
-        }
-        );
-        soloStreakId = soloStreakRegistration._id;
-
-        const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create(
-            {
-                type: StreakTrackingEventType.LostStreak,
-                streakId: soloStreakId,
-                userId
-            }
-        );
-
-        streakTrackingEventId = createStreakTrackingEventResponse._id;
+  beforeAll(async () => {
+    const registrationResponse = await streakoid.users.create({
+      username: registeredUsername,
+      email: registeredEmail
     });
+    userId = registrationResponse._id;
 
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
+    const soloStreakRegistration = await streakoid.soloStreaks.create({
+      userId,
+      streakName,
+      timezone,
+      streakDescription
     });
+    soloStreakId = soloStreakRegistration._id;
 
-    test(`retreives individual streak tracking event`, async () => {
-        expect.assertions(6);
+    const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create(
+      {
+        type: StreakTrackingEventType.LostStreak,
+        streakId: soloStreakId,
+        userId
+      }
+    );
 
-        const streakTrackingEvent = await streakoid.streakTrackingEvents.getOne(
-            streakTrackingEventId
-        );
+    streakTrackingEventId = createStreakTrackingEventResponse._id;
+  });
 
-        expect(streakTrackingEvent.userId).toBeDefined();
-        expect(streakTrackingEvent.streakId).toBeDefined();
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
-        expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
-        expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(streakTrackingEvent).sort()).toEqual([
-            "_id",
-            "type",
-            "streakId",
-            "userId",
-            "createdAt",
-            "updatedAt",
-            "__v"
-        ].sort());
-    });
+  afterAll(async () => {
+    await streakoid.users.deleteOne(userId);
+    await streakoid.soloStreaks.deleteOne(soloStreakId);
+    await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
+  });
+
+  test(`retreives individual streak tracking event`, async () => {
+    expect.assertions(6);
+
+    const streakTrackingEvent = await streakoid.streakTrackingEvents.getOne(
+      streakTrackingEventId
+    );
+
+    expect(streakTrackingEvent.userId).toBeDefined();
+    expect(streakTrackingEvent.streakId).toBeDefined();
+    expect(streakTrackingEvent._id).toEqual(expect.any(String));
+    expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
+    expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(streakTrackingEvent).sort()).toEqual(
+      [
+        "_id",
+        "type",
+        "streakId",
+        "userId",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
 });

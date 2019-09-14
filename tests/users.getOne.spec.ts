@@ -1,5 +1,5 @@
 import { streakoid } from "../src/streakoid";
-import { UserTypes } from "../src/types";
+import UserTypes from "../src/userTypes";
 
 const email = "get-user@gmail.com";
 const username = "get-user";
