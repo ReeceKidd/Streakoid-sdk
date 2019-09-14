@@ -1,1 +1,0 @@
-{"version":3,"file":"Feedback.d.ts","sourceRoot":"","sources":["../../src/models/Feedback.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,UAAU,CAAC;AAChC,MAAM,WAAW,QAAS,SAAQ,QAAQ,CAAC,QAAQ;IAC/C,MAAM,EAAE,MAAM,CAAC;IACf,OAAO,EAAE,MAAM,CAAC;IAChB,QAAQ,EAAE,MAAM,CAAC;IACjB,SAAS,EAAE,MAAM,CAAC;IAClB,YAAY,EAAE,MAAM,CAAC;CACxB"}
