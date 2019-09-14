@@ -3,10 +3,18 @@ import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
-import { GroupMemberStreak } from "./models/GroupMemberStreak";
+import GroupMemberStreak from "./models/GroupMemberStreak";
 
 export default (applicationUrl: string) => {
-  const create = async ({ userId, groupStreakId, timezone }: { userId: string, groupStreakId: string, timezone: string }): Promise<GroupMemberStreak> => {
+  const create = async ({
+    userId,
+    groupStreakId,
+    timezone
+  }: {
+    userId: string;
+    groupStreakId: string;
+    timezone: string;
+  }): Promise<GroupMemberStreak> => {
     const { data } = await axios.post(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`,
       { userId, groupStreakId },
@@ -15,7 +23,9 @@ export default (applicationUrl: string) => {
     return data;
   };
 
-  const getOne = async (groupMemberStreakId: string): Promise<GroupMemberStreak> => {
+  const getOne = async (
+    groupMemberStreakId: string
+  ): Promise<GroupMemberStreak> => {
     const { data } = await axios.get(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`
     );

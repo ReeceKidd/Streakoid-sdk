@@ -4,9 +4,8 @@ import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import groupMembers from "./groupMembers";
-import { GroupStreak, PopulatedGroupStreak } from "./models/GroupStreak";
-
-
+import GroupStreak from "./models/GroupStreak";
+import PopulatedGroupStreak from "./models/PopulatedGroupStreak";
 
 export default (applicationUrl: string) => {
   const getAll = async ({
@@ -14,10 +13,10 @@ export default (applicationUrl: string) => {
     memberId,
     timezone
   }: {
-      creatorId?: string;
-      memberId?: string;
-      timezone?: string;
-    }): Promise<PopulatedGroupStreak[]> => {
+    creatorId?: string;
+    memberId?: string;
+    timezone?: string;
+  }): Promise<PopulatedGroupStreak[]> => {
     let getAllSoloStreaksURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}?`;
     if (creatorId) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}creatorId=${creatorId}&`;
@@ -29,14 +28,16 @@ export default (applicationUrl: string) => {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}`;
     }
     const { data } = await axios.get(getAllSoloStreaksURL);
-    return data
+    return data;
   };
 
-  const getOne = async (groupStreakId: string): Promise<PopulatedGroupStreak> => {
+  const getOne = async (
+    groupStreakId: string
+  ): Promise<PopulatedGroupStreak> => {
     const { data } = await axios.get(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
     );
-    return data
+    return data;
   };
 
   const create = async ({
@@ -47,40 +48,42 @@ export default (applicationUrl: string) => {
     numberOfMinutes,
     members
   }: {
-      creatorId: string;
-      streakName: string;
-      timezone: string;
-      members: { memberId: string; groupMemberStreakId?: string }[];
-      streakDescription?: string;
-      numberOfMinutes?: number;
-    }): Promise<GroupStreak> => {
+    creatorId: string;
+    streakName: string;
+    timezone: string;
+    members: { memberId: string; groupMemberStreakId?: string }[];
+    streakDescription?: string;
+    numberOfMinutes?: number;
+  }): Promise<GroupStreak> => {
     const { data } = await axios.post(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
       { creatorId, streakName, streakDescription, numberOfMinutes, members },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
-    return data
+    return data;
   };
 
-  const update = async (
-    { groupStreakId, timezone, updateData }: {
-      groupStreakId: string,
-      timezone: string,
-      updateData: {
-        creatorId?: string;
-        streakName?: string;
-        streakDescription?: string;
-        numberOfMinutes?: number;
-        timezone?: string;
-      }
-    }
-  ): Promise<GroupStreak> => {
+  const update = async ({
+    groupStreakId,
+    timezone,
+    updateData
+  }: {
+    groupStreakId: string;
+    timezone: string;
+    updateData: {
+      creatorId?: string;
+      streakName?: string;
+      streakDescription?: string;
+      numberOfMinutes?: number;
+      timezone?: string;
+    };
+  }): Promise<GroupStreak> => {
     const { data } = await axios.patch(
       `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`,
       updateData,
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
-    return data
+    return data;
   };
 
   const deleteOne = (groupStreakId: string) => {

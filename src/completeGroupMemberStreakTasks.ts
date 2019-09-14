@@ -2,7 +2,7 @@ import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
-import { CompleteGroupMemberStreakTask } from "./models/CompleteGroupMemberStreakTask";
+import CompleteGroupMemberStreakTask from "./models/CompleteGroupMemberStreakTask";
 
 export default (applicatonUrl: string) => {
   const getAll = async ({

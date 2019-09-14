@@ -1,6 +1,6 @@
 {
   "name": "@streakoid/streakoid-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Streakoid SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,7 +14,6 @@
     "intergration-tests": "jest --config=./jest.intergration.config.js --runInBand --forceExit",
     "test": "npm run unit-tests && npm run intergration-tests",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "git add -A src",
     "postversion": "git push --no-verify && git push --no-verify --tags",
