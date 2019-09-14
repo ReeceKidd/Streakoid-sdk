@@ -1,4 +1,3 @@
-import { streakoidFactory } from "./streakoid";
 import {
   AgendaJob,
   CompleteGroupMemberStreakTask,
@@ -15,7 +14,6 @@ import {
 } from "./models";
 
 export {
-  streakoidFactory,
   AgendaJob,
   CompleteGroupMemberStreakTask,
   CompleteSoloStreakTask,

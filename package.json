@@ -17,7 +17,8 @@
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push --no-verify && git push --no-verify --tags",
+    "update": "npm version patch && npm publish"
   },
   "author": "reecekidd",
   "license": "ISC",
