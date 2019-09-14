@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK soloStreaks", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -13,7 +12,7 @@ describe("SDK soloStreaks", () => {
   describe("getAll", () => {
     test("calls GET with correct URL when no query paramters are passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.soloStreaks.getAll({});
 
@@ -22,7 +21,7 @@ describe("SDK soloStreaks", () => {
 
     test("calls GET with correct URL when userId query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
 
@@ -35,7 +34,7 @@ describe("SDK soloStreaks", () => {
 
     test("calls GET with correct URL when completedToday query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const completedToday = true;
 
@@ -48,7 +47,7 @@ describe("SDK soloStreaks", () => {
 
     test("calls GET with correct URL when timezone query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const timezone = `Europe/London`;
 
@@ -61,7 +60,7 @@ describe("SDK soloStreaks", () => {
 
     test("calls GET with correct URL when active query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const active = true;
 
@@ -77,7 +76,7 @@ describe("SDK soloStreaks", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.soloStreaks.getOne("id");
 
@@ -89,13 +88,18 @@ describe("SDK soloStreaks", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
       const userId = "userId";
       const streakName = "streakName";
       const streakDescription = "streakDescription";
       const timezone = "timezone";
 
-      await streakoid.soloStreaks.create({ userId, streakName, timezone, streakDescription });
+      await streakoid.soloStreaks.create({
+        userId,
+        streakName,
+        timezone,
+        streakDescription
+      });
 
       expect(axios.post).toBeCalledWith(
         `${APPLICATION_URL}/v1/solo-streaks`,
@@ -117,16 +121,20 @@ describe("SDK soloStreaks", () => {
     test("calls PATCH with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axios.patch = jest.fn().mockResolvedValue(true)
+      axios.patch = jest.fn().mockResolvedValue(true);
       const streakName = "name";
       const streakDescription = "description";
       const updateData = {
         streakName,
-        streakDescription,
+        streakDescription
       };
       const timezone = "timezone";
 
-      await streakoid.soloStreaks.update({ soloStreakId: "id", timezone, updateData });
+      await streakoid.soloStreaks.update({
+        soloStreakId: "id",
+        timezone,
+        updateData
+      });
 
       expect(axios.patch).toBeCalledWith(
         `${APPLICATION_URL}/v1/solo-streaks/id`,

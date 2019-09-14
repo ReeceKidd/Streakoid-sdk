@@ -1,7 +1,6 @@
-import { streakoid } from '../src/streakoid';
+import { streakoid } from "../src/streakoid";
 
-const email =
-  "delete-complete-group-member-streak-tasks-user@gmail.com";
+const email = "delete-complete-group-member-streak-tasks-user@gmail.com";
 const username = "delete-complete-group-member-streak-tasks-user";
 
 const timezone = "Europe/London";
@@ -18,12 +17,10 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
   const streakDescription = "I will not eat until 1pm everyday";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(
-      {
-        username,
-        email
-      }
-    );
+    const registrationResponse = await streakoid.users.create({
+      username,
+      email
+    });
     userId = registrationResponse._id;
     const members = [{ memberId: userId }];
 
@@ -42,7 +39,6 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
         groupStreakId,
         timezone
       }
-
     );
     groupMemberStreakId = createGroupMemberStreakResponse._id;
 
@@ -54,9 +50,7 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
         timezone
       }
     );
-    completeGroupMemberStreakTaskId =
-      completeGroupMemberStreakTaskResponse
-        ._id;
+    completeGroupMemberStreakTaskId = completeGroupMemberStreakTaskResponse._id;
   });
 
   afterAll(async () => {

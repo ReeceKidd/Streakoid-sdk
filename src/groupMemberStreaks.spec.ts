@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK groupMemberStreaks", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -13,7 +12,7 @@ describe("SDK groupMemberStreaks", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.groupMemberStreaks.getOne("id");
 
@@ -33,13 +32,11 @@ describe("SDK groupMemberStreaks", () => {
       const groupStreakId = "groupStreakId";
       const timezone = "timezone";
 
-      await streakoid.groupMemberStreaks.create(
-        {
-          userId,
-          groupStreakId,
-          timezone
-        }
-      );
+      await streakoid.groupMemberStreaks.create({
+        userId,
+        groupStreakId,
+        timezone
+      });
 
       expect(axios.post).toBeCalledWith(
         `${APPLICATION_URL}/v1/group-member-streaks`,

@@ -1,3 +1,3 @@
-import streakoid from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
-export default streakoid
+export { streakoidFactory };

@@ -1,12 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
-
-
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK groupStreaks", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -15,16 +12,16 @@ describe("SDK groupStreaks", () => {
   describe("getAll", () => {
     test("calls GET with correct URL when no query paramters are passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.groupStreaks.getAll({})
+      await streakoid.groupStreaks.getAll({});
 
       expect(axios.get).toBeCalledWith(`${APPLICATION_URL}/v1/group-streaks?`);
     });
 
     test("calls GET with correct URL when creatorId query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const creatorId = "memberId";
 
@@ -37,7 +34,7 @@ describe("SDK groupStreaks", () => {
 
     test("calls GET with correct URL when memberId query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const memberId = "memberId";
 
@@ -50,7 +47,7 @@ describe("SDK groupStreaks", () => {
 
     test("calls GET with correct URL when timezone query paramater is passed", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const timezone = `Europe/London`;
 
@@ -65,7 +62,7 @@ describe("SDK groupStreaks", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.groupStreaks.getOne("id");
 
@@ -78,7 +75,7 @@ describe("SDK groupStreaks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
 
       const creatorId = "abcdefgh";
       const streakName = "Followed our calorie level";
@@ -115,7 +112,7 @@ describe("SDK groupStreaks", () => {
   describe("update", () => {
     test("calls PATCH with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.patch = jest.fn().mockResolvedValue(true)
+      axios.patch = jest.fn().mockResolvedValue(true);
       const streakName = "streakName";
       const streakDescription = "streakDescription";
       const numberOfMinutes = 30;
@@ -127,7 +124,11 @@ describe("SDK groupStreaks", () => {
         numberOfMinutes
       };
 
-      await streakoid.groupStreaks.update({ groupStreakId: "id", timezone, updateData });
+      await streakoid.groupStreaks.update({
+        groupStreakId: "id",
+        timezone,
+        updateData
+      });
 
       expect(axios.patch).toBeCalledWith(
         `${APPLICATION_URL}/v1/group-streaks/id`,

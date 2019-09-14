@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK stripe", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -14,7 +13,7 @@ describe("SDK stripe", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
 
       const token = "token";
       const id = "id";
@@ -32,7 +31,7 @@ describe("SDK stripe", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
 
       const subscription = "subscription";
       const userId = "id";

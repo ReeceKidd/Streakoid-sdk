@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK agendaJobs", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();

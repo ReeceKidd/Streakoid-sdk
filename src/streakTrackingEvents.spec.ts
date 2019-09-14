@@ -1,11 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK streakTrackingEvents", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
-
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -15,7 +13,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls GET with correct URL when no query paramters are passed", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.streakTrackingEvents.getAll({});
 
@@ -27,7 +25,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls GET with correct URL when type query paramater is passed", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const type = "typeId";
 
@@ -41,7 +39,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls GET with correct URL when userId query paramater is passed", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
 
@@ -55,7 +53,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls GET with correct URL when streakId query paramater is passed", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       const streakId = `streakId`;
 
@@ -71,7 +69,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.streakTrackingEvents.getOne("id");
 
@@ -85,7 +83,7 @@ describe("SDK streakTrackingEvents", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
       const type = "lost-streak";
       const streakId = "streakId";
       const userId = "userId";

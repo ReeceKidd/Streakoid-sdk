@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK friends", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -13,7 +12,7 @@ describe("SDK friends", () => {
   describe("getAll", () => {
     test("calls GET with correct URL and userId", async () => {
       expect.assertions(1);
-      axios.get = jest.fn().mockResolvedValue(true)
+      axios.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.friends.getAll("userId");
 
@@ -26,7 +25,7 @@ describe("SDK friends", () => {
   describe("addFriend", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
       const friendId = "friendId";

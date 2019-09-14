@@ -1,10 +1,9 @@
 import axios from "axios";
-import streakoidFactory from "./streakoid";
+import { streakoidFactory } from "./streakoid";
 
 describe("SDK completeSoloStreakTasks", () => {
-
-  const APPLICATION_URL = "streakoid.com"
-  const streakoid = streakoidFactory(APPLICATION_URL)
+  const APPLICATION_URL = "streakoid.com";
+  const streakoid = streakoidFactory(APPLICATION_URL);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -13,7 +12,7 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn().mockResolvedValue(true)
+      axios.post = jest.fn().mockResolvedValue(true);
 
       const userId = "12345678";
       const pageUrl = "/solo-streaks";
@@ -21,15 +20,13 @@ describe("SDK completeSoloStreakTasks", () => {
       const userEmail = "userEmail";
       const feedbackText = "feedback";
 
-      await streakoid.feedbacks.create(
-        {
-          userId,
-          pageUrl,
-          username,
-          userEmail,
-          feedbackText
-        }
-      );
+      await streakoid.feedbacks.create({
+        userId,
+        pageUrl,
+        username,
+        userEmail,
+        feedbackText
+      });
 
       expect(axios.post).toBeCalledWith(`${APPLICATION_URL}/v1/feedbacks`, {
         userId,
