@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { StreakTrackingEventType } from "../types";
+
+import ActivityArray from "./ActivityArray";
+import CurrentStreak from "./CurrentStreak";
 
 interface SoloStreak extends mongoose.Document {
   _id: string;
@@ -9,24 +11,9 @@ interface SoloStreak extends mongoose.Document {
   numberOfMinutes: number;
   completedToday: boolean;
   active: boolean;
-  activity: [
-    {
-      type: StreakTrackingEventType;
-      time: string;
-    }
-  ];
-  currentStreak: {
-    startDate: string;
-    numberOfDaysInARow: number;
-    endDate: string;
-  };
-  pastStreaks: [
-    {
-      endDate: string;
-      startDate: string;
-      numberOfDaysInARow: number;
-    }
-  ];
+  activity: ActivityArray;
+  currentStreak: CurrentStreak;
+  pastStreaks: [{}];
   timezone: string;
   updatedAt: string;
   createdAt: string;

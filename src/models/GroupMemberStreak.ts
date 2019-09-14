@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { StreakTrackingEventType } from "../types";
+import StreakTrackingEventType from "../streakTrackingEventType";
 
 interface GroupMemberStreak extends mongoose.Document {
   userId: string;

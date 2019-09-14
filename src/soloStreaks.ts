@@ -4,7 +4,7 @@ import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import SoloStreak from "./models/SoloStreak";
-import { StreakTrackingEventType } from "./types";
+import StreakTrackingEventType from "./streakTrackingEventType";
 
 export default (applicationUrl: string) => {
   const getAll = async ({

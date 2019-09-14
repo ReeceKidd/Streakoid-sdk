@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserTypes } from "../types";
+import UserTypes from "../userTypes";
 
 interface User extends mongoose.Document {
   _id: string;

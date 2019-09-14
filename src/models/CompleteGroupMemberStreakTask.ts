@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { StreakTypes } from "../types";
+import StreakTypes from "../streakTypes";
 
 interface CompleteGroupMemberStreakTask extends mongoose.Document {
   streakId: string;
