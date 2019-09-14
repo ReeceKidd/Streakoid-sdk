@@ -4,6 +4,7 @@ import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import SoloStreak from "./models/SoloStreak";
+import { StreakTrackingEventType } from "./types";
 
 export default (applicationUrl: string) => {
   const getAll = async ({
@@ -81,15 +82,19 @@ export default (applicationUrl: string) => {
       streakDescription?: string;
       completedToday?: boolean;
       active?: boolean;
-      currentStreak?: { startDate?: Date; numberOfDaysInARow?: number };
+      currentStreak?: {
+        startDate?: string;
+        numberOfDaysInARow?: number;
+        endDate?: string;
+      };
       pastStreaks?: [
         {
-          startDate: Date;
+          startDate: string;
           numberOfDaysInARow: number;
-          endDate: Date;
+          endDate: string;
         }
       ];
-      activity?: { type: string; time: Date }[];
+      activity?: { type: StreakTrackingEventType; time: string }[];
     };
   }): Promise<SoloStreak> => {
     const { data } = await axios.patch(
