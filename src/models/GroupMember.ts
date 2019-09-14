@@ -1,5 +1,6 @@
-
-export interface GroupMember {
-    memberId: string,
-    groupMemberStreakId: string,
+interface GroupMember {
+  memberId: string;
+  groupMemberStreakId: string;
 }
+
+export default GroupMember;

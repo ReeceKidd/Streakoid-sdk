@@ -1,5 +1,6 @@
-
-export interface Friend {
-    username: string,
-    _id: string
+interface Friend {
+  username: string;
+  _id: string;
 }
+
+export default Friend;

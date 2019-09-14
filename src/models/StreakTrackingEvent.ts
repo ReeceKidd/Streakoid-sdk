@@ -1,15 +1,11 @@
 import mongoose from "mongoose";
 
-export enum StreakTrackingEventType {
-    LostStreak = "lost-streak",
-    MaintainedStreak = "maintained-streak",
-    InactiveStreak = "inactive-streak"
+interface StreakTrackingEvent extends mongoose.Document {
+  type: StreakTrackingEvent;
+  streakId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface StreakTrackingEvent extends mongoose.Document {
-    type: StreakTrackingEvent;
-    streakId: string;
-    userId: string;
-    createdAt: String;
-    updatedAt: String;
-}
+export default StreakTrackingEvent;

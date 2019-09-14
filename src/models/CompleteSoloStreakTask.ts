@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
-import { StreakTypes } from "./StreakTypes";
-export interface CompleteSoloStreakTask extends mongoose.Document {
-    streakId: string;
-    userId: string;
-    taskCompleteTime: Date;
-    taskCompleteDay: string;
-    streakType: StreakTypes;
-    createdAt: String;
-    updatedAt: String;
+import { StreakTypes } from "../types";
+
+interface CompleteSoloStreakTask extends mongoose.Document {
+  streakId: string;
+  userId: string;
+  taskCompleteTime: Date;
+  taskCompleteDay: string;
+  streakType: StreakTypes;
+  createdAt: string;
+  updatedAt: string;
 }
+
+export default CompleteSoloStreakTask;

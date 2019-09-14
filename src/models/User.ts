@@ -1,17 +1,12 @@
 import mongoose from "mongoose";
+import { UserTypes } from "../types";
 
-export enum UserTypes {
-  basic = "basic",
-  premium = "premium",
-  admin = "admin"
-}
-
-export interface User extends mongoose.Document {
+interface User extends mongoose.Document {
   _id: string;
   username: string;
   email: string;
-  createdAt: String;
-  updatedAt: String;
+  createdAt: string;
+  updatedAt: string;
   type: UserTypes;
   friends: string[];
   profilePicture?: {
@@ -22,3 +17,5 @@ export interface User extends mongoose.Document {
     subscription: string;
   };
 }
+
+export default User;

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { StreakTypes } from "./StreakTypes";
+import { StreakTypes } from "../types";
 
-export interface CompleteGroupMemberStreakTask extends mongoose.Document {
+interface CompleteGroupMemberStreakTask extends mongoose.Document {
   streakId: string;
   userId: string;
   groupStreakId: string;
@@ -9,6 +9,8 @@ export interface CompleteGroupMemberStreakTask extends mongoose.Document {
   taskCompleteTime: Date;
   taskCompleteDay: string;
   streakType: StreakTypes;
-  createdAt: String;
-  updatedAt: String;
+  createdAt: string;
+  updatedAt: string;
 }
+
+export default CompleteGroupMemberStreakTask;
