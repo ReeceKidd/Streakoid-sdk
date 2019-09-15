@@ -13,10 +13,6 @@ export const getServiceConfig = (
 ): AppConfig => {
   const { NODE_ENV, APPLICATION_URL } = environment;
 
-  if (!APPLICATION_URL) {
-    console.log("APPLICATION_URL is not provided.");
-  }
-
   return {
     NODE_ENV,
     APPLICATION_URL
