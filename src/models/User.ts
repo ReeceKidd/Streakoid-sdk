@@ -4,9 +4,8 @@ interface User {
   _id: string;
   username: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
   type: UserTypes;
+  timezone: string;
   friends: string[];
   profilePicture?: {
     type: string;
@@ -15,6 +14,8 @@ interface User {
     customer: string;
     subscription: string;
   };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default User;
