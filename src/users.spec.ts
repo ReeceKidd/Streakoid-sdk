@@ -1,5 +1,5 @@
-import axios from "axios";
 import { streakoidFactory } from "./streakoid";
+import axiosClient from "./axiosClient";
 jest.genMockFromModule("./streakoid");
 
 describe("SDK users", () => {
@@ -14,23 +14,23 @@ describe("SDK users", () => {
     test("calls GET with correct URL and searchQuery paramater", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true);
+      axiosClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.getAll("searchQuery");
 
-      expect(axios.get).toBeCalledWith(
-        `${APPLICATION_URL}/v1/users?searchQuery=searchQuery`
+      expect(axiosClient.get).toBeCalledWith(
+        `/v1/users?searchQuery=searchQuery`
       );
     });
 
     test("calls GET with correct URL without searchQuery paramater", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true);
+      axiosClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.getAll();
 
-      expect(axios.get).toBeCalledWith(`${APPLICATION_URL}/v1/users?`);
+      expect(axiosClient.get).toBeCalledWith(`/v1/users?`);
     });
   });
 
@@ -38,11 +38,11 @@ describe("SDK users", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
 
-      axios.get = jest.fn().mockResolvedValue(true);
+      axiosClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.getOne("userId");
 
-      expect(axios.get).toBeCalledWith(`${APPLICATION_URL}/v1/users/userId`);
+      expect(axiosClient.get).toBeCalledWith(`/v1/users/userId`);
     });
   });
 
@@ -50,13 +50,13 @@ describe("SDK users", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true);
+      axiosClient.post = jest.fn().mockResolvedValue(true);
       const username = "username";
       const email = "email@gmail.com";
 
       await streakoid.users.create({ username, email });
 
-      expect(axios.post).toBeCalledWith(`${APPLICATION_URL}/v1/users`, {
+      expect(axiosClient.post).toBeCalledWith(`/v1/users`, {
         username,
         email
       });
@@ -67,11 +67,11 @@ describe("SDK users", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
 
-      axios.delete = jest.fn().mockResolvedValue(true);
+      axiosClient.delete = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.deleteOne("userId");
 
-      expect(axios.delete).toBeCalledWith(`${APPLICATION_URL}/v1/users/userId`);
+      expect(axiosClient.delete).toBeCalledWith(`/v1/users/userId`);
     });
   });
 });

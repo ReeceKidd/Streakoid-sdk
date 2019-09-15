@@ -1,5 +1,5 @@
-import axios from "axios";
 import { streakoidFactory } from "./streakoid";
+import axiosClient from "./axiosClient";
 
 describe("SDK completeSoloStreakTasks", () => {
   const APPLICATION_URL = "streakoid.com";
@@ -12,7 +12,7 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axios.post = jest.fn().mockResolvedValue(true);
+      axiosClient.post = jest.fn().mockResolvedValue(true);
 
       const userId = "12345678";
       const pageUrl = "/solo-streaks";
@@ -28,7 +28,7 @@ describe("SDK completeSoloStreakTasks", () => {
         feedbackText
       });
 
-      expect(axios.post).toBeCalledWith(`${APPLICATION_URL}/v1/feedbacks`, {
+      expect(axiosClient.post).toBeCalledWith(`/v1/feedbacks`, {
         userId,
         pageUrl,
         username,
@@ -41,11 +41,11 @@ describe("SDK completeSoloStreakTasks", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axios.delete = jest.fn();
+      axiosClient.delete = jest.fn();
 
       await streakoid.feedbacks.deleteOne("id");
 
-      expect(axios.delete).toBeCalledWith(`${APPLICATION_URL}/v1/feedbacks/id`);
+      expect(axiosClient.delete).toBeCalledWith(`/v1/feedbacks/id`);
     });
   });
 });

@@ -1,5 +1,5 @@
-import axios from "axios";
 import { streakoidFactory } from "./streakoid";
+import axiosClient from "./axiosClient";
 
 describe("SDK stripe", () => {
   const APPLICATION_URL = "streakoid.com";
@@ -13,17 +13,17 @@ describe("SDK stripe", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true);
+      axiosClient.post = jest.fn().mockResolvedValue(true);
 
       const token = "token";
       const id = "id";
 
       await streakoid.stripe.createSubscription({ token, id });
 
-      expect(axios.post).toBeCalledWith(
-        `${APPLICATION_URL}/v1/stripe/subscriptions`,
-        { token, id }
-      );
+      expect(axiosClient.post).toBeCalledWith(`/v1/stripe/subscriptions`, {
+        token,
+        id
+      });
     });
   });
 
@@ -31,15 +31,15 @@ describe("SDK stripe", () => {
     test("calls POST with correct URL and  properties", async () => {
       expect.assertions(1);
 
-      axios.post = jest.fn().mockResolvedValue(true);
+      axiosClient.post = jest.fn().mockResolvedValue(true);
 
       const subscription = "subscription";
       const userId = "id";
 
       await streakoid.stripe.deleteSubscription({ subscription, userId });
 
-      expect(axios.post).toBeCalledWith(
-        `${APPLICATION_URL}/v1/stripe/delete-subscriptions`,
+      expect(axiosClient.post).toBeCalledWith(
+        `/v1/stripe/delete-subscriptions`,
         { subscription, userId }
       );
     });

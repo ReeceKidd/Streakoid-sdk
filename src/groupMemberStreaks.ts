@@ -1,9 +1,8 @@
-import axios from "axios";
-
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import GroupMemberStreak from "./models/GroupMemberStreak";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const create = async ({
@@ -15,8 +14,8 @@ export default (applicationUrl: string) => {
     groupStreakId: string;
     timezone: string;
   }): Promise<GroupMemberStreak> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`,
       { userId, groupStreakId },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -26,15 +25,15 @@ export default (applicationUrl: string) => {
   const getOne = async (
     groupMemberStreakId: string
   ): Promise<GroupMemberStreak> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`
     );
     return data;
   };
 
   const deleteOne = (groupMemberStreakId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`
     );
   };
 

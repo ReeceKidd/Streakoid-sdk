@@ -1,10 +1,9 @@
-import axios from "axios";
-
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import GroupStreakRouterCategories from "./GroupStreakRouterCategories";
 import GroupMember from "./models/GroupMember";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const create = async ({
@@ -16,8 +15,8 @@ export default (applicationUrl: string) => {
     groupStreakId: string;
     timezone: string;
   }): Promise<GroupMember[]> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}`,
       { friendId },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -31,8 +30,8 @@ export default (applicationUrl: string) => {
     groupStreakId: string;
     memberId: string;
   }) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}/${memberId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}/${memberId}`
     );
   };
 

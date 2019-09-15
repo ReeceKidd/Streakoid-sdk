@@ -1,5 +1,5 @@
-import axios from "axios";
 import { streakoidFactory } from "./streakoid";
+import axiosClient from "./axiosClient";
 
 describe("SDK agendaJobs", () => {
   const APPLICATION_URL = "streakoid.com";
@@ -12,13 +12,11 @@ describe("SDK agendaJobs", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axios.delete = jest.fn();
+      axiosClient.delete = jest.fn();
 
       await streakoid.agendaJobs.deleteOne("id");
 
-      expect(axios.delete).toBeCalledWith(
-        `${APPLICATION_URL}/v1/agenda-jobs/id`
-      );
+      expect(axiosClient.delete).toBeCalledWith(`/v1/agenda-jobs/id`);
     });
   });
 });

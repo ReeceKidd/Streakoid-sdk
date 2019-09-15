@@ -1,21 +1,21 @@
-import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import User from "./models/User";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const getAll = async (searchQuery?: string): Promise<User[]> => {
-    let getAllUsersURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}?`;
+    let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
     if (searchQuery) {
       getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}`;
     }
-    const { data } = await axios.get(getAllUsersURL);
+    const { data } = await axiosClient.get(getAllUsersURL);
     return data;
   };
 
   const getOne = async (userId: string): Promise<User> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
     );
     return data;
   };
@@ -27,8 +27,8 @@ export default (applicationUrl: string) => {
     username: string;
     email: string;
   }): Promise<User> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.users}`,
       {
         username,
         email
@@ -38,8 +38,8 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (userId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
     );
   };
 

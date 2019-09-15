@@ -1,7 +1,7 @@
-import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import Feedback from "./models/Feedback";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const create = async ({
@@ -17,8 +17,8 @@ export default (applicationUrl: string) => {
     userEmail: string;
     feedbackText: string;
   }): Promise<Feedback> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
       {
         userId,
         pageUrl,
@@ -31,8 +31,8 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (feedbackId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`
     );
   };
 

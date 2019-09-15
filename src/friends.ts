@@ -4,11 +4,12 @@ import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import User from "./models/User";
 import Friend from "./models/Friend";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
     );
     return data;
   };
@@ -20,8 +21,8 @@ export default (applicationUrl: string) => {
     userId: string;
     friendId: string;
   }): Promise<User> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
       {
         friendId
       }
@@ -30,8 +31,8 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (userId: string, friendId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
     );
   };
 

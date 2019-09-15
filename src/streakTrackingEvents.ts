@@ -3,6 +3,7 @@ import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const getAll = async ({
@@ -14,7 +15,7 @@ export default (applicationUrl: string) => {
     userId?: string;
     streakId?: string;
   }): Promise<StreakTrackingEvent[]> => {
-    let getAllSoloStreaksURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}?`;
+    let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}?`;
 
     if (type) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}type=${type}&`;
@@ -25,15 +26,15 @@ export default (applicationUrl: string) => {
     if (streakId) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakId=${streakId}`;
     }
-    const { data } = await axios.get(getAllSoloStreaksURL);
+    const { data } = await axiosClient.get(getAllSoloStreaksURL);
     return data;
   };
 
   const getOne = async (
     streakTrackingEventId: string
   ): Promise<StreakTrackingEvent> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
     );
     return data;
   };
@@ -47,16 +48,16 @@ export default (applicationUrl: string) => {
     streakId: string;
     userId: string;
   }): Promise<StreakTrackingEvent> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`,
       { type, streakId, userId }
     );
     return data;
   };
 
   const deleteOne = (streakTrackingEventId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
     );
   };
 

@@ -1,13 +1,12 @@
-import axios from "axios";
-
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import SoloStreak from "./models/SoloStreak";
-import StreakTrackingEventType from "./streakTrackingEventType";
+
 import CurrentStreak from "./models/CurrentStreak";
 import PastStreakArray from "./models/PastStreakArray";
 import ActivityArray from "./models/ActivityArray";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const getAll = async ({
@@ -21,7 +20,7 @@ export default (applicationUrl: string) => {
     timezone?: string;
     active?: boolean;
   }): Promise<SoloStreak[]> => {
-    let getAllSoloStreaksURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
+    let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
 
     if (userId) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}userId=${userId}&`;
@@ -41,13 +40,13 @@ export default (applicationUrl: string) => {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}`;
     }
 
-    const { data } = await axios.get(getAllSoloStreaksURL);
+    const { data } = await axiosClient.get(getAllSoloStreaksURL);
     return data;
   };
 
   const getOne = async (soloStreakId: string): Promise<SoloStreak> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
     );
     return data;
   };
@@ -65,8 +64,8 @@ export default (applicationUrl: string) => {
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<SoloStreak> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
       { userId, streakName, streakDescription, numberOfMinutes },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -90,8 +89,8 @@ export default (applicationUrl: string) => {
       activity?: ActivityArray;
     };
   }): Promise<SoloStreak> => {
-    const { data } = await axios.patch(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
+    const { data } = await axiosClient.patch(
+      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
       updateData,
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -99,8 +98,8 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (soloStreakId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
     );
   };
 

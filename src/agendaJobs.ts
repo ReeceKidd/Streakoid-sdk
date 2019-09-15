@@ -1,11 +1,12 @@
-import axios from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
+import axiosClient from "./axiosClient";
+axiosClient;
 
 export default (applicationUrl: string) => {
   const deleteOne = (agendaJobId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
     );
   };
 

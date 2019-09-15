@@ -3,6 +3,7 @@ import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import CompleteGroupMemberStreakTask from "./models/CompleteGroupMemberStreakTask";
+import axiosClient from "./axiosClient";
 
 export default (applicatonUrl: string) => {
   const getAll = async ({
@@ -14,7 +15,7 @@ export default (applicatonUrl: string) => {
     groupStreakId?: string;
     groupMemberStreakId?: string;
   }): Promise<CompleteGroupMemberStreakTask[]> => {
-    let getAllURL = `${applicatonUrl}/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}?`;
+    let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}?`;
     if (userId) {
       getAllURL = `${getAllURL}userId=${userId}&`;
     }
@@ -25,7 +26,7 @@ export default (applicatonUrl: string) => {
       getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}`;
     }
 
-    const { data } = await axios.get(getAllURL);
+    const { data } = await axiosClient.get(getAllURL);
     return data;
   };
 
@@ -40,8 +41,8 @@ export default (applicatonUrl: string) => {
     groupMemberStreakId: string;
     timezone: string;
   }): Promise<CompleteGroupMemberStreakTask> => {
-    const { data } = await axios.post(
-      `${applicatonUrl}/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
       {
         userId,
         groupStreakId,
@@ -57,8 +58,8 @@ export default (applicatonUrl: string) => {
   };
 
   const deleteOne = (completeGroupMemberStreakTaskId: string) => {
-    return axios.delete(
-      `${applicatonUrl}/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}/${completeGroupMemberStreakTaskId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}/${completeGroupMemberStreakTaskId}`
     );
   };
 

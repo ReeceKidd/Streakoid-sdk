@@ -1,11 +1,10 @@
-import axios from "axios";
-
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import groupMembers from "./groupMembers";
 import GroupStreak from "./models/GroupStreak";
 import PopulatedGroupStreak from "./models/PopulatedGroupStreak";
+import axiosClient from "./axiosClient";
 
 export default (applicationUrl: string) => {
   const getAll = async ({
@@ -17,7 +16,7 @@ export default (applicationUrl: string) => {
     memberId?: string;
     timezone?: string;
   }): Promise<PopulatedGroupStreak[]> => {
-    let getAllSoloStreaksURL = `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}?`;
+    let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.groupStreaks}?`;
     if (creatorId) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}creatorId=${creatorId}&`;
     }
@@ -27,15 +26,15 @@ export default (applicationUrl: string) => {
     if (timezone) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}`;
     }
-    const { data } = await axios.get(getAllSoloStreaksURL);
+    const { data } = await axiosClient.get(getAllSoloStreaksURL);
     return data;
   };
 
   const getOne = async (
     groupStreakId: string
   ): Promise<PopulatedGroupStreak> => {
-    const { data } = await axios.get(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
+    const { data } = await axiosClient.get(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
     );
     return data;
   };
@@ -55,8 +54,8 @@ export default (applicationUrl: string) => {
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<GroupStreak> => {
-    const { data } = await axios.post(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
+    const { data } = await axiosClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
       { creatorId, streakName, streakDescription, numberOfMinutes, members },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -78,8 +77,8 @@ export default (applicationUrl: string) => {
       timezone?: string;
     };
   }): Promise<GroupStreak> => {
-    const { data } = await axios.patch(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`,
+    const { data } = await axiosClient.patch(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`,
       updateData,
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
     );
@@ -87,8 +86,8 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (groupStreakId: string) => {
-    return axios.delete(
-      `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
+    return axiosClient.delete(
+      `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
     );
   };
 
