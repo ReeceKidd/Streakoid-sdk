@@ -4,8 +4,6 @@ interface PopulatedGroupStreak {
   _id: string;
   creatorId: string;
   streakName: string;
-  streakDescription: string;
-  numberOfMinutes: number;
   members: PopulatedMember[];
   timezone: string;
   creator: {
@@ -14,6 +12,8 @@ interface PopulatedGroupStreak {
   };
   createdAt: string;
   updatedAt: string;
+  streakDescription?: string;
+  numberOfMinutes?: number;
 }
 
 export default PopulatedGroupStreak;
