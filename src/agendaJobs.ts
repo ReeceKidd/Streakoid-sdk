@@ -1,11 +1,10 @@
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import axiosClient from "./axiosClient";
-axiosClient;
+import { AxiosInstance } from "axios";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const deleteOne = (agendaJobId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
     );
   };

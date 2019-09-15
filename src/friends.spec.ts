@@ -1,9 +1,8 @@
-import { streakoidFactory } from "./streakoid";
-import axiosClient from "./axiosClient";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK friends", () => {
   const APPLICATION_URL = "streakoid.com";
-  const streakoid = streakoidFactory(APPLICATION_URL);
+  const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -12,25 +11,25 @@ describe("SDK friends", () => {
   describe("getAll", () => {
     test("calls GET with correct URL and userId", async () => {
       expect.assertions(1);
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.friends.getAll("userId");
 
-      expect(axiosClient.get).toBeCalledWith(`/v1/users/userId/friends`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/users/userId/friends`);
     });
   });
 
   describe("addFriend", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axiosClient.post = jest.fn().mockResolvedValue(true);
+      streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
       const friendId = "friendId";
 
       await streakoid.users.friends.addFriend({ userId, friendId });
 
-      expect(axiosClient.post).toBeCalledWith(`/v1/users/userId/friends`, {
+      expect(streakoidClient.post).toBeCalledWith(`/v1/users/userId/friends`, {
         friendId
       });
     });
@@ -39,11 +38,11 @@ describe("SDK friends", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axiosClient.delete = jest.fn();
+      streakoidClient.delete = jest.fn();
 
       await streakoid.users.friends.deleteOne("userId", "friendId");
 
-      expect(axiosClient.delete).toBeCalledWith(
+      expect(streakoidClient.delete).toBeCalledWith(
         `/v1/users/userId/friends/friendId`
       );
     });

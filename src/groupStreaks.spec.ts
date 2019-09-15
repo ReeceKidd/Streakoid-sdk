@@ -1,9 +1,8 @@
-import { streakoidFactory } from "./streakoid";
-import axiosClient from "./axiosClient";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK groupStreaks", () => {
   const APPLICATION_URL = "streakoid.com";
-  const streakoid = streakoidFactory(APPLICATION_URL);
+  const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -13,48 +12,48 @@ describe("SDK groupStreaks", () => {
     test("calls GET with correct URL when no query paramters are passed", async () => {
       expect.assertions(1);
 
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.groupStreaks.getAll({});
 
-      expect(axiosClient.get).toBeCalledWith(`/v1/group-streaks?`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/group-streaks?`);
     });
 
     test("calls GET with correct URL when creatorId query paramater is passed", async () => {
       expect.assertions(1);
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       const creatorId = "memberId";
 
       await streakoid.groupStreaks.getAll({ creatorId });
 
-      expect(axiosClient.get).toBeCalledWith(
+      expect(streakoidClient.get).toBeCalledWith(
         `/v1/group-streaks?creatorId=${creatorId}&`
       );
     });
 
     test("calls GET with correct URL when memberId query paramater is passed", async () => {
       expect.assertions(1);
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       const memberId = "memberId";
 
       await streakoid.groupStreaks.getAll({ memberId });
 
-      expect(axiosClient.get).toBeCalledWith(
+      expect(streakoidClient.get).toBeCalledWith(
         `/v1/group-streaks?memberId=${memberId}&`
       );
     });
 
     test("calls GET with correct URL when timezone query paramater is passed", async () => {
       expect.assertions(1);
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       const timezone = `Europe/London`;
 
       await streakoid.groupStreaks.getAll({ timezone });
 
-      expect(axiosClient.get).toBeCalledWith(
+      expect(streakoidClient.get).toBeCalledWith(
         `/v1/group-streaks?timezone=${timezone}`
       );
     });
@@ -63,18 +62,18 @@ describe("SDK groupStreaks", () => {
   describe("getOne", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.groupStreaks.getOne("id");
 
-      expect(axiosClient.get).toBeCalledWith(`/v1/group-streaks/id`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/group-streaks/id`);
     });
   });
 
   describe("create", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axiosClient.post = jest.fn().mockResolvedValue(true);
+      streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const creatorId = "abcdefgh";
       const streakName = "Followed our calorie level";
@@ -91,7 +90,7 @@ describe("SDK groupStreaks", () => {
         members
       });
 
-      expect(axiosClient.post).toBeCalledWith(
+      expect(streakoidClient.post).toBeCalledWith(
         `/v1/group-streaks`,
         {
           creatorId,
@@ -111,7 +110,7 @@ describe("SDK groupStreaks", () => {
   describe("update", () => {
     test("calls PATCH with correct URL and  parmaters", async () => {
       expect.assertions(1);
-      axiosClient.patch = jest.fn().mockResolvedValue(true);
+      streakoidClient.patch = jest.fn().mockResolvedValue(true);
       const streakName = "streakName";
       const streakDescription = "streakDescription";
       const numberOfMinutes = 30;
@@ -129,7 +128,7 @@ describe("SDK groupStreaks", () => {
         updateData
       });
 
-      expect(axiosClient.patch).toBeCalledWith(
+      expect(streakoidClient.patch).toBeCalledWith(
         `/v1/group-streaks/id`,
         {
           ...updateData
@@ -146,11 +145,11 @@ describe("SDK groupStreaks", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axiosClient.delete = jest.fn();
+      streakoidClient.delete = jest.fn();
 
       await streakoid.groupStreaks.deleteOne("id");
 
-      expect(axiosClient.delete).toBeCalledWith(`/v1/group-streaks/id`);
+      expect(streakoidClient.delete).toBeCalledWith(`/v1/group-streaks/id`);
     });
   });
 });

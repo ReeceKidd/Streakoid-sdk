@@ -1,11 +1,12 @@
+import { AxiosInstance } from "axios";
+
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import GroupStreakRouterCategories from "./GroupStreakRouterCategories";
 import GroupMember from "./models/GroupMember";
-import axiosClient from "./axiosClient";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     friendId,
     groupStreakId,
@@ -15,7 +16,7 @@ export default (applicationUrl: string) => {
     groupStreakId: string;
     timezone: string;
   }): Promise<GroupMember[]> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}`,
       { friendId },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
@@ -30,7 +31,7 @@ export default (applicationUrl: string) => {
     groupStreakId: string;
     memberId: string;
   }) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}/${memberId}`
     );
   };

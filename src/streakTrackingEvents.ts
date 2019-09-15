@@ -1,11 +1,10 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
-import axiosClient from "./axiosClient";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     type,
     userId,
@@ -26,14 +25,14 @@ export default (applicationUrl: string) => {
     if (streakId) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakId=${streakId}`;
     }
-    const { data } = await axiosClient.get(getAllSoloStreaksURL);
+    const { data } = await streakoidClient.get(getAllSoloStreaksURL);
     return data;
   };
 
   const getOne = async (
     streakTrackingEventId: string
   ): Promise<StreakTrackingEvent> => {
-    const { data } = await axiosClient.get(
+    const { data } = await streakoidClient.get(
       `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
     );
     return data;
@@ -48,7 +47,7 @@ export default (applicationUrl: string) => {
     streakId: string;
     userId: string;
   }): Promise<StreakTrackingEvent> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`,
       { type, streakId, userId }
     );
@@ -56,7 +55,7 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (streakTrackingEventId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`
     );
   };

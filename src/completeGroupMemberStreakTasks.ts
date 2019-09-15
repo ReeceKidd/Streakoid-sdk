@@ -1,11 +1,10 @@
-import axios from "axios";
+import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import CompleteGroupMemberStreakTask from "./models/CompleteGroupMemberStreakTask";
-import axiosClient from "./axiosClient";
 
-export default (applicatonUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     userId,
     groupStreakId,
@@ -26,7 +25,7 @@ export default (applicatonUrl: string) => {
       getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}`;
     }
 
-    const { data } = await axiosClient.get(getAllURL);
+    const { data } = await streakoidClient.get(getAllURL);
     return data;
   };
 
@@ -41,7 +40,7 @@ export default (applicatonUrl: string) => {
     groupMemberStreakId: string;
     timezone: string;
   }): Promise<CompleteGroupMemberStreakTask> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
       {
         userId,
@@ -58,7 +57,7 @@ export default (applicatonUrl: string) => {
   };
 
   const deleteOne = (completeGroupMemberStreakTaskId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}/${completeGroupMemberStreakTaskId}`
     );
   };

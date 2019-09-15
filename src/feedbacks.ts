@@ -1,9 +1,9 @@
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import Feedback from "./models/Feedback";
-import axiosClient from "./axiosClient";
+import { AxiosInstance } from "axios";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     userId,
     pageUrl,
@@ -17,7 +17,7 @@ export default (applicationUrl: string) => {
     userEmail: string;
     feedbackText: string;
   }): Promise<Feedback> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
       {
         userId,
@@ -31,7 +31,7 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (feedbackId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`
     );
   };

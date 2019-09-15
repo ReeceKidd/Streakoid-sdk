@@ -1,12 +1,13 @@
+import { AxiosInstance } from "axios";
+
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import groupMembers from "./groupMembers";
 import GroupStreak from "./models/GroupStreak";
 import PopulatedGroupStreak from "./models/PopulatedGroupStreak";
-import axiosClient from "./axiosClient";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     creatorId,
     memberId,
@@ -26,14 +27,14 @@ export default (applicationUrl: string) => {
     if (timezone) {
       getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}`;
     }
-    const { data } = await axiosClient.get(getAllSoloStreaksURL);
+    const { data } = await streakoidClient.get(getAllSoloStreaksURL);
     return data;
   };
 
   const getOne = async (
     groupStreakId: string
   ): Promise<PopulatedGroupStreak> => {
-    const { data } = await axiosClient.get(
+    const { data } = await streakoidClient.get(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
     );
     return data;
@@ -54,7 +55,7 @@ export default (applicationUrl: string) => {
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<GroupStreak> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
       { creatorId, streakName, streakDescription, numberOfMinutes, members },
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
@@ -77,7 +78,7 @@ export default (applicationUrl: string) => {
       timezone?: string;
     };
   }): Promise<GroupStreak> => {
-    const { data } = await axiosClient.patch(
+    const { data } = await streakoidClient.patch(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`,
       updateData,
       { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
@@ -86,7 +87,7 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (groupStreakId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`
     );
   };
@@ -97,6 +98,6 @@ export default (applicationUrl: string) => {
     create,
     update,
     deleteOne,
-    groupMembers: groupMembers(applicationUrl)
+    groupMembers: groupMembers(streakoidClient)
   };
 };

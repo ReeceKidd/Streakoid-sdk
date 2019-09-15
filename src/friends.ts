@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import User from "./models/User";
 import Friend from "./models/Friend";
-import axiosClient from "./axiosClient";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
-    const { data } = await axiosClient.get(
+    const { data } = await streakoidClient.get(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
     );
     return data;
@@ -21,7 +20,7 @@ export default (applicationUrl: string) => {
     userId: string;
     friendId: string;
   }): Promise<User> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
       {
         friendId
@@ -31,7 +30,7 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (userId: string, friendId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
     );
   };

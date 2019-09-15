@@ -1,3 +1,6 @@
+import { streakoidClientFactory } from "./streakoidClient";
+import { streakoidFactory } from "./streakoid";
+
 import Activtiy from "./models/Activity";
 import ActivityArray from "./models/ActivityArray";
 import AgendaJob from "./models/AgendaJob";
@@ -17,9 +20,8 @@ import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
 
-import { streakoidFactory } from "./streakoid";
-
 export {
+  streakoidClientFactory,
   streakoidFactory,
   Activtiy,
   ActivityArray,

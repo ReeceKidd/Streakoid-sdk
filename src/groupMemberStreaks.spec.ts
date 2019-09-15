@@ -1,10 +1,8 @@
-import axios from "axios";
-import { streakoidFactory } from "./streakoid";
-import axiosClient from "./axiosClient";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK groupMemberStreaks", () => {
   const APPLICATION_URL = "streakoid.com";
-  const streakoid = streakoidFactory(APPLICATION_URL);
+  const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -14,11 +12,11 @@ describe("SDK groupMemberStreaks", () => {
     test("calls GET with correct URL", async () => {
       expect.assertions(1);
 
-      axiosClient.get = jest.fn().mockResolvedValue(true);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
 
       await streakoid.groupMemberStreaks.getOne("id");
 
-      expect(axiosClient.get).toBeCalledWith(`/v1/group-member-streaks/id`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks/id`);
     });
   });
 
@@ -26,7 +24,7 @@ describe("SDK groupMemberStreaks", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axiosClient.post = jest.fn().mockResolvedValue(true);
+      streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
       const groupStreakId = "groupStreakId";
@@ -38,7 +36,7 @@ describe("SDK groupMemberStreaks", () => {
         timezone
       });
 
-      expect(axiosClient.post).toBeCalledWith(
+      expect(streakoidClient.post).toBeCalledWith(
         `/v1/group-member-streaks`,
         {
           userId,
@@ -56,11 +54,13 @@ describe("SDK groupMemberStreaks", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axiosClient.delete = jest.fn();
+      streakoidClient.delete = jest.fn();
 
       await streakoid.groupMemberStreaks.deleteOne("id");
 
-      expect(axiosClient.delete).toBeCalledWith(`/v1/group-member-streaks/id`);
+      expect(streakoidClient.delete).toBeCalledWith(
+        `/v1/group-member-streaks/id`
+      );
     });
   });
 });

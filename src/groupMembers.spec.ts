@@ -1,10 +1,8 @@
 import axios from "axios";
-import { streakoidFactory } from "./streakoid";
-import axiosClient from "./axiosClient";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK groupMembers", () => {
-  const APPLICATION_URL = "streakoid.com";
-  const streakoid = streakoidFactory(APPLICATION_URL);
+  const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
     jest.resetAllMocks();
@@ -14,7 +12,7 @@ describe("SDK groupMembers", () => {
     test("calls POST with correct URL and  parmaters", async () => {
       expect.assertions(1);
 
-      axiosClient.post = jest.fn().mockResolvedValue(true);
+      streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const friendId = "friendId";
       const groupStreakId = "groupStreakId";
@@ -26,7 +24,7 @@ describe("SDK groupMembers", () => {
         timezone
       });
 
-      expect(axiosClient.post).toBeCalledWith(
+      expect(streakoidClient.post).toBeCalledWith(
         `/v1/group-streaks/groupStreakId/members`,
         {
           friendId
@@ -43,14 +41,14 @@ describe("SDK groupMembers", () => {
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
-      axiosClient.delete = jest.fn();
+      streakoidClient.delete = jest.fn();
 
       await streakoid.groupStreaks.groupMembers.deleteOne({
         groupStreakId: "groupStreakId",
         memberId: "memberId"
       });
 
-      expect(axiosClient.delete).toBeCalledWith(
+      expect(streakoidClient.delete).toBeCalledWith(
         `/v1/group-streaks/groupStreakId/members/memberId`
       );
     });

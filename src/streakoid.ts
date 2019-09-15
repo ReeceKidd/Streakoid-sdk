@@ -10,37 +10,31 @@ import agendaJobs from "./agendaJobs";
 import feedbacks from "./feedbacks";
 import groupMemberStreaks from "./groupMemberStreaks";
 import { getServiceConfig } from "./getServiceConfig";
+import { AxiosInstance } from "axios";
+import { streakoidClientFactory } from "./streakoidClient";
 
 const { APPLICATION_URL } = getServiceConfig();
 
-export const streakoidFactory = (applicationUrl: string) => {
-  if (!applicationUrl) {
-    throw new Error("You must define an applicationUrl");
-  }
+export const streakoidClient = streakoidClientFactory(APPLICATION_URL);
+
+export const streakoidFactory = (streakoidClient: AxiosInstance) => {
   return {
-    completeSoloStreakTasks: completeSoloStreakTasks(applicationUrl),
+    completeSoloStreakTasks: completeSoloStreakTasks(streakoidClient),
     completeGroupMemberStreakTasks: completeGroupMemberStreakTasks(
-      applicationUrl
+      streakoidClient
     ),
-    soloStreaks: soloStreaks(applicationUrl),
-    stripe: stripe(applicationUrl),
+    soloStreaks: soloStreaks(streakoidClient),
+    stripe: stripe(streakoidClient),
     users: {
-      ...usersFactory(applicationUrl),
-      friends: friends(applicationUrl)
+      ...usersFactory(streakoidClient),
+      friends: friends(streakoidClient)
     },
-    groupStreaks: groupStreaks(applicationUrl),
-    streakTrackingEvents: streakTrackingEvents(applicationUrl),
-    agendaJobs: agendaJobs(applicationUrl),
-    feedbacks: feedbacks(applicationUrl),
-    groupMemberStreaks: groupMemberStreaks(applicationUrl)
+    groupStreaks: groupStreaks(streakoidClient),
+    streakTrackingEvents: streakTrackingEvents(streakoidClient),
+    agendaJobs: agendaJobs(streakoidClient),
+    feedbacks: feedbacks(streakoidClient),
+    groupMemberStreaks: groupMemberStreaks(streakoidClient)
   };
 };
 
-export const streakoid = streakoidFactory(APPLICATION_URL);
-
-// Continue work on the SDK tests should the intergration tests be moved here as well so the route can be tested with the SDK ? I'm not sure.
-// Keep coding and add the types to the calls instead of returning the axios response.
-// Yes intergration tests should be from here because that way everything can be checked to be working.This should just point to my local host though.
-// Move intergration tests and see what breaks. I could just store the types on the SDK and then import it from theimport { version } from "@babel/core";
-//  SDK to the server to make sure the types
-// are always the same. I then just need to make sure the front end and backend are using the same version.
+export const streakoid = streakoidFactory(streakoidClient);

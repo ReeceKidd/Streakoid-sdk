@@ -1,20 +1,21 @@
+import { AxiosInstance } from "axios";
+
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import User from "./models/User";
-import axiosClient from "./axiosClient";
 
-export default (applicationUrl: string) => {
+export default (streakoidClient: AxiosInstance) => {
   const getAll = async (searchQuery?: string): Promise<User[]> => {
     let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
     if (searchQuery) {
       getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}`;
     }
-    const { data } = await axiosClient.get(getAllUsersURL);
+    const { data } = await streakoidClient.get(getAllUsersURL);
     return data;
   };
 
   const getOne = async (userId: string): Promise<User> => {
-    const { data } = await axiosClient.get(
+    const { data } = await streakoidClient.get(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
     );
     return data;
@@ -27,7 +28,7 @@ export default (applicationUrl: string) => {
     username: string;
     email: string;
   }): Promise<User> => {
-    const { data } = await axiosClient.post(
+    const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.users}`,
       {
         username,
@@ -38,7 +39,7 @@ export default (applicationUrl: string) => {
   };
 
   const deleteOne = (userId: string) => {
-    return axiosClient.delete(
+    return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
     );
   };
