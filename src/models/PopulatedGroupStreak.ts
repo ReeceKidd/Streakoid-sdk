@@ -1,6 +1,7 @@
 import PopulatedMember from "./PopulatedMember";
 
 interface PopulatedGroupStreak {
+  _id: string;
   creatorId: string;
   streakName: string;
   streakDescription: string;

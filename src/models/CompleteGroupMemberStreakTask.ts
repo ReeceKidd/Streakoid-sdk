@@ -1,6 +1,7 @@
 import StreakTypes from "../streakTypes";
 
 interface CompleteGroupMemberStreakTask {
+  _id: string;
   streakId: string;
   userId: string;
   groupStreakId: string;

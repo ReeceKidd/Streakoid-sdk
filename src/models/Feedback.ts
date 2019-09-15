@@ -1,4 +1,5 @@
 interface Feedback {
+  _id: string;
   userId: string;
   pageUrl: string;
   username: string;

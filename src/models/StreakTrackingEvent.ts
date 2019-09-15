@@ -1,4 +1,5 @@
 interface StreakTrackingEvent {
+  _id: string;
   type: StreakTrackingEvent;
   streakId: string;
   userId: string;

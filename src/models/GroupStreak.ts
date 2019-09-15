@@ -1,4 +1,5 @@
 interface GroupStreak {
+  _id: string;
   creatorId: string;
   streakName: string;
   streakDescription: string;

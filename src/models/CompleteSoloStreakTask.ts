@@ -1,6 +1,7 @@
 import StreakTypes from "../streakTypes";
 
 interface CompleteSoloStreakTask {
+  _id: string;
   streakId: string;
   userId: string;
   taskCompleteTime: Date;
