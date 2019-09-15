@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-interface StreakTrackingEvent extends mongoose.Document {
+interface StreakTrackingEvent {
   type: StreakTrackingEvent;
   streakId: string;
   userId: string;

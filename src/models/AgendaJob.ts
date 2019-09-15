@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-interface AgendaJob extends mongoose.Document {
+interface AgendaJob {
   _id: string;
   name: string;
   data: object;

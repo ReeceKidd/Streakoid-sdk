@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-interface GroupStreak extends mongoose.Document {
+interface GroupStreak {
   creatorId: string;
   streakName: string;
   streakDescription: string;

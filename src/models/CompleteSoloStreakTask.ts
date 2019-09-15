@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 import StreakTypes from "../streakTypes";
 
-interface CompleteSoloStreakTask extends mongoose.Document {
+interface CompleteSoloStreakTask {
   streakId: string;
   userId: string;
   taskCompleteTime: Date;

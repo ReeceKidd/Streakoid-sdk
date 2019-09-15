@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-interface Feedback extends mongoose.Document {
+interface Feedback {
   userId: string;
   pageUrl: string;
   username: string;

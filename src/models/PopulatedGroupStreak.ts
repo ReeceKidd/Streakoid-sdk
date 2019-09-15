@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 import PopulatedMember from "./PopulatedMember";
 
-interface PopulatedGroupStreak extends mongoose.Document {
+interface PopulatedGroupStreak {
   creatorId: string;
   streakName: string;
   streakDescription: string;

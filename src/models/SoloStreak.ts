@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
-
 import ActivityArray from "./ActivityArray";
 import CurrentStreak from "./CurrentStreak";
 import PastStreakArray from "./PastStreakArray";
 
-interface SoloStreak extends mongoose.Document {
+interface SoloStreak {
   _id: string;
   userId: string;
   streakName: string;
