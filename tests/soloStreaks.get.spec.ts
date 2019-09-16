@@ -1,4 +1,4 @@
-import { streakoid } from "../src/streakoid";
+import { streakoid, londonTimezone } from "../src/streakoid";
 
 const email = "get-solo-streaks@gmail.com";
 const username = "get-solo-streaks-user";
@@ -6,8 +6,6 @@ const username = "get-solo-streaks-user";
 const soloStreakName = "Daily Spanish";
 const soloStreakDescription =
   "Each day I must do the insame amount 50xp of Duolingo";
-
-const timezone = "Europe/Paris";
 
 jest.setTimeout(120000);
 
@@ -27,8 +25,7 @@ describe("GET /solo-streaks", () => {
     const createSoloStreakResponse = await streakoid.soloStreaks.create({
       userId,
       streakName: soloStreakName,
-      streakDescription: soloStreakDescription,
-      timezone
+      streakDescription: soloStreakDescription
     });
     soloStreakId = createSoloStreakResponse._id;
   });
@@ -60,7 +57,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.streakName).toEqual(soloStreakName);
     expect(soloStreak.streakDescription).toEqual(soloStreakDescription);
     expect(soloStreak.userId).toEqual(userId);
-    expect(soloStreak.timezone).toEqual(timezone);
+    expect(soloStreak.timezone).toEqual(londonTimezone);
     expect(soloStreak.createdAt).toEqual(expect.any(String));
     expect(soloStreak.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(soloStreak).sort()).toEqual(
@@ -86,7 +83,7 @@ describe("GET /solo-streaks", () => {
     expect.assertions(15);
 
     const soloStreaks = await streakoid.soloStreaks.getAll({
-      timezone
+      timezone: londonTimezone
     });
     expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
 
@@ -104,7 +101,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.streakName).toEqual(soloStreakName);
     expect(soloStreak.streakDescription).toEqual(soloStreakDescription);
     expect(soloStreak.userId).toEqual(userId);
-    expect(soloStreak.timezone).toEqual(timezone);
+    expect(soloStreak.timezone).toEqual(londonTimezone);
     expect(soloStreak.createdAt).toEqual(expect.any(String));
     expect(soloStreak.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(soloStreak).sort()).toEqual(
@@ -180,16 +177,14 @@ describe("GET /solo-streaks", () => {
     const createdSoloStreakResponse = await streakoid.soloStreaks.create({
       userId,
       streakName,
-      streakDescription,
-      timezone
+      streakDescription
     });
     secondSoloStreakId = createdSoloStreakResponse._id;
 
     const completedTaskResponse = await streakoid.completeSoloStreakTasks.create(
       {
         userId,
-        soloStreakId: secondSoloStreakId,
-        timezone
+        soloStreakId: secondSoloStreakId
       }
     );
     completedTaskResponseId = completedTaskResponse._id;
