@@ -1,6 +1,5 @@
-import { streakoid } from "../src/streakoid";
+import { streakoid, londonTimezone } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
-import { londonTimezone } from "../src/streakoidClient";
 
 const registeredEmail = "friends.add.user@gmail.com";
 const registeredUsername = "friends-add-user";

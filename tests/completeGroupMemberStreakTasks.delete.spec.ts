@@ -3,8 +3,6 @@ import { streakoid } from "../src/streakoid";
 const email = "delete-complete-group-member-streak-tasks-user@gmail.com";
 const username = "delete-complete-group-member-streak-tasks-user";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("DELETE /complete-group-member-streak-tasks", () => {
@@ -28,7 +26,6 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
       creatorId: userId,
       streakName,
       streakDescription,
-      timezone,
       members
     });
     groupStreakId = createGroupStreakResponse._id;
@@ -36,8 +33,7 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
       {
         userId,
-        groupStreakId,
-        timezone
+        groupStreakId
       }
     );
     groupMemberStreakId = createGroupMemberStreakResponse._id;
@@ -46,8 +42,7 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
       {
         userId,
         groupStreakId,
-        groupMemberStreakId,
-        timezone
+        groupMemberStreakId
       }
     );
     completeGroupMemberStreakTaskId = completeGroupMemberStreakTaskResponse._id;

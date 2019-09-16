@@ -1,8 +1,6 @@
-import axios from "axios";
-import { streakoidFactory, streakoidClient } from "./streakoid";
+import { streakoidFactory, streakoidClient, londonTimezone } from "./streakoid";
 
 describe("SDK soloStreaks", () => {
-  const APPLICATION_URL = "streakoid.com";
   const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
@@ -92,28 +90,18 @@ describe("SDK soloStreaks", () => {
       const userId = "userId";
       const streakName = "streakName";
       const streakDescription = "streakDescription";
-      const timezone = "timezone";
 
       await streakoid.soloStreaks.create({
         userId,
         streakName,
-        timezone,
         streakDescription
       });
 
-      expect(streakoidClient.post).toBeCalledWith(
-        `/v1/solo-streaks`,
-        {
-          userId,
-          streakName,
-          streakDescription
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
-        }
-      );
+      expect(streakoidClient.post).toBeCalledWith(`/v1/solo-streaks`, {
+        userId,
+        streakName,
+        streakDescription
+      });
     });
   });
 
@@ -128,25 +116,15 @@ describe("SDK soloStreaks", () => {
         streakName,
         streakDescription
       };
-      const timezone = "timezone";
 
       await streakoid.soloStreaks.update({
         soloStreakId: "id",
-        timezone,
         updateData
       });
 
-      expect(streakoidClient.patch).toBeCalledWith(
-        `/v1/solo-streaks/id`,
-        {
-          ...updateData
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
-        }
-      );
+      expect(streakoidClient.patch).toBeCalledWith(`/v1/solo-streaks/id`, {
+        ...updateData
+      });
     });
   });
 

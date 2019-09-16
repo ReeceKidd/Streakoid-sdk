@@ -1,7 +1,6 @@
-import { streakoidFactory, streakoidClient } from "./streakoid";
+import { streakoidFactory, streakoidClient, londonTimezone } from "./streakoid";
 
 describe("SDK groupMemberStreaks", () => {
-  const APPLICATION_URL = "streakoid.com";
   const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
@@ -28,26 +27,16 @@ describe("SDK groupMemberStreaks", () => {
 
       const userId = "userId";
       const groupStreakId = "groupStreakId";
-      const timezone = "timezone";
 
       await streakoid.groupMemberStreaks.create({
         userId,
-        groupStreakId,
-        timezone
+        groupStreakId
       });
 
-      expect(streakoidClient.post).toBeCalledWith(
-        `/v1/group-member-streaks`,
-        {
-          userId,
-          groupStreakId
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
-        }
-      );
+      expect(streakoidClient.post).toBeCalledWith(`/v1/group-member-streaks`, {
+        userId,
+        groupStreakId
+      });
     });
   });
 

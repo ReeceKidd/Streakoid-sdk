@@ -1,7 +1,6 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK completeSoloStreakTasks", () => {
-  const APPLICATION_URL = "streakoid.com";
   const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
@@ -82,13 +81,11 @@ describe("SDK completeSoloStreakTasks", () => {
       const userId = "userId";
       const groupStreakId = "groupStreakId";
       const groupMemberStreakId = "groupMemberStreakId";
-      const timezone = "timezone";
 
       await streakoid.completeGroupMemberStreakTasks.create({
         userId,
         groupStreakId,
-        groupMemberStreakId,
-        timezone
+        groupMemberStreakId
       });
 
       expect(streakoidClient.post).toBeCalledWith(
@@ -97,11 +94,6 @@ describe("SDK completeSoloStreakTasks", () => {
           userId,
           groupStreakId,
           groupMemberStreakId
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
         }
       );
     });

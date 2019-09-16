@@ -2,7 +2,6 @@ import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import groupMembers from "./groupMembers";
 import GroupStreak from "./models/GroupStreak";
 import PopulatedGroupStreak from "./models/PopulatedGroupStreak";
@@ -43,33 +42,28 @@ export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     creatorId,
     streakName,
-    timezone,
     streakDescription,
     numberOfMinutes,
     members
   }: {
     creatorId: string;
     streakName: string;
-    timezone: string;
     members: { memberId: string; groupMemberStreakId?: string }[];
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<GroupStreak> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
-      { creatorId, streakName, streakDescription, numberOfMinutes, members },
-      { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
+      { creatorId, streakName, streakDescription, numberOfMinutes, members }
     );
     return data;
   };
 
   const update = async ({
     groupStreakId,
-    timezone,
     updateData
   }: {
     groupStreakId: string;
-    timezone: string;
     updateData: {
       creatorId?: string;
       streakName?: string;
@@ -80,8 +74,7 @@ export default (streakoidClient: AxiosInstance) => {
   }): Promise<GroupStreak> => {
     const { data } = await streakoidClient.patch(
       `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}`,
-      updateData,
-      { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
+      updateData
     );
     return data;
   };

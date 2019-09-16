@@ -1,5 +1,5 @@
 import axios from "axios";
-import { streakoidFactory, streakoidClient } from "./streakoid";
+import { streakoidFactory, streakoidClient, londonTimezone } from "./streakoid";
 
 describe("SDK groupMembers", () => {
   const streakoid = streakoidFactory(streakoidClient);
@@ -16,23 +16,16 @@ describe("SDK groupMembers", () => {
 
       const friendId = "friendId";
       const groupStreakId = "groupStreakId";
-      const timezone = "timezone";
 
       await streakoid.groupStreaks.groupMembers.create({
         friendId,
-        groupStreakId,
-        timezone
+        groupStreakId
       });
 
       expect(streakoidClient.post).toBeCalledWith(
         `/v1/group-streaks/groupStreakId/members`,
         {
           friendId
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
         }
       );
     });

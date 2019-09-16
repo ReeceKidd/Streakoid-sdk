@@ -4,8 +4,6 @@ import StreakTypes from "../src/streakTypes";
 const email = "create-complete-solo-streak-tasks-user@gmail.com";
 const username = "create-complete-solo-streak-tasks-user";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("POST /complete-solo-streak-tasks", () => {
@@ -26,7 +24,6 @@ describe("POST /complete-solo-streak-tasks", () => {
     const createSoloStreakResponse = await streakoid.soloStreaks.create({
       userId,
       streakName,
-      timezone,
       streakDescription
     });
     soloStreakId = createSoloStreakResponse._id;
@@ -59,8 +56,7 @@ describe("POST /complete-solo-streak-tasks", () => {
       const completeSoloStreakTask = await streakoid.completeSoloStreakTasks.create(
         {
           userId,
-          soloStreakId,
-          timezone
+          soloStreakId
         }
       );
 
@@ -110,7 +106,6 @@ describe("POST /complete-solo-streak-tasks", () => {
         {
           userId,
           streakName,
-          timezone,
           streakDescription
         }
       );
@@ -118,13 +113,11 @@ describe("POST /complete-solo-streak-tasks", () => {
       try {
         await streakoid.completeSoloStreakTasks.create({
           userId,
-          soloStreakId: secondSoloStreakId,
-          timezone
+          soloStreakId: secondSoloStreakId
         });
         await streakoid.completeSoloStreakTasks.create({
           userId,
-          soloStreakId: secondSoloStreakId,
-          timezone
+          soloStreakId: secondSoloStreakId
         });
       } catch (err) {
         expect(err.response.status).toEqual(422);

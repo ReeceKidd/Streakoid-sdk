@@ -55,30 +55,25 @@ export default (streakoidClient: AxiosInstance) => {
     userId,
     streakName,
     streakDescription,
-    timezone,
     numberOfMinutes
   }: {
     userId: string;
     streakName: string;
-    timezone: string;
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<SoloStreak> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
-      { userId, streakName, streakDescription, numberOfMinutes },
-      { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
+      { userId, streakName, streakDescription, numberOfMinutes }
     );
     return data;
   };
 
   const update = async ({
     soloStreakId,
-    timezone,
     updateData
   }: {
     soloStreakId: string;
-    timezone: string;
     updateData?: {
       streakName?: string;
       streakDescription?: string;
@@ -91,8 +86,7 @@ export default (streakoidClient: AxiosInstance) => {
   }): Promise<SoloStreak> => {
     const { data } = await streakoidClient.patch(
       `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
-      updateData,
-      { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
+      updateData
     );
     return data;
   };

@@ -32,13 +32,11 @@ export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     userId,
     groupStreakId,
-    groupMemberStreakId,
-    timezone
+    groupMemberStreakId
   }: {
     userId: string;
     groupStreakId: string;
     groupMemberStreakId: string;
-    timezone: string;
   }): Promise<CompleteGroupMemberStreakTask> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
@@ -46,11 +44,6 @@ export default (streakoidClient: AxiosInstance) => {
         userId,
         groupStreakId,
         groupMemberStreakId
-      },
-      {
-        headers: {
-          [SupportedRequestHeaders.xTimezone]: timezone
-        }
       }
     );
     return data;

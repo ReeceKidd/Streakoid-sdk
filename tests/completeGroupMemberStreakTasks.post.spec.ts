@@ -5,8 +5,6 @@ const registeredEmail =
   "create-complete-group-member-streak-tasks-user@gmail.com";
 const registeredUsername = "create-complete-group-member-streak-tasks-user";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("POST /complete-group-member-streak-tasks", () => {
@@ -30,7 +28,6 @@ describe("POST /complete-group-member-streak-tasks", () => {
       creatorId: userId,
       streakName,
       streakDescription,
-      timezone,
       members
     });
     groupStreakId = createGroupStreakResponse._id;
@@ -38,8 +35,7 @@ describe("POST /complete-group-member-streak-tasks", () => {
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
       {
         userId,
-        groupStreakId,
-        timezone
+        groupStreakId
       }
     );
     groupMemberStreakId = createGroupMemberStreakResponse._id;
@@ -58,8 +54,7 @@ describe("POST /complete-group-member-streak-tasks", () => {
         {
           userId,
           groupStreakId,
-          groupMemberStreakId,
-          timezone
+          groupMemberStreakId
         }
       );
 
@@ -120,8 +115,7 @@ describe("POST /complete-group-member-streak-tasks", () => {
       const secondGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
         {
           userId,
-          groupStreakId,
-          timezone
+          groupStreakId
         }
       );
       secondGroupMemberStreakId = secondGroupMemberStreakResponse._id;
@@ -130,14 +124,12 @@ describe("POST /complete-group-member-streak-tasks", () => {
         await streakoid.completeGroupMemberStreakTasks.create({
           userId,
           groupStreakId,
-          groupMemberStreakId: secondGroupMemberStreakId,
-          timezone
+          groupMemberStreakId: secondGroupMemberStreakId
         });
         await streakoid.completeGroupMemberStreakTasks.create({
           userId,
           groupStreakId,
-          groupMemberStreakId: secondGroupMemberStreakId,
-          timezone
+          groupMemberStreakId: secondGroupMemberStreakId
         });
       } catch (err) {
         expect(err.response.status).toEqual(422);

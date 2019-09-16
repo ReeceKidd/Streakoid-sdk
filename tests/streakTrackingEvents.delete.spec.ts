@@ -4,8 +4,6 @@ import StreakTrackingEventType from "../src/streakTrackingEventType";
 const email = "delete-solo-streak-user@gmail.com";
 const username = "delete-solo-streak-user";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe(`DELETE /solo-streaks`, () => {
@@ -26,8 +24,7 @@ describe(`DELETE /solo-streaks`, () => {
     const createSoloStreakResponse = await streakoid.soloStreaks.create({
       userId,
       streakName,
-      streakDescription,
-      timezone
+      streakDescription
     });
     soloStreakId = createSoloStreakResponse._id;
 

@@ -2,23 +2,19 @@ import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import GroupMemberStreak from "./models/GroupMemberStreak";
 
 export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     userId,
-    groupStreakId,
-    timezone
+    groupStreakId
   }: {
     userId: string;
     groupStreakId: string;
-    timezone: string;
   }): Promise<GroupMemberStreak> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`,
-      { userId, groupStreakId },
-      { headers: { [SupportedRequestHeaders.xTimezone]: timezone } }
+      { userId, groupStreakId }
     );
     return data;
   };

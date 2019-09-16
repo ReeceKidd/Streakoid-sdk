@@ -63,12 +63,10 @@ describe("SDK completeSoloStreakTasks", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
       const userId = "userId";
       const soloStreakId = "soloStreakId";
-      const timezone = "timezone";
 
       await streakoid.completeSoloStreakTasks.create({
         userId,
-        soloStreakId,
-        timezone
+        soloStreakId
       });
 
       expect(streakoidClient.post).toBeCalledWith(
@@ -76,11 +74,6 @@ describe("SDK completeSoloStreakTasks", () => {
         {
           userId,
           soloStreakId
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
         }
       );
     });

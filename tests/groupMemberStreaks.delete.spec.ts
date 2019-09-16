@@ -3,8 +3,6 @@ import { streakoid } from "../src/streakoid";
 const email = "delete-groupMember-streak-user@gmail.com";
 const username = "delete-groupMember-streak-user";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("DELETE /group-member-streaks", () => {
@@ -16,12 +14,10 @@ describe("DELETE /group-member-streaks", () => {
   const streakDescription = "Everyday I must do Spanish on Duolingo";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(
-      {
-        username,
-        email
-      }
-    );
+    const registrationResponse = await streakoid.users.create({
+      username,
+      email
+    });
     registeredUserId = registrationResponse._id;
 
     const members = [{ memberId: registeredUserId }];
@@ -29,7 +25,6 @@ describe("DELETE /group-member-streaks", () => {
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: registeredUserId,
       streakName,
-      timezone,
       streakDescription,
       members
     });
@@ -38,8 +33,7 @@ describe("DELETE /group-member-streaks", () => {
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
       {
         userId: registeredUserId,
-        groupStreakId: createdGroupStreakId,
-        timezone
+        groupStreakId: createdGroupStreakId
       }
     );
 

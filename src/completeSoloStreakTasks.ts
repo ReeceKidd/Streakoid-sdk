@@ -25,23 +25,16 @@ export default (streakoidClient: AxiosInstance) => {
 
   const create = async ({
     userId,
-    soloStreakId,
-    timezone
+    soloStreakId
   }: {
     userId: string;
     soloStreakId: string;
-    timezone: string;
   }): Promise<CompleteSoloStreakTask> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}`,
       {
         userId,
         soloStreakId
-      },
-      {
-        headers: {
-          [SupportedRequestHeaders.xTimezone]: timezone
-        }
       }
     );
     return data;

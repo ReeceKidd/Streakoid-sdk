@@ -7,8 +7,6 @@ const username = "create-group-streak-user";
 const streakName = "Daily yoga";
 const streakDescription = "Every day I must do yoga before 12pm";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("POST /streak-tracking-events", () => {
@@ -26,8 +24,7 @@ describe("POST /streak-tracking-events", () => {
     const soloStreakRegistration = await streakoid.soloStreaks.create({
       userId,
       streakName,
-      streakDescription,
-      timezone
+      streakDescription
     });
     soloStreakId = soloStreakRegistration._id;
   });

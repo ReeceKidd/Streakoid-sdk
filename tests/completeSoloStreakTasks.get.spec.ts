@@ -6,8 +6,6 @@ const username = "get-complete-solo-streak-task";
 
 const streakName = "10 minutes journaling";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("GET /complete-solo-streak-tasks", () => {
@@ -24,8 +22,7 @@ describe("GET /complete-solo-streak-tasks", () => {
 
     const createSoloStreakResponse = await streakoid.soloStreaks.create({
       userId,
-      streakName,
-      timezone
+      streakName
     });
 
     soloStreakId = createSoloStreakResponse._id;
@@ -33,8 +30,7 @@ describe("GET /complete-solo-streak-tasks", () => {
     const createSoloStreakTaskCompleteResponse = await streakoid.completeSoloStreakTasks.create(
       {
         userId,
-        soloStreakId,
-        timezone
+        soloStreakId
       }
     );
     completeSoloStreakTaskId = createSoloStreakTaskCompleteResponse._id;

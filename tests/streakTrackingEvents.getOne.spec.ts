@@ -7,8 +7,6 @@ const registeredUsername = "get-one-streak-tracking";
 const streakName = "Daily yoga";
 const streakDescription = "Every day I must do yoga before 12pm";
 
-const timezone = "Europe/London";
-
 jest.setTimeout(120000);
 
 describe("GET /streak-tracking-events", () => {
@@ -26,7 +24,6 @@ describe("GET /streak-tracking-events", () => {
     const soloStreakRegistration = await streakoid.soloStreaks.create({
       userId,
       streakName,
-      timezone,
       streakDescription
     });
     soloStreakId = soloStreakRegistration._id;

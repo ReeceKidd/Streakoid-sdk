@@ -1,10 +1,7 @@
 import { streakoid } from "../src/streakoid";
 
-
 const email = "delete-group-streak-user@gmail.com";
 const username = "delete-group-streak-user";
-
-const timezone = "Europe/Budapest";
 
 jest.setTimeout(120000);
 
@@ -16,12 +13,10 @@ describe(`DELETE /group-streaks`, () => {
   const description = "I will read 30 minutes every day";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create(
-      {
-        email,
-        username
-      }
-    );
+    const registrationResponse = await streakoid.users.create({
+      email,
+      username
+    });
     userId = registrationResponse._id;
     const creatorId = userId;
     const members = [{ memberId: userId }];
@@ -30,8 +25,7 @@ describe(`DELETE /group-streaks`, () => {
       creatorId,
       streakName: name,
       streakDescription: description,
-      members,
-      timezone
+      members
     });
     groupStreakId = createSoloStreakResponse._id;
   });

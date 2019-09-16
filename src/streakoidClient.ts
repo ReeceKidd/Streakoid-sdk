@@ -1,13 +1,14 @@
 import axios from "axios";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 
-export const londonTimezone = "Europe/London";
-
-export const streakoidClientFactory = (applicationUrl: string) => {
+export const streakoidClientFactory = (
+  applicationUrl: string,
+  timezone: string
+) => {
   return axios.create({
     headers: {
       "Content-Type": "application/json",
-      [SupportedRequestHeaders.xTimezone]: londonTimezone
+      [SupportedRequestHeaders.xTimezone]: timezone
     },
     baseURL: applicationUrl
   });

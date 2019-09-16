@@ -15,7 +15,12 @@ import { streakoidClientFactory } from "./streakoidClient";
 
 const { APPLICATION_URL } = getServiceConfig();
 
-export const streakoidClient = streakoidClientFactory(APPLICATION_URL);
+export const londonTimezone = "Europe/London";
+
+export const streakoidClient = streakoidClientFactory(
+  APPLICATION_URL,
+  londonTimezone
+);
 
 export const streakoidFactory = (streakoidClient: AxiosInstance) => {
   return {

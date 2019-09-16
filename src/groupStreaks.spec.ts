@@ -85,25 +85,16 @@ describe("SDK groupStreaks", () => {
       await streakoid.groupStreaks.create({
         creatorId,
         streakName,
-        timezone,
         streakDescription,
         members
       });
 
-      expect(streakoidClient.post).toBeCalledWith(
-        `/v1/group-streaks`,
-        {
-          creatorId,
-          streakName,
-          streakDescription,
-          members
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
-        }
-      );
+      expect(streakoidClient.post).toBeCalledWith(`/v1/group-streaks`, {
+        creatorId,
+        streakName,
+        streakDescription,
+        members
+      });
     });
   });
 
@@ -114,7 +105,6 @@ describe("SDK groupStreaks", () => {
       const streakName = "streakName";
       const streakDescription = "streakDescription";
       const numberOfMinutes = 30;
-      const timezone = "timezone";
 
       const updateData = {
         streakName,
@@ -124,21 +114,12 @@ describe("SDK groupStreaks", () => {
 
       await streakoid.groupStreaks.update({
         groupStreakId: "id",
-        timezone,
         updateData
       });
 
-      expect(streakoidClient.patch).toBeCalledWith(
-        `/v1/group-streaks/id`,
-        {
-          ...updateData
-        },
-        {
-          headers: {
-            "x-timezone": timezone
-          }
-        }
-      );
+      expect(streakoidClient.patch).toBeCalledWith(`/v1/group-streaks/id`, {
+        ...updateData
+      });
     });
   });
 

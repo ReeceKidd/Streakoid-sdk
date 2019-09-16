@@ -3,45 +3,39 @@ import { streakoid } from "../src/streakoid";
 const email = "delete-solo-streak-user@gmail.com";
 const username = "delete-solo-streak-user";
 
-const timezone = "Europe/Budapest";
-
 jest.setTimeout(120000);
 
 describe(`DELETE /solo-streaks`, () => {
-    let userId: string;
-    let soloStreakId: string;
+  let userId: string;
+  let soloStreakId: string;
 
-    const streakName = "Reading";
-    const streakDescription = "I will read 30 minutes every day";
+  const streakName = "Reading";
+  const streakDescription = "I will read 30 minutes every day";
 
-    beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create(
-            {
-                email,
-                username
-            }
-        );
-        userId = registrationResponse._id;
-
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-            timezone
-        }
-        );
-        soloStreakId = createSoloStreakResponse._id;
+  beforeAll(async () => {
+    const registrationResponse = await streakoid.users.create({
+      email,
+      username
     });
+    userId = registrationResponse._id;
 
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+    const createSoloStreakResponse = await streakoid.soloStreaks.create({
+      userId,
+      streakName,
+      streakDescription
     });
+    soloStreakId = createSoloStreakResponse._id;
+  });
 
-    test(`that solo streak can be deleted`, async () => {
-        expect.assertions(1);
+  afterAll(async () => {
+    await streakoid.users.deleteOne(userId);
+  });
 
-        const response = await streakoid.soloStreaks.deleteOne(soloStreakId);
+  test(`that solo streak can be deleted`, async () => {
+    expect.assertions(1);
 
-        expect(response.status).toEqual(204);
-    });
+    const response = await streakoid.soloStreaks.deleteOne(soloStreakId);
+
+    expect(response.status).toEqual(204);
+  });
 });
