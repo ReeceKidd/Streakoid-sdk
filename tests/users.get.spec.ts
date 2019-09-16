@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { londonTimezone } from "../src/streakoidClient";
 
 const email = "search-user@gmail.com";
 const username = "search-user";
@@ -22,7 +23,7 @@ describe("GET /users", () => {
   });
 
   test(`returns all users when no searchTerm is used`, async () => {
-    expect.assertions(12);
+    expect.assertions(13);
 
     const users = await streakoid.users.getAll();
     expect(users.length).toBeGreaterThanOrEqual(1);
@@ -39,6 +40,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(expect.any(String));
     expect(user.email).toEqual(expect.any(String));
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -49,6 +51,7 @@ describe("GET /users", () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"
@@ -57,7 +60,7 @@ describe("GET /users", () => {
   });
 
   test(`returns user when full searchTerm is used`, async () => {
-    expect.assertions(12);
+    expect.assertions(13);
 
     const users = await streakoid.users.getAll(username);
     expect(users.length).toBeGreaterThanOrEqual(1);
@@ -73,6 +76,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -83,6 +87,7 @@ describe("GET /users", () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"
@@ -91,7 +96,7 @@ describe("GET /users", () => {
   });
 
   test("returns user when partial searchTerm is used", async () => {
-    expect.assertions(12);
+    expect.assertions(13);
 
     const users = await streakoid.users.getAll("search");
     expect(users.length).toBeGreaterThanOrEqual(1);
@@ -105,6 +110,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user)).toEqual([
@@ -114,6 +120,7 @@ describe("GET /users", () => {
       "_id",
       "username",
       "email",
+      "timezone",
       "createdAt",
       "updatedAt",
       "__v"

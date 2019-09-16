@@ -20,7 +20,7 @@ describe(`POST /users`, () => {
   });
 
   test("user can register successfully", async () => {
-    expect.assertions(11);
+    expect.assertions(12);
 
     const username = "registerusername";
     const email = "register@gmail.com";
@@ -38,6 +38,7 @@ describe(`POST /users`, () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
+    expect(user.timezone).toEqual("Europe/London");
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -48,6 +49,7 @@ describe(`POST /users`, () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"

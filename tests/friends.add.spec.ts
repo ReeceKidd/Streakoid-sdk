@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { londonTimezone } from "../src/streakoidClient";
 
 const registeredEmail = "friends.add.user@gmail.com";
 const registeredUsername = "friends-add-user";
@@ -44,7 +45,7 @@ describe("POST /users/:id/friends", () => {
   });
 
   test(`user can add a friend if they are not already on their friends list`, async () => {
-    expect.assertions(12);
+    expect.assertions(13);
 
     const updatedUser = await streakoid.users.friends.addFriend({
       userId,
@@ -60,6 +61,7 @@ describe("POST /users/:id/friends", () => {
     expect(updatedUser._id).toEqual(expect.any(String));
     expect(updatedUser.username).toEqual(registeredUsername);
     expect(updatedUser.email).toEqual(registeredEmail);
+    expect(updatedUser.timezone).toEqual(londonTimezone);
     expect(updatedUser.createdAt).toEqual(expect.any(String));
     expect(updatedUser.updatedAt).toEqual(expect.any(String));
     expect(updatedUser.type).toEqual(UserTypes.basic);
@@ -73,6 +75,7 @@ describe("POST /users/:id/friends", () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"

@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { londonTimezone } from "../src/streakoidClient";
 
 const email = "get-user@gmail.com";
 const username = "get-user";
@@ -22,7 +23,7 @@ describe("GET /users/:userId", () => {
   });
 
   test(`retreives user`, async () => {
-    expect.assertions(11);
+    expect.assertions(12);
 
     const user = await streakoid.users.getOne(userId);
 
@@ -36,6 +37,7 @@ describe("GET /users/:userId", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -46,6 +48,7 @@ describe("GET /users/:userId", () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"

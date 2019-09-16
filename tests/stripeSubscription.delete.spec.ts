@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { londonTimezone } from "../src/streakoidClient";
 
 const registeredEmail = "stripe-subscription-delete@gmail.com";
 const registeredUsername = "stripe-subscription-delete";
@@ -40,7 +41,7 @@ describe(`DELETE /subscriptions`, () => {
   });
 
   test("unsubscribes user and changes user type to basic", async () => {
-    expect.assertions(11);
+    expect.assertions(12);
 
     const user = await streakoid.stripe.deleteSubscription({
       subscription,
@@ -57,6 +58,7 @@ describe(`DELETE /subscriptions`, () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(registeredUsername);
     expect(user.email).toEqual(registeredEmail);
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -67,6 +69,7 @@ describe(`DELETE /subscriptions`, () => {
         "friends",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"

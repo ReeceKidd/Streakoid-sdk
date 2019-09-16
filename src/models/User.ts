@@ -7,15 +7,15 @@ interface User {
   type: UserTypes;
   timezone: string;
   friends: string[];
-  profilePicture?: {
-    type: string;
-  };
   stripe: {
     customer: string;
     subscription: string;
   };
   createdAt: string;
   updatedAt: string;
+  profilePicture?: {
+    type: string;
+  };
 }
 
 export default User;

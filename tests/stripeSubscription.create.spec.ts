@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { londonTimezone } from "../src/streakoidClient";
 
 const registeredEmail = "stripe-subscription-user@gmail.com";
 const registeredUsername = "stripe-subscription-user";
@@ -49,7 +50,7 @@ describe(`POST /subscriptions`, () => {
   });
 
   test("takes users payment and subscribes them", async () => {
-    expect.assertions(11);
+    expect.assertions(12);
 
     const user = await streakoid.stripe.createSubscription({
       token: validToken,
@@ -64,6 +65,7 @@ describe(`POST /subscriptions`, () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(registeredUsername);
     expect(user.email).toEqual(registeredEmail);
+    expect(user.timezone).toEqual(londonTimezone);
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -74,6 +76,7 @@ describe(`POST /subscriptions`, () => {
         "_id",
         "username",
         "email",
+        "timezone",
         "createdAt",
         "updatedAt",
         "__v"
