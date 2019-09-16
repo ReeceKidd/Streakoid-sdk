@@ -19,6 +19,7 @@ import PopulatedMember from "./models/PopulatedMember";
 import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
+import SupportedRequestHeaders from "./SupportedRequestHeaders";
 
 export {
   streakoidClientFactory,
@@ -40,5 +41,6 @@ export {
   PopulatedMember,
   SoloStreak,
   StreakTrackingEvent,
-  User
+  User,
+  SupportedRequestHeaders
 };
