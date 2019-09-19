@@ -77,6 +77,7 @@ export default (streakoidClient: AxiosInstance) => {
     updateData?: {
       streakName?: string;
       streakDescription?: string;
+      numberOfMinutes?: number;
       completedToday?: boolean;
       active?: boolean;
       currentStreak?: CurrentStreak;
