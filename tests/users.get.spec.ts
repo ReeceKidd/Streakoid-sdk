@@ -35,7 +35,7 @@ describe("GET /users", () => {
     expect(user.stripe.subscription).toEqual(null);
     expect(user.stripe.customer).toEqual(null);
     expect(user.type).toEqual(UserTypes.basic);
-    expect(user.friends).toEqual([]);
+    expect(user.friends).toEqual(expect.any(Array));
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(expect.any(String));
     expect(user.email).toEqual(expect.any(String));

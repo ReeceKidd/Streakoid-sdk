@@ -45,9 +45,13 @@ describe("GET /solo-streaks", () => {
 
     const soloStreak = soloStreaks[0];
 
-    expect(soloStreak.currentStreak).toEqual({ numberOfDaysInARow: 0 });
+    expect(soloStreak.currentStreak).toEqual({
+      numberOfDaysInARow: 0,
+      startDate: null
+    });
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
-      "numberOfDaysInARow"
+      "numberOfDaysInARow",
+      "startDate"
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
@@ -89,9 +93,13 @@ describe("GET /solo-streaks", () => {
 
     const soloStreak = soloStreaks[0];
 
-    expect(soloStreak.currentStreak).toEqual({ numberOfDaysInARow: 0 });
+    expect(soloStreak.currentStreak).toEqual({
+      numberOfDaysInARow: 0,
+      startDate: null
+    });
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
-      "numberOfDaysInARow"
+      "numberOfDaysInARow",
+      "startDate"
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
@@ -135,8 +143,10 @@ describe("GET /solo-streaks", () => {
     const soloStreak = soloStreaks[0];
 
     expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+    expect(soloStreak.currentStreak.startDate).toEqual(null);
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
-      "numberOfDaysInARow"
+      "numberOfDaysInARow",
+      "startDate"
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);

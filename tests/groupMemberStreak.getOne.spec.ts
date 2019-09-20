@@ -56,7 +56,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
     expect(groupMemberStreak.active).toEqual(false);
     expect(groupMemberStreak.activity).toEqual([]);
     expect(groupMemberStreak.pastStreaks).toEqual([]);
-    expect(groupMemberStreak.userId).toEqual(userId);
+    expect(groupMemberStreak.userId).toEqual(expect.any(String));
     expect(groupMemberStreak.groupStreakId).toEqual(groupStreakId);
     expect(groupMemberStreak.timezone).toEqual(londonTimezone);
     expect(groupMemberStreak.createdAt).toEqual(expect.any(String));
