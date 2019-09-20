@@ -38,6 +38,22 @@ export default (streakoidClient: AxiosInstance) => {
     return data;
   };
 
+  const update = async ({
+    userId,
+    updateData
+  }: {
+    userId: string;
+    updateData?: {
+      timezone?: string;
+    };
+  }): Promise<User> => {
+    const { data } = await streakoidClient.patch(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`,
+      updateData
+    );
+    return data;
+  };
+
   const deleteOne = (userId: string) => {
     return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
@@ -48,6 +64,7 @@ export default (streakoidClient: AxiosInstance) => {
     getAll,
     getOne,
     create,
+    update,
     deleteOne
   };
 };
