@@ -47,6 +47,7 @@ describe(`POST /users`, () => {
         "type",
         "friends",
         "_id",
+        "timezone",
         "username",
         "email",
         "timezone",
