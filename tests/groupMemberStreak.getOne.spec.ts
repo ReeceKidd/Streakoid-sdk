@@ -10,31 +10,28 @@ jest.setTimeout(120000);
 describe("GET /group-member-streaks/:groupMemberStreakId", () => {
   let userId: string;
   let groupStreakId: string;
-
   let groupMemberStreakId: string;
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create({
+    const user = await streakoid.users.create({
       username,
       email
     });
-    userId = registrationResponse._id;
+    userId = user._id;
     const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
+    const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
       streakName,
       members
     });
-    groupStreakId = createGroupStreakResponse._id;
+    groupStreakId = groupStreak._id;
 
-    const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-      {
-        userId,
-        groupStreakId
-      }
-    );
-    groupMemberStreakId = createGroupMemberStreakResponse._id;
+    const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+      userId,
+      groupStreakId
+    });
+    groupMemberStreakId = groupMemberStreak._id;
   });
 
   afterAll(async () => {
