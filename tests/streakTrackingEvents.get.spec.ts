@@ -51,7 +51,7 @@ describe("GET /streak-tracking-events", () => {
     const streakTrackingEvents = await streakoid.streakTrackingEvents.getAll(
       {}
     );
-    expect(streakTrackingEvents.length).toBeGreaterThan(1);
+    expect(streakTrackingEvents.length).toBeGreaterThanOrEqual(1);
 
     const streakTrackingEvent = streakTrackingEvents[0];
     expect(streakTrackingEvent.userId).toBeDefined();
