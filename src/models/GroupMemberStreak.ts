@@ -8,16 +8,16 @@ interface GroupMemberStreak {
   active: boolean;
   activity: Array<{
     type: StreakTrackingEventType;
-    time: Date;
+    time: string;
   }>;
   currentStreak: {
-    startDate: Date;
+    startDate: string;
     numberOfDaysInARow: number;
-    endDate: Date;
+    endDate: string;
   };
   pastStreaks: Array<{
-    endDate: Date;
-    startDate: Date;
+    endDate: string;
+    startDate: string;
     numberOfDaysInARow: number;
   }>;
   timezone: string;
