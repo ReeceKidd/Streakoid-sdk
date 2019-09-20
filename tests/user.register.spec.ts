@@ -50,7 +50,6 @@ describe(`POST /users`, () => {
         "timezone",
         "username",
         "email",
-        "timezone",
         "createdAt",
         "updatedAt",
         "__v"
