@@ -53,7 +53,7 @@ describe("GET /solo-streaks", () => {
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
-    expect(soloStreak.activity).toEqual([]);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
     expect(soloStreak.streakName).toEqual(soloStreakName);
@@ -99,7 +99,7 @@ describe("GET /solo-streaks", () => {
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
-    expect(soloStreak.activity).toEqual([]);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
     expect(soloStreak.streakName).toEqual(soloStreakName);
@@ -144,7 +144,7 @@ describe("GET /solo-streaks", () => {
     ]);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
-    expect(soloStreak.activity).toEqual([]);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
     expect(soloStreak.streakName).toEqual(expect.any(String));
@@ -207,7 +207,7 @@ describe("GET /solo-streaks", () => {
     );
     expect(soloStreak.completedToday).toEqual(true);
     expect(soloStreak.active).toEqual(true);
-    expect(soloStreak.activity).toEqual([]);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
     expect(soloStreak.streakName).toEqual(streakName);
