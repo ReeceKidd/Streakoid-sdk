@@ -39,7 +39,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(expect.any(String));
     expect(user.email).toEqual(expect.any(String));
-    expect(user.timezone).toEqual(londonTimezone);
+    expect(user.timezone).toEqual(expect.any(String));
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -75,7 +75,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
-    expect(user.timezone).toEqual(londonTimezone);
+    expect(user.timezone).toEqual(expect.any(String));
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user).sort()).toEqual(
@@ -109,7 +109,7 @@ describe("GET /users", () => {
     expect(user._id).toEqual(expect.any(String));
     expect(user.username).toEqual(username);
     expect(user.email).toEqual(email);
-    expect(user.timezone).toEqual(londonTimezone);
+    expect(user.timezone).toEqual(expect.any(String));
     expect(user.createdAt).toEqual(expect.any(String));
     expect(user.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(user)).toEqual([
