@@ -44,9 +44,10 @@ export default (streakoidClient: AxiosInstance) => {
           email
         }
       );
+      console.log(response);
       return response.data;
     } catch (err) {
-      throw err;
+      return Promise.reject(err);
     }
   };
 
