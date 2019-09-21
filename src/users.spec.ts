@@ -14,10 +14,22 @@ describe("SDK users", () => {
 
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.users.getAll("searchQuery");
+      await streakoid.users.getAll({ searchQuery: "searchQuery" });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/users?searchQuery=searchQuery`
+        `/v1/users?searchQuery=searchQuery&`
+      );
+    });
+
+    test("calls GET with correct URL and username paramater", async () => {
+      expect.assertions(1);
+
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+      await streakoid.users.getAll({ username: "username" });
+
+      expect(streakoidClient.get).toBeCalledWith(
+        `/v1/users?username=username&`
       );
     });
 
@@ -26,7 +38,7 @@ describe("SDK users", () => {
 
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.users.getAll();
+      await streakoid.users.getAll({});
 
       expect(streakoidClient.get).toBeCalledWith(`/v1/users?`);
     });

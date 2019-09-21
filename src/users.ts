@@ -5,10 +5,18 @@ import RouterCategories from "./RouterCategories";
 import User from "./models/User";
 
 export default (streakoidClient: AxiosInstance) => {
-  const getAll = async (searchQuery?: string): Promise<User[]> => {
+  const getAll = async ({
+    searchQuery,
+    username
+  }: {
+    searchQuery?: string;
+    username?: string;
+  }): Promise<User[]> => {
     let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
     if (searchQuery) {
-      getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}`;
+      getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}&`;
+    } else if (username) {
+      getAllUsersURL = `${getAllUsersURL}username=${username}&`;
     }
     const { data } = await streakoidClient.get(getAllUsersURL);
     return data;
