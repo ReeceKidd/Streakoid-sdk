@@ -36,14 +36,18 @@ export default (streakoidClient: AxiosInstance) => {
     username: string;
     email: string;
   }): Promise<User> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.users}`,
-      {
-        username,
-        email
-      }
-    );
-    return data;
+    try {
+      const response = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.users}`,
+        {
+          username,
+          email
+        }
+      );
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
   };
 
   const update = async ({

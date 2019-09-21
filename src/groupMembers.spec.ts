@@ -1,5 +1,4 @@
-import axios from "axios";
-import { streakoidFactory, streakoidClient, londonTimezone } from "./streakoid";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK groupMembers", () => {
   const streakoid = streakoidFactory(streakoidClient);

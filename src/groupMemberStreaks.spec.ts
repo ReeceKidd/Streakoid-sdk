@@ -1,4 +1,4 @@
-import { streakoidFactory, streakoidClient, londonTimezone } from "./streakoid";
+import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK groupMemberStreaks", () => {
   const streakoid = streakoidFactory(streakoidClient);
