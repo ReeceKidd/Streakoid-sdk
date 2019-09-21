@@ -79,6 +79,7 @@ export default (streakoidClient: AxiosInstance) => {
       streakDescription?: string;
       numberOfMinutes?: number;
       completedToday?: boolean;
+      timezone?: string;
       active?: boolean;
       currentStreak?: CurrentStreak;
       pastStreaks?: PastStreakArray;
