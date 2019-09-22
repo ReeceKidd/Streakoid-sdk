@@ -66,7 +66,7 @@ describe("SDK users", () => {
 
       await streakoid.users.create({ username, email });
 
-      expect(streakoidClient.post).toBeCalledWith(`/v1/users`, {
+      expect(streakoidClient.post).toBeCalledWith(`/users`, {
         username,
         email
       });
