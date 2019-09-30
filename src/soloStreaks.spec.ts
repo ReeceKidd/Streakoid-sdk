@@ -74,7 +74,7 @@ describe("SDK soloStreaks", () => {
       expect.assertions(1);
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      const status = StreakStatus.active;
+      const status = StreakStatus.live;
 
       await streakoid.soloStreaks.getAll({ status });
 
