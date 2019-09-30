@@ -88,7 +88,7 @@ describe("GET /group-streaks", () => {
 
     const groupStreak = groupStreaks[0];
     expect(groupStreak.streakName).toEqual(expect.any(String));
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(expect.any(String));
     expect(groupStreak.creatorId).toEqual(creatorId);
     expect(groupStreak.timezone).toEqual(expect.any(String));
@@ -156,7 +156,7 @@ describe("GET /group-streaks", () => {
     const groupStreak = groupStreaks[0];
 
     expect(groupStreak.streakName).toEqual(creatorIdStreakName);
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(creatorIdStreakDescription);
     expect(groupStreak.creatorId).toEqual(creatorId);
     expect(groupStreak.timezone).toEqual(expect.any(String));
@@ -223,7 +223,7 @@ describe("GET /group-streaks", () => {
 
     const groupStreak = groupStreaks[0];
     expect(groupStreak.streakName).toEqual(expect.any(String));
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(expect.any(String));
     expect(groupStreak.creatorId).toEqual(expect.any(String));
     expect(groupStreak.timezone).toEqual(expect.any(String));

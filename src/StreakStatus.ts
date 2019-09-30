@@ -1,5 +1,5 @@
 enum StreakStatus {
-  active = "active",
+  live = "live",
   archived = "archived",
   deleted = "deleted"
 }

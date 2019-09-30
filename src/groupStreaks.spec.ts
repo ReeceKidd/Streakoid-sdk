@@ -63,7 +63,7 @@ describe("SDK groupStreaks", () => {
       expect.assertions(1);
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      const status = StreakStatus.active;
+      const status = StreakStatus.live;
 
       await streakoid.groupStreaks.getAll({ status });
 

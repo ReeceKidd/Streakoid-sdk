@@ -58,7 +58,7 @@ describe("POST /solo-streaks", () => {
     soloStreakId = _id;
 
     expect(streakName).toEqual(streakName);
-    expect(status).toEqual(StreakStatus.active);
+    expect(status).toEqual(StreakStatus.live);
     expect(streakDescription).toEqual(streakDescription);
     expect(numberOfMinutes).toEqual(streakNumberOfMinutes);
     expect(userId).toEqual(registeredUserId);
@@ -117,7 +117,7 @@ describe("POST /solo-streaks", () => {
     } = soloStreak;
 
     expect(streakName).toEqual(streakName);
-    expect(status).toEqual(StreakStatus.active);
+    expect(status).toEqual(StreakStatus.live);
     expect(numberOfMinutes).toEqual(undefined);
     expect(streakDescription).toEqual("");
     expect(userId).toEqual(registeredUserId);

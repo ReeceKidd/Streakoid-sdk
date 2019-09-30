@@ -48,7 +48,7 @@ describe(`PATCH /solo-streaks`, () => {
     });
 
     expect(updatedSoloStreak.streakName).toEqual(updatedName);
-    expect(updatedSoloStreak.status).toEqual(StreakStatus.active);
+    expect(updatedSoloStreak.status).toEqual(StreakStatus.live);
     expect(updatedSoloStreak.streakDescription).toEqual(updatedDescription);
     expect(updatedSoloStreak.userId).toEqual(userId);
     expect(updatedSoloStreak.completedToday).toEqual(false);

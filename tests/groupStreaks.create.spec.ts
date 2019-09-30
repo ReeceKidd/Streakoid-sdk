@@ -44,7 +44,7 @@ describe("POST /group-streaks", () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
@@ -95,7 +95,7 @@ describe("POST /group-streaks", () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.timezone).toEqual(londonTimezone);

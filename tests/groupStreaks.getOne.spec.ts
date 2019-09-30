@@ -69,7 +69,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
     );
 
     expect(groupStreak.streakName).toEqual(streakName);
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.timezone).toEqual(londonTimezone);

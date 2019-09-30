@@ -41,7 +41,7 @@ describe("GET /solo-streaks/:soloStreakId", () => {
     const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
 
     expect(soloStreak.streakName).toEqual(streakName);
-    expect(soloStreak.status).toEqual(StreakStatus.active);
+    expect(soloStreak.status).toEqual(StreakStatus.live);
     expect(soloStreak.streakDescription).toEqual(streakDescription);
     expect(soloStreak.userId).toEqual(userId);
     expect(soloStreak.completedToday).toEqual(false);

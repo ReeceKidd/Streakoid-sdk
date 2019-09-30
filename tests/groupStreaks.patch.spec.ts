@@ -57,7 +57,7 @@ describe(`PATCH /group-streaks`, () => {
     expect(groupStreak._id).toEqual(expect.any(String));
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(updatedName);
-    expect(groupStreak.status).toEqual(StreakStatus.active);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(updatedDescription);
     expect(groupStreak.timezone).toEqual(updatedTimezone);
     expect(groupStreak.numberOfMinutes).toEqual(numberOfMinutes);

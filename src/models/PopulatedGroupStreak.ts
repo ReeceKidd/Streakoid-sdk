@@ -5,7 +5,7 @@ interface PopulatedGroupStreak {
   _id: string;
   creatorId: string;
   streakName: string;
-  status: StreakStatus.active;
+  status: StreakStatus;
   members: PopulatedMember[];
   timezone: string;
   creator: {

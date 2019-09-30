@@ -68,7 +68,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
     );
 
     expect(updatedGroupStreak._id).toEqual(expect.any(String));
-    expect(updatedGroupStreak.status).toEqual(StreakStatus.active);
+    expect(updatedGroupStreak.status).toEqual(StreakStatus.live);
     expect(updatedGroupStreak.creatorId).toEqual(registeredUserId);
     expect(updatedGroupStreak.streakName).toEqual(streakName);
     expect(updatedGroupStreak.streakDescription).toEqual(streakDescription);
