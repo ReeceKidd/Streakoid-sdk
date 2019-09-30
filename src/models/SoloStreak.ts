@@ -1,11 +1,13 @@
 import ActivityArray from "./ActivityArray";
 import CurrentStreak from "./CurrentStreak";
 import PastStreakArray from "./PastStreakArray";
+import StreakStatus from "../StreakStatus";
 
 interface SoloStreak {
   _id: string;
   userId: string;
   streakName: string;
+  status: StreakStatus;
   completedToday: boolean;
   active: boolean;
   activity: ActivityArray;

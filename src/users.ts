@@ -38,7 +38,7 @@ export default (streakoidClient: AxiosInstance) => {
   }): Promise<User> => {
     try {
       const response = await streakoidClient.post(
-        `/${RouterCategories.users}`,
+        `/${ApiVersions.v1}/${RouterCategories.users}`,
         {
           username,
           email
