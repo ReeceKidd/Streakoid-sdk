@@ -275,6 +275,14 @@ describe("GET /group-streaks", () => {
     expect(Object.keys(currentStreak).sort()).toEqual(["numberOfDaysInARow"]);
   });
 
+  test("returns no group streaks when timezone with no group streaks is used", async () => {
+    expect.assertions(1);
+    const groupStreaks = await streakoid.groupStreaks.getAll({
+      timezone: "Europe/Gambier Islands"
+    });
+    expect(groupStreaks.length).toEqual(0);
+  });
+
   test(`archived group streaks can be retreived`, async () => {
     expect.assertions(13);
 
@@ -403,13 +411,5 @@ describe("GET /group-streaks", () => {
     const { currentStreak } = groupMemberStreak;
     expect(currentStreak.numberOfDaysInARow).toEqual(0);
     expect(Object.keys(currentStreak).sort()).toEqual(["numberOfDaysInARow"]);
-  });
-
-  test("returns no group streaks when timezone with no group streaks is used", async () => {
-    expect.assertions(1);
-    const groupStreaks = await streakoid.groupStreaks.getAll({
-      timezone: "Europe/Gambier Islands"
-    });
-    expect(groupStreaks.length).toEqual(0);
   });
 });

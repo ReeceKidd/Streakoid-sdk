@@ -203,7 +203,7 @@ describe("GET /solo-streaks", () => {
     const soloStreaks = await streakoid.soloStreaks.getAll({
       completedToday: true
     });
-    expect(soloStreaks.length).toEqual(1);
+    expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
 
     const soloStreak = soloStreaks[0];
 
@@ -215,6 +215,126 @@ describe("GET /solo-streaks", () => {
     );
     expect(soloStreak.completedToday).toEqual(true);
     expect(soloStreak.active).toEqual(true);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
+    expect(soloStreak.pastStreaks).toEqual([]);
+    expect(soloStreak._id).toEqual(expect.any(String));
+    expect(soloStreak.streakName).toEqual(streakName);
+    expect(soloStreak.streakDescription).toEqual(streakDescription);
+    expect(soloStreak.userId).toEqual(expect.any(String));
+    expect(soloStreak.timezone).toEqual(expect.any(String));
+    expect(soloStreak.createdAt).toEqual(expect.any(String));
+    expect(soloStreak.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(soloStreak).sort()).toEqual(
+      [
+        "status",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "_id",
+        "streakName",
+        "streakDescription",
+        "userId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
+
+  test("archived solo streaks can be retreived", async () => {
+    expect.assertions(15);
+
+    const streakName = "30 minutes of reading";
+    const streakDescription = "Every day I must do 30 minutes of reading";
+
+    const createdSoloStreakResponse = await streakoid.soloStreaks.create({
+      userId,
+      streakName,
+      streakDescription
+    });
+    secondSoloStreakId = createdSoloStreakResponse._id;
+
+    await streakoid.soloStreaks.update({
+      soloStreakId: secondSoloStreakId,
+      updateData: { status: StreakStatus.archived }
+    });
+
+    const soloStreaks = await streakoid.soloStreaks.getAll({
+      status: StreakStatus.archived
+    });
+
+    const soloStreak = soloStreaks[0];
+
+    expect(soloStreak.status).toEqual(StreakStatus.archived);
+    expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+    expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(
+      ["numberOfDaysInARow"].sort()
+    );
+    expect(soloStreak.completedToday).toEqual(false);
+    expect(soloStreak.active).toEqual(false);
+    expect(soloStreak.activity).toEqual(expect.any(Array));
+    expect(soloStreak.pastStreaks).toEqual([]);
+    expect(soloStreak._id).toEqual(expect.any(String));
+    expect(soloStreak.streakName).toEqual(streakName);
+    expect(soloStreak.streakDescription).toEqual(streakDescription);
+    expect(soloStreak.userId).toEqual(expect.any(String));
+    expect(soloStreak.timezone).toEqual(expect.any(String));
+    expect(soloStreak.createdAt).toEqual(expect.any(String));
+    expect(soloStreak.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(soloStreak).sort()).toEqual(
+      [
+        "status",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "_id",
+        "streakName",
+        "streakDescription",
+        "userId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+  });
+
+  test("deleted solo streaks can be retreived", async () => {
+    expect.assertions(15);
+
+    const streakName = "30 minutes of reading";
+    const streakDescription = "Every day I must do 30 minutes of reading";
+
+    const createdSoloStreakResponse = await streakoid.soloStreaks.create({
+      userId,
+      streakName,
+      streakDescription
+    });
+    secondSoloStreakId = createdSoloStreakResponse._id;
+
+    await streakoid.soloStreaks.update({
+      soloStreakId: secondSoloStreakId,
+      updateData: { status: StreakStatus.deleted }
+    });
+
+    const soloStreaks = await streakoid.soloStreaks.getAll({
+      status: StreakStatus.deleted
+    });
+
+    const soloStreak = soloStreaks[0];
+
+    expect(soloStreak.status).toEqual(StreakStatus.deleted);
+    expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+    expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(
+      ["numberOfDaysInARow"].sort()
+    );
+    expect(soloStreak.completedToday).toEqual(false);
+    expect(soloStreak.active).toEqual(false);
     expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
