@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
+import StreakStatus from "./StreakStatus";
 
 describe("SDK groupStreaks", () => {
   const APPLICATION_URL = "streakoid.com";
@@ -54,7 +55,20 @@ describe("SDK groupStreaks", () => {
       await streakoid.groupStreaks.getAll({ timezone });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?timezone=${timezone}`
+        `/v1/group-streaks?timezone=${timezone}&`
+      );
+    });
+
+    test("calls GET with correct URL when timezone query paramater is passed", async () => {
+      expect.assertions(1);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+      const status = StreakStatus.active;
+
+      await streakoid.groupStreaks.getAll({ status });
+
+      expect(streakoidClient.get).toBeCalledWith(
+        `/v1/group-streaks?status=${status}&`
       );
     });
   });
@@ -80,7 +94,6 @@ describe("SDK groupStreaks", () => {
       const streakDescription = "Stuck to our recommended calorie level";
 
       const members: [] = [];
-      const timezone = "Europe/London";
 
       await streakoid.groupStreaks.create({
         creatorId,
