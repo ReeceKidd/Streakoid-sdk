@@ -89,7 +89,8 @@ describe("GET /solo-streaks", () => {
 
     const soloStreaks = await streakoid.soloStreaks.getAll({
       completedToday: false,
-      active: false
+      active: false,
+      status: StreakStatus.active
     });
     expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
 
