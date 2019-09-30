@@ -7,6 +7,7 @@ import SoloStreak from "./models/SoloStreak";
 import CurrentStreak from "./models/CurrentStreak";
 import PastStreakArray from "./models/PastStreakArray";
 import ActivityArray from "./models/ActivityArray";
+import StreakStatus from "./StreakStatus";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
@@ -77,6 +78,7 @@ export default (streakoidClient: AxiosInstance) => {
     updateData?: {
       streakName?: string;
       streakDescription?: string;
+      status?: StreakStatus;
       numberOfMinutes?: number;
       completedToday?: boolean;
       timezone?: string;
