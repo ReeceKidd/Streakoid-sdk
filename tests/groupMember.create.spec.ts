@@ -79,7 +79,7 @@ describe("POST /group-streaks/:id/members", () => {
     expect(updatedGroupStreak._id).toEqual(expect.any(String));
     expect(updatedGroupStreak.creatorId).toEqual(registeredUserId);
     expect(updatedGroupStreak.streakName).toEqual(streakName);
-    expect(updatedGroupStreak.status).toEqual(StreakStatus.active);
+    expect(updatedGroupStreak.status).toEqual(StreakStatus.live);
     expect(updatedGroupStreak.streakDescription).toEqual(streakDescription);
     expect(updatedGroupStreak.timezone).toEqual(londonTimezone);
     expect(updatedGroupStreak.createdAt).toEqual(expect.any(String));
