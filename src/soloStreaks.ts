@@ -2,7 +2,6 @@ import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import SoloStreak from "./models/SoloStreak";
 import CurrentStreak from "./models/CurrentStreak";
 import PastStreakArray from "./models/PastStreakArray";
@@ -14,12 +13,14 @@ export default (streakoidClient: AxiosInstance) => {
     userId,
     completedToday,
     timezone,
-    active
+    active,
+    status
   }: {
     userId?: string;
     completedToday?: boolean;
     timezone?: string;
     active?: boolean;
+    status?: StreakStatus;
   }): Promise<SoloStreak[]> => {
     let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
 
@@ -38,7 +39,13 @@ export default (streakoidClient: AxiosInstance) => {
     }
 
     if (active !== undefined) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}`;
+      getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(
+        active
+      )}&`;
+    }
+
+    if (status) {
+      getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
     }
 
     const { data } = await streakoidClient.get(getAllSoloStreaksURL);

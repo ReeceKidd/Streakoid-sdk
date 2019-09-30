@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
+import StreakStatus from "./StreakStatus";
 
 describe("SDK soloStreaks", () => {
   const streakoid = streakoidFactory(streakoidClient);
@@ -65,7 +66,20 @@ describe("SDK soloStreaks", () => {
       await streakoid.soloStreaks.getAll({ active });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/solo-streaks?active=${active}`
+        `/v1/solo-streaks?active=${active}&`
+      );
+    });
+
+    test("calls GET with correct URL when status query paramater is passed", async () => {
+      expect.assertions(1);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+      const status = StreakStatus.active;
+
+      await streakoid.soloStreaks.getAll({ status });
+
+      expect(streakoidClient.get).toBeCalledWith(
+        `/v1/solo-streaks?status=${status}&`
       );
     });
   });
