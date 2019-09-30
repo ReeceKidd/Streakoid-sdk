@@ -5,28 +5,34 @@ import RouterCategories from "./RouterCategories";
 import groupMembers from "./groupMembers";
 import GroupStreak from "./models/GroupStreak";
 import PopulatedGroupStreak from "./models/PopulatedGroupStreak";
+import StreakStatus from "./StreakStatus";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     creatorId,
     memberId,
-    timezone
+    timezone,
+    status
   }: {
     creatorId?: string;
     memberId?: string;
     timezone?: string;
+    status?: StreakStatus;
   }): Promise<PopulatedGroupStreak[]> => {
-    let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.groupStreaks}?`;
+    let getAllGroupStreaksURL = `/${ApiVersions.v1}/${RouterCategories.groupStreaks}?`;
     if (creatorId) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}creatorId=${creatorId}&`;
+      getAllGroupStreaksURL = `${getAllGroupStreaksURL}creatorId=${creatorId}&`;
     }
     if (memberId) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}memberId=${memberId}&`;
+      getAllGroupStreaksURL = `${getAllGroupStreaksURL}memberId=${memberId}&`;
     }
     if (timezone) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}`;
+      getAllGroupStreaksURL = `${getAllGroupStreaksURL}timezone=${timezone}&`;
     }
-    const { data } = await streakoidClient.get(getAllSoloStreaksURL);
+    if (status) {
+      getAllGroupStreaksURL = `${getAllGroupStreaksURL}status=${status}&`;
+    }
+    const { data } = await streakoidClient.get(getAllGroupStreaksURL);
     return data;
   };
 
