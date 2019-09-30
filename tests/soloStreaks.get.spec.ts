@@ -84,54 +84,6 @@ describe("GET /solo-streaks", () => {
     );
   });
 
-  test(`that solo streaks can be retreieved with timezone query parameter`, async () => {
-    expect.assertions(16);
-
-    const soloStreaks = await streakoid.soloStreaks.getAll({
-      timezone: londonTimezone
-    });
-    expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
-
-    const soloStreak = soloStreaks[0];
-
-    expect(soloStreak.currentStreak).toEqual({
-      numberOfDaysInARow: 0
-    });
-    expect(soloStreak.status).toEqual(StreakStatus.active);
-    expect(Object.keys(soloStreak.currentStreak)).toEqual([
-      "numberOfDaysInARow"
-    ]);
-    expect(soloStreak.completedToday).toEqual(false);
-    expect(soloStreak.active).toEqual(false);
-    expect(soloStreak.activity).toEqual(expect.any(Array));
-    expect(soloStreak.pastStreaks).toEqual([]);
-    expect(soloStreak._id).toEqual(expect.any(String));
-    expect(soloStreak.streakName).toEqual(expect.any(String));
-    expect(soloStreak.streakDescription).toEqual(expect.any(String));
-    expect(soloStreak.userId).toEqual(expect.any(String));
-    expect(soloStreak.timezone).toEqual(londonTimezone);
-    expect(soloStreak.createdAt).toEqual(expect.any(String));
-    expect(soloStreak.updatedAt).toEqual(expect.any(String));
-    expect(Object.keys(soloStreak).sort()).toEqual(
-      [
-        "currentStreak",
-        "status",
-        "completedToday",
-        "active",
-        "activity",
-        "pastStreaks",
-        "_id",
-        "streakName",
-        "streakDescription",
-        "userId",
-        "timezone",
-        "createdAt",
-        "updatedAt",
-        "__v"
-      ].sort()
-    );
-  });
-
   test("solo streaks not completed today can be retreived", async () => {
     expect.assertions(16);
 
