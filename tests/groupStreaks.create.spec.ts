@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const registeredEmail = "create-group-streak-user@gmail.com";
 const registeredUsername = "create-group-streak-user";
@@ -25,7 +26,7 @@ describe("POST /group-streaks", () => {
   });
 
   test(`group streak can be created with description and numberOfMinutes`, async () => {
-    expect.assertions(13);
+    expect.assertions(14);
 
     const streakName = "Reading";
     const streakDescription = "Everyday I must do 30 minutes of reading";
@@ -43,6 +44,7 @@ describe("POST /group-streaks", () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
+    expect(groupStreak.status).toEqual(StreakStatus.active);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
@@ -54,6 +56,7 @@ describe("POST /group-streaks", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
+        "status",
         "members",
         "creatorId",
         "streakName",
@@ -78,7 +81,7 @@ describe("POST /group-streaks", () => {
   });
 
   test(`group streak can be created without description or numberOfMinutes`, async () => {
-    expect.assertions(11);
+    expect.assertions(12);
 
     const streakName = "meditation";
     const members: { memberId: string; groupMemberStreakId?: string }[] = [
@@ -92,6 +95,7 @@ describe("POST /group-streaks", () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
+    expect(groupStreak.status).toEqual(StreakStatus.active);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.timezone).toEqual(londonTimezone);
@@ -101,6 +105,7 @@ describe("POST /group-streaks", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
+        "status",
         "members",
         "creatorId",
         "streakName",

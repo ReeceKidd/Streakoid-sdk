@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const email = "create-solo-streak-user@gmail.com";
 const username = "create-solo-streak-user";
@@ -29,7 +30,7 @@ describe("POST /solo-streaks", () => {
   });
 
   test(`creates solo streak with a description and numberOfMinutes`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const soloStreak = await streakoid.soloStreaks.create({
       userId: registeredUserId,
@@ -40,6 +41,7 @@ describe("POST /solo-streaks", () => {
 
     const {
       streakName,
+      status,
       streakDescription,
       numberOfMinutes,
       userId,
@@ -56,6 +58,7 @@ describe("POST /solo-streaks", () => {
     soloStreakId = _id;
 
     expect(streakName).toEqual(streakName);
+    expect(status).toEqual(StreakStatus.active);
     expect(streakDescription).toEqual(streakDescription);
     expect(numberOfMinutes).toEqual(streakNumberOfMinutes);
     expect(userId).toEqual(registeredUserId);
@@ -71,6 +74,7 @@ describe("POST /solo-streaks", () => {
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
         "currentStreak",
+        "status",
         "completedToday",
         "active",
         "activity",
@@ -89,7 +93,7 @@ describe("POST /solo-streaks", () => {
   });
 
   test(`creates solo streak without a description or number of minutes`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const soloStreak = await streakoid.soloStreaks.create({
       userId: registeredUserId,
@@ -98,6 +102,7 @@ describe("POST /solo-streaks", () => {
 
     const {
       streakName,
+      status,
       streakDescription,
       numberOfMinutes,
       userId,
@@ -112,6 +117,7 @@ describe("POST /solo-streaks", () => {
     } = soloStreak;
 
     expect(streakName).toEqual(streakName);
+    expect(status).toEqual(StreakStatus.active);
     expect(numberOfMinutes).toEqual(undefined);
     expect(streakDescription).toEqual("");
     expect(userId).toEqual(registeredUserId);
@@ -124,21 +130,24 @@ describe("POST /solo-streaks", () => {
     expect(pastStreaks).toEqual([]);
     expect(createdAt).toBeDefined();
     expect(updatedAt).toBeDefined();
-    expect(Object.keys(soloStreak)).toEqual([
-      "currentStreak",
-      "streakDescription",
-      "completedToday",
-      "active",
-      "activity",
-      "pastStreaks",
-      "_id",
-      "streakName",
-      "userId",
-      "timezone",
-      "createdAt",
-      "updatedAt",
-      "__v"
-    ]);
+    expect(Object.keys(soloStreak).sort()).toEqual(
+      [
+        "status",
+        "currentStreak",
+        "streakDescription",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "_id",
+        "streakName",
+        "userId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
 
     soloStreakNoDescriptionId = soloStreak._id;
   });

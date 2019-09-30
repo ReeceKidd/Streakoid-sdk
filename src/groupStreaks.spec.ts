@@ -59,7 +59,7 @@ describe("SDK groupStreaks", () => {
       );
     });
 
-    test("calls GET with correct URL when timezone query paramater is passed", async () => {
+    test("calls GET with correct URL when status query paramater is passed", async () => {
       expect.assertions(1);
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 

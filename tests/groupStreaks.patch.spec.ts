@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const registeredEmail = "patch-group-streak-user@gmail.com";
 const registeredUsername = "patch-group-streak-user";
@@ -36,7 +37,7 @@ describe(`PATCH /group-streaks`, () => {
   });
 
   test(`that request passes when group streak is patched with correct keys`, async () => {
-    expect.assertions(13);
+    expect.assertions(14);
 
     const updatedName = "Intermittent fasting";
     const updatedDescription = "Cannot eat till 1pm everyday";
@@ -56,6 +57,7 @@ describe(`PATCH /group-streaks`, () => {
     expect(groupStreak._id).toEqual(expect.any(String));
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(updatedName);
+    expect(groupStreak.status).toEqual(StreakStatus.active);
     expect(groupStreak.streakDescription).toEqual(updatedDescription);
     expect(groupStreak.timezone).toEqual(updatedTimezone);
     expect(groupStreak.numberOfMinutes).toEqual(numberOfMinutes);
@@ -68,6 +70,7 @@ describe(`PATCH /group-streaks`, () => {
         "_id",
         "creatorId",
         "streakName",
+        "status",
         "streakDescription",
         "timezone",
         "createdAt",

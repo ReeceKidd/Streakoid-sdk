@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const registeredEmail = "create-groupmember-user@gmail.com";
 const registeredUsername = "create-groupmember-user";
@@ -53,7 +54,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
   });
 
   test(`deletes member from group streak`, async () => {
-    expect.assertions(27);
+    expect.assertions(28);
 
     const { status } = await streakoid.groupStreaks.groupMembers.deleteOne({
       groupStreakId: createdGroupStreakId,
@@ -67,6 +68,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
     );
 
     expect(updatedGroupStreak._id).toEqual(expect.any(String));
+    expect(updatedGroupStreak.status).toEqual(StreakStatus.active);
     expect(updatedGroupStreak.creatorId).toEqual(registeredUserId);
     expect(updatedGroupStreak.streakName).toEqual(streakName);
     expect(updatedGroupStreak.streakDescription).toEqual(streakDescription);
@@ -83,6 +85,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
 
     expect(Object.keys(updatedGroupStreak)).toEqual([
       "_id",
+      "status",
       "members",
       "creatorId",
       "streakName",

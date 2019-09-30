@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const registeredEmail = "create-groupMember-user@gmail.com";
 const registeredUsername = "create-groupmember-user";
@@ -48,7 +49,7 @@ describe("POST /group-streaks/:id/members", () => {
   });
 
   test(`adds friend to group streak`, async () => {
-    expect.assertions(47);
+    expect.assertions(48);
 
     const members = await streakoid.groupStreaks.groupMembers.create({
       friendId,
@@ -78,6 +79,7 @@ describe("POST /group-streaks/:id/members", () => {
     expect(updatedGroupStreak._id).toEqual(expect.any(String));
     expect(updatedGroupStreak.creatorId).toEqual(registeredUserId);
     expect(updatedGroupStreak.streakName).toEqual(streakName);
+    expect(updatedGroupStreak.status).toEqual(StreakStatus.active);
     expect(updatedGroupStreak.streakDescription).toEqual(streakDescription);
     expect(updatedGroupStreak.timezone).toEqual(londonTimezone);
     expect(updatedGroupStreak.createdAt).toEqual(expect.any(String));
@@ -92,6 +94,7 @@ describe("POST /group-streaks/:id/members", () => {
     expect(Object.keys(updatedGroupStreak).sort()).toEqual(
       [
         "_id",
+        "status",
         "members",
         "creatorId",
         "streakName",

@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const email = "get-solo-streaks@gmail.com";
 const username = "get-solo-streaks-user";
@@ -38,7 +39,7 @@ describe("GET /solo-streaks", () => {
   });
 
   test(`solo streaks can be retreived with user query parameter`, async () => {
-    expect.assertions(15);
+    expect.assertions(16);
 
     const soloStreaks = await streakoid.soloStreaks.getAll({ userId });
     expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
@@ -48,6 +49,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.currentStreak).toEqual({
       numberOfDaysInARow: 0
     });
+    expect(soloStreak.status).toEqual(StreakStatus.active);
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
       "numberOfDaysInARow"
     ]);
@@ -64,6 +66,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
+        "status",
         "currentStreak",
         "completedToday",
         "active",
@@ -82,7 +85,7 @@ describe("GET /solo-streaks", () => {
   });
 
   test(`that solo streaks can be retreieved with timezone query parameter`, async () => {
-    expect.assertions(15);
+    expect.assertions(16);
 
     const soloStreaks = await streakoid.soloStreaks.getAll({
       timezone: londonTimezone
@@ -94,6 +97,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.currentStreak).toEqual({
       numberOfDaysInARow: 0
     });
+    expect(soloStreak.status).toEqual(StreakStatus.active);
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
       "numberOfDaysInARow"
     ]);
@@ -102,15 +106,16 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.activity).toEqual(expect.any(Array));
     expect(soloStreak.pastStreaks).toEqual([]);
     expect(soloStreak._id).toEqual(expect.any(String));
-    expect(soloStreak.streakName).toEqual(soloStreakName);
-    expect(soloStreak.streakDescription).toEqual(soloStreakDescription);
-    expect(soloStreak.userId).toEqual(userId);
+    expect(soloStreak.streakName).toEqual(expect.any(String));
+    expect(soloStreak.streakDescription).toEqual(expect.any(String));
+    expect(soloStreak.userId).toEqual(expect.any(String));
     expect(soloStreak.timezone).toEqual(londonTimezone);
     expect(soloStreak.createdAt).toEqual(expect.any(String));
     expect(soloStreak.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
         "currentStreak",
+        "status",
         "completedToday",
         "active",
         "activity",
@@ -128,7 +133,7 @@ describe("GET /solo-streaks", () => {
   });
 
   test("solo streaks not completed today can be retreived", async () => {
-    expect.assertions(15);
+    expect.assertions(16);
 
     const soloStreaks = await streakoid.soloStreaks.getAll({
       completedToday: false,
@@ -142,6 +147,7 @@ describe("GET /solo-streaks", () => {
     expect(Object.keys(soloStreak.currentStreak)).toEqual([
       "numberOfDaysInARow"
     ]);
+    expect(soloStreak.status).toEqual(StreakStatus.active);
     expect(soloStreak.completedToday).toEqual(false);
     expect(soloStreak.active).toEqual(false);
     expect(soloStreak.activity).toEqual(expect.any(Array));
@@ -156,6 +162,7 @@ describe("GET /solo-streaks", () => {
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
         "currentStreak",
+        "status",
         "completedToday",
         "active",
         "activity",
@@ -173,7 +180,7 @@ describe("GET /solo-streaks", () => {
   });
 
   test("solo streaks that have been completed today can be retreived", async () => {
-    expect.assertions(16);
+    expect.assertions(17);
 
     const streakName = "30 minutes of reading";
     const streakDescription = "Every day I must do 30 minutes of reading";
@@ -200,6 +207,7 @@ describe("GET /solo-streaks", () => {
 
     const soloStreak = soloStreaks[0];
 
+    expect(soloStreak.status).toEqual(StreakStatus.active);
     expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(1);
     expect(soloStreak.currentStreak.startDate).toEqual(expect.any(String));
     expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(
@@ -218,6 +226,7 @@ describe("GET /solo-streaks", () => {
     expect(soloStreak.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
+        "status",
         "currentStreak",
         "completedToday",
         "active",

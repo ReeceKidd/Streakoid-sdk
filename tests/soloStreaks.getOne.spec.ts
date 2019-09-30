@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const email = "get-one-solo-streak@gmail.com";
 const username = "get-one-solo-streak-user";
@@ -35,11 +36,12 @@ describe("GET /solo-streaks/:soloStreakId", () => {
   });
 
   test(`solo streak can be retreived`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
 
     expect(soloStreak.streakName).toEqual(streakName);
+    expect(soloStreak.status).toEqual(StreakStatus.active);
     expect(soloStreak.streakDescription).toEqual(streakDescription);
     expect(soloStreak.userId).toEqual(userId);
     expect(soloStreak.completedToday).toEqual(false);
@@ -57,6 +59,7 @@ describe("GET /solo-streaks/:soloStreakId", () => {
     expect(Object.keys(soloStreak).sort()).toEqual(
       [
         "_id",
+        "status",
         "currentStreak",
         "completedToday",
         "active",

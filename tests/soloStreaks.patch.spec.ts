@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import StreakStatus from "../src/StreakStatus";
 
 const email = "patch-solo-streak-user@gmail.com";
 const username = "patch-solo-streak-user";
@@ -33,7 +34,7 @@ describe(`PATCH /solo-streaks`, () => {
   });
 
   test(`that request passes when solo streak is patched with correct keys`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const updatedName = "Intermittent fasting";
     const updatedDescription = "Cannot eat till 1pm everyday";
@@ -47,6 +48,7 @@ describe(`PATCH /solo-streaks`, () => {
     });
 
     expect(updatedSoloStreak.streakName).toEqual(updatedName);
+    expect(updatedSoloStreak.status).toEqual(StreakStatus.active);
     expect(updatedSoloStreak.streakDescription).toEqual(updatedDescription);
     expect(updatedSoloStreak.userId).toEqual(userId);
     expect(updatedSoloStreak.completedToday).toEqual(false);
@@ -64,6 +66,7 @@ describe(`PATCH /solo-streaks`, () => {
     expect(Object.keys(updatedSoloStreak).sort()).toEqual(
       [
         "currentStreak",
+        "status",
         "streakDescription",
         "completedToday",
         "active",
