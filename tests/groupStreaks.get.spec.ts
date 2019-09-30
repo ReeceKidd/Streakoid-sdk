@@ -275,6 +275,136 @@ describe("GET /group-streaks", () => {
     expect(Object.keys(currentStreak).sort()).toEqual(["numberOfDaysInARow"]);
   });
 
+  test(`archived group streaks can be retreived`, async () => {
+    expect.assertions(13);
+
+    await streakoid.groupStreaks.update({
+      groupStreakId: creatorIdGroupStreakId,
+      updateData: { status: StreakStatus.archived }
+    });
+
+    const groupStreaks = await streakoid.groupStreaks.getAll({
+      status: StreakStatus.archived
+    });
+    const groupStreak = groupStreaks[0];
+    expect(groupStreak.streakName).toEqual(expect.any(String));
+    expect(groupStreak.status).toEqual(StreakStatus.archived);
+    expect(groupStreak.streakDescription).toEqual(expect.any(String));
+    expect(groupStreak.creatorId).toEqual(expect.any(String));
+    expect(groupStreak.timezone).toEqual(expect.any(String));
+    expect(Object.keys(groupStreak).sort()).toEqual(
+      [
+        "_id",
+        "members",
+        "creatorId",
+        "streakName",
+        "status",
+        "streakDescription",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
+    const { members } = groupStreak;
+    expect(members.length).toEqual(1);
+
+    const member = members[0];
+    expect(member._id).toBeDefined();
+    expect(member.username).toEqual(registeredUsername);
+    expect(Object.keys(member).sort()).toEqual(
+      ["_id", "username", "groupMemberStreak"].sort()
+    );
+
+    const { groupMemberStreak } = member;
+    expect(Object.keys(groupMemberStreak).sort()).toEqual(
+      [
+        "_id",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "userId",
+        "groupStreakId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
+    const { currentStreak } = groupMemberStreak;
+    expect(currentStreak.numberOfDaysInARow).toEqual(0);
+    expect(Object.keys(currentStreak).sort()).toEqual(["numberOfDaysInARow"]);
+  });
+
+  test(`deleted group streaks can be retreived`, async () => {
+    expect.assertions(13);
+
+    await streakoid.groupStreaks.update({
+      groupStreakId: memberIdGroupStreakId,
+      updateData: { status: StreakStatus.deleted }
+    });
+
+    const groupStreaks = await streakoid.groupStreaks.getAll({
+      status: StreakStatus.deleted
+    });
+    const groupStreak = groupStreaks[0];
+    expect(groupStreak.streakName).toEqual(expect.any(String));
+    expect(groupStreak.status).toEqual(StreakStatus.deleted);
+    expect(groupStreak.streakDescription).toEqual(expect.any(String));
+    expect(groupStreak.creatorId).toEqual(expect.any(String));
+    expect(groupStreak.timezone).toEqual(expect.any(String));
+    expect(Object.keys(groupStreak).sort()).toEqual(
+      [
+        "_id",
+        "members",
+        "creatorId",
+        "streakName",
+        "status",
+        "streakDescription",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
+    const { members } = groupStreak;
+    expect(members.length).toEqual(1);
+
+    const member = members[0];
+    expect(member._id).toBeDefined();
+    expect(member.username).toEqual(registeredUsername);
+    expect(Object.keys(member).sort()).toEqual(
+      ["_id", "username", "groupMemberStreak"].sort()
+    );
+
+    const { groupMemberStreak } = member;
+    expect(Object.keys(groupMemberStreak).sort()).toEqual(
+      [
+        "_id",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "userId",
+        "groupStreakId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
+    const { currentStreak } = groupMemberStreak;
+    expect(currentStreak.numberOfDaysInARow).toEqual(0);
+    expect(Object.keys(currentStreak).sort()).toEqual(["numberOfDaysInARow"]);
+  });
+
   test("returns no group streaks when timezone with no group streaks is used", async () => {
     expect.assertions(1);
     const groupStreaks = await streakoid.groupStreaks.getAll({

@@ -76,6 +76,7 @@ export default (streakoidClient: AxiosInstance) => {
       streakDescription?: string;
       numberOfMinutes?: number;
       timezone?: string;
+      status?: StreakStatus;
     };
   }): Promise<GroupStreak> => {
     const { data } = await streakoidClient.patch(

@@ -118,11 +118,15 @@ describe("SDK groupStreaks", () => {
       const streakName = "streakName";
       const streakDescription = "streakDescription";
       const numberOfMinutes = 30;
+      const timezone = "Europe/London";
+      const status = StreakStatus.archived;
 
       const updateData = {
         streakName,
         streakDescription,
-        numberOfMinutes
+        numberOfMinutes,
+        timezone,
+        status
       };
 
       await streakoid.groupStreaks.update({
