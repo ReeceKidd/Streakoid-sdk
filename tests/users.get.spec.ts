@@ -157,4 +157,36 @@ describe("GET /users", () => {
       "__v"
     ]);
   });
+
+  test("returns exact user when email query paramater is used", async () => {
+    expect.assertions(13);
+
+    const users = await streakoid.users.getAll({ email });
+    expect(users.length).toBeGreaterThanOrEqual(1);
+
+    const user = users[0];
+    expect(Object.keys(user.stripe)).toEqual(["customer", "subscription"]);
+    expect(user.stripe.subscription).toEqual(null);
+    expect(user.stripe.customer).toEqual(null);
+    expect(user.type).toEqual(UserTypes.basic);
+    expect(user.friends).toEqual([]);
+    expect(user._id).toEqual(expect.any(String));
+    expect(user.username).toEqual(username);
+    expect(user.email).toEqual(email);
+    expect(user.timezone).toEqual(expect.any(String));
+    expect(user.createdAt).toEqual(expect.any(String));
+    expect(user.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(user)).toEqual([
+      "stripe",
+      "type",
+      "friends",
+      "_id",
+      "username",
+      "email",
+      "timezone",
+      "createdAt",
+      "updatedAt",
+      "__v"
+    ]);
+  });
 });

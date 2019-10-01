@@ -21,6 +21,16 @@ describe("SDK users", () => {
       );
     });
 
+    test("calls GET with correct URL without searchQuery paramater", async () => {
+      expect.assertions(1);
+
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+      await streakoid.users.getAll({});
+
+      expect(streakoidClient.get).toBeCalledWith(`/v1/users?`);
+    });
+
     test("calls GET with correct URL and username paramater", async () => {
       expect.assertions(1);
 
@@ -33,14 +43,14 @@ describe("SDK users", () => {
       );
     });
 
-    test("calls GET with correct URL without searchQuery paramater", async () => {
+    test("calls GET with correct URL and email paramater", async () => {
       expect.assertions(1);
 
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.users.getAll({});
+      await streakoid.users.getAll({ email: "email" });
 
-      expect(streakoidClient.get).toBeCalledWith(`/v1/users?`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/users?email=email&`);
     });
   });
 
