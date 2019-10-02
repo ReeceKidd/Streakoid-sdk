@@ -20,6 +20,8 @@ import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
+import FriendRequest from "./models/FriendRequest";
+import FriendRequestStatus from "./friendRequestStatus";
 
 export {
   streakoidClientFactory,
@@ -42,5 +44,7 @@ export {
   SoloStreak,
   StreakTrackingEvent,
   User,
-  SupportedRequestHeaders
+  SupportedRequestHeaders,
+  FriendRequest,
+  FriendRequestStatus
 };
