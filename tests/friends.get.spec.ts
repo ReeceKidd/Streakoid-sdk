@@ -1,6 +1,5 @@
 import { streakoid } from "../src/streakoid";
 
-
 const registeredEmail = "friends.get.user@gmail.com";
 const registeredUsername = "friends-get-user";
 
@@ -10,55 +9,56 @@ const friendUsername = "friend-get-username";
 jest.setTimeout(120000);
 
 describe("GET /users/:id/friends", () => {
-    let userId: string;
-    let friendId: string;
+  let userId: string;
+  let friendId: string;
 
-    beforeAll(async () => {
-        const userRegistrationResponse = await streakoid.users.create(
-            {
-                username: registeredUsername,
-                email: registeredEmail
-            }
-        );
-        userId = userRegistrationResponse._id;
+  beforeAll(async () => {
+    const userRegistrationResponse = await streakoid.users.create({
+      username: registeredUsername,
+      email: registeredEmail
+    });
+    userId = userRegistrationResponse._id;
 
-        const friendRegistrationResponse = await streakoid.users.create(
-            {
-                username: friendUsername,
-                email: friendEmail
-            }
-        );
-        friendId = friendRegistrationResponse._id;
+    const friendRegistrationResponse = await streakoid.users.create({
+      username: friendUsername,
+      email: friendEmail
+    });
+    friendId = friendRegistrationResponse._id;
 
-        await streakoid.users.friends.addFriend({ userId, friendId });
+    await streakoid.friendRequests.create({
+      requesterId: friendId,
+      requesteeId: userId
     });
 
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-    });
+    await streakoid.users.friends.addFriend({ userId, friendId });
+  });
 
-    test(`user can get a list of friends`, async () => {
-        expect.assertions(4);
+  afterAll(async () => {
+    await streakoid.users.deleteOne(userId);
+    await streakoid.users.deleteOne(friendId);
+  });
 
-        const friends = await streakoid.users.friends.getAll(userId);
-        expect(friends.length).toEqual(1);
+  test(`user can get a list of friends`, async () => {
+    expect.assertions(4);
 
-        const friend = friends[0];
-        expect(friend._id).toEqual(friendId);
-        expect(friend.username).toEqual(friendUsername);
-        expect(Object.keys(friend).sort()).toEqual(["username", "_id"].sort());
-    });
+    const friends = await streakoid.users.friends.getAll(userId);
+    expect(friends.length).toEqual(1);
 
-    test(`throws GetFriendsUserDoesNotExist error when user does not exist`, async () => {
-        expect.assertions(3);
+    const friend = friends[0];
+    expect(friend._id).toEqual(friendId);
+    expect(friend.username).toEqual(friendUsername);
+    expect(Object.keys(friend).sort()).toEqual(["username", "_id"].sort());
+  });
 
-        try {
-            await streakoid.users.friends.getAll("5d616c43e1dc592ce8bd487b");
-        } catch (err) {
-            expect(err.response.status).toEqual(400);
-            expect(err.response.data.message).toEqual("User does not exist.");
-            expect(err.response.data.code).toEqual("400-23");
-        }
-    });
+  test(`throws GetFriendsUserDoesNotExist error when user does not exist`, async () => {
+    expect.assertions(3);
+
+    try {
+      await streakoid.users.friends.getAll("5d616c43e1dc592ce8bd487b");
+    } catch (err) {
+      expect(err.response.status).toEqual(400);
+      expect(err.response.data.message).toEqual("User does not exist.");
+      expect(err.response.data.code).toEqual("400-23");
+    }
+  });
 });

@@ -29,8 +29,8 @@ describe("GET /friend-requests", () => {
     friendId = friend._id;
 
     const friendRequest = await streakoid.friendRequests.create({
-      requesterId: userId,
-      requesteeId: friendId
+      requesteeId: userId,
+      requesterId: friendId
     });
 
     friendRequestId = friendRequest._id;
@@ -46,7 +46,7 @@ describe("GET /friend-requests", () => {
     expect.assertions(8);
 
     const friendRequests = await streakoid.friendRequests.getAll({
-      requesterId: userId
+      requesterId: friendId
     });
     expect(friendRequests.length).toBeGreaterThanOrEqual(1);
 
@@ -55,8 +55,8 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesterId).toEqual(userId);
-    expect(friendRequest.requesteeId).toEqual(friendId);
+    expect(friendRequest.requesteeId).toEqual(userId);
+    expect(friendRequest.requesterId).toEqual(friendId);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
@@ -77,7 +77,7 @@ describe("GET /friend-requests", () => {
     expect.assertions(8);
 
     const friendRequests = await streakoid.friendRequests.getAll({
-      requesteeId: friendId
+      requesteeId: userId
     });
     expect(friendRequests.length).toBeGreaterThanOrEqual(1);
 
@@ -86,8 +86,8 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesterId).toEqual(userId);
-    expect(friendRequest.requesteeId).toEqual(friendId);
+    expect(friendRequest.requesteeId).toEqual(userId);
+    expect(friendRequest.requesterId).toEqual(friendId);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
@@ -117,8 +117,8 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesterId).toEqual(userId);
-    expect(friendRequest.requesteeId).toEqual(friendId);
+    expect(friendRequest.requesteeId).toEqual(userId);
+    expect(friendRequest.requesterId).toEqual(friendId);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));

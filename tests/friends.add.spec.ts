@@ -1,8 +1,9 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
 import UserTypes from "../src/userTypes";
+import { FriendRequestStatus } from "../src";
 
-const registeredEmail = "friends.add.user@gmail.com";
-const registeredUsername = "friends-add-user";
+const email = "friends.add.user@gmail.com";
+const username = "friends-add-user";
 
 const friendEmail = "friend.emai@gmail.com";
 const friendUsername = "friend-username@gmail.com";
@@ -15,36 +16,47 @@ jest.setTimeout(120000);
 describe("POST /users/:id/friends", () => {
   let userId: string;
   let friendId: string;
+  let friendRequestId: string;
+  let secondFriendRequestId: string;
   let secondFriendId: string;
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create({
-      username: registeredUsername,
-      email: registeredEmail
+    const user = await streakoid.users.create({
+      username,
+      email
     });
-    userId = registrationResponse._id;
+    userId = user._id;
 
-    const friendRegistrationResponse = await streakoid.users.create({
+    const friend = await streakoid.users.create({
       username: friendUsername,
       email: friendEmail
     });
-    friendId = friendRegistrationResponse._id;
+    friendId = friend._id;
 
-    const secondFriendRegistration = await streakoid.users.create({
+    const friendRequest = await streakoid.friendRequests.create({
+      requesteeId: userId,
+      requesterId: friendId
+    });
+
+    friendRequestId = friendRequest._id;
+
+    const secondFriend = await streakoid.users.create({
       username: secondFriendUsername,
       email: secondFriendEmail
     });
-    secondFriendId = secondFriendRegistration._id;
+    secondFriendId = secondFriend._id;
   });
 
   afterAll(async () => {
     await streakoid.users.deleteOne(userId);
     await streakoid.users.deleteOne(friendId);
     await streakoid.users.deleteOne(secondFriendId);
+    await streakoid.friendRequests.deleteOne(friendRequestId);
+    await streakoid.friendRequests.deleteOne(secondFriendRequestId);
   });
 
   test(`user can add a friend if they are not already on their friends list`, async () => {
-    expect.assertions(13);
+    expect.assertions(20);
 
     const updatedUser = await streakoid.users.friends.addFriend({
       userId,
@@ -58,8 +70,8 @@ describe("POST /users/:id/friends", () => {
     expect(updatedUser.stripe.subscription).toEqual(null);
     expect(updatedUser.stripe.customer).toEqual(null);
     expect(updatedUser._id).toEqual(expect.any(String));
-    expect(updatedUser.username).toEqual(registeredUsername);
-    expect(updatedUser.email).toEqual(registeredEmail);
+    expect(updatedUser.username).toEqual(username);
+    expect(updatedUser.email).toEqual(email);
     expect(updatedUser.timezone).toEqual(londonTimezone);
     expect(updatedUser.createdAt).toEqual(expect.any(String));
     expect(updatedUser.updatedAt).toEqual(expect.any(String));
@@ -80,10 +92,39 @@ describe("POST /users/:id/friends", () => {
         "__v"
       ].sort()
     );
+
+    const friendRequests = await streakoid.friendRequests.getAll({
+      requesteeId: userId,
+      requesterId: friendId
+    });
+    const acceptedFriendRequest = friendRequests[0];
+
+    expect(acceptedFriendRequest._id).toEqual(expect.any(String));
+    expect(acceptedFriendRequest.requesteeId).toEqual(userId);
+    expect(acceptedFriendRequest.requesterId).toEqual(friendId);
+    expect(acceptedFriendRequest.status).toEqual(FriendRequestStatus.accepted);
+    expect(acceptedFriendRequest.createdAt).toEqual(expect.any(String));
+    expect(acceptedFriendRequest.updatedAt).toEqual(expect.any(String));
+    expect(Object.keys(acceptedFriendRequest).sort()).toEqual(
+      [
+        "_id",
+        "requesterId",
+        "requesteeId",
+        "status",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
   });
 
   test(`user can't add the same friend twice`, async () => {
     expect.assertions(3);
+
+    await streakoid.friendRequests.create({
+      requesterId: secondFriendId,
+      requesteeId: userId
+    });
 
     await streakoid.users.friends.addFriend({
       userId,
@@ -99,6 +140,23 @@ describe("POST /users/:id/friends", () => {
       expect(err.response.status).toEqual(400);
       expect(err.response.data.message).toEqual("User is already a friend.");
       expect(err.response.data.code).toEqual("400-20");
+    }
+  });
+
+  test(`user can't add a friend without a friend request`, async () => {
+    expect.assertions(3);
+
+    try {
+      await streakoid.users.friends.addFriend({
+        userId: friendId,
+        friendId: secondFriendId
+      });
+    } catch (err) {
+      expect(err.response.status).toEqual(400);
+      expect(err.response.data.message).toEqual(
+        "Friend request does not exist."
+      );
+      expect(err.response.data.code).toEqual("400-48");
     }
   });
 

@@ -1,7 +1,6 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK friends", () => {
-  const APPLICATION_URL = "streakoid.com";
   const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {

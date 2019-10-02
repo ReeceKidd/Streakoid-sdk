@@ -47,6 +47,22 @@ export default (streakoidClient: AxiosInstance) => {
     return data;
   };
 
+  const update = async ({
+    friendRequestId,
+    updateData
+  }: {
+    friendRequestId: string;
+    updateData?: {
+      status: FriendRequestStatus;
+    };
+  }): Promise<FriendRequest> => {
+    const { data } = await streakoidClient.patch(
+      `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
+      updateData
+    );
+    return data;
+  };
+
   const deleteOne = (friendRequestId: string) => {
     return streakoidClient.delete(
       `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`
@@ -56,6 +72,7 @@ export default (streakoidClient: AxiosInstance) => {
   return {
     getAll,
     create,
+    update,
     deleteOne
   };
 };

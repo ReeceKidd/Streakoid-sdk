@@ -79,6 +79,26 @@ describe("SDK friendRequests", () => {
     });
   });
 
+  describe("update", () => {
+    test("calls PATCH with correct URL and  parmaters", async () => {
+      expect.assertions(1);
+
+      streakoidClient.patch = jest.fn().mockResolvedValue(true);
+      const updateData = {
+        status: FriendRequestStatus.rejected
+      };
+
+      await streakoid.friendRequests.update({
+        friendRequestId: "id",
+        updateData
+      });
+
+      expect(streakoidClient.patch).toBeCalledWith(`/v1/friend-requests/id`, {
+        ...updateData
+      });
+    });
+  });
+
   describe("deleteOne", () => {
     test("calls DELETE correct URL ", async () => {
       expect.assertions(1);
