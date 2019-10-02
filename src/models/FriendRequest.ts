@@ -1,4 +1,4 @@
-import FriendRequestStatus from "../friendRequestStatus";
+import FriendRequestStatus from "../FriendRequestStatus";
 
 interface FriendRequest {
   _id: string;

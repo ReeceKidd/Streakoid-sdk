@@ -21,7 +21,7 @@ import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequest from "./models/FriendRequest";
-import FriendRequestStatus from "./friendRequestStatus";
+import FriendRequestStatus from "./FriendRequestStatus";
 
 export {
   streakoidClientFactory,
