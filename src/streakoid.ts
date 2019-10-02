@@ -12,6 +12,7 @@ import groupMemberStreaks from "./groupMemberStreaks";
 import { getServiceConfig } from "./getServiceConfig";
 import { AxiosInstance } from "axios";
 import { streakoidClientFactory } from "./streakoidClient";
+import friendRequests from "./friendRequests";
 
 const { APPLICATION_URL } = getServiceConfig();
 
@@ -38,7 +39,8 @@ export const streakoidFactory = (streakoidClient: AxiosInstance) => {
     streakTrackingEvents: streakTrackingEvents(streakoidClient),
     agendaJobs: agendaJobs(streakoidClient),
     feedbacks: feedbacks(streakoidClient),
-    groupMemberStreaks: groupMemberStreaks(streakoidClient)
+    groupMemberStreaks: groupMemberStreaks(streakoidClient),
+    friendRequests: friendRequests(streakoidClient)
   };
 };
 
