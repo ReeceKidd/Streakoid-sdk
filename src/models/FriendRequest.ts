@@ -1,7 +1,7 @@
 import FriendRequestStatus from "../friendRequestStatus";
 
 interface FriendRequest {
-  id: string;
+  _id: string;
   requesterId: string;
   requesteeId: string;
   status: FriendRequestStatus;
