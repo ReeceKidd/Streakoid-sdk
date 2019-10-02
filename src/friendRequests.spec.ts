@@ -66,18 +66,15 @@ describe("SDK friendRequests", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
       const requesteeId = "userId";
       const requesterId = "streakName";
-      const status = FriendRequestStatus.pending;
 
       await streakoid.friendRequests.create({
         requesteeId,
-        requesterId,
-        status
+        requesterId
       });
 
       expect(streakoidClient.post).toBeCalledWith(`/v1/friend-requests`, {
         requesterId,
-        requesteeId,
-        status
+        requesteeId
       });
     });
   });

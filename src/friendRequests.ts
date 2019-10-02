@@ -34,8 +34,7 @@ export default (streakoidClient: AxiosInstance) => {
 
   const create = async ({
     requesterId,
-    requesteeId,
-    status
+    requesteeId
   }: {
     requesterId: string;
     requesteeId: string;
@@ -43,7 +42,7 @@ export default (streakoidClient: AxiosInstance) => {
   }): Promise<FriendRequest> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.friendRequests}`,
-      { requesterId, requesteeId, status }
+      { requesterId, requesteeId }
     );
     return data;
   };
