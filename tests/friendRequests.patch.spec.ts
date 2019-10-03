@@ -46,7 +46,7 @@ describe(`PATCH /friend-requests`, () => {
     expect.assertions(7);
 
     const rejectedFriendRequest = await streakoid.friendRequests.update({
-      friendRequestId: "random",
+      friendRequestId,
       updateData: { status: FriendRequestStatus.rejected }
     });
 
