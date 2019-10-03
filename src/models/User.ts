@@ -1,4 +1,5 @@
 import UserTypes from "../userTypes";
+import Friend from "./Friend";
 
 interface User {
   _id: string;
@@ -6,10 +7,7 @@ interface User {
   email: string;
   type: UserTypes;
   timezone: string;
-  friends: {
-    friendId: string;
-    username: string;
-  }[];
+  friends: Friend[];
   stripe: {
     customer: string;
     subscription: string;
