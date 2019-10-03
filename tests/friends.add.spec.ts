@@ -56,42 +56,21 @@ describe("POST /users/:id/friends", () => {
   });
 
   test(`user can add a friend if they are not already on their friends list`, async () => {
-    expect.assertions(20);
+    expect.assertions(11);
 
-    const updatedUser = await streakoid.users.friends.addFriend({
+    const updatedFriends = await streakoid.users.friends.addFriend({
       userId,
       friendId
     });
 
-    expect(Object.keys(updatedUser.stripe)).toEqual([
-      "customer",
-      "subscription"
-    ]);
-    expect(updatedUser.stripe.subscription).toEqual(null);
-    expect(updatedUser.stripe.customer).toEqual(null);
-    expect(updatedUser._id).toEqual(expect.any(String));
-    expect(updatedUser.username).toEqual(username);
-    expect(updatedUser.email).toEqual(email);
-    expect(updatedUser.timezone).toEqual(londonTimezone);
-    expect(updatedUser.createdAt).toEqual(expect.any(String));
-    expect(updatedUser.updatedAt).toEqual(expect.any(String));
-    expect(updatedUser.type).toEqual(UserTypes.basic);
-    expect(updatedUser.friends.length).toEqual(1);
-    expect(updatedUser.friends).toContain(friendId);
-    expect(Object.keys(updatedUser).sort()).toEqual(
-      [
-        "stripe",
-        "type",
-        "friends",
-        "_id",
-        "username",
-        "email",
-        "timezone",
-        "createdAt",
-        "updatedAt",
-        "__v"
-      ].sort()
-    );
+    expect(updatedFriends.length).toEqual(1);
+
+    const friend = updatedFriends[0];
+
+    expect(friend.friendId).toEqual(friendId);
+    expect(friend.username).toEqual(expect.any(String));
+
+    expect(Object.keys(friend).sort()).toEqual(["friendId", "username"].sort());
 
     const friendRequests = await streakoid.friendRequests.getAll({
       requesteeId: userId,

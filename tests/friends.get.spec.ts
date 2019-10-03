@@ -45,9 +45,9 @@ describe("GET /users/:id/friends", () => {
     expect(friends.length).toEqual(1);
 
     const friend = friends[0];
-    expect(friend._id).toEqual(friendId);
+    expect(friend.friendId).toEqual(friendId);
     expect(friend.username).toEqual(friendUsername);
-    expect(Object.keys(friend).sort()).toEqual(["username", "_id"].sort());
+    expect(Object.keys(friend).sort()).toEqual(["username", "friendId"].sort());
   });
 
   test(`throws GetFriendsUserDoesNotExist error when user does not exist`, async () => {
