@@ -57,11 +57,13 @@ export default (streakoidClient: AxiosInstance) => {
     };
   }): Promise<FriendRequest> => {
     try {
-      const { data } = await streakoidClient.patch(
+      const response = await streakoidClient.patch(
         `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
         updateData
       );
-      return data;
+      console.log("Made it here");
+      console.log(response);
+      return response.data;
     } catch (err) {
       return Promise.reject(err);
     }
