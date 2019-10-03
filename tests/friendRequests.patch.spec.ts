@@ -42,11 +42,11 @@ describe(`PATCH /friend-requests`, () => {
     await streakoid.friendRequests.deleteOne(friendRequestId);
   });
 
-  test(`friend request can be rejected.s`, async () => {
+  test.only(`friend request can be rejected.`, async () => {
     expect.assertions(7);
 
     const rejectedFriendRequest = await streakoid.friendRequests.update({
-      friendRequestId,
+      friendRequestId: "random",
       updateData: { status: FriendRequestStatus.rejected }
     });
 

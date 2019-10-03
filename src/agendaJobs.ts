@@ -4,9 +4,13 @@ import { AxiosInstance } from "axios";
 
 export default (streakoidClient: AxiosInstance) => {
   const deleteOne = (agendaJobId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

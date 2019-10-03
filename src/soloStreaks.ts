@@ -22,41 +22,49 @@ export default (streakoidClient: AxiosInstance) => {
     active?: boolean;
     status?: StreakStatus;
   }): Promise<SoloStreak[]> => {
-    let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
+    try {
+      let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
 
-    if (userId) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}userId=${userId}&`;
+      if (userId) {
+        getAllSoloStreaksURL = `${getAllSoloStreaksURL}userId=${userId}&`;
+      }
+
+      if (completedToday !== undefined) {
+        getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(
+          completedToday
+        )}&`;
+      }
+
+      if (timezone) {
+        getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}&`;
+      }
+
+      if (active !== undefined) {
+        getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(
+          active
+        )}&`;
+      }
+
+      if (status) {
+        getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
+      }
+
+      const { data } = await streakoidClient.get(getAllSoloStreaksURL);
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
     }
-
-    if (completedToday !== undefined) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(
-        completedToday
-      )}&`;
-    }
-
-    if (timezone) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}&`;
-    }
-
-    if (active !== undefined) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(
-        active
-      )}&`;
-    }
-
-    if (status) {
-      getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
-    }
-
-    const { data } = await streakoidClient.get(getAllSoloStreaksURL);
-    return data;
   };
 
   const getOne = async (soloStreakId: string): Promise<SoloStreak> => {
-    const { data } = await streakoidClient.get(
-      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.get(
+        `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const create = async ({
@@ -70,11 +78,15 @@ export default (streakoidClient: AxiosInstance) => {
     streakDescription?: string;
     numberOfMinutes?: number;
   }): Promise<SoloStreak> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
-      { userId, streakName, streakDescription, numberOfMinutes }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
+        { userId, streakName, streakDescription, numberOfMinutes }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const update = async ({
@@ -95,17 +107,25 @@ export default (streakoidClient: AxiosInstance) => {
       activity?: ActivityArray;
     };
   }): Promise<SoloStreak> => {
-    const { data } = await streakoidClient.patch(
-      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
-      updateData
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.patch(
+        `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
+        updateData
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (soloStreakId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

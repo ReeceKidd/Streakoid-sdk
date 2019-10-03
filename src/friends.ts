@@ -6,10 +6,14 @@ import Friend from "./models/Friend";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
-    const { data } = await streakoidClient.get(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.get(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const addFriend = async ({
@@ -19,19 +23,27 @@ export default (streakoidClient: AxiosInstance) => {
     userId: string;
     friendId: string;
   }): Promise<Friend[]> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
-      {
-        friendId
-      }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+        {
+          friendId
+        }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (userId: string, friendId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

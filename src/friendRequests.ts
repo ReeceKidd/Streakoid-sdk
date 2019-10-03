@@ -14,22 +14,26 @@ export default (streakoidClient: AxiosInstance) => {
     requesteeId?: string;
     status?: FriendRequestStatus;
   }): Promise<FriendRequest[]> => {
-    let getAllFriendRequestsURL = `/${ApiVersions.v1}/${RouterCategories.friendRequests}?`;
+    try {
+      let getAllFriendRequestsURL = `/${ApiVersions.v1}/${RouterCategories.friendRequests}?`;
 
-    if (requesterId) {
-      getAllFriendRequestsURL = `${getAllFriendRequestsURL}requesterId=${requesterId}&`;
+      if (requesterId) {
+        getAllFriendRequestsURL = `${getAllFriendRequestsURL}requesterId=${requesterId}&`;
+      }
+
+      if (requesteeId) {
+        getAllFriendRequestsURL = `${getAllFriendRequestsURL}requesteeId=${requesteeId}&`;
+      }
+
+      if (status) {
+        getAllFriendRequestsURL = `${getAllFriendRequestsURL}status=${status}&`;
+      }
+
+      const { data } = await streakoidClient.get(getAllFriendRequestsURL);
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
     }
-
-    if (requesteeId) {
-      getAllFriendRequestsURL = `${getAllFriendRequestsURL}requesteeId=${requesteeId}&`;
-    }
-
-    if (status) {
-      getAllFriendRequestsURL = `${getAllFriendRequestsURL}status=${status}&`;
-    }
-
-    const { data } = await streakoidClient.get(getAllFriendRequestsURL);
-    return data;
   };
 
   const create = async ({
@@ -40,11 +44,15 @@ export default (streakoidClient: AxiosInstance) => {
     requesteeId: string;
     status?: string;
   }): Promise<FriendRequest> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.friendRequests}`,
-      { requesterId, requesteeId }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.friendRequests}`,
+        { requesterId, requesteeId }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const update = async ({
@@ -61,8 +69,6 @@ export default (streakoidClient: AxiosInstance) => {
         `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
         updateData
       );
-      console.log("Made it here");
-      console.log(response);
       return response.data;
     } catch (err) {
       return Promise.reject(err);
@@ -70,9 +76,13 @@ export default (streakoidClient: AxiosInstance) => {
   };
 
   const deleteOne = (friendRequestId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

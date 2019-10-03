@@ -17,11 +17,15 @@ export default (streakoidClient: AxiosInstance) => {
     token: string;
     id: string;
   }): Promise<User> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.subscriptions}`,
-      { token, id }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.subscriptions}`,
+        { token, id }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteSubscription = async ({
@@ -31,11 +35,15 @@ export default (streakoidClient: AxiosInstance) => {
     subscription: string;
     userId: string;
   }): Promise<User> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.deleteSubscriptions}`,
-      { subscription, userId }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.deleteSubscriptions}`,
+        { subscription, userId }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

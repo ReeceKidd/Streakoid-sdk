@@ -17,23 +17,31 @@ export default (streakoidClient: AxiosInstance) => {
     userEmail: string;
     feedbackText: string;
   }): Promise<Feedback> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
-      {
-        userId,
-        pageUrl,
-        username,
-        userEmail,
-        feedbackText
-      }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
+        {
+          userId,
+          pageUrl,
+          username,
+          userEmail,
+          feedbackText
+        }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (feedbackId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

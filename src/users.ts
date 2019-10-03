@@ -14,23 +14,31 @@ export default (streakoidClient: AxiosInstance) => {
     username?: string;
     email?: string;
   }): Promise<User[]> => {
-    let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
-    if (searchQuery) {
-      getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}&`;
-    } else if (username) {
-      getAllUsersURL = `${getAllUsersURL}username=${username}&`;
-    } else if (email) {
-      getAllUsersURL = `${getAllUsersURL}email=${email}&`;
+    try {
+      let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
+      if (searchQuery) {
+        getAllUsersURL = `${getAllUsersURL}searchQuery=${searchQuery}&`;
+      } else if (username) {
+        getAllUsersURL = `${getAllUsersURL}username=${username}&`;
+      } else if (email) {
+        getAllUsersURL = `${getAllUsersURL}email=${email}&`;
+      }
+      const { data } = await streakoidClient.get(getAllUsersURL);
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
     }
-    const { data } = await streakoidClient.get(getAllUsersURL);
-    return data;
   };
 
   const getOne = async (userId: string): Promise<User> => {
-    const { data } = await streakoidClient.get(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.get(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const create = async ({
@@ -63,17 +71,25 @@ export default (streakoidClient: AxiosInstance) => {
       timezone?: string;
     };
   }): Promise<User> => {
-    const { data } = await streakoidClient.patch(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`,
-      updateData
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.patch(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`,
+        updateData
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (userId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
-    );
+    try {
+      return streakoidClient.delete(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`
+      );
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {
