@@ -43,7 +43,7 @@ describe(`PATCH /friend-requests`, () => {
   });
 
   test.only(`friend request can be rejected.`, async () => {
-    expect.assertions(7);
+    expect.assertions(11);
 
     const rejectedFriendRequest = await streakoid.friendRequests.update({
       friendRequestId,
@@ -51,8 +51,18 @@ describe(`PATCH /friend-requests`, () => {
     });
 
     expect(rejectedFriendRequest._id).toEqual(expect.any(String));
-    expect(rejectedFriendRequest.requesteeId).toEqual(userId);
-    expect(rejectedFriendRequest.requesterId).toEqual(friendId);
+    expect(rejectedFriendRequest.requestee._id).toEqual(userId);
+    expect(rejectedFriendRequest.requestee.username).toEqual(username);
+    expect(Object.keys(rejectedFriendRequest.requestee).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
+    expect(rejectedFriendRequest.requester._id).toEqual(friendId);
+    expect(rejectedFriendRequest.requester.username).toEqual(friendUsername);
+    expect(Object.keys(rejectedFriendRequest.requester).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
     expect(rejectedFriendRequest.status).toEqual(FriendRequestStatus.rejected);
     expect(rejectedFriendRequest.createdAt).toEqual(expect.any(String));
     expect(rejectedFriendRequest.updatedAt).toEqual(expect.any(String));

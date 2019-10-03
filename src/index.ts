@@ -22,6 +22,7 @@ import User from "./models/User";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequest from "./models/FriendRequest";
 import FriendRequestStatus from "./FriendRequestStatus";
+import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 
 export {
   streakoidClientFactory,
@@ -46,5 +47,6 @@ export {
   User,
   SupportedRequestHeaders,
   FriendRequest,
-  FriendRequestStatus
+  FriendRequestStatus,
+  PopulatedFriendRequest
 };

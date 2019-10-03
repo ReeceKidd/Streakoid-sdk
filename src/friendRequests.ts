@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import { FriendRequest, FriendRequestStatus } from ".";
+import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
@@ -13,7 +14,7 @@ export default (streakoidClient: AxiosInstance) => {
     requesterId?: string;
     requesteeId?: string;
     status?: FriendRequestStatus;
-  }): Promise<FriendRequest[]> => {
+  }): Promise<PopulatedFriendRequest[]> => {
     try {
       let getAllFriendRequestsURL = `/${ApiVersions.v1}/${RouterCategories.friendRequests}?`;
 
@@ -43,7 +44,7 @@ export default (streakoidClient: AxiosInstance) => {
     requesterId: string;
     requesteeId: string;
     status?: string;
-  }): Promise<FriendRequest> => {
+  }): Promise<PopulatedFriendRequest> => {
     try {
       const { data } = await streakoidClient.post(
         `/${ApiVersions.v1}/${RouterCategories.friendRequests}`,
@@ -63,7 +64,7 @@ export default (streakoidClient: AxiosInstance) => {
     updateData?: {
       status: FriendRequestStatus;
     };
-  }): Promise<FriendRequest> => {
+  }): Promise<PopulatedFriendRequest> => {
     try {
       const response = await streakoidClient.patch(
         `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
