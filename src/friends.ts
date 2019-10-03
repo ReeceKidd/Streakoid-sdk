@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import User from "./models/User";
 import Friend from "./models/Friend";
 
 export default (streakoidClient: AxiosInstance) => {
@@ -19,7 +18,7 @@ export default (streakoidClient: AxiosInstance) => {
   }: {
     userId: string;
     friendId: string;
-  }): Promise<User> => {
+  }): Promise<Friend[]> => {
     const { data } = await streakoidClient.post(
       `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
       {
