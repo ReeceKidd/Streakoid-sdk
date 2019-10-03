@@ -56,11 +56,15 @@ export default (streakoidClient: AxiosInstance) => {
       status: FriendRequestStatus;
     };
   }): Promise<FriendRequest> => {
-    const { data } = await streakoidClient.patch(
-      `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
-      updateData
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.patch(
+        `/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`,
+        updateData
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (friendRequestId: string) => {
