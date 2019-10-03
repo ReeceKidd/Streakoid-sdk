@@ -6,7 +6,10 @@ interface User {
   email: string;
   type: UserTypes;
   timezone: string;
-  friends: string[];
+  friends: {
+    friendId: string;
+    username: string;
+  }[];
   stripe: {
     customer: string;
     subscription: string;
