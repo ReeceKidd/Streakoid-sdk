@@ -133,7 +133,7 @@ describe("POST /users/:id/friends", () => {
     } catch (err) {
       expect(err.response.status).toEqual(400);
       expect(err.response.data.message).toEqual(
-        "Friend request does not exist."
+        "Friend request must exist to add friend."
       );
       expect(err.response.data.code).toEqual("400-48");
     }
