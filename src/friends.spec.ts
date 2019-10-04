@@ -35,13 +35,13 @@ describe("SDK friends", () => {
   });
 
   describe("deleteOne", () => {
-    test("calls DELETE correct URL ", async () => {
+    test("calls PATCH with correct URL ", async () => {
       expect.assertions(1);
-      streakoidClient.delete = jest.fn();
+      streakoidClient.patch = jest.fn().mockResolvedValue(true);
 
       await streakoid.users.friends.deleteOne("userId", "friendId");
 
-      expect(streakoidClient.delete).toBeCalledWith(
+      expect(streakoidClient.patch).toBeCalledWith(
         `/v1/users/userId/friends/friendId`
       );
     });

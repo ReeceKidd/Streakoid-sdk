@@ -172,7 +172,6 @@ describe("POST /users/:id/friends", () => {
         friendId: "5d54487483233622e43270f8"
       });
     } catch (err) {
-      console.log(err);
       expect(err.response.status).toEqual(400);
       expect(err.response.data.message).toEqual("Friend does not exist.");
       expect(err.response.data.code).toEqual("400-19");

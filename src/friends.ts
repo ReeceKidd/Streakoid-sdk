@@ -3,7 +3,6 @@ import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import Friend from "./models/Friend";
-import { User } from ".";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
