@@ -30,10 +30,10 @@ export default (streakoidClient: AxiosInstance) => {
           friendId
         }
       );
-      if (response.data) {
+      if (response && response.data) {
         return response.data;
       }
-      return Promise.reject(response);
+      return Promise.reject("No response");
     } catch (err) {
       if (err.response) {
         return Promise.reject(err.response);
