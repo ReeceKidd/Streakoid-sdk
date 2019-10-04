@@ -1,6 +1,6 @@
 {
   "name": "@streakoid/streakoid-sdk",
-  "version": "1.0.65",
+  "version": "1.0.66",
   "description": "Streakoid SDK",
   "main": "lib/index.js",
   "types": "lib",
