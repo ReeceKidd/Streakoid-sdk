@@ -1,9 +1,9 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
-import StreakStatus from "./StreakStatus";
 import { FriendRequestStatus } from ".";
 
 describe("SDK friendRequests", () => {
-  const streakoid = streakoidFactory(streakoidClient);
+  const applicationUrl = `streakoid.com`;
+  const streakoid = streakoidFactory(streakoidClient, applicationUrl);
 
   afterEach(() => {
     jest.resetAllMocks();

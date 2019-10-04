@@ -2,7 +2,8 @@ import { streakoidFactory, streakoidClient } from "./streakoid";
 jest.genMockFromModule("./streakoid");
 
 describe("SDK users", () => {
-  const streakoid = streakoidFactory(streakoidClient);
+  const applicationUrl = `streakoid.com`;
+  const streakoid = streakoidFactory(streakoidClient, applicationUrl);
 
   afterEach(() => {
     jest.resetAllMocks();
