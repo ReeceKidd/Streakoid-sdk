@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
@@ -23,26 +23,28 @@ export default (streakoidClient: AxiosInstance) => {
     userId: string;
     friendId: string;
   }): Promise<Friend[]> => {
-    try {
-      const response = await streakoidClient.post(
+    return streakoidClient
+      .post(
         `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
         {
           friendId
         }
-      );
-      if (response && response.data) {
-        return response.data;
-      }
-      return Promise.reject("No response");
-    } catch (err) {
-      if (err.response) {
-        return Promise.reject(err.response);
-      } else if (err.request) {
-        return Promise.reject(err.request);
-      } else {
-        return Promise.reject(err.message);
-      }
-    }
+      )
+      .then(response => {
+        if (response && response.data) {
+          return response.data;
+        }
+        return response;
+      })
+      .catch(err => {
+        if (err.response) {
+          return Promise.reject(err.response);
+        } else if (err.request) {
+          return Promise.reject(err.request);
+        } else {
+          return Promise.reject(err.message);
+        }
+      });
   };
 
   const deleteOne = (userId: string, friendId: string) => {
