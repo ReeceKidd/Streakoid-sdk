@@ -26,7 +26,7 @@ describe("POST /group-streaks", () => {
   });
 
   test(`group streak can be created with description and numberOfMinutes`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const streakName = "Reading";
     const streakDescription = "Everyday I must do 30 minutes of reading";
@@ -43,16 +43,38 @@ describe("POST /group-streaks", () => {
       members
     });
 
-    expect(groupStreak._id).toEqual(expect.any(String));
-    expect(groupStreak.status).toEqual(StreakStatus.live);
-    expect(groupStreak.creatorId).toEqual(userId);
+    expect(groupStreak.members.length).toEqual(1);
+    const member = groupStreak.members[0];
+    expect(member._id).toBeDefined();
+    expect(member.username).toEqual(expect.any(String));
+    expect(Object.keys(member).sort()).toEqual(
+      ["_id", "username", "groupMemberStreak"].sort()
+    );
+
+    const { groupMemberStreak } = member;
+    expect(Object.keys(groupMemberStreak).sort()).toEqual(
+      [
+        "_id",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "userId",
+        "groupStreakId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
     expect(groupStreak.numberOfMinutes).toEqual(numberOfMinutes);
+    expect(groupStreak.status).toEqual(StreakStatus.live);
+    expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.timezone).toEqual(londonTimezone);
-    expect(groupStreak.createdAt).toEqual(expect.any(String));
-    expect(groupStreak.updatedAt).toEqual(expect.any(String));
-
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
@@ -65,23 +87,21 @@ describe("POST /group-streaks", () => {
         "timezone",
         "createdAt",
         "updatedAt",
-        "__v"
+        "__v",
+        "creator"
       ].sort()
     );
 
-    expect(groupStreak.members.length).toEqual(1);
-    const member = groupStreak.members[0];
-    expect(member.groupMemberStreakId).toEqual(expect.any(String));
-    expect(member.memberId).toEqual(userId);
-    expect(Object.keys(groupStreak.members[0]).sort()).toEqual(
-      ["memberId", "groupMemberStreakId"].sort()
-    );
+    const { creator } = groupStreak;
+    expect(creator._id).toBeDefined();
+    expect(creator.username).toEqual(expect.any(String));
+    expect(Object.keys(creator).sort()).toEqual(["_id", "username"].sort());
 
     groupStreakId = groupStreak._id;
   });
 
   test(`group streak can be created without description or numberOfMinutes`, async () => {
-    expect.assertions(12);
+    expect.assertions(13);
 
     const streakName = "meditation";
     const members: { memberId: string; groupMemberStreakId?: string }[] = [
@@ -94,14 +114,36 @@ describe("POST /group-streaks", () => {
       members
     });
 
-    expect(groupStreak._id).toEqual(expect.any(String));
+    expect(groupStreak.members.length).toEqual(1);
+    const member = groupStreak.members[0];
+    expect(member._id).toBeDefined();
+    expect(member.username).toEqual(expect.any(String));
+    expect(Object.keys(member).sort()).toEqual(
+      ["_id", "username", "groupMemberStreak"].sort()
+    );
+
+    const { groupMemberStreak } = member;
+    expect(Object.keys(groupMemberStreak).sort()).toEqual(
+      [
+        "_id",
+        "currentStreak",
+        "completedToday",
+        "active",
+        "activity",
+        "pastStreaks",
+        "userId",
+        "groupStreakId",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v"
+      ].sort()
+    );
+
+    expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.creatorId).toEqual(userId);
-    expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.timezone).toEqual(londonTimezone);
-    expect(groupStreak.createdAt).toEqual(expect.any(String));
-    expect(groupStreak.updatedAt).toEqual(expect.any(String));
-
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
@@ -112,17 +154,15 @@ describe("POST /group-streaks", () => {
         "timezone",
         "createdAt",
         "updatedAt",
-        "__v"
+        "__v",
+        "creator"
       ].sort()
     );
 
-    expect(groupStreak.members.length).toEqual(1);
-    const member = groupStreak.members[0];
-    expect(member.groupMemberStreakId).toEqual(expect.any(String));
-    expect(member.memberId).toEqual(userId);
-    expect(Object.keys(groupStreak.members[0]).sort()).toEqual(
-      ["memberId", "groupMemberStreakId"].sort()
-    );
+    const { creator } = groupStreak;
+    expect(creator._id).toBeDefined();
+    expect(creator.username).toEqual(expect.any(String));
+    expect(Object.keys(creator).sort()).toEqual(["_id", "username"].sort());
 
     secondGroupStreakId = groupStreak._id;
   });

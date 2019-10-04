@@ -65,7 +65,7 @@ export default (streakoidClient: AxiosInstance) => {
     members: { memberId: string; groupMemberStreakId?: string }[];
     streakDescription?: string;
     numberOfMinutes?: number;
-  }): Promise<GroupStreak> => {
+  }): Promise<PopulatedGroupStreak> => {
     try {
       const { data } = await streakoidClient.post(
         `/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
