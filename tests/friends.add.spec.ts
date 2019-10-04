@@ -107,7 +107,7 @@ describe("POST /users/:id/friends", () => {
     );
   });
 
-  test(`user can't add the same friend twice`, async () => {
+  test.only(`user can't add the same friend twice`, async () => {
     expect.assertions(3);
 
     await streakoid.friendRequests.create({
@@ -126,6 +126,7 @@ describe("POST /users/:id/friends", () => {
         friendId: secondFriendId
       });
     } catch (err) {
+      console.log(err);
       expect(err.response.status).toEqual(400);
       expect(err.response.data.message).toEqual("User is already a friend.");
       expect(err.response.data.code).toEqual("400-20");
