@@ -42,7 +42,7 @@ describe(`PATCH /friend-requests`, () => {
     await streakoid.friendRequests.deleteOne(friendRequestId);
   });
 
-  test.only(`friend request can be rejected.`, async () => {
+  test(`friend request can be rejected.`, async () => {
     expect.assertions(11);
 
     const rejectedFriendRequest = await streakoid.friendRequests.update({
@@ -69,8 +69,8 @@ describe(`PATCH /friend-requests`, () => {
     expect(Object.keys(rejectedFriendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",

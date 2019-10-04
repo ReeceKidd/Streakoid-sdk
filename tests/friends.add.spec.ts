@@ -97,8 +97,8 @@ describe("POST /users/:id/friends", () => {
     expect(Object.keys(acceptedFriendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",

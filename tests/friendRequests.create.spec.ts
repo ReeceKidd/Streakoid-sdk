@@ -36,7 +36,7 @@ describe("POST /friend-requests", () => {
   });
 
   test(`creates friend request`, async () => {
-    expect.assertions(7);
+    expect.assertions(11);
 
     const friendRequest = await streakoid.friendRequests.create({
       requesterId: userId,
@@ -46,16 +46,26 @@ describe("POST /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesterId).toEqual(userId);
-    expect(friendRequest.requesteeId).toEqual(friendId);
+    expect(friendRequest.requester._id).toEqual(userId);
+    expect(friendRequest.requester.username).toEqual(username);
+    expect(Object.keys(friendRequest.requester).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
+    expect(friendRequest.requestee._id).toEqual(friendId);
+    expect(friendRequest.requestee.username).toEqual(friendUsername);
+    expect(Object.keys(friendRequest.requestee).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(friendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",

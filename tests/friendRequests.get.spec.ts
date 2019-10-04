@@ -43,7 +43,7 @@ describe("GET /friend-requests", () => {
   });
 
   test(`friend requests can be retreived with requesterId query parameter`, async () => {
-    expect.assertions(8);
+    expect.assertions(12);
 
     const friendRequests = await streakoid.friendRequests.getAll({
       requesterId: friendId
@@ -55,16 +55,26 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesteeId).toEqual(userId);
-    expect(friendRequest.requesterId).toEqual(friendId);
+    expect(friendRequest.requestee._id).toEqual(userId);
+    expect(friendRequest.requestee.username).toEqual(username);
+    expect(Object.keys(friendRequest.requestee).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
+    expect(friendRequest.requester._id).toEqual(friendId);
+    expect(friendRequest.requester.username).toEqual(friendUsername);
+    expect(Object.keys(friendRequest.requester).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(friendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",
@@ -74,7 +84,7 @@ describe("GET /friend-requests", () => {
   });
 
   test(`friend requests can be retreived with requesteeId query parameter`, async () => {
-    expect.assertions(8);
+    expect.assertions(12);
 
     const friendRequests = await streakoid.friendRequests.getAll({
       requesteeId: userId
@@ -86,16 +96,26 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesteeId).toEqual(userId);
-    expect(friendRequest.requesterId).toEqual(friendId);
+    expect(friendRequest.requestee._id).toEqual(userId);
+    expect(friendRequest.requestee.username).toEqual(username);
+    expect(Object.keys(friendRequest.requestee).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
+    expect(friendRequest.requester._id).toEqual(friendId);
+    expect(friendRequest.requester.username).toEqual(friendUsername);
+    expect(Object.keys(friendRequest.requester).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(friendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",
@@ -105,7 +125,7 @@ describe("GET /friend-requests", () => {
   });
 
   test(`pending friend requests can be retreived with status query parameter`, async () => {
-    expect.assertions(8);
+    expect.assertions(12);
 
     const friendRequests = await streakoid.friendRequests.getAll({
       status: FriendRequestStatus.pending
@@ -117,16 +137,26 @@ describe("GET /friend-requests", () => {
     friendRequestId = friendRequest._id;
 
     expect(friendRequest._id).toEqual(expect.any(String));
-    expect(friendRequest.requesteeId).toEqual(userId);
-    expect(friendRequest.requesterId).toEqual(friendId);
+    expect(friendRequest.requestee._id).toEqual(userId);
+    expect(friendRequest.requestee.username).toEqual(username);
+    expect(Object.keys(friendRequest.requestee).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
+    expect(friendRequest.requester._id).toEqual(friendId);
+    expect(friendRequest.requester.username).toEqual(friendUsername);
+    expect(Object.keys(friendRequest.requester).sort()).toEqual([
+      "_id",
+      "username"
+    ]);
     expect(friendRequest.status).toEqual(FriendRequestStatus.pending);
     expect(friendRequest.createdAt).toEqual(expect.any(String));
     expect(friendRequest.updatedAt).toEqual(expect.any(String));
     expect(Object.keys(friendRequest).sort()).toEqual(
       [
         "_id",
-        "requesterId",
-        "requesteeId",
+        "requester",
+        "requestee",
         "status",
         "createdAt",
         "updatedAt",
