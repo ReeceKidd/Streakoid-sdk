@@ -31,7 +31,10 @@ export default (streakoidClient: AxiosInstance) => {
         }
       )
       .then(response => {
-        return response.data;
+        if (response.data) {
+          return response.data;
+        }
+        return Promise.reject(response);
       })
       .catch(err => {
         return Promise.reject(err);
