@@ -1,14 +1,21 @@
-import { AxiosInstance } from "axios";
+import axios from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import Friend from "./models/Friend";
+import SupportedRequestHeaders from "./SupportedRequestHeaders";
 
-export default (streakoidClient: AxiosInstance) => {
+export default (applicationUrl: string, timezone: string) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
     try {
-      const { data } = await streakoidClient.get(
-        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`
+      const { data } = await axios.get(
+        `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            [SupportedRequestHeaders.xTimezone]: timezone
+          }
+        }
       );
       return data;
     } catch (err) {
@@ -23,34 +30,35 @@ export default (streakoidClient: AxiosInstance) => {
     userId: string;
     friendId: string;
   }): Promise<Friend[]> => {
-    return streakoidClient
-      .post(
-        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+    try {
+      const { data } = await axios.post(
+        `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
         {
           friendId
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            [SupportedRequestHeaders.xTimezone]: timezone
+          }
         }
-      )
-      .then(response => {
-        if (response && response.data) {
-          return response.data;
-        }
-        return response;
-      })
-      .catch(err => {
-        if (err.response) {
-          return Promise.reject(err.response);
-        } else if (err.request) {
-          return Promise.reject(err.request);
-        } else {
-          return Promise.reject(err.message);
-        }
-      });
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (userId: string, friendId: string) => {
     try {
-      return streakoidClient.delete(
-        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
+      return axios.delete(
+        `${applicationUrl}/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            [SupportedRequestHeaders.xTimezone]: timezone
+          }
+        }
       );
     } catch (err) {
       return Promise.reject(err);

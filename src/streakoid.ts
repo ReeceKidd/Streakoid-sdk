@@ -33,7 +33,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance) => {
     stripe: stripe(streakoidClient),
     users: {
       ...usersFactory(streakoidClient),
-      friends: friends(streakoidClient)
+      friends: friends(APPLICATION_URL, londonTimezone)
     },
     groupStreaks: groupStreaks(streakoidClient),
     streakTrackingEvents: streakTrackingEvents(streakoidClient),
