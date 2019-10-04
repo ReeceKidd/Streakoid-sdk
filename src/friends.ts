@@ -19,13 +19,17 @@ export default (streakoidClient: AxiosInstance) => {
     userId: string;
     friendId: string;
   }): Promise<Friend[]> => {
-    const { data } = await streakoidClient.post(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
-      {
-        friendId
-      }
-    );
-    return data;
+    try {
+      const { data } = await streakoidClient.post(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+        {
+          friendId
+        }
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   const deleteOne = (userId: string, friendId: string) => {
