@@ -12,9 +12,6 @@ export default (streakoidClient: AxiosInstance) => {
     return data;
   };
 
-  // See if I can get these error messages to display and then remove
-  // all promise.rejects.
-
   const addFriend = async ({
     userId,
     friendId
@@ -22,19 +19,13 @@ export default (streakoidClient: AxiosInstance) => {
     userId: string;
     friendId: string;
   }): Promise<Friend[]> => {
-    return streakoidClient
-      .post(
-        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
-        {
-          friendId
-        }
-      )
-      .then(response => {
-        return response.data;
-      })
-      .catch(err => {
-        return err;
-      });
+    const { data } = await streakoidClient.post(
+      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
+      {
+        friendId
+      }
+    );
+    return data;
   };
 
   const deleteOne = (userId: string, friendId: string) => {
