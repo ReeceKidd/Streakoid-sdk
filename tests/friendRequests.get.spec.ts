@@ -1,5 +1,4 @@
-import { streakoid, londonTimezone } from "../src/streakoid";
-import StreakStatus from "../src/StreakStatus";
+import { streakoid } from "../src/streakoid";
 import { FriendRequestStatus } from "../src";
 
 const email = "get-all-friend-request-user@gmail.com";

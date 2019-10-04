@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import Friend from "./models/Friend";
+import { User } from ".";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async (userId: string): Promise<Friend[]> => {
@@ -32,10 +33,18 @@ export default (streakoidClient: AxiosInstance) => {
     }
   };
 
-  const deleteOne = (userId: string, friendId: string) => {
-    return streakoidClient.delete(
-      `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
-    );
+  const deleteOne = async (
+    userId: string,
+    friendId: string
+  ): Promise<Friend[]> => {
+    try {
+      const { data } = await streakoidClient.patch(
+        `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}/${friendId}`
+      );
+      return data;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   };
 
   return {

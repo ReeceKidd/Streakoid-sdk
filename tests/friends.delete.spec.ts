@@ -38,14 +38,11 @@ describe("DELETE /users/:userId/friends/:friendId", () => {
     await streakoid.users.deleteOne(friendId);
   });
 
-  test(`user can delete a friend`, async () => {
+  test.only(`user can delete a friend`, async () => {
     expect.assertions(1);
 
-    const deleteFriendResponse = await streakoid.users.friends.deleteOne(
-      userId,
-      friendId
-    );
-    expect(deleteFriendResponse.status).toBe(204);
+    const friends = await streakoid.users.friends.deleteOne(userId, friendId);
+    expect(friends.length).toEqual(0);
   });
 
   test(`can't delete a friend for a user that does not exist`, async () => {
