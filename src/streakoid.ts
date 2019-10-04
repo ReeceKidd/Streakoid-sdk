@@ -23,10 +23,7 @@ export const streakoidClient = streakoidClientFactory(
   londonTimezone
 );
 
-export const streakoidFactory = (
-  streakoidClient: AxiosInstance,
-  applictionUrl: string
-) => {
+export const streakoidFactory = (streakoidClient: AxiosInstance) => {
   return {
     completeSoloStreakTasks: completeSoloStreakTasks(streakoidClient),
     completeGroupMemberStreakTasks: completeGroupMemberStreakTasks(
@@ -36,7 +33,7 @@ export const streakoidFactory = (
     stripe: stripe(streakoidClient),
     users: {
       ...usersFactory(streakoidClient),
-      friends: friends(applictionUrl, londonTimezone)
+      friends: friends(streakoidClient)
     },
     groupStreaks: groupStreaks(streakoidClient),
     streakTrackingEvents: streakTrackingEvents(streakoidClient),
@@ -47,4 +44,4 @@ export const streakoidFactory = (
   };
 };
 
-export const streakoid = streakoidFactory(streakoidClient, APPLICATION_URL);
+export const streakoid = streakoidFactory(streakoidClient);

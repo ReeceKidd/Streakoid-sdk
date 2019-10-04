@@ -1,8 +1,7 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
 
 describe("SDK completeSoloStreakTasks", () => {
-  const applicationUrl = `streakoid.com`;
-  const streakoid = streakoidFactory(streakoidClient, applicationUrl);
+  const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
     jest.resetAllMocks();
