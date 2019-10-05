@@ -1,5 +1,6 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
 import StreakStatus from "../src/StreakStatus";
+import { GroupStreakType } from "../src";
 
 const registeredEmail = "create-group-streak-user@gmail.com";
 const registeredUsername = "create-group-streak-user";
@@ -78,6 +79,7 @@ describe("POST /group-streaks", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
+        "type",
         "status",
         "members",
         "creatorId",
@@ -101,7 +103,7 @@ describe("POST /group-streaks", () => {
   });
 
   test(`group streak can be created without description or numberOfMinutes`, async () => {
-    expect.assertions(13);
+    expect.assertions(14);
 
     const streakName = "meditation";
     const members: { memberId: string; groupMemberStreakId?: string }[] = [
@@ -141,12 +143,14 @@ describe("POST /group-streaks", () => {
     );
 
     expect(groupStreak.streakName).toEqual(streakName);
+    expect(groupStreak.type).toEqual(GroupStreakType.team);
     expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.timezone).toEqual(londonTimezone);
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
+        "type",
         "status",
         "members",
         "creatorId",

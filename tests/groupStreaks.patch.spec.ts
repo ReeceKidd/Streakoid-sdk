@@ -1,5 +1,6 @@
 import { streakoid } from "../src/streakoid";
 import StreakStatus from "../src/StreakStatus";
+import { GroupStreakType } from "../src";
 
 const registeredEmail = "patch-group-streak-user@gmail.com";
 const registeredUsername = "patch-group-streak-user";
@@ -37,7 +38,7 @@ describe(`PATCH /group-streaks`, () => {
   });
 
   test(`that request passes when group streak is patched with correct keys`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const updatedName = "Intermittent fasting";
     const updatedDescription = "Cannot eat till 1pm everyday";
@@ -55,6 +56,7 @@ describe(`PATCH /group-streaks`, () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
+    expect(groupStreak.type).toEqual(GroupStreakType.team);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(updatedName);
     expect(groupStreak.status).toEqual(StreakStatus.live);
@@ -68,6 +70,7 @@ describe(`PATCH /group-streaks`, () => {
       [
         "members",
         "_id",
+        "type",
         "creatorId",
         "streakName",
         "status",

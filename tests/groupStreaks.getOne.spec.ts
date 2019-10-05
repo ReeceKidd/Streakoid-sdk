@@ -1,5 +1,6 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
 import StreakStatus from "../src/StreakStatus";
+import { GroupStreakType } from "../src";
 
 const email = "get--one-group-streak@gmail.com";
 const username = "get-one-group-streak-user";
@@ -38,7 +39,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
   });
 
   test(`group streak can be retreived with populated member information`, async () => {
-    expect.assertions(14);
+    expect.assertions(15);
 
     const groupStreak = await streakoid.groupStreaks.getOne(groupStreakId);
 
@@ -68,6 +69,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
       ].sort()
     );
 
+    expect(groupStreak.type).toEqual(GroupStreakType.team);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
@@ -76,6 +78,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
+        "type",
         "status",
         "members",
         "creatorId",

@@ -38,7 +38,7 @@ describe("DELETE /users/:userId/friends/:friendId", () => {
     await streakoid.users.deleteOne(friendId);
   });
 
-  test.only(`user can delete a friend`, async () => {
+  test(`user can delete a friend`, async () => {
     expect.assertions(1);
 
     const friends = await streakoid.users.friends.deleteOne(userId, friendId);
