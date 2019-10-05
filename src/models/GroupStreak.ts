@@ -1,7 +1,9 @@
 import StreakStatus from "../StreakStatus";
+import GroupStreakType from "../GroupStreakType";
 
 interface GroupStreak {
   _id: string;
+  type: GroupStreakType;
   creatorId: string;
   streakName: string;
   status: StreakStatus;

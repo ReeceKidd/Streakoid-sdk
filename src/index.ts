@@ -23,6 +23,7 @@ import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequest from "./models/FriendRequest";
 import FriendRequestStatus from "./FriendRequestStatus";
 import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
+import GroupStreakType from "./GroupStreakType";
 
 export {
   streakoidClientFactory,
@@ -48,5 +49,6 @@ export {
   SupportedRequestHeaders,
   FriendRequest,
   FriendRequestStatus,
-  PopulatedFriendRequest
+  PopulatedFriendRequest,
+  GroupStreakType
 };
