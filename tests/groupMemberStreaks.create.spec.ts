@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
+import { GroupStreakType } from "../src";
 
 const registeredEmail = "create-groupMember-streak-user@gmail.com";
 const registeredUsername = "create-groupMember-streak-user";
@@ -24,6 +25,7 @@ describe("POST /group-member-streaks", () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: registeredUserId,
+      type: GroupStreakType.team,
       streakName,
       streakDescription,
       members

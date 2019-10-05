@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import { GroupStreakType } from "../src";
 
 const email = "get-complete-group-member-task@gmail.com";
 const username = "get-complete-group-member-task";
@@ -21,12 +22,13 @@ describe("GET /complete-group-member-streak-tasks", () => {
     userId = registrationResponse._id;
     const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
+    const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
+      type: GroupStreakType.team,
       streakName,
       members
     });
-    groupStreakId = createGroupStreakResponse._id;
+    groupStreakId = groupStreak._id;
 
     const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
       {

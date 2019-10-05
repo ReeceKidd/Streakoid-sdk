@@ -1,4 +1,5 @@
 import { streakoid } from "../src/streakoid";
+import { GroupStreakType } from "../src";
 
 const email = "delete-group-streak-user@gmail.com";
 const username = "delete-group-streak-user";
@@ -23,6 +24,7 @@ describe(`DELETE /group-streaks`, () => {
 
     const createSoloStreakResponse = await streakoid.groupStreaks.create({
       creatorId,
+      type: GroupStreakType.team,
       streakName: name,
       streakDescription: description,
       members

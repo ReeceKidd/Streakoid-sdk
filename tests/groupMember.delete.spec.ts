@@ -86,20 +86,22 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
     expect(updatedGroupStreak.creator._id).toEqual(registeredUserId);
     expect(updatedGroupStreak.creator.username).toEqual(registeredUsername);
 
-    expect(Object.keys(updatedGroupStreak)).toEqual([
-      "_id",
-      "type",
-      "status",
-      "members",
-      "creatorId",
-      "streakName",
-      "streakDescription",
-      "timezone",
-      "createdAt",
-      "updatedAt",
-      "__v",
-      "creator"
-    ]);
+    expect(Object.keys(updatedGroupStreak).sort()).toEqual(
+      [
+        "_id",
+        "type",
+        "status",
+        "members",
+        "creatorId",
+        "streakName",
+        "streakDescription",
+        "timezone",
+        "createdAt",
+        "updatedAt",
+        "__v",
+        "creator"
+      ].sort()
+    );
 
     expect(updatedGroupStreak.members.length).toEqual(1);
 
