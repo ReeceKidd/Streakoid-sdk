@@ -1,8 +1,10 @@
 import PopulatedMember from "./PopulatedMember";
 import StreakStatus from "../StreakStatus";
+import GroupStreakType from "../GroupStreakType";
 
 interface PopulatedGroupStreak {
   _id: string;
+  type: GroupStreakType;
   creatorId: string;
   streakName: string;
   status: StreakStatus;
