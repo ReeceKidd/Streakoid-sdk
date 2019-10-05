@@ -38,6 +38,7 @@ describe("POST /group-streaks", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
+      type: GroupStreakType.team,
       streakName,
       streakDescription,
       numberOfMinutes,
@@ -112,6 +113,7 @@ describe("POST /group-streaks", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
+      type: GroupStreakType.team,
       streakName,
       members
     });

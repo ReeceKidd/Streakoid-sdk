@@ -25,6 +25,7 @@ describe(`PATCH /group-streaks`, () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: userId,
+      type: GroupStreakType.team,
       streakName,
       streakDescription,
       members

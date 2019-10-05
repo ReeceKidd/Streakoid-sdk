@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
 import StreakStatus from "./StreakStatus";
+import GroupStreakType from "./GroupStreakType";
 
 describe("SDK groupStreaks", () => {
   const streakoid = streakoidFactory(streakoidClient);
@@ -29,6 +30,19 @@ describe("SDK groupStreaks", () => {
 
       expect(streakoidClient.get).toBeCalledWith(
         `/v1/group-streaks?creatorId=${creatorId}&`
+      );
+    });
+
+    test("calls GET with correct URL when type query paramater is passed", async () => {
+      expect.assertions(1);
+      streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+      const type = GroupStreakType.team;
+
+      await streakoid.groupStreaks.getAll({ type });
+
+      expect(streakoidClient.get).toBeCalledWith(
+        `/v1/group-streaks?type=${type}&`
       );
     });
 
@@ -89,6 +103,7 @@ describe("SDK groupStreaks", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const creatorId = "abcdefgh";
+      const type = GroupStreakType.team;
       const streakName = "Followed our calorie level";
       const streakDescription = "Stuck to our recommended calorie level";
 
@@ -96,6 +111,7 @@ describe("SDK groupStreaks", () => {
 
       await streakoid.groupStreaks.create({
         creatorId,
+        type,
         streakName,
         streakDescription,
         members

@@ -47,6 +47,7 @@ describe("GET /group-streaks", () => {
 
     const creatorIdGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId,
+      type: GroupStreakType.team,
       streakName: creatorIdStreakName,
       streakDescription: creatorIdStreakDescription,
       members
@@ -55,6 +56,7 @@ describe("GET /group-streaks", () => {
 
     const memberIdGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: userId,
+      type: GroupStreakType.team,
       streakName: memberIdStreakName,
       streakDescription: memberIdStreakDescription,
       members
@@ -64,6 +66,7 @@ describe("GET /group-streaks", () => {
     const specificTimezoneGroupStreakResponse = await streakoid.groupStreaks.create(
       {
         creatorId: userId,
+        type: GroupStreakType.team,
         streakName: timezoneStreakName,
         streakDescription: timezoneStreakDescription,
         members

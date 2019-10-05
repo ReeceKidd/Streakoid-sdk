@@ -36,6 +36,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: registeredUserId,
+      type: GroupStreakType.team,
       streakName,
       streakDescription,
       members
