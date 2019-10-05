@@ -119,6 +119,7 @@ describe("SDK groupStreaks", () => {
 
       expect(streakoidClient.post).toBeCalledWith(`/v1/group-streaks`, {
         creatorId,
+        type,
         streakName,
         streakDescription,
         members
