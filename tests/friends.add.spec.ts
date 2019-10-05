@@ -55,7 +55,7 @@ describe("POST /users/:id/friends", () => {
   });
 
   test(`user can add a friend if they are not already on their friends list`, async () => {
-    expect.assertions(15);
+    expect.assertions(22);
 
     const updatedFriends = await streakoid.users.friends.addFriend({
       userId,
@@ -65,11 +65,25 @@ describe("POST /users/:id/friends", () => {
     expect(updatedFriends.length).toEqual(1);
 
     const friend = updatedFriends[0];
-
     expect(friend.friendId).toEqual(friendId);
     expect(friend.username).toEqual(expect.any(String));
-
     expect(Object.keys(friend).sort()).toEqual(["friendId", "username"].sort());
+
+    const updatedUser = await streakoid.users.getOne(userId);
+    expect(updatedUser.friends[0].friendId).toEqual(friendId);
+    expect(updatedUser.friends[0].username).toEqual(expect.any(String));
+    expect(Object.keys(updatedUser.friends[0]).sort()).toEqual(
+      ["friendId", "username"].sort()
+    );
+
+    const updatedFriend = await streakoid.users.getOne(userId);
+    expect(updatedFriend.friends[0].friendId).toEqual(friendId);
+    expect(updatedFriend.friends[0].username).toEqual(expect.any(String));
+    expect(Object.keys(updatedFriend.friends[0]).sort()).toEqual(
+      ["friendId", "username"].sort()
+    );
+
+    expect(updatedUser.friends.length).toEqual(1);
 
     const friendRequests = await streakoid.friendRequests.getAll({
       requesteeId: userId,
