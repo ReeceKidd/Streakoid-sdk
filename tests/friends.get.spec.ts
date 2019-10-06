@@ -13,11 +13,11 @@ describe("GET /users/:id/friends", () => {
   let friendId: string;
 
   beforeAll(async () => {
-    const userRegistrationResponse = await streakoid.users.create({
+    const user = await streakoid.users.create({
       username: registeredUsername,
       email: registeredEmail
     });
-    userId = userRegistrationResponse._id;
+    userId = user._id;
 
     const friendRegistrationResponse = await streakoid.users.create({
       username: friendUsername,
