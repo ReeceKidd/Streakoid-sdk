@@ -18,7 +18,7 @@ import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
 import TeamStreak from "./models/TeamStreak";
-import PopulatedTeamStreak from "./models/PopuatedTeamStreak";
+import PopulatedTeamStreak from "./models/PopulatedTeamStreak";
 import FriendRequest from "./models/FriendRequest";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequestStatus from "./FriendRequestStatus";

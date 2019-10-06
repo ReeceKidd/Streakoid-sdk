@@ -4,7 +4,7 @@ import soloStreaks from "./soloStreaks";
 import stripe from "./stripe";
 import usersFactory from "./users";
 import friends from "./friends";
-import teamStreaks from "./teamStreaks";
+import teamStreaks from "./TeamStreaks";
 import streakTrackingEvents from "./streakTrackingEvents";
 import agendaJobs from "./agendaJobs";
 import feedbacks from "./feedbacks";

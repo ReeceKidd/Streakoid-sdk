@@ -3,8 +3,8 @@ import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
 import groupMembers from "./groupMembers";
-import teamStreak from "./models/teamStreak";
-import PopulatedteamStreak from "./models/popuatedTeamStreak";
+import teamStreak from "./models/TeamStreak";
+import PopulatedteamStreak from "./models/PopulatedTeamStreak";
 import StreakStatus from "./StreakStatus";
 
 export default (streakoidClient: AxiosInstance) => {
