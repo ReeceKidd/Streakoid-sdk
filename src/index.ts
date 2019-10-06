@@ -20,9 +20,9 @@ import User from "./models/User";
 import TeamStreak from "./models/TeamStreak";
 import PopulatedTeamStreak from "./models/PopulatedTeamStreak";
 import FriendRequest from "./models/FriendRequest";
+import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequestStatus from "./FriendRequestStatus";
-import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 import GroupStreakTypes from "./GroupStreakTypes";
 
 export {
@@ -44,11 +44,11 @@ export {
   SoloStreak,
   StreakTrackingEvent,
   User,
+  TeamStreak,
+  PopulatedTeamStreak,
   SupportedRequestHeaders,
   FriendRequest,
   FriendRequestStatus,
   PopulatedFriendRequest,
-  GroupStreakTypes,
-  TeamStreak,
-  PopulatedTeamStreak
+  GroupStreakTypes
 };
