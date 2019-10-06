@@ -101,7 +101,7 @@ describe("POST /team-streaks", () => {
   });
 
   test(`team streak can be created without description or numberOfMinutes`, async () => {
-    expect.assertions(14);
+    expect.assertions(13);
 
     const streakName = "meditation";
     const members: { memberId: string; groupMemberStreakId?: string }[] = [

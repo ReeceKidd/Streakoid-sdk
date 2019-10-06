@@ -89,6 +89,7 @@ describe("GET /complete-group-member-streak-tasks", () => {
       [
         "_id",
         "userId",
+        "teamStreakId",
         "groupMemberStreakId",
         "taskCompleteTime",
         "taskCompleteDay",

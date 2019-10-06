@@ -104,7 +104,7 @@ describe("GET /team-streaks/:teamStreakId", () => {
       const { code, message, httpStatusCode } = data;
       expect(err.response.status).toEqual(400);
       expect(code).toEqual("400-25");
-      expect(message).toEqual("team streak does not exist.");
+      expect(message).toEqual("Team streak does not exist.");
       expect(httpStatusCode).toEqual(400);
       expect(Object.keys(data).sort()).toEqual(
         ["code", "message", "httpStatusCode"].sort()

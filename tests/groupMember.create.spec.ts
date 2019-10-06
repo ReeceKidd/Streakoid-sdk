@@ -94,7 +94,6 @@ describe("POST /team-streaks/:id/members", () => {
     expect(Object.keys(updatedteamStreak).sort()).toEqual(
       [
         "_id",
-        "teamStreakType",
         "status",
         "members",
         "creatorId",
