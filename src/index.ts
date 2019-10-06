@@ -11,8 +11,6 @@ import Feedback from "./models/Feedback";
 import Friend from "./models/Friend";
 import GroupMember from "./models/GroupMember";
 import GroupMemberStreak from "./models/GroupMemberStreak";
-import TeamStreak from "./models/TeamStreak";
-import PopulatedTeamStreak from "./models/PopulatedTeamStreak";
 import PastStreak from "./models/PastStreak";
 import PastStreakArray from "./models/PastStreakArray";
 import PopulatedMember from "./models/PopulatedMember";
@@ -24,6 +22,8 @@ import FriendRequest from "./models/FriendRequest";
 import FriendRequestStatus from "./FriendRequestStatus";
 import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 import GroupStreakTypes from "./GroupStreakTypes";
+import TeamStreak from "./models/TeamStreak";
+import PopulatedTeamStreak from "./models/PopulatedTeamStreak";
 
 export {
   streakoidClientFactory,
@@ -36,8 +36,6 @@ export {
   CurrentStreak,
   Feedback,
   Friend,
-  TeamStreak,
-  PopulatedTeamStreak,
   GroupMember,
   GroupMemberStreak,
   PastStreak,
@@ -50,5 +48,7 @@ export {
   FriendRequest,
   FriendRequestStatus,
   PopulatedFriendRequest,
-  GroupStreakTypes
+  GroupStreakTypes,
+  TeamStreak,
+  PopulatedTeamStreak
 };
