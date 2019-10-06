@@ -4,7 +4,7 @@ interface CompleteGroupMemberStreakTask {
   _id: string;
   streakId: string;
   userId: string;
-  groupStreakId: string;
+  teamStreakId: string;
   groupMemberStreakId: string;
   taskCompleteTime: Date;
   taskCompleteDay: string;

@@ -1,6 +1,5 @@
 import { streakoid } from "../src/streakoid";
 import StreakTypes from "../src/streakTypes";
-import { GroupStreakType } from "../src";
 
 const registeredEmail =
   "create-complete-group-member-streak-tasks-user@gmail.com";
@@ -10,7 +9,7 @@ jest.setTimeout(120000);
 
 describe("POST /complete-group-member-streak-tasks", () => {
   let userId: string;
-  let groupStreakId: string;
+  let teamStreakId: string;
   let groupMemberStreakId: string;
   let secondGroupMemberStreakId: string;
 
@@ -18,53 +17,48 @@ describe("POST /complete-group-member-streak-tasks", () => {
   const streakDescription = "I will not eat until 1pm everyday";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create({
+    const user = await streakoid.users.create({
       username: registeredUsername,
       email: registeredEmail
     });
-    userId = registrationResponse._id;
+    userId = user._id;
     const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
+    const teamStreak = await streakoid.teamStreaks.create({
       creatorId: userId,
-      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       members
     });
-    groupStreakId = createGroupStreakResponse._id;
+    teamStreakId = teamStreak._id;
 
-    const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-      {
-        userId,
-        groupStreakId
-      }
-    );
-    groupMemberStreakId = createGroupMemberStreakResponse._id;
+    const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+      userId,
+      teamStreakId
+    });
+    groupMemberStreakId = groupMemberStreak._id;
   });
 
   afterAll(async () => {
     await streakoid.users.deleteOne(userId);
-    await streakoid.groupStreaks.deleteOne(groupStreakId);
+    await streakoid.teamStreaks.deleteOne(teamStreakId);
   });
 
   describe("POST /v1/complete-group-member-streak-tasks", () => {
-    test("user can say that a group streak member task has been completed for the day", async () => {
+    test("user can say that a team streak member task has been completed for the day", async () => {
       expect.assertions(15);
 
       const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create(
         {
           userId,
-          groupStreakId,
+          teamStreakId,
           groupMemberStreakId
         }
       );
 
       expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
       expect(completeGroupMemberStreakTask.userId).toEqual(userId);
-      expect(completeGroupMemberStreakTask.groupStreakId).toEqual(
-        groupStreakId
-      );
+      expect(completeGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
       expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(
         groupMemberStreakId
       );
@@ -87,7 +81,7 @@ describe("POST /complete-group-member-streak-tasks", () => {
         [
           "_id",
           "userId",
-          "groupStreakId",
+          "teamStreakId",
           "groupMemberStreakId",
           "taskCompleteTime",
           "taskCompleteDay",
@@ -111,26 +105,26 @@ describe("POST /complete-group-member-streak-tasks", () => {
       expect(groupMemberStreak.active).toEqual(true);
     });
 
-    test("user cannot complete the same group streak member task in the same day", async () => {
+    test("user cannot complete the same team streak member task in the same day", async () => {
       expect.assertions(3);
 
-      const secondGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
+      const secondGroupMemberStreak = await streakoid.groupMemberStreaks.create(
         {
           userId,
-          groupStreakId
+          teamStreakId
         }
       );
-      secondGroupMemberStreakId = secondGroupMemberStreakResponse._id;
+      secondGroupMemberStreakId = secondGroupMemberStreak._id;
 
       try {
         await streakoid.completeGroupMemberStreakTasks.create({
           userId,
-          groupStreakId,
+          teamStreakId,
           groupMemberStreakId: secondGroupMemberStreakId
         });
         await streakoid.completeGroupMemberStreakTasks.create({
           userId,
-          groupStreakId,
+          teamStreakId,
           groupMemberStreakId: secondGroupMemberStreakId
         });
       } catch (err) {

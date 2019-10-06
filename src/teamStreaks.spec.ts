@@ -1,8 +1,7 @@
 import { streakoidFactory, streakoidClient } from "./streakoid";
 import StreakStatus from "./StreakStatus";
-import GroupStreakType from "./GroupStreakType";
 
-describe("SDK groupStreaks", () => {
+describe("SDK TeamStreaks", () => {
   const streakoid = streakoidFactory(streakoidClient);
 
   afterEach(() => {
@@ -15,9 +14,9 @@ describe("SDK groupStreaks", () => {
 
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.groupStreaks.getAll({});
+      await streakoid.teamStreaks.getAll({});
 
-      expect(streakoidClient.get).toBeCalledWith(`/v1/group-streaks?`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?`);
     });
 
     test("calls GET with correct URL when creatorId query paramater is passed", async () => {
@@ -26,23 +25,10 @@ describe("SDK groupStreaks", () => {
 
       const creatorId = "memberId";
 
-      await streakoid.groupStreaks.getAll({ creatorId });
+      await streakoid.teamStreaks.getAll({ creatorId });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?creatorId=${creatorId}&`
-      );
-    });
-
-    test("calls GET with correct URL when groupStreakType query paramater is passed", async () => {
-      expect.assertions(1);
-      streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-      const groupStreakType = GroupStreakType.team;
-
-      await streakoid.groupStreaks.getAll({ groupStreakType });
-
-      expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?groupStreakType=${groupStreakType}&`
+        `/v1/team-streaks?creatorId=${creatorId}&`
       );
     });
 
@@ -52,10 +38,10 @@ describe("SDK groupStreaks", () => {
 
       const memberId = "memberId";
 
-      await streakoid.groupStreaks.getAll({ memberId });
+      await streakoid.teamStreaks.getAll({ memberId });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?memberId=${memberId}&`
+        `/v1/team-streaks?memberId=${memberId}&`
       );
     });
 
@@ -65,10 +51,10 @@ describe("SDK groupStreaks", () => {
 
       const timezone = `Europe/London`;
 
-      await streakoid.groupStreaks.getAll({ timezone });
+      await streakoid.teamStreaks.getAll({ timezone });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?timezone=${timezone}&`
+        `/v1/team-streaks?timezone=${timezone}&`
       );
     });
 
@@ -78,10 +64,10 @@ describe("SDK groupStreaks", () => {
 
       const status = StreakStatus.live;
 
-      await streakoid.groupStreaks.getAll({ status });
+      await streakoid.teamStreaks.getAll({ status });
 
       expect(streakoidClient.get).toBeCalledWith(
-        `/v1/group-streaks?status=${status}&`
+        `/v1/team-streaks?status=${status}&`
       );
     });
   });
@@ -91,9 +77,9 @@ describe("SDK groupStreaks", () => {
       expect.assertions(1);
       streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      await streakoid.groupStreaks.getOne("id");
+      await streakoid.teamStreaks.getOne("id");
 
-      expect(streakoidClient.get).toBeCalledWith(`/v1/group-streaks/id`);
+      expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks/id`);
     });
   });
 
@@ -103,23 +89,20 @@ describe("SDK groupStreaks", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const creatorId = "abcdefgh";
-      const groupStreakType = GroupStreakType.team;
       const streakName = "Followed our calorie level";
       const streakDescription = "Stuck to our recommended calorie level";
 
       const members: [] = [];
 
-      await streakoid.groupStreaks.create({
+      await streakoid.teamStreaks.create({
         creatorId,
-        groupStreakType,
         streakName,
         streakDescription,
         members
       });
 
-      expect(streakoidClient.post).toBeCalledWith(`/v1/group-streaks`, {
+      expect(streakoidClient.post).toBeCalledWith(`/v1/team-streaks`, {
         creatorId,
-        groupStreakType,
         streakName,
         streakDescription,
         members
@@ -145,12 +128,12 @@ describe("SDK groupStreaks", () => {
         status
       };
 
-      await streakoid.groupStreaks.update({
-        groupStreakId: "id",
+      await streakoid.teamStreaks.update({
+        teamStreakId: "id",
         updateData
       });
 
-      expect(streakoidClient.patch).toBeCalledWith(`/v1/group-streaks/id`, {
+      expect(streakoidClient.patch).toBeCalledWith(`/v1/team-streaks/id`, {
         ...updateData
       });
     });
@@ -161,9 +144,9 @@ describe("SDK groupStreaks", () => {
       expect.assertions(1);
       streakoidClient.delete = jest.fn();
 
-      await streakoid.groupStreaks.deleteOne("id");
+      await streakoid.teamStreaks.deleteOne("id");
 
-      expect(streakoidClient.delete).toBeCalledWith(`/v1/group-streaks/id`);
+      expect(streakoidClient.delete).toBeCalledWith(`/v1/team-streaks/id`);
     });
   });
 });

@@ -1,5 +1,4 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
-import { GroupStreakType } from "../src";
 
 const email = "get-one-group-member-streak@gmail.com";
 const username = "get-one-group-member-streak-user";
@@ -10,7 +9,7 @@ jest.setTimeout(120000);
 
 describe("GET /group-member-streaks/:groupMemberStreakId", () => {
   let userId: string;
-  let groupStreakId: string;
+  let teamStreakId: string;
   let groupMemberStreakId: string;
 
   beforeAll(async () => {
@@ -21,28 +20,27 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
     userId = user._id;
     const members = [{ memberId: userId }];
 
-    const groupStreak = await streakoid.groupStreaks.create({
+    const teamStreak = await streakoid.teamStreaks.create({
       creatorId: userId,
-      groupStreakType: GroupStreakType.team,
       streakName,
       members
     });
-    groupStreakId = groupStreak._id;
+    teamStreakId = teamStreak._id;
 
     const groupMemberStreak = await streakoid.groupMemberStreaks.create({
       userId,
-      groupStreakId
+      teamStreakId
     });
     groupMemberStreakId = groupMemberStreak._id;
   });
 
   afterAll(async () => {
     await streakoid.users.deleteOne(userId);
-    await streakoid.groupStreaks.deleteOne(groupStreakId);
+    await streakoid.teamStreaks.deleteOne(teamStreakId);
     await streakoid.groupMemberStreaks.deleteOne(groupMemberStreakId);
   });
 
-  test(`group member streak can be retreived`, async () => {
+  test(`team member streak can be retreived`, async () => {
     expect.assertions(13);
 
     const groupMemberStreak = await streakoid.groupMemberStreaks.getOne(
@@ -59,7 +57,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
     expect(groupMemberStreak.activity).toEqual([]);
     expect(groupMemberStreak.pastStreaks).toEqual([]);
     expect(groupMemberStreak.userId).toEqual(expect.any(String));
-    expect(groupMemberStreak.groupStreakId).toEqual(groupStreakId);
+    expect(groupMemberStreak.teamStreakId).toEqual(teamStreakId);
     expect(groupMemberStreak.timezone).toEqual(londonTimezone);
     expect(groupMemberStreak.createdAt).toEqual(expect.any(String));
     expect(groupMemberStreak.updatedAt).toEqual(expect.any(String));
@@ -72,7 +70,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
         "activity",
         "pastStreaks",
         "userId",
-        "groupStreakId",
+        "teamStreakId",
         "timezone",
         "createdAt",
         "updatedAt",
@@ -81,7 +79,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
     );
   });
 
-  test(`sends group member streak does not exist error when group member streak doesn't exist`, async () => {
+  test(`sends team member streak does not exist error when team member streak doesn't exist`, async () => {
     expect.assertions(5);
 
     try {
@@ -91,7 +89,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
       const { code, message, httpStatusCode } = data;
       expect(err.response.status).toEqual(400);
       expect(code).toEqual("400-34");
-      expect(message).toEqual("Group member streak does not exist.");
+      expect(message).toEqual("team member streak does not exist.");
       expect(httpStatusCode).toEqual(400);
       expect(Object.keys(data).sort()).toEqual(
         ["code", "message", "httpStatusCode"].sort()

@@ -61,15 +61,15 @@ export default (streakoidClient: AxiosInstance) => {
 
   const create = async ({
     userId,
-    groupStreakId
+    teamStreakId
   }: {
     userId: string;
-    groupStreakId: string;
+    teamStreakId: string;
   }): Promise<GroupMemberStreak> => {
     try {
       const { data } = await streakoidClient.post(
         `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`,
-        { userId, groupStreakId }
+        { userId, teamStreakId }
       );
       return data;
     } catch (err) {

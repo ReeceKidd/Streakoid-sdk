@@ -1,10 +1,8 @@
 import PopulatedMember from "./PopulatedMember";
 import StreakStatus from "../StreakStatus";
-import GroupStreakType from "../GroupStreakType";
 
-interface PopulatedGroupStreak {
+interface PopulatedTeamStreak {
   _id: string;
-  groupStreakType: GroupStreakType;
   creatorId: string;
   streakName: string;
   status: StreakStatus;
@@ -20,4 +18,4 @@ interface PopulatedGroupStreak {
   numberOfMinutes?: number;
 }
 
-export default PopulatedGroupStreak;
+export default PopulatedTeamStreak;

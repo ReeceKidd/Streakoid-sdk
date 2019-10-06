@@ -2,20 +2,21 @@ import { AxiosInstance } from "axios";
 
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import GroupStreakRouterCategories from "./GroupStreakRouterCategories";
+
 import GroupMember from "./models/GroupMember";
+import TeamStreakRouterCategories from "./TeamStreakRouterCategories";
 
 export default (streakoidClient: AxiosInstance) => {
   const create = async ({
     friendId,
-    groupStreakId
+    teamStreakId
   }: {
     friendId: string;
-    groupStreakId: string;
+    teamStreakId: string;
   }): Promise<GroupMember[]> => {
     try {
       const { data } = await streakoidClient.post(
-        `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}`,
+        `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}`,
         { friendId }
       );
       return data;
@@ -25,15 +26,15 @@ export default (streakoidClient: AxiosInstance) => {
   };
 
   const deleteOne = ({
-    groupStreakId,
+    teamStreakId,
     memberId
   }: {
-    groupStreakId: string;
+    teamStreakId: string;
     memberId: string;
   }) => {
     try {
       return streakoidClient.delete(
-        `/${ApiVersions.v1}/${RouterCategories.groupStreaks}/${groupStreakId}/${GroupStreakRouterCategories.members}/${memberId}`
+        `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}/${memberId}`
       );
     } catch (err) {
       return Promise.reject(err);

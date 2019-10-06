@@ -1,17 +1,16 @@
 import { AxiosInstance } from "axios";
 import ApiVersions from "./ApiVersions";
 import RouterCategories from "./RouterCategories";
-import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import CompleteGroupMemberStreakTask from "./models/CompleteGroupMemberStreakTask";
 
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     userId,
-    groupStreakId,
+    teamStreakId,
     groupMemberStreakId
   }: {
     userId?: string;
-    groupStreakId?: string;
+    teamStreakId?: string;
     groupMemberStreakId?: string;
   }): Promise<CompleteGroupMemberStreakTask[]> => {
     try {
@@ -19,8 +18,8 @@ export default (streakoidClient: AxiosInstance) => {
       if (userId) {
         getAllURL = `${getAllURL}userId=${userId}&`;
       }
-      if (groupStreakId) {
-        getAllURL = `${getAllURL}groupStreakId=${groupStreakId}&`;
+      if (teamStreakId) {
+        getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
       }
       if (groupMemberStreakId) {
         getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}`;
@@ -35,11 +34,11 @@ export default (streakoidClient: AxiosInstance) => {
 
   const create = async ({
     userId,
-    groupStreakId,
+    teamStreakId,
     groupMemberStreakId
   }: {
     userId: string;
-    groupStreakId: string;
+    teamStreakId: string;
     groupMemberStreakId: string;
   }): Promise<CompleteGroupMemberStreakTask> => {
     try {
@@ -47,7 +46,7 @@ export default (streakoidClient: AxiosInstance) => {
         `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
         {
           userId,
-          groupStreakId,
+          teamStreakId,
           groupMemberStreakId
         }
       );

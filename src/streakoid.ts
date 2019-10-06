@@ -4,7 +4,7 @@ import soloStreaks from "./soloStreaks";
 import stripe from "./stripe";
 import usersFactory from "./users";
 import friends from "./friends";
-import groupStreaks from "./groupStreaks";
+import teamStreaks from "./teamStreaks";
 import streakTrackingEvents from "./streakTrackingEvents";
 import agendaJobs from "./agendaJobs";
 import feedbacks from "./feedbacks";
@@ -35,7 +35,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance) => {
       ...usersFactory(streakoidClient),
       friends: friends(streakoidClient)
     },
-    groupStreaks: groupStreaks(streakoidClient),
+    teamStreaks: teamStreaks(streakoidClient),
     streakTrackingEvents: streakTrackingEvents(streakoidClient),
     agendaJobs: agendaJobs(streakoidClient),
     feedbacks: feedbacks(streakoidClient),

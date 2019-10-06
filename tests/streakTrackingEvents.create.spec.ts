@@ -1,8 +1,8 @@
 import { streakoid } from "../src/streakoid";
 import StreakTrackingEventType from "../src/streakTrackingEventType";
 
-const email = "create-group-streak-user@gmail.com";
-const username = "create-group-streak-user";
+const email = "create-team-streak-user@gmail.com";
+const username = "create-team-streak-user";
 
 const streakName = "Daily yoga";
 const streakDescription = "Every day I must do yoga before 12pm";

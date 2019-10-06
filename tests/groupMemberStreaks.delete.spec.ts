@@ -1,5 +1,4 @@
 import { streakoid } from "../src/streakoid";
-import { GroupStreakType } from "../src";
 
 const email = "delete-groupMember-streak-user@gmail.com";
 const username = "delete-groupMember-streak-user";
@@ -7,51 +6,48 @@ const username = "delete-groupMember-streak-user";
 jest.setTimeout(120000);
 
 describe("DELETE /group-member-streaks", () => {
-  let registeredUserId: string;
-  let createdGroupStreakId: string;
-  let createGroupMemberStreakId: string;
+  let userId: string;
+  let teamStreakId: string;
+  let groupMemberStreakId: string;
 
   const streakName = "Daily Spanish";
   const streakDescription = "Everyday I must do Spanish on Duolingo";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create({
+    const user = await streakoid.users.create({
       username,
       email
     });
-    registeredUserId = registrationResponse._id;
+    userId = user._id;
 
-    const members = [{ memberId: registeredUserId }];
+    const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
-      creatorId: registeredUserId,
-      groupStreakType: GroupStreakType.team,
+    const teamStreak = await streakoid.teamStreaks.create({
+      creatorId: userId,
       streakName,
       streakDescription,
       members
     });
-    createdGroupStreakId = createGroupStreakResponse._id;
+    teamStreakId = teamStreak._id;
 
-    const createGroupMemberStreakResponse = await streakoid.groupMemberStreaks.create(
-      {
-        userId: registeredUserId,
-        groupStreakId: createdGroupStreakId
-      }
-    );
+    const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+      userId,
+      teamStreakId: teamStreak._id
+    });
 
-    createGroupMemberStreakId = createGroupMemberStreakResponse._id;
+    groupMemberStreakId = groupMemberStreak._id;
   });
 
   afterAll(async () => {
-    await streakoid.users.deleteOne(registeredUserId);
-    await streakoid.groupStreaks.deleteOne(createdGroupStreakId);
+    await streakoid.users.deleteOne(userId);
+    await streakoid.teamStreaks.deleteOne(teamStreakId);
   });
 
   test(`deletes groupMember streak`, async () => {
     expect.assertions(1);
 
     const response = await streakoid.groupMemberStreaks.deleteOne(
-      createGroupMemberStreakId
+      groupMemberStreakId
     );
     expect(response.status).toEqual(204);
   });

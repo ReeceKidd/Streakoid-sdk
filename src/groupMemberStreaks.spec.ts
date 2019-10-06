@@ -89,16 +89,16 @@ describe("SDK groupMemberStreaks", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const userId = "userId";
-      const groupStreakId = "groupStreakId";
+      const teamStreakId = "teamStreakId";
 
       await streakoid.groupMemberStreaks.create({
         userId,
-        groupStreakId
+        teamStreakId
       });
 
       expect(streakoidClient.post).toBeCalledWith(`/v1/group-member-streaks`, {
         userId,
-        groupStreakId
+        teamStreakId
       });
     });
   });

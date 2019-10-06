@@ -14,15 +14,15 @@ describe("SDK groupMembers", () => {
       streakoidClient.post = jest.fn().mockResolvedValue(true);
 
       const friendId = "friendId";
-      const groupStreakId = "groupStreakId";
+      const teamStreakId = "teamStreakId";
 
-      await streakoid.groupStreaks.groupMembers.create({
+      await streakoid.teamStreaks.groupMembers.create({
         friendId,
-        groupStreakId
+        teamStreakId
       });
 
       expect(streakoidClient.post).toBeCalledWith(
-        `/v1/group-streaks/groupStreakId/members`,
+        `/v1/team-streaks/teamStreakId/members`,
         {
           friendId
         }
@@ -35,13 +35,13 @@ describe("SDK groupMembers", () => {
       expect.assertions(1);
       streakoidClient.delete = jest.fn();
 
-      await streakoid.groupStreaks.groupMembers.deleteOne({
-        groupStreakId: "groupStreakId",
+      await streakoid.teamStreaks.groupMembers.deleteOne({
+        teamStreakId: "teamStreakId",
         memberId: "memberId"
       });
 
       expect(streakoidClient.delete).toBeCalledWith(
-        `/v1/group-streaks/groupStreakId/members/memberId`
+        `/v1/team-streaks/teamStreakId/members/memberId`
       );
     });
   });

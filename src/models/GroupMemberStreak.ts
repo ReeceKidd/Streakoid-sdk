@@ -3,7 +3,7 @@ import StreakTrackingEventType from "../streakTrackingEventType";
 interface GroupMemberStreak {
   _id: string;
   userId: string;
-  groupStreakId: string;
+  teamStreakId: string;
   completedToday: boolean;
   active: boolean;
   activity: Array<{

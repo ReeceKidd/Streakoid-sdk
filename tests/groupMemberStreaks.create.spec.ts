@@ -1,5 +1,4 @@
 import { streakoid, londonTimezone } from "../src/streakoid";
-import { GroupStreakType } from "../src";
 
 const registeredEmail = "create-groupMember-streak-user@gmail.com";
 const registeredUsername = "create-groupMember-streak-user";
@@ -7,35 +6,34 @@ const registeredUsername = "create-groupMember-streak-user";
 jest.setTimeout(120000);
 
 describe("POST /group-member-streaks", () => {
-  let registeredUserId: string;
-  let createdGroupStreakId: string;
+  let userId: string;
+  let teamStreakId: string;
   let createdGroupMemberStreakId: string;
 
   const streakName = "Daily Spanish";
   const streakDescription = "Everyday I must do Spanish on Duolingo";
 
   beforeAll(async () => {
-    const registrationResponse = await streakoid.users.create({
+    const user = await streakoid.users.create({
       username: registeredUsername,
       email: registeredEmail
     });
-    registeredUserId = registrationResponse._id;
+    userId = user._id;
 
-    const members = [{ memberId: registeredUserId }];
+    const members = [{ memberId: userId }];
 
-    const createGroupStreakResponse = await streakoid.groupStreaks.create({
-      creatorId: registeredUserId,
-      groupStreakType: GroupStreakType.team,
+    const teamStreak = await streakoid.teamStreaks.create({
+      creatorId: userId,
       streakName,
       streakDescription,
       members
     });
-    createdGroupStreakId = createGroupStreakResponse._id;
+    teamStreakId = teamStreak._id;
   });
 
   afterAll(async () => {
-    await streakoid.users.deleteOne(registeredUserId);
-    await streakoid.groupStreaks.deleteOne(createdGroupStreakId);
+    await streakoid.users.deleteOne(userId);
+    await streakoid.teamStreaks.deleteOne(teamStreakId);
     await streakoid.groupMemberStreaks.deleteOne(createdGroupMemberStreakId);
   });
 
@@ -43,13 +41,11 @@ describe("POST /group-member-streaks", () => {
     expect.assertions(13);
 
     const groupMemberStreak = await streakoid.groupMemberStreaks.create({
-      userId: registeredUserId,
-      groupStreakId: createdGroupStreakId
+      userId,
+      teamStreakId
     });
 
     const {
-      userId,
-      groupStreakId,
       _id,
       currentStreak,
       completedToday,
@@ -68,8 +64,8 @@ describe("POST /group-member-streaks", () => {
     expect(activity).toEqual([]);
     expect(pastStreaks).toEqual([]);
     expect(_id).toBeDefined();
-    expect(userId).toEqual(registeredUserId);
-    expect(groupStreakId).toEqual(createdGroupStreakId);
+    expect(userId).toEqual(userId);
+    expect(teamStreakId).toEqual(teamStreakId);
     expect(timezone).toEqual(londonTimezone);
     expect(createdAt).toEqual(expect.any(String));
     expect(updatedAt).toEqual(expect.any(String));
@@ -82,7 +78,7 @@ describe("POST /group-member-streaks", () => {
         "pastStreaks",
         "_id",
         "userId",
-        "groupStreakId",
+        "teamStreakId",
         "timezone",
         "createdAt",
         "updatedAt",
@@ -97,7 +93,7 @@ describe("POST /group-member-streaks", () => {
     try {
       await streakoid.groupMemberStreaks.create({
         userId: "incorrect-userid",
-        groupStreakId: createdGroupStreakId
+        teamStreakId
       });
     } catch (err) {
       expect(err.response.status).toEqual(500);
@@ -105,13 +101,13 @@ describe("POST /group-member-streaks", () => {
     }
   });
 
-  test("throws groupStreakId does not exist error", async () => {
+  test("throws teamStreakId does not exist error", async () => {
     expect.assertions(2);
 
     try {
       await streakoid.groupMemberStreaks.create({
-        userId: registeredUserId,
-        groupStreakId: "incorrect-group-streak-id"
+        userId,
+        teamStreakId: "incorrect-team-streak-id"
       });
     } catch (err) {
       expect(err.response.status).toEqual(500);
