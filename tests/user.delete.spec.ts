@@ -1,20 +1,18 @@
-import { streakoid } from "../src/streakoid";
+import { streakoid } from '../src/streakoid';
 
-const email = "delete-user@gmail.com";
-const username = "delete-user";
+const email = 'delete-user@gmail.com';
+const username = 'delete-user';
 
 jest.setTimeout(120000);
 
-describe("DELETE /users/:userId", () => {
-    let userId = "";
+describe('DELETE /users/:userId', () => {
+    let userId = '';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create(
-            {
-                email,
-                username
-            }
-        );
+        const registrationResponse = await streakoid.users.create({
+            email,
+            username,
+        });
         userId = registrationResponse._id;
     });
 
@@ -27,7 +25,7 @@ describe("DELETE /users/:userId", () => {
             await streakoid.users.getOne(userId);
         } catch (err) {
             expect(err.response.status).toBe(400);
-            expect(err.response.data.message).toEqual("User does not exist.");
+            expect(err.response.data.message).toEqual('User does not exist.');
         }
     });
 
@@ -38,7 +36,7 @@ describe("DELETE /users/:userId", () => {
             await streakoid.users.deleteOne(userId);
         } catch (err) {
             expect(err.response.status).toBe(400);
-            expect(err.response.data.message).toEqual("User does not exist.");
+            expect(err.response.data.message).toEqual('User does not exist.');
         }
     });
 });

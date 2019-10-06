@@ -1,8 +1,8 @@
-import StreakTrackingEventType from "../streakTrackingEventType";
+import StreakTrackingEventType from '../streakTrackingEventType';
 
 interface Activity {
-  type: StreakTrackingEventType;
-  time: string;
+    type: StreakTrackingEventType;
+    time: string;
 }
 
 export default Activity;

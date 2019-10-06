@@ -1,5 +1,5 @@
 enum TeamStreakRouterCategories {
-  members = "members"
+    members = 'members',
 }
 
 export default TeamStreakRouterCategories;

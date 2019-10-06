@@ -1,6 +1,6 @@
 interface GroupMember {
-  memberId: string;
-  groupMemberStreakId: string;
+    memberId: string;
+    groupMemberStreakId: string;
 }
 
 export default GroupMember;

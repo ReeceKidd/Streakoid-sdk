@@ -1,6 +1,6 @@
 enum GroupStreakTypes {
-  team = "team",
-  competition = "competition"
+    team = 'team',
+    competition = 'competition',
 }
 
 export default GroupStreakTypes;

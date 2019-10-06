@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
@@ -7,6 +7,7 @@ import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         creatorId,
@@ -40,7 +41,7 @@ export default (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const getOne = async (teamStreakId: string): Promise<PopulatedteamStreak> => {
+    const getOne = async (teamStreakId: string): Promise<PopulatedTeamStreak> => {
         try {
             const { data } = await streakoidClient.get(
                 `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}`,
@@ -63,7 +64,7 @@ export default (streakoidClient: AxiosInstance) => {
         members: { memberId: string; groupMemberStreakId?: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
-    }): Promise<PopulatedteamStreak> => {
+    }): Promise<PopulatedTeamStreak> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.teamStreaks}`, {
                 creatorId,
@@ -103,7 +104,7 @@ export default (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (teamStreakId: string) => {
+    const deleteOne = (teamStreakId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}`);
         } catch (err) {

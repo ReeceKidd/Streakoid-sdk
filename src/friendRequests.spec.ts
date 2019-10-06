@@ -1,111 +1,105 @@
-import { streakoidFactory, streakoidClient } from "./streakoid";
-import { FriendRequestStatus } from ".";
+import { streakoidFactory, streakoidClient } from './streakoid';
+import { FriendRequestStatus } from '.';
 
-describe("SDK friendRequests", () => {
-  const streakoid = streakoidFactory(streakoidClient);
+describe('SDK friendRequests', () => {
+    const streakoid = streakoidFactory(streakoidClient);
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  describe("getAll", () => {
-    test("calls GET with correct URL when no query paramters are passed", async () => {
-      expect.assertions(1);
-      streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-      await streakoid.friendRequests.getAll({});
-
-      expect(streakoidClient.get).toBeCalledWith(`/v1/friend-requests?`);
+    afterEach(() => {
+        jest.resetAllMocks();
     });
 
-    test("calls GET with correct URL when requesterId query paramater is passed", async () => {
-      expect.assertions(1);
-      streakoidClient.get = jest.fn().mockResolvedValue(true);
+    describe('getAll', () => {
+        test('calls GET with correct URL when no query paramters are passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-      const requesterId = "requesterId";
+            await streakoid.friendRequests.getAll({});
 
-      await streakoid.friendRequests.getAll({ requesterId });
+            expect(streakoidClient.get).toBeCalledWith(`/v1/friend-requests?`);
+        });
 
-      expect(streakoidClient.get).toBeCalledWith(
-        `/v1/friend-requests?requesterId=${requesterId}&`
-      );
+        test('calls GET with correct URL when requesterId query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const requesterId = 'requesterId';
+
+            await streakoid.friendRequests.getAll({ requesterId });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/friend-requests?requesterId=${requesterId}&`);
+        });
+
+        test('calls GET with correct URL when requesteeId query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const requesteeId = 'requesteeId';
+
+            await streakoid.friendRequests.getAll({ requesteeId });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/friend-requests?requesteeId=requesteeId&`);
+        });
+
+        test('calls GET with correct URL when status query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const status = FriendRequestStatus.pending;
+
+            await streakoid.friendRequests.getAll({ status });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/friend-requests?status=${status}&`);
+        });
     });
 
-    test("calls GET with correct URL when requesteeId query paramater is passed", async () => {
-      expect.assertions(1);
-      streakoidClient.get = jest.fn().mockResolvedValue(true);
+    describe('create', () => {
+        test('calls POST with correct URL and  parmaters', async () => {
+            expect.assertions(1);
 
-      const requesteeId = "requesteeId";
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const requesteeId = 'userId';
+            const requesterId = 'streakName';
 
-      await streakoid.friendRequests.getAll({ requesteeId });
+            await streakoid.friendRequests.create({
+                requesteeId,
+                requesterId,
+            });
 
-      expect(streakoidClient.get).toBeCalledWith(
-        `/v1/friend-requests?requesteeId=requesteeId&`
-      );
+            expect(streakoidClient.post).toBeCalledWith(`/v1/friend-requests`, {
+                requesterId,
+                requesteeId,
+            });
+        });
     });
 
-    test("calls GET with correct URL when status query paramater is passed", async () => {
-      expect.assertions(1);
-      streakoidClient.get = jest.fn().mockResolvedValue(true);
+    describe('update', () => {
+        test('calls PATCH with correct URL and  parmaters', async () => {
+            expect.assertions(1);
 
-      const status = FriendRequestStatus.pending;
+            streakoidClient.patch = jest.fn().mockResolvedValue(true);
+            const updateData = {
+                status: FriendRequestStatus.rejected,
+            };
 
-      await streakoid.friendRequests.getAll({ status });
+            await streakoid.friendRequests.update({
+                friendRequestId: 'id',
+                updateData,
+            });
 
-      expect(streakoidClient.get).toBeCalledWith(
-        `/v1/friend-requests?status=${status}&`
-      );
+            expect(streakoidClient.patch).toBeCalledWith(`/v1/friend-requests/id`, {
+                ...updateData,
+            });
+        });
     });
-  });
 
-  describe("create", () => {
-    test("calls POST with correct URL and  parmaters", async () => {
-      expect.assertions(1);
+    describe('deleteOne', () => {
+        test('calls DELETE correct URL ', async () => {
+            expect.assertions(1);
+            streakoidClient.delete = jest.fn();
 
-      streakoidClient.post = jest.fn().mockResolvedValue(true);
-      const requesteeId = "userId";
-      const requesterId = "streakName";
+            await streakoid.friendRequests.deleteOne('id');
 
-      await streakoid.friendRequests.create({
-        requesteeId,
-        requesterId
-      });
-
-      expect(streakoidClient.post).toBeCalledWith(`/v1/friend-requests`, {
-        requesterId,
-        requesteeId
-      });
+            expect(streakoidClient.delete).toBeCalledWith(`/v1/friend-requests/id`);
+        });
     });
-  });
-
-  describe("update", () => {
-    test("calls PATCH with correct URL and  parmaters", async () => {
-      expect.assertions(1);
-
-      streakoidClient.patch = jest.fn().mockResolvedValue(true);
-      const updateData = {
-        status: FriendRequestStatus.rejected
-      };
-
-      await streakoid.friendRequests.update({
-        friendRequestId: "id",
-        updateData
-      });
-
-      expect(streakoidClient.patch).toBeCalledWith(`/v1/friend-requests/id`, {
-        ...updateData
-      });
-    });
-  });
-
-  describe("deleteOne", () => {
-    test("calls DELETE correct URL ", async () => {
-      expect.assertions(1);
-      streakoidClient.delete = jest.fn();
-
-      await streakoid.friendRequests.deleteOne("id");
-
-      expect(streakoidClient.delete).toBeCalledWith(`/v1/friend-requests/id`);
-    });
-  });
 });

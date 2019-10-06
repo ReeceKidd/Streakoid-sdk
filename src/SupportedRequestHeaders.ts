@@ -1,6 +1,6 @@
 enum SupportedRequestHeaders {
-    xAccessToken = "x-access-token",
-    xTimezone = "x-timezone"
+    xAccessToken = 'x-access-token',
+    xTimezone = 'x-timezone',
 }
 
-export default SupportedRequestHeaders
+export default SupportedRequestHeaders;

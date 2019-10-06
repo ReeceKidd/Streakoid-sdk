@@ -1,19 +1,18 @@
-import ApiVersions from "./ApiVersions";
-import RouterCategories from "./RouterCategories";
-import { AxiosInstance } from "axios";
+import ApiVersions from './ApiVersions';
+import RouterCategories from './RouterCategories';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
-  const deleteOne = (agendaJobId: string) => {
-    try {
-      return streakoidClient.delete(
-        `/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`
-      );
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  };
+    const deleteOne = (agendaJobId: string): Promise<AxiosResponse> => {
+        try {
+            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`);
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
 
-  return {
-    deleteOne
-  };
+    return {
+        deleteOne,
+    };
 };
