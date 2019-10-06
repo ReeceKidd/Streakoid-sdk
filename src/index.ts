@@ -17,13 +17,13 @@ import PopulatedMember from "./models/PopulatedMember";
 import SoloStreak from "./models/SoloStreak";
 import StreakTrackingEvent from "./models/StreakTrackingEvent";
 import User from "./models/User";
-import SupportedRequestHeaders from "./SupportedRequestHeaders";
+import TeamStreak from "./models/TeamStreak";
+import PopulatedTeamStreak from "./models/PopuatedTeamStreak";
 import FriendRequest from "./models/FriendRequest";
+import SupportedRequestHeaders from "./SupportedRequestHeaders";
 import FriendRequestStatus from "./FriendRequestStatus";
 import PopulatedFriendRequest from "./models/PopulatedFriendRequest";
 import GroupStreakTypes from "./GroupStreakTypes";
-import TeamStreak from "./models/TeamStreak";
-import PopulatedTeamStreak from "./models/PopulatedTeamStreak";
 
 export {
   streakoidClientFactory,
