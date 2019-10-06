@@ -25,7 +25,7 @@ describe(`PATCH /group-streaks`, () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       members
@@ -57,7 +57,7 @@ describe(`PATCH /group-streaks`, () => {
     });
 
     expect(groupStreak._id).toEqual(expect.any(String));
-    expect(groupStreak.type).toEqual(GroupStreakType.team);
+    expect(groupStreak.groupStreakType).toEqual(GroupStreakType.team);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.streakName).toEqual(updatedName);
     expect(groupStreak.status).toEqual(StreakStatus.live);
@@ -71,7 +71,7 @@ describe(`PATCH /group-streaks`, () => {
       [
         "members",
         "_id",
-        "type",
+        "groupStreakType",
         "creatorId",
         "streakName",
         "status",

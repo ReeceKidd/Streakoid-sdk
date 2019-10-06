@@ -25,7 +25,7 @@ describe("DELETE /complete-group-member-streak-tasks", () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       members

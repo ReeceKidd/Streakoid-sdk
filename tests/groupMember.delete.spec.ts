@@ -36,7 +36,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: registeredUserId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       members
@@ -70,7 +70,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
     );
 
     expect(updatedGroupStreak._id).toEqual(expect.any(String));
-    expect(updatedGroupStreak.type).toEqual(GroupStreakType.team);
+    expect(updatedGroupStreak.groupStreakType).toEqual(GroupStreakType.team);
     expect(updatedGroupStreak.status).toEqual(StreakStatus.live);
     expect(updatedGroupStreak.creatorId).toEqual(registeredUserId);
     expect(updatedGroupStreak.streakName).toEqual(streakName);
@@ -89,7 +89,7 @@ describe("DELETE /group-streaks/:id/members/:id", () => {
     expect(Object.keys(updatedGroupStreak).sort()).toEqual(
       [
         "_id",
-        "type",
+        "groupStreakType",
         "status",
         "members",
         "creatorId",

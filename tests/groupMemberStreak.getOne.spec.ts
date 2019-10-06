@@ -23,7 +23,7 @@ describe("GET /group-member-streaks/:groupMemberStreakId", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       members
     });

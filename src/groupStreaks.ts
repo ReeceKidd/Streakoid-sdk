@@ -11,13 +11,13 @@ import GroupStreakType from "./GroupStreakType";
 export default (streakoidClient: AxiosInstance) => {
   const getAll = async ({
     creatorId,
-    type,
+    groupStreakType,
     memberId,
     timezone,
     status
   }: {
     creatorId?: string;
-    type?: GroupStreakType;
+    groupStreakType?: GroupStreakType;
     memberId?: string;
     timezone?: string;
     status?: StreakStatus;
@@ -27,8 +27,8 @@ export default (streakoidClient: AxiosInstance) => {
       if (creatorId) {
         getAllGroupStreaksURL = `${getAllGroupStreaksURL}creatorId=${creatorId}&`;
       }
-      if (type) {
-        getAllGroupStreaksURL = `${getAllGroupStreaksURL}type=${type}&`;
+      if (groupStreakType) {
+        getAllGroupStreaksURL = `${getAllGroupStreaksURL}groupStreakType=${groupStreakType}&`;
       }
       if (memberId) {
         getAllGroupStreaksURL = `${getAllGroupStreaksURL}memberId=${memberId}&`;
@@ -61,14 +61,14 @@ export default (streakoidClient: AxiosInstance) => {
 
   const create = async ({
     creatorId,
-    type,
+    groupStreakType,
     streakName,
     streakDescription,
     numberOfMinutes,
     members
   }: {
     creatorId: string;
-    type: GroupStreakType;
+    groupStreakType: GroupStreakType;
     streakName: string;
     members: { memberId: string; groupMemberStreakId?: string }[];
     streakDescription?: string;
@@ -79,7 +79,7 @@ export default (streakoidClient: AxiosInstance) => {
         `/${ApiVersions.v1}/${RouterCategories.groupStreaks}`,
         {
           creatorId,
-          type,
+          groupStreakType,
           streakName,
           streakDescription,
           numberOfMinutes,

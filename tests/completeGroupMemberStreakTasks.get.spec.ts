@@ -24,7 +24,7 @@ describe("GET /complete-group-member-streak-tasks", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       members
     });

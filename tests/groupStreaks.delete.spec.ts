@@ -24,7 +24,7 @@ describe(`DELETE /group-streaks`, () => {
 
     const createSoloStreakResponse = await streakoid.groupStreaks.create({
       creatorId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName: name,
       streakDescription: description,
       members

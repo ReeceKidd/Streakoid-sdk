@@ -38,7 +38,7 @@ describe("POST /group-streaks", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       numberOfMinutes,
@@ -80,7 +80,7 @@ describe("POST /group-streaks", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
-        "type",
+        "groupStreakType",
         "status",
         "members",
         "creatorId",
@@ -113,7 +113,7 @@ describe("POST /group-streaks", () => {
 
     const groupStreak = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       members
     });
@@ -145,14 +145,14 @@ describe("POST /group-streaks", () => {
     );
 
     expect(groupStreak.streakName).toEqual(streakName);
-    expect(groupStreak.type).toEqual(GroupStreakType.team);
+    expect(groupStreak.groupStreakType).toEqual(GroupStreakType.team);
     expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.creatorId).toEqual(userId);
     expect(groupStreak.timezone).toEqual(londonTimezone);
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
-        "type",
+        "groupStreakType",
         "status",
         "members",
         "creatorId",

@@ -4,7 +4,7 @@ import GroupStreakType from "../GroupStreakType";
 
 interface PopulatedGroupStreak {
   _id: string;
-  type: GroupStreakType;
+  groupStreakType: GroupStreakType;
   creatorId: string;
   streakName: string;
   status: StreakStatus;

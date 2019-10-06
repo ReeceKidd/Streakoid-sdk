@@ -26,7 +26,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
 
     const createGroupStreakResponse = await streakoid.groupStreaks.create({
       creatorId: userId,
-      type: GroupStreakType.team,
+      groupStreakType: GroupStreakType.team,
       streakName,
       streakDescription,
       members
@@ -70,7 +70,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
       ].sort()
     );
 
-    expect(groupStreak.type).toEqual(GroupStreakType.team);
+    expect(groupStreak.groupStreakType).toEqual(GroupStreakType.team);
     expect(groupStreak.streakName).toEqual(streakName);
     expect(groupStreak.status).toEqual(StreakStatus.live);
     expect(groupStreak.streakDescription).toEqual(streakDescription);
@@ -79,7 +79,7 @@ describe("GET /group-streaks/:groupStreakId", () => {
     expect(Object.keys(groupStreak).sort()).toEqual(
       [
         "_id",
-        "type",
+        "groupStreakType",
         "status",
         "members",
         "creatorId",

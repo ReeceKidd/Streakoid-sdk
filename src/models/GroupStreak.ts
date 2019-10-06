@@ -3,7 +3,7 @@ import GroupStreakType from "../GroupStreakType";
 
 interface GroupStreak {
   _id: string;
-  type: GroupStreakType;
+  groupStreakType: GroupStreakType;
   creatorId: string;
   streakName: string;
   status: StreakStatus;
