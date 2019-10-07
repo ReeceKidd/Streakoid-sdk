@@ -103,7 +103,6 @@ export default (streakoidClient: AxiosInstance) => {
             active?: boolean;
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
-            activity?: Activity[];
         };
     }): Promise<SoloStreak> => {
         try {

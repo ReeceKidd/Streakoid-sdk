@@ -30,7 +30,7 @@ describe('POST /solo-streaks', () => {
     });
 
     test(`creates solo streak with a description and numberOfMinutes`, async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId: registeredUserId,
@@ -49,7 +49,6 @@ describe('POST /solo-streaks', () => {
             currentStreak,
             completedToday,
             active,
-            activity,
             pastStreaks,
             createdAt,
             updatedAt,
@@ -67,7 +66,6 @@ describe('POST /solo-streaks', () => {
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
         expect(completedToday).toEqual(false);
         expect(active).toEqual(false);
-        expect(activity).toEqual([]);
         expect(pastStreaks).toEqual([]);
         expect(createdAt).toBeDefined();
         expect(updatedAt).toBeDefined();
@@ -77,7 +75,6 @@ describe('POST /solo-streaks', () => {
                 'status',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
@@ -93,7 +90,7 @@ describe('POST /solo-streaks', () => {
     });
 
     test(`creates solo streak without a description or number of minutes`, async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId: registeredUserId,
@@ -110,7 +107,6 @@ describe('POST /solo-streaks', () => {
             currentStreak,
             completedToday,
             active,
-            activity,
             pastStreaks,
             createdAt,
             updatedAt,
@@ -126,7 +122,6 @@ describe('POST /solo-streaks', () => {
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
         expect(completedToday).toEqual(false);
         expect(active).toEqual(false);
-        expect(activity).toEqual([]);
         expect(pastStreaks).toEqual([]);
         expect(createdAt).toBeDefined();
         expect(updatedAt).toBeDefined();
@@ -137,7 +132,6 @@ describe('POST /solo-streaks', () => {
                 'streakDescription',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',

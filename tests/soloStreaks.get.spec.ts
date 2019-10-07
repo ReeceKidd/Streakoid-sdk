@@ -38,7 +38,7 @@ describe('GET /solo-streaks', () => {
     });
 
     test(`solo streaks can be retreived with user query parameter`, async () => {
-        expect.assertions(16);
+        expect.assertions(15);
 
         const soloStreaks = await streakoid.soloStreaks.getAll({ userId });
         expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
@@ -52,7 +52,6 @@ describe('GET /solo-streaks', () => {
         expect(Object.keys(soloStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);
-        expect(soloStreak.activity).toEqual(expect.any(Array));
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(soloStreakName);
@@ -67,7 +66,6 @@ describe('GET /solo-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
@@ -82,7 +80,7 @@ describe('GET /solo-streaks', () => {
     });
 
     test('solo streaks not completed today can be retreived', async () => {
-        expect.assertions(16);
+        expect.assertions(15);
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
             completedToday: false,
@@ -98,7 +96,6 @@ describe('GET /solo-streaks', () => {
         expect(soloStreak.status).toEqual(StreakStatus.live);
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);
-        expect(soloStreak.activity).toEqual(expect.any(Array));
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(expect.any(String));
@@ -113,7 +110,6 @@ describe('GET /solo-streaks', () => {
                 'status',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
@@ -128,7 +124,7 @@ describe('GET /solo-streaks', () => {
     });
 
     test('solo streaks that have been completed today can be retreived', async () => {
-        expect.assertions(17);
+        expect.assertions(16);
 
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
@@ -159,7 +155,6 @@ describe('GET /solo-streaks', () => {
         expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
         expect(soloStreak.completedToday).toEqual(true);
         expect(soloStreak.active).toEqual(true);
-        expect(soloStreak.activity).toEqual(expect.any(Array));
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(streakName);
@@ -174,7 +169,6 @@ describe('GET /solo-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
@@ -189,7 +183,7 @@ describe('GET /solo-streaks', () => {
     });
 
     test('archived solo streaks can be retreived', async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
@@ -217,7 +211,6 @@ describe('GET /solo-streaks', () => {
         expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);
-        expect(soloStreak.activity).toEqual(expect.any(Array));
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(streakName);
@@ -232,7 +225,6 @@ describe('GET /solo-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
@@ -247,7 +239,7 @@ describe('GET /solo-streaks', () => {
     });
 
     test('deleted solo streaks can be retreived', async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
@@ -275,7 +267,6 @@ describe('GET /solo-streaks', () => {
         expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);
-        expect(soloStreak.activity).toEqual(expect.any(Array));
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(streakName);
@@ -290,7 +281,6 @@ describe('GET /solo-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',

@@ -36,7 +36,7 @@ describe('GET /solo-streaks/:soloStreakId', () => {
     });
 
     test(`solo streak can be retreived`, async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
 
@@ -46,7 +46,6 @@ describe('GET /solo-streaks/:soloStreakId', () => {
         expect(soloStreak.userId).toEqual(userId);
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);
-        expect(soloStreak.activity).toEqual([]);
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak.timezone).toEqual(londonTimezone);
         expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
@@ -61,7 +60,6 @@ describe('GET /solo-streaks/:soloStreakId', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'streakName',
                 'streakDescription',
