@@ -1,7 +1,6 @@
 import { streakoidClientFactory } from './streakoidClient';
 import { streakoidFactory } from './streakoid';
 
-import Activtiy from './models/Activity';
 import AgendaJob from './models/AgendaJob';
 import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
@@ -26,7 +25,6 @@ import GroupStreakTypes from './GroupStreakTypes';
 export {
     streakoidClientFactory,
     streakoidFactory,
-    Activtiy,
     AgendaJob,
     CompleteGroupMemberStreakTask,
     CompleteSoloStreakTask,

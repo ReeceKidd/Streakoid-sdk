@@ -6,7 +6,6 @@ import SoloStreak from './models/SoloStreak';
 import CurrentStreak from './models/CurrentStreak';
 import StreakStatus from './StreakStatus';
 import { PastStreak } from '.';
-import Activity from './models/Activity';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
