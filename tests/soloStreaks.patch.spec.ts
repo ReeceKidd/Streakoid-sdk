@@ -34,7 +34,7 @@ describe(`PATCH /solo-streaks`, () => {
     });
 
     test(`that request passes when solo streak is patched with correct keys`, async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const updatedName = 'Intermittent fasting';
         const updatedDescription = 'Cannot eat till 1pm everyday';
@@ -53,7 +53,6 @@ describe(`PATCH /solo-streaks`, () => {
         expect(updatedSoloStreak.userId).toEqual(userId);
         expect(updatedSoloStreak.completedToday).toEqual(false);
         expect(updatedSoloStreak.active).toEqual(false);
-        expect(updatedSoloStreak.activity).toEqual([]);
         expect(updatedSoloStreak.pastStreaks).toEqual([]);
         expect(updatedSoloStreak.timezone).toEqual(londonTimezone);
         expect(updatedSoloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
@@ -68,7 +67,6 @@ describe(`PATCH /solo-streaks`, () => {
                 'streakDescription',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'streakName',
