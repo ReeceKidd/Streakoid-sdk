@@ -1,4 +1,4 @@
-interface CompleteSoloStreakTask {
+interface InompleteSoloStreakTask {
     _id: string;
     streakId: string;
     userId: string;
@@ -8,4 +8,4 @@ interface CompleteSoloStreakTask {
     updatedAt: string;
 }
 
-export default CompleteSoloStreakTask;
+export default IncompleteSoloStreakTask;
