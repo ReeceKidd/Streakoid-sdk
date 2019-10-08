@@ -4,6 +4,7 @@ import { streakoidFactory } from './streakoid';
 import AgendaJob from './models/AgendaJob';
 import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
+import IncompleteSoloStreakTask from './models/IncompleteSoloStreakTask';
 import CurrentStreak from './models/CurrentStreak';
 import Feedback from './models/Feedback';
 import Friend from './models/Friend';
@@ -28,6 +29,7 @@ export {
     AgendaJob,
     CompleteGroupMemberStreakTask,
     CompleteSoloStreakTask,
+    IncompleteSoloStreakTask,
     CurrentStreak,
     Feedback,
     Friend,

@@ -1,4 +1,4 @@
-interface InompleteSoloStreakTask {
+interface IncompleteSoloStreakTask {
     _id: string;
     streakId: string;
     userId: string;
