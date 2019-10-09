@@ -1,16 +1,16 @@
 import { streakoid } from '../src/streakoid';
 
-const email = 'get-Incomplete-solo-streak-task@gmail.com';
-const username = 'get-Incomplete-solo-streak-task';
+const email = 'get-incomplete-solo-streak-task@gmail.com';
+const username = 'get-incomplete-solo-streak-task';
 
 const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
-describe('GET /Incomplete-solo-streak-tasks', () => {
+describe('GET /incomplete-solo-streak-tasks', () => {
     let userId: string;
     let soloStreakId: string;
-    let IncompleteSoloStreakTaskId: string;
+    let incompleteSoloStreakTaskId: string;
 
     beforeAll(async () => {
         const registrationResponse = await streakoid.users.create({
@@ -26,17 +26,24 @@ describe('GET /Incomplete-solo-streak-tasks', () => {
 
         soloStreakId = createSoloStreakResponse._id;
 
+        // Solo streak tasks must be completed before they can be incompleted
+
+        await streakoid.completeSoloStreakTasks.create({
+            userId,
+            soloStreakId,
+        });
+
         const createSoloStreakTaskIncompleteResponse = await streakoid.incompleteSoloStreakTasks.create({
             userId,
             soloStreakId,
         });
-        IncompleteSoloStreakTaskId = createSoloStreakTaskIncompleteResponse._id;
+        incompleteSoloStreakTaskId = createSoloStreakTaskIncompleteResponse._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
         await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.incompleteSoloStreakTasks.deleteOne(IncompleteSoloStreakTaskId);
+        await streakoid.incompleteSoloStreakTasks.deleteOne(incompleteSoloStreakTaskId);
     });
 
     test(`IncompleteSoloStreakTasks can be retreived`, async () => {

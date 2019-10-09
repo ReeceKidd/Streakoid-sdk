@@ -5,7 +5,7 @@ const username = 'delete-solo-streak-tasks-user';
 
 jest.setTimeout(120000);
 
-describe('DELETE /Incomplete-solo-streak-tasks', () => {
+describe('DELETE /incomplete-solo-streak-tasks', () => {
     let userId: string;
     let soloStreakId: string;
     let IncompleteSoloStreakTaskId: string;
@@ -25,11 +25,17 @@ describe('DELETE /Incomplete-solo-streak-tasks', () => {
         });
         soloStreakId = soloStreak._id;
 
-        const IncompleteSoloStreakTask = await streakoid.incompleteSoloStreakTasks.create({
+        // Solo streak tasks must be completed before being incompleted.
+        await streakoid.completeSoloStreakTasks.create({
             userId,
             soloStreakId,
         });
-        IncompleteSoloStreakTaskId = IncompleteSoloStreakTask._id;
+
+        const incompleteSoloStreakTask = await streakoid.incompleteSoloStreakTasks.create({
+            userId,
+            soloStreakId,
+        });
+        IncompleteSoloStreakTaskId = incompleteSoloStreakTask._id;
     });
 
     afterAll(async () => {
@@ -37,8 +43,8 @@ describe('DELETE /Incomplete-solo-streak-tasks', () => {
         await streakoid.soloStreaks.deleteOne(soloStreakId);
     });
 
-    describe('DELETE /v1/Incomplete-solo-streak-tasks', () => {
-        test('deletes Incomplete-solo-streak-tasks', async () => {
+    describe('DELETE /v1/incomplete-solo-streak-tasks', () => {
+        test('deletes incomplete-solo-streak-tasks', async () => {
             expect.assertions(1);
 
             const response = await streakoid.incompleteSoloStreakTasks.deleteOne(IncompleteSoloStreakTaskId);
