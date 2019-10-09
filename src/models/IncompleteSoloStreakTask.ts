@@ -2,8 +2,8 @@ interface IncompleteSoloStreakTask {
     _id: string;
     streakId: string;
     userId: string;
-    taskCompleteTime: Date;
-    taskCompleteDay: string;
+    taskIncompleteTime: Date;
+    taskIncompleteDay: string;
     createdAt: string;
     updatedAt: string;
 }
