@@ -1,5 +1,4 @@
 import { streakoid } from '../src/streakoid';
-import StreakTypes from '../src/streakTypes';
 
 const email = 'get-complete-solo-streak-task@gmail.com';
 const username = 'get-complete-solo-streak-task';
@@ -41,7 +40,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`completeSoloStreakTasks can be retreived`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({
             userId,
@@ -55,7 +54,6 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(completeSoloStreakTask.streakId).toEqual(soloStreakId);
         expect(completeSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
-        expect(completeSoloStreakTask.streakType).toEqual(StreakTypes.soloStreak);
         expect(completeSoloStreakTask.createdAt).toEqual(expect.any(String));
         expect(completeSoloStreakTask.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(completeSoloStreakTask).sort()).toEqual(
@@ -65,7 +63,6 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'streakId',
                 'taskCompleteTime',
                 'taskCompleteDay',
-                'streakType',
                 'createdAt',
                 'updatedAt',
                 '__v',

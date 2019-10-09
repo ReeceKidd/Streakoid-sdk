@@ -5,6 +5,7 @@ enum RouterCategories {
     soloStreaks = 'solo-streaks',
     teamStreaks = 'team-streaks',
     completeSoloStreakTasks = 'complete-solo-streak-tasks',
+    incompleteSoloStreakTasks = 'incomplete-solo-streak-tasks',
     completeGroupMemberStreakTasks = 'complete-group-member-streak-tasks',
     test = 'test',
     stripe = 'stripe',

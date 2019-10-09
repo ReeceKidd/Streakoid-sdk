@@ -1,4 +1,5 @@
 import completeSoloStreakTasks from './completeSoloStreakTasks';
+import incompleteSoloStreakTasks from './incompleteSoloStreakTasks';
 import completeGroupMemberStreakTasks from './completeGroupMemberStreakTasks';
 import soloStreaks from './soloStreaks';
 import stripe from './stripe';
@@ -24,6 +25,7 @@ export const streakoidClient = streakoidClientFactory(APPLICATION_URL, londonTim
 export const streakoidFactory = (streakoidClient: AxiosInstance) => {
     return {
         completeSoloStreakTasks: completeSoloStreakTasks(streakoidClient),
+        incompleteSoloStreakTasks: incompleteSoloStreakTasks(streakoidClient),
         completeGroupMemberStreakTasks: completeGroupMemberStreakTasks(streakoidClient),
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
