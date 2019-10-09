@@ -111,6 +111,7 @@ describe('POST /complete-solo-streak-tasks', () => {
             const soloStreakWithExistingCurrentStreak = await streakoid.soloStreaks.update({
                 soloStreakId: newSoloStreak._id,
                 updateData: {
+                    active: true,
                     currentStreak: {
                         startDate: new Date().toString(),
                         numberOfDaysInARow,
@@ -269,6 +270,7 @@ describe('POST /complete-solo-streak-tasks', () => {
             const soloStreakForRecompletion = await streakoid.soloStreaks.update({
                 soloStreakId: newSoloStreak._id,
                 updateData: {
+                    active: true,
                     currentStreak: {
                         startDate: new Date().toString(),
                         numberOfDaysInARow,

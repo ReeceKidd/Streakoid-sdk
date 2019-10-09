@@ -117,7 +117,7 @@ describe('POST /Incomplete-solo-streak-tasks', () => {
 
             await streakoid.soloStreaks.update({
                 soloStreakId: multipleDaySoloStreak._id,
-                updateData: { currentStreak: { numberOfDaysInARow, startDate: new Date().toString() } },
+                updateData: { active: true, currentStreak: { numberOfDaysInARow, startDate: new Date().toString() } },
             });
 
             // Streak must be completed before it can be incompleted.
