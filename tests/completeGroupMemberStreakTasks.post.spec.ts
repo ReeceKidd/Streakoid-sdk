@@ -111,7 +111,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             } catch (err) {
                 expect(err.response.status).toEqual(422);
                 expect(err.response.data.message).toEqual('Task already completed today.');
-                expect(err.response.data.code).toEqual('422-02');
+                expect(err.response.data.code).toEqual('422-03');
             }
         });
     });
