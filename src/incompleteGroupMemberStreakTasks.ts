@@ -10,10 +10,12 @@ export default (streakoidClient: AxiosInstance) => {
         userId,
         groupMemberStreakId,
         groupStreakType,
+        teamStreakId,
     }: {
         userId?: string;
         groupMemberStreakId?: string;
         groupStreakType?: GroupStreakTypes;
+        teamStreakId?: string;
     }): Promise<IncompleteGroupMemberStreakTask[]> => {
         try {
             let getAllURL = `/${ApiVersions.v1}/${RouterCategories.incompleteGroupMemberStreakTasks}?`;
@@ -26,6 +28,9 @@ export default (streakoidClient: AxiosInstance) => {
             if (groupStreakType) {
                 getAllURL = `${getAllURL}groupStreakType=${groupStreakType}&`;
             }
+            if (teamStreakId) {
+                getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
+            }
             const { data } = await streakoidClient.get(getAllURL);
             return data;
         } catch (err) {
@@ -37,10 +42,12 @@ export default (streakoidClient: AxiosInstance) => {
         userId,
         groupMemberStreakId,
         groupStreakType,
+        teamStreakId,
     }: {
         userId: string;
         groupMemberStreakId: string;
         groupStreakType: GroupStreakTypes;
+        teamStreakId: string;
     }): Promise<IncompleteGroupMemberStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
@@ -49,6 +56,7 @@ export default (streakoidClient: AxiosInstance) => {
                     userId,
                     groupMemberStreakId,
                     groupStreakType,
+                    teamStreakId,
                 },
             );
             return data;

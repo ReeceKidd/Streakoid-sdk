@@ -40,6 +40,17 @@ describe('SDK IncompleteGroupMemberStreakTasks', () => {
             );
         });
 
+        test('calls GET with correct URL when just teamStreakId is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.incompleteGroupMemberStreakTasks.getAll({ teamStreakId: 'teamStreakId' });
+
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/incomplete-group-member-streak-tasks?teamStreakId=teamStreakId&`,
+            );
+        });
+
         test('calls GET with correct URL when both userId, groupMemberStreakId and groupStreakType is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -72,17 +83,20 @@ describe('SDK IncompleteGroupMemberStreakTasks', () => {
             const userId = 'userId';
             const groupMemberStreakId = 'groupMemberStreakId';
             const groupStreakType = GroupStreakTypes.team;
+            const teamStreakId = 'teamStreakId';
 
             await streakoid.incompleteGroupMemberStreakTasks.create({
                 userId,
                 groupMemberStreakId,
                 groupStreakType,
+                teamStreakId,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks`, {
                 userId,
                 groupMemberStreakId,
                 groupStreakType,
+                teamStreakId,
             });
         });
     });
