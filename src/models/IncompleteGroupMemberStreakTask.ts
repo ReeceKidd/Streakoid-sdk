@@ -1,16 +1,16 @@
 import GroupStreakTypes from '../GroupStreakTypes';
 
-interface CompleteGroupMemberStreakTask {
+interface IncompleteGroupMemberStreakTask {
     _id: string;
     streakId: string;
     userId: string;
-    teamStreakId: string;
     groupMemberStreakId: string;
     groupStreakType: GroupStreakTypes;
-    taskCompleteTime: Date;
-    taskCompleteDay: string;
+    taskIncompleteTime: Date;
+    taskIncompleteDay: string;
     createdAt: string;
     updatedAt: string;
+    teamStreakId?: string;
 }
 
-export default CompleteGroupMemberStreakTask;
+export default IncompleteGroupMemberStreakTask;
