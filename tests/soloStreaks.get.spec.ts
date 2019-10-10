@@ -16,11 +16,11 @@ describe('GET /solo-streaks', () => {
     let completedTaskResponseId: string;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             email,
             username,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,
@@ -91,7 +91,7 @@ describe('GET /solo-streaks', () => {
 
         const soloStreak = soloStreaks[0];
 
-        expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
         expect(Object.keys(soloStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(soloStreak.status).toEqual(StreakStatus.live);
         expect(soloStreak.completedToday).toEqual(false);

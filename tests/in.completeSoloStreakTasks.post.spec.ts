@@ -14,11 +14,11 @@ describe('POST /Incomplete-solo-streak-tasks', () => {
     const streakName = 'Intermittent fasting';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,
@@ -40,7 +40,7 @@ describe('POST /Incomplete-solo-streak-tasks', () => {
         await streakoid.soloStreaks.deleteOne(secondSoloStreakId);
     });
 
-    describe('POST /v1/Incomplete-solo-streak-tasks', () => {
+    describe('POST /v1/incomplete-solo-streak-tasks', () => {
         test('user can incomplete a solo streak task and the solo streak tasks startdate gets reset if it is the first day of the streak', async () => {
             expect.assertions(21);
 

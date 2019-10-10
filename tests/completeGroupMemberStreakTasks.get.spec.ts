@@ -15,11 +15,11 @@ describe('GET /complete-group-member-streak-tasks', () => {
     let completeGroupMemberStreakTaskId: string;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
@@ -39,6 +39,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
+            groupStreakType: GroupStreakTypes.team,
         });
         completeGroupMemberStreakTaskId = groupMemberStreakTaskComplete._id;
     });
@@ -68,6 +69,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
         expect(completeGroupMemberStreakTask.userId).toEqual(userId);
         expect(completeGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
+        expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
         expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.createdAt).toBeDefined();
@@ -80,7 +82,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
                 'groupMemberStreakId',
                 'taskCompleteTime',
                 'taskCompleteDay',
-                'streakType',
+                'groupStreakType',
                 'createdAt',
                 'updatedAt',
                 '__v',

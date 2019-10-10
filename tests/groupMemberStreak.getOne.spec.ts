@@ -41,7 +41,7 @@ describe('GET /group-member-streaks/:groupMemberStreakId', () => {
     });
 
     test(`team member streak can be retreived`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const groupMemberStreak = await streakoid.groupMemberStreaks.getOne(groupMemberStreakId);
 
@@ -50,7 +50,6 @@ describe('GET /group-member-streaks/:groupMemberStreakId', () => {
         expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(groupMemberStreak.completedToday).toEqual(false);
         expect(groupMemberStreak.active).toEqual(false);
-        expect(groupMemberStreak.activity).toEqual([]);
         expect(groupMemberStreak.pastStreaks).toEqual([]);
         expect(groupMemberStreak.userId).toEqual(expect.any(String));
         expect(groupMemberStreak.teamStreakId).toEqual(teamStreakId);
@@ -63,7 +62,6 @@ describe('GET /group-member-streaks/:groupMemberStreakId', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',

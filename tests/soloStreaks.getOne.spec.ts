@@ -15,11 +15,11 @@ describe('GET /solo-streaks/:soloStreakId', () => {
     let soloStreakId: string;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,

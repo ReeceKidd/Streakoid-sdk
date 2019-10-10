@@ -15,11 +15,11 @@ describe('GET /streak-tracking-events', () => {
     let streakTrackingEventId: string;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username: registeredUsername,
             email: registeredEmail,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const soloStreakRegistration = await streakoid.soloStreaks.create({
             userId,

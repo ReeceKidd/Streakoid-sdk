@@ -95,6 +95,27 @@ describe('SDK groupMemberStreaks', () => {
         });
     });
 
+    describe('update', () => {
+        test('calls PATCH with correct URL and  parmaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.patch = jest.fn().mockResolvedValue(true);
+            const timezone = 'Europe/Paris';
+            const updateData = {
+                timezone,
+            };
+
+            await streakoid.groupMemberStreaks.update({
+                groupMemberStreakId: 'id',
+                updateData,
+            });
+
+            expect(streakoidClient.patch).toBeCalledWith(`/v1/group-member-streaks/id`, {
+                ...updateData,
+            });
+        });
+    });
+
     describe('deleteOne', () => {
         test('calls DELETE correct URL ', async () => {
             expect.assertions(1);

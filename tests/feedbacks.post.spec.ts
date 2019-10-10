@@ -10,11 +10,11 @@ describe('POST /feedbacks', () => {
     let feedbackId: string;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
-        registeredUserId = registrationResponse._id;
+        registeredUserId = user._id;
     });
 
     afterAll(async () => {

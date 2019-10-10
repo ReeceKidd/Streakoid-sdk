@@ -54,7 +54,7 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
     });
 
     test(`deletes member from team streak`, async () => {
-        expect.assertions(28);
+        expect.assertions(27);
 
         const { status } = await streakoid.teamStreaks.groupMembers.deleteOne({
             teamStreakId: createdteamStreakId,
@@ -104,7 +104,6 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
         expect(member.groupMemberStreak._id).toEqual(expect.any(String));
         expect(member.groupMemberStreak.completedToday).toEqual(false);
         expect(member.groupMemberStreak.active).toEqual(false);
-        expect(member.groupMemberStreak.activity).toEqual([]);
         expect(member.groupMemberStreak.pastStreaks).toEqual([]);
         expect(member.groupMemberStreak.userId).toEqual(userId);
         expect(member.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
@@ -116,7 +115,6 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
             'currentStreak',
             'completedToday',
             'active',
-            'activity',
             'pastStreaks',
             'userId',
             'teamStreakId',

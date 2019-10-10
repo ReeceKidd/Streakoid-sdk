@@ -1,4 +1,5 @@
 import { streakoid, londonTimezone } from '../src/streakoid';
+import { GroupStreakTypes } from '../src';
 
 const email = 'get-group-member-streaks@gmail.com';
 const username = 'get-group-member-streaks-user';
@@ -46,8 +47,8 @@ describe('GET /group-member-streaks', () => {
         await streakoid.completeGroupMemberStreakTasks.deleteOne(completedGroupMemberStreakTaskId);
     });
 
-    test(`team member streaks can be retreived with user query parameter`, async () => {
-        expect.assertions(14);
+    test(`team member streaks can be retreived with userId query parameter`, async () => {
+        expect.assertions(13);
 
         const groupMemberStreaks = await streakoid.groupMemberStreaks.getAll({
             userId,
@@ -61,7 +62,6 @@ describe('GET /group-member-streaks', () => {
         expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(groupMemberStreak.completedToday).toEqual(false);
         expect(groupMemberStreak.active).toEqual(false);
-        expect(groupMemberStreak.activity).toEqual([]);
         expect(groupMemberStreak.pastStreaks).toEqual([]);
         expect(groupMemberStreak.userId).toEqual(expect.any(String));
         expect(groupMemberStreak.teamStreakId).toEqual(expect.any(String));
@@ -74,7 +74,6 @@ describe('GET /group-member-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',
@@ -87,7 +86,7 @@ describe('GET /group-member-streaks', () => {
     });
 
     test(`team member streaks can be retreieved with timezone query parameter`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         const groupMemberStreaks = await streakoid.groupMemberStreaks.getAll({
             timezone: londonTimezone,
@@ -101,7 +100,6 @@ describe('GET /group-member-streaks', () => {
         expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(groupMemberStreak.completedToday).toEqual(false);
         expect(groupMemberStreak.active).toEqual(false);
-        expect(groupMemberStreak.activity).toEqual([]);
         expect(groupMemberStreak.pastStreaks).toEqual([]);
         expect(groupMemberStreak.userId).toEqual(expect.any(String));
         expect(groupMemberStreak.teamStreakId).toEqual(expect.any(String));
@@ -114,7 +112,6 @@ describe('GET /group-member-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',
@@ -127,7 +124,7 @@ describe('GET /group-member-streaks', () => {
     });
 
     test('team member streaks not completed today can be retreived', async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         const groupMemberStreaks = await streakoid.groupMemberStreaks.getAll({
             completedToday: false,
@@ -142,7 +139,6 @@ describe('GET /group-member-streaks', () => {
         expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(groupMemberStreak.completedToday).toEqual(false);
         expect(groupMemberStreak.active).toEqual(false);
-        expect(groupMemberStreak.activity).toEqual([]);
         expect(groupMemberStreak.pastStreaks).toEqual([]);
         expect(groupMemberStreak.userId).toEqual(expect.any(String));
         expect(groupMemberStreak.teamStreakId).toEqual(expect.any(String));
@@ -155,7 +151,6 @@ describe('GET /group-member-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',
@@ -168,7 +163,7 @@ describe('GET /group-member-streaks', () => {
     });
 
     test('team member streaks that have been completed today can be retreived', async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const streakName = '30 minutes of reading';
 
@@ -191,6 +186,7 @@ describe('GET /group-member-streaks', () => {
             userId,
             teamStreakId: secondteamStreakId,
             groupMemberStreakId: secondGroupMemberStreakId,
+            groupStreakType: GroupStreakTypes.team,
         });
         completedGroupMemberStreakTaskId = completedGroupMemberStreakTask._id;
 
@@ -207,7 +203,6 @@ describe('GET /group-member-streaks', () => {
         expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
         expect(groupMemberStreak.completedToday).toEqual(true);
         expect(groupMemberStreak.active).toEqual(true);
-        expect(groupMemberStreak.activity).toEqual([]);
         expect(groupMemberStreak.pastStreaks).toEqual([]);
         expect(groupMemberStreak.userId).toEqual(expect.any(String));
         expect(groupMemberStreak.teamStreakId).toEqual(expect.any(String));
@@ -220,7 +215,6 @@ describe('GET /group-member-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',

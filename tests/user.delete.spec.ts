@@ -9,11 +9,11 @@ describe('DELETE /users/:userId', () => {
     let userId = '';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             email,
             username,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
     });
 
     test(`deletes user`, async () => {

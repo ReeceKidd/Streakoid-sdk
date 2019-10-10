@@ -13,11 +13,11 @@ describe(`DELETE /solo-streaks`, () => {
     const streakDescription = 'I will read 30 minutes every day';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             email,
             username,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,

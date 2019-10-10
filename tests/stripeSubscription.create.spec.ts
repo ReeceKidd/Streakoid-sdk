@@ -18,11 +18,11 @@ describe(`POST /subscriptions`, () => {
     const validToken = 'tok_visa';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username: registeredUsername,
             email: registeredEmail,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const secondRegistrationResponse = await streakoid.users.create({
             username: secondRegisteredUsername,

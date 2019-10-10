@@ -1,24 +1,23 @@
 import { streakoid } from '../src/streakoid';
 import { GroupStreakTypes } from '../src';
 
-const email = 'delete-complete-group-member-streak-tasks-user@gmail.com';
-const username = 'delete-complete-group-member-streak-tasks-user';
+const email = 'delete-incomplete-group-member-streak-tasks-user@gmail.com';
+const username = 'delete-incomplete-group-member-streak-tasks-user';
 
 jest.setTimeout(120000);
 
-describe('DELETE /complete-group-member-streak-tasks', () => {
+describe('DELETE /incomplete-solo-streak-tasks', () => {
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
-    let completeGroupMemberStreakTaskId: string;
+    let incompleteGroupMemberStreakTaskId: string;
 
     const streakName = 'Intermittent fasting';
-    const streakDescription = 'I will not eat until 1pm everyday';
 
     beforeAll(async () => {
         const user = await streakoid.users.create({
-            username,
             email,
+            username,
         });
         userId = user._id;
         const members = [{ memberId: userId }];
@@ -26,7 +25,6 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
             streakName,
-            streakDescription,
             members,
         });
         teamStreakId = teamStreak._id;
@@ -37,25 +35,35 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         });
         groupMemberStreakId = groupMemberStreak._id;
 
-        const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create({
+        // Group member streaks tasks must be completed before they can be incompleted.
+        await streakoid.completeGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
             groupStreakType: GroupStreakTypes.team,
         });
-        completeGroupMemberStreakTaskId = completeGroupMemberStreakTask._id;
+
+        const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
+            userId,
+            teamStreakId,
+            groupMemberStreakId,
+            groupStreakType: GroupStreakTypes.team,
+        });
+
+        incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
     });
 
-    describe('DELETE /v1/complete-group-member-streak-tasks', () => {
-        test('deletes complete-group-member-streak-tasks', async () => {
+    describe('DELETE /v1/incomplete-solo-streak-tasks', () => {
+        test('deletes incomplete-solo-streak-tasks', async () => {
             expect.assertions(1);
 
-            const response = await streakoid.completeGroupMemberStreakTasks.deleteOne(completeGroupMemberStreakTaskId);
+            const response = await streakoid.incompleteGroupMemberStreakTasks.deleteOne(
+                incompleteGroupMemberStreakTaskId,
+            );
 
             expect(response.status).toEqual(204);
         });

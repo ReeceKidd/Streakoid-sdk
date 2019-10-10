@@ -54,7 +54,6 @@ describe('GET /team-streaks/:teamStreakId', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',

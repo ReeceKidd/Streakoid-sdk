@@ -49,7 +49,7 @@ describe('POST /team-streaks/:id/members', () => {
     });
 
     test(`adds friend to team streak`, async () => {
-        expect.assertions(48);
+        expect.assertions(46);
 
         const members = await streakoid.teamStreaks.groupMembers.create({
             friendId,
@@ -109,7 +109,6 @@ describe('POST /team-streaks/:id/members', () => {
         expect(member.groupMemberStreak._id).toEqual(expect.any(String));
         expect(member.groupMemberStreak.completedToday).toEqual(false);
         expect(member.groupMemberStreak.active).toEqual(false);
-        expect(member.groupMemberStreak.activity).toEqual([]);
         expect(member.groupMemberStreak.pastStreaks).toEqual([]);
         expect(member.groupMemberStreak.userId).toEqual(userId);
         expect(member.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
@@ -122,7 +121,6 @@ describe('POST /team-streaks/:id/members', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',
@@ -141,7 +139,6 @@ describe('POST /team-streaks/:id/members', () => {
         expect(friendMember.groupMemberStreak._id).toEqual(expect.any(String));
         expect(friendMember.groupMemberStreak.completedToday).toEqual(false);
         expect(friendMember.groupMemberStreak.active).toEqual(false);
-        expect(friendMember.groupMemberStreak.activity).toEqual([]);
         expect(friendMember.groupMemberStreak.pastStreaks).toEqual([]);
         expect(friendMember.groupMemberStreak.userId).toEqual(friendId);
         expect(friendMember.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
@@ -154,7 +151,6 @@ describe('POST /team-streaks/:id/members', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 'userId',
                 'teamStreakId',

@@ -10,11 +10,11 @@ describe('GET /users/:userId', () => {
     let userId = '';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
     });
 
     afterAll(async () => {

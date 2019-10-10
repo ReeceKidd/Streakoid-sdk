@@ -16,11 +16,11 @@ describe('POST /solo-streaks', () => {
     const streakNumberOfMinutes = 30;
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             email,
             username,
         });
-        registeredUserId = registrationResponse._id;
+        registeredUserId = user._id;
     });
 
     afterAll(async () => {

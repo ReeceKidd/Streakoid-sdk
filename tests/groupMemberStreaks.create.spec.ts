@@ -38,7 +38,7 @@ describe('POST /group-member-streaks', () => {
     });
 
     test(`creates groupMember streak associated with groupId`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const groupMemberStreak = await streakoid.groupMemberStreaks.create({
             userId,
@@ -50,7 +50,6 @@ describe('POST /group-member-streaks', () => {
             currentStreak,
             completedToday,
             active,
-            activity,
             timezone,
             pastStreaks,
             createdAt,
@@ -61,7 +60,6 @@ describe('POST /group-member-streaks', () => {
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
         expect(completedToday).toEqual(false);
         expect(active).toEqual(false);
-        expect(activity).toEqual([]);
         expect(pastStreaks).toEqual([]);
         expect(_id).toBeDefined();
         expect(userId).toEqual(userId);
@@ -74,7 +72,6 @@ describe('POST /group-member-streaks', () => {
                 'currentStreak',
                 'completedToday',
                 'active',
-                'activity',
                 'pastStreaks',
                 '_id',
                 'userId',

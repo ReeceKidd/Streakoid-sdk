@@ -13,11 +13,11 @@ describe('DELETE /complete-solo-streak-tasks', () => {
     const streakName = 'Intermittent fasting';
 
     beforeAll(async () => {
-        const registrationResponse = await streakoid.users.create({
+        const user = await streakoid.users.create({
             email,
             username,
         });
-        userId = registrationResponse._id;
+        userId = user._id;
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
