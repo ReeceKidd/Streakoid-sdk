@@ -1,4 +1,5 @@
 import { streakoid } from '../src/streakoid';
+import { GroupStreakTypes } from '../src';
 
 const email = 'get-complete-group-member-task@gmail.com';
 const username = 'get-complete-group-member-task';
@@ -56,6 +57,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
+            groupStreakType: GroupStreakTypes.team,
         });
 
         expect(completeGroupMemberStreakTasks.length).toBeGreaterThanOrEqual(1);
@@ -68,7 +70,6 @@ describe('GET /complete-group-member-streak-tasks', () => {
         expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
         expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
-        expect(completeGroupMemberStreakTask.streakType).toEqual('group-member-streak');
         expect(completeGroupMemberStreakTask.createdAt).toBeDefined();
         expect(completeGroupMemberStreakTask.updatedAt).toBeDefined();
         expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual(

@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
+import { GroupStreakTypes } from '.';
 
 describe('SDK completeSoloStreakTasks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -19,6 +20,30 @@ describe('SDK completeSoloStreakTasks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/complete-group-member-streak-tasks?userId=userId&`);
         });
 
+        test('calls GET with correct URL when just groupMemberStreakId is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.completeGroupMemberStreakTasks.getAll({
+                groupMemberStreakId: 'groupMemberStreakId',
+            });
+
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/complete-group-member-streak-tasks?groupMemberStreakId=groupMemberStreakId&`,
+            );
+        });
+
+        test('calls GET with correct URL when just groupStreakType is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.completeGroupMemberStreakTasks.getAll({
+                groupStreakType: GroupStreakTypes.team,
+            });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-group-member-streak-tasks?groupStreakType=team&`);
+        });
+
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -32,31 +57,19 @@ describe('SDK completeSoloStreakTasks', () => {
             );
         });
 
-        test('calls GET with correct URL when just groupMemberStreakId is passed', async () => {
-            expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-            await streakoid.completeGroupMemberStreakTasks.getAll({
-                groupMemberStreakId: 'groupMemberStreakId',
-            });
-
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-group-member-streak-tasks?groupMemberStreakId=groupMemberStreakId`,
-            );
-        });
-
         test('calls GET with correct URL when all query paramaters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             await streakoid.completeGroupMemberStreakTasks.getAll({
                 userId: 'userId',
-                teamStreakId: 'teamStreakId',
                 groupMemberStreakId: 'groupMemberStreakId',
+                groupStreakType: GroupStreakTypes.team,
+                teamStreakId: 'teamStreakId',
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-group-member-streak-tasks?userId=userId&teamStreakId=teamStreakId&groupMemberStreakId=groupMemberStreakId`,
+                `/v1/complete-group-member-streak-tasks?userId=userId&groupMemberStreakId=groupMemberStreakId&groupStreakType=team&teamStreakId=teamStreakId&`,
             );
         });
 
@@ -75,19 +88,22 @@ describe('SDK completeSoloStreakTasks', () => {
             expect.assertions(1);
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
-            const teamStreakId = 'teamStreakId';
             const groupMemberStreakId = 'groupMemberStreakId';
+            const groupStreakType = GroupStreakTypes.team;
+            const teamStreakId = 'teamStreakId';
 
             await streakoid.completeGroupMemberStreakTasks.create({
                 userId,
-                teamStreakId,
                 groupMemberStreakId,
+                groupStreakType,
+                teamStreakId,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/complete-group-member-streak-tasks`, {
                 userId,
-                teamStreakId,
                 groupMemberStreakId,
+                groupStreakType,
+                teamStreakId,
             });
         });
     });

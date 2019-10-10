@@ -2,28 +2,34 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
+import GroupStreakTypes from './GroupStreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
-        teamStreakId,
         groupMemberStreakId,
+        groupStreakType,
+        teamStreakId,
     }: {
         userId?: string;
-        teamStreakId?: string;
         groupMemberStreakId?: string;
+        groupStreakType?: GroupStreakTypes;
+        teamStreakId?: string;
     }): Promise<CompleteGroupMemberStreakTask[]> => {
         try {
             let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}?`;
             if (userId) {
                 getAllURL = `${getAllURL}userId=${userId}&`;
             }
+            if (groupMemberStreakId) {
+                getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}&`;
+            }
+            if (groupStreakType) {
+                getAllURL = `${getAllURL}groupStreakType=${groupStreakType}&`;
+            }
             if (teamStreakId) {
                 getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
-            }
-            if (groupMemberStreakId) {
-                getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}`;
             }
 
             const { data } = await streakoidClient.get(getAllURL);
@@ -35,20 +41,23 @@ export default (streakoidClient: AxiosInstance) => {
 
     const create = async ({
         userId,
-        teamStreakId,
         groupMemberStreakId,
+        groupStreakType,
+        teamStreakId,
     }: {
         userId: string;
-        teamStreakId: string;
         groupMemberStreakId: string;
+        groupStreakType: GroupStreakTypes;
+        teamStreakId: string;
     }): Promise<CompleteGroupMemberStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
                 {
                     userId,
-                    teamStreakId,
                     groupMemberStreakId,
+                    groupStreakType,
+                    teamStreakId,
                 },
             );
             return data;
