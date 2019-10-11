@@ -20,11 +20,13 @@ import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
+import TimezoneJob from './models/TimezoneJob';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
 import GroupStreakTypes from './GroupStreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
+import AgendaJobNames from './AgendaJobNames';
 
 export {
     streakoidClientFactory,
@@ -53,4 +55,6 @@ export {
     StreakTypes,
     GroupStreakTypes,
     StreakTrackingEventTypes,
+    AgendaJobNames,
+    TimezoneJob,
 };
