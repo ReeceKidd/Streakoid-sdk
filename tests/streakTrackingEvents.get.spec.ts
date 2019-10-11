@@ -21,12 +21,12 @@ describe('GET /streak-tracking-events', () => {
         });
         userId = user._id;
 
-        const soloStreakRegistration = await streakoid.soloStreaks.create({
+        const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
         });
-        soloStreakId = soloStreakRegistration._id;
+        soloStreakId = soloStreak._id;
 
         const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventType.LostStreak,
