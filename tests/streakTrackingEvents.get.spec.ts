@@ -1,5 +1,6 @@
 import { streakoid } from '../src/streakoid';
-import StreakTrackingEventType from '../src/streakTrackingEventType';
+import StreakTrackingEventTypes from '../src/streakTrackingEventTypes';
+import { StreakTypes } from '../src';
 
 const registeredEmail = 'create-streak-tracking-event@gmail.com';
 const registeredUsername = 'create-streak-tracking-event';
@@ -28,13 +29,14 @@ describe('GET /streak-tracking-events', () => {
         });
         soloStreakId = soloStreak._id;
 
-        const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create({
-            type: StreakTrackingEventType.LostStreak,
+        const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+            type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
+            streakType: StreakTypes.soloStreak,
         });
 
-        streakTrackingEventId = createStreakTrackingEventResponse._id;
+        streakTrackingEventId = streakTrackingEvent._id;
     });
 
     afterAll(async () => {

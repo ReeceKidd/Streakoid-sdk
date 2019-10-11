@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import StreakTrackingEventType from '../src/streakTrackingEventType';
+import { StreakTypes, StreakTrackingEventTypes } from '../src';
 
 const email = 'delete-solo-streak-user@gmail.com';
 const username = 'delete-solo-streak-user';
@@ -28,13 +28,14 @@ describe(`DELETE /solo-streaks`, () => {
         });
         soloStreakId = createSoloStreakResponse._id;
 
-        const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create({
-            type: StreakTrackingEventType.LostStreak,
+        const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+            type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
+            streakType: StreakTypes.soloStreak,
         });
 
-        streakTrackingEventId = createStreakTrackingEventResponse._id;
+        streakTrackingEventId = streakTrackingEvent._id;
     });
 
     afterAll(async () => {

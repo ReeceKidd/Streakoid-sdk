@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import StreakTrackingEventType from '../src/streakTrackingEventType';
+import { StreakTrackingEventTypes, StreakTypes } from '../src';
 
 const registeredEmail = 'get-one-streak-tracking@gmail.com';
 const registeredUsername = 'get-one-streak-tracking';
@@ -28,13 +28,14 @@ describe('GET /streak-tracking-events', () => {
         });
         soloStreakId = soloStreak._id;
 
-        const createStreakTrackingEventResponse = await streakoid.streakTrackingEvents.create({
-            type: StreakTrackingEventType.LostStreak,
+        const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
+            type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
+            streakType: StreakTypes.soloStreak,
         });
 
-        streakTrackingEventId = createStreakTrackingEventResponse._id;
+        streakTrackingEventId = streakTrackingEvent._id;
     });
 
     afterAll(async () => {
@@ -44,17 +45,19 @@ describe('GET /streak-tracking-events', () => {
     });
 
     test(`retreives individual streak tracking event`, async () => {
-        expect.assertions(6);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.getOne(streakTrackingEventId);
 
+        expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.userId).toBeDefined();
         expect(streakTrackingEvent.streakId).toBeDefined();
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
+        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            ['_id', 'type', 'streakId', 'userId', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });
