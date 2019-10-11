@@ -46,19 +46,21 @@ describe('GET /streak-tracking-events', () => {
     });
 
     test(`streak tracking events can be retreived without a query paramater`, async () => {
-        expect.assertions(7);
+        expect.assertions(9);
 
         const streakTrackingEvents = await streakoid.streakTrackingEvents.getAll({});
         expect(streakTrackingEvents.length).toBeGreaterThanOrEqual(1);
 
         const streakTrackingEvent = streakTrackingEvents[0];
+        expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.userId).toBeDefined();
         expect(streakTrackingEvent.streakId).toBeDefined();
-        expect(streakTrackingEvent._id).toEqual(expect.any(String));
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
+        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            ['_id', 'type', 'streakId', 'userId', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });
