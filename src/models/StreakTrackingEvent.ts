@@ -1,9 +1,10 @@
 import StreakTypes from '../StreakTypes';
 import GroupStreakTypes from '../GroupStreakTypes';
+import StreakTrackingEventTypes from '../StreakTrackingEventTypes';
 
 interface StreakTrackingEvent {
     _id: string;
-    type: StreakTrackingEvent;
+    type: StreakTrackingEventTypes;
     streakId: string;
     streakType: StreakTypes;
     userId: string;

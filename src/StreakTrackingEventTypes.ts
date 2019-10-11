@@ -1,7 +1,7 @@
-enum StreakTrackingEventType {
+enum StreakTrackingEventTypes {
     LostStreak = 'lost-streak',
     MaintainedStreak = 'maintained-streak',
     InactiveStreak = 'inactive-streak',
 }
 
-export default StreakTrackingEventType;
+export default StreakTrackingEventTypes;

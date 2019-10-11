@@ -24,6 +24,7 @@ import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
 import GroupStreakTypes from './GroupStreakTypes';
+import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 
 export {
     streakoidClientFactory,
@@ -51,4 +52,5 @@ export {
     PopulatedFriendRequest,
     StreakTypes,
     GroupStreakTypes,
+    StreakTrackingEventTypes,
 };
