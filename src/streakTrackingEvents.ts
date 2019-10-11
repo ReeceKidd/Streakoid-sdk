@@ -3,6 +3,9 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import StreakTrackingEvent from './models/StreakTrackingEvent';
+import { StreakTrackingEventTypes } from '.';
+import StreakTypes from './StreakTypes';
+import GroupStreakTypes from './GroupStreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
@@ -10,10 +13,14 @@ export default (streakoidClient: AxiosInstance) => {
         type,
         userId,
         streakId,
+        streakType,
+        groupStreakType,
     }: {
-        type?: string;
+        type?: StreakTrackingEventTypes;
         userId?: string;
         streakId?: string;
+        streakType?: StreakTypes;
+        groupStreakType?: GroupStreakTypes;
     }): Promise<StreakTrackingEvent[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}?`;
@@ -25,7 +32,13 @@ export default (streakoidClient: AxiosInstance) => {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}userId=${userId}&`;
             }
             if (streakId) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakId=${streakId}`;
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakId=${streakId}&`;
+            }
+            if (streakType) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakType=${streakType}&`;
+            }
+            if (groupStreakType) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}groupStreakType=${groupStreakType}&`;
             }
             const { data } = await streakoidClient.get(getAllSoloStreaksURL);
             return data;
