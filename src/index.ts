@@ -22,6 +22,7 @@ import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
+import StreakTypes from './StreakTypes';
 import GroupStreakTypes from './GroupStreakTypes';
 
 export {
@@ -48,5 +49,6 @@ export {
     FriendRequest,
     FriendRequestStatus,
     PopulatedFriendRequest,
+    StreakTypes,
     GroupStreakTypes,
 };

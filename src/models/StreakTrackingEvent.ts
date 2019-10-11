@@ -1,4 +1,4 @@
-import StreakTypes from '../streakTypes';
+import StreakTypes from '../StreakTypes';
 import GroupStreakTypes from '../GroupStreakTypes';
 
 interface StreakTrackingEvent {
