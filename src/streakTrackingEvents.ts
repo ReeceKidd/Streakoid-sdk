@@ -62,16 +62,22 @@ export default (streakoidClient: AxiosInstance) => {
         type,
         streakId,
         userId,
+        streakType,
+        groupStreakType,
     }: {
-        type: string;
+        type: StreakTrackingEventTypes;
         streakId: string;
         userId: string;
+        streakType: StreakTypes;
+        groupStreakType?: GroupStreakTypes;
     }): Promise<StreakTrackingEvent> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`, {
                 type,
                 streakId,
                 userId,
+                streakType,
+                groupStreakType,
             });
             return data;
         } catch (err) {
