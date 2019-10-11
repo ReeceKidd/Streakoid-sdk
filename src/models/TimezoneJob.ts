@@ -4,9 +4,9 @@ import { GroupStreakTypes, AgendaJobNames } from '..';
 interface TimezoneJob {
     _id: string;
     jobName: AgendaJobNames;
+    timezone: string;
+    localisedJobCompleteTime: string;
     streakType: StreakTypes;
-    completedTime: string;
-    completedDay: string;
     numberOfStreaks: number;
     createdAt: string;
     updatedAt: string;
