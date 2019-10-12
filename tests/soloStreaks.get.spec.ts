@@ -54,8 +54,8 @@ describe('GET /solo-streaks', () => {
         expect(soloStreak.active).toEqual(false);
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
-        expect(soloStreak.streakName).toEqual(soloStreakName);
-        expect(soloStreak.streakDescription).toEqual(soloStreakDescription);
+        expect(soloStreak.streakName).toEqual(expect.any(String));
+        expect(soloStreak.streakDescription).toEqual(expect.any(String));
         expect(soloStreak.userId).toEqual(userId);
         expect(soloStreak.timezone).toEqual(londonTimezone);
         expect(soloStreak.createdAt).toEqual(expect.any(String));
