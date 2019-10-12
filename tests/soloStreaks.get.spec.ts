@@ -150,7 +150,7 @@ describe('GET /solo-streaks', () => {
         const soloStreak = soloStreaks[0];
 
         expect(soloStreak.status).toEqual(StreakStatus.live);
-        expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(1);
+        expect(soloStreak.currentStreak.numberOfDaysInARow).toBeGreaterThanOrEqual(1);
         expect(soloStreak.currentStreak.startDate).toEqual(expect.any(String));
         expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
         expect(soloStreak.completedToday).toEqual(true);

@@ -4,8 +4,8 @@ import StreakStatus from '../src/StreakStatus';
 const registeredEmail = 'get-team-streaks@gmail.com';
 const registeredUsername = 'get-team-streaks-user';
 
-const creatorRegisteredEmail = 'creator@gmail.com';
-const creatorRegisteredUsername = 'creator';
+const creatorRegisteredEmail = 'team-streak-creator@gmail.com';
+const creatorRegisteredUsername = 'team-streak-creator';
 
 const creatorIdStreakName = 'Daily Spanish';
 const creatorIdStreakDescription = 'Each day I must do the insame amount 50xp of Duolingo';
