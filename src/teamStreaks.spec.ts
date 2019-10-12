@@ -145,6 +145,8 @@ describe('SDK TeamStreaks', () => {
                 numberOfDaysInARow: 1,
             };
             const pastStreaks: PastStreak[] = [];
+            const completedToday = true;
+            const active = true;
 
             const updateData = {
                 streakName,
@@ -155,6 +157,8 @@ describe('SDK TeamStreaks', () => {
                 teamStreakStatus,
                 currentStreak,
                 pastStreaks,
+                completedToday,
+                active,
             };
 
             await streakoid.teamStreaks.update({

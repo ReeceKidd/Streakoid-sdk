@@ -101,6 +101,8 @@ export default (streakoidClient: AxiosInstance) => {
             teamStreakStatus?: TeamStreakStatus;
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
+            completedToday?: boolean;
+            active?: boolean;
         };
     }): Promise<TeamStreak> => {
         try {
