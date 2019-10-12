@@ -1,6 +1,8 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import StreakStatus from './StreakStatus';
 import TeamStreakStatus from './TeamStreakStatus';
+import { CurrentStreak } from '.';
+import PastStreak from './models/PastStreak';
 
 describe('SDK TeamStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -138,6 +140,11 @@ describe('SDK TeamStreaks', () => {
             const timezone = 'Europe/London';
             const status = StreakStatus.archived;
             const teamStreakStatus = TeamStreakStatus.ongoing;
+            const currentStreak: CurrentStreak = {
+                startDate: new Date().toString(),
+                numberOfDaysInARow: 1,
+            };
+            const pastStreaks: PastStreak[] = [];
 
             const updateData = {
                 streakName,
@@ -146,6 +153,8 @@ describe('SDK TeamStreaks', () => {
                 timezone,
                 status,
                 teamStreakStatus,
+                currentStreak,
+                pastStreaks,
             };
 
             await streakoid.teamStreaks.update({

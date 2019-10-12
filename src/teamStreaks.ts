@@ -7,6 +7,7 @@ import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
 import TeamStreakStatus from './TeamStreakStatus';
+import { CurrentStreak, PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
@@ -98,6 +99,8 @@ export default (streakoidClient: AxiosInstance) => {
             timezone?: string;
             status?: StreakStatus;
             teamStreakStatus?: TeamStreakStatus;
+            currentStreak?: CurrentStreak;
+            pastStreaks?: PastStreak[];
         };
     }): Promise<TeamStreak> => {
         try {
