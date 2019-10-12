@@ -5,9 +5,9 @@ interface TeamStreak {
     _id: string;
     creatorId: string;
     streakName: string;
-    status: StreakStatus;
     completedToday: boolean;
     active: boolean;
+    status: StreakStatus;
     teamStreakStatus: TeamStreakStatus;
     currentStreak: CurrentStreak;
     pastStreaks: Array<PastStreak>;
