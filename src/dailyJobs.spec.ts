@@ -18,7 +18,6 @@ describe('SDK soloStreaks', () => {
             const timezone = 'Europe/London';
             const localisedJobCompleteTime = new Date().toString();
             const streakType = StreakTypes.solo;
-            const numberOfStreaks = 3;
 
             await streakoid.dailyJobs.create({
                 agendaJobId,
@@ -26,7 +25,6 @@ describe('SDK soloStreaks', () => {
                 timezone,
                 localisedJobCompleteTime,
                 streakType,
-                numberOfStreaks,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/daily-jobs`, {
@@ -35,7 +33,6 @@ describe('SDK soloStreaks', () => {
                 timezone,
                 localisedJobCompleteTime,
                 streakType,
-                numberOfStreaks,
             });
         });
     });

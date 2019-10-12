@@ -13,14 +13,12 @@ export default (streakoidClient: AxiosInstance) => {
         timezone,
         localisedJobCompleteTime,
         streakType,
-        numberOfStreaks,
     }: {
         agendaJobId: string;
         jobName: AgendaJobNames;
         timezone: string;
         localisedJobCompleteTime: string;
         streakType: StreakTypes;
-        numberOfStreaks: number;
     }): Promise<CompleteSoloStreakTask> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.dailyJobs}`, {
@@ -29,7 +27,6 @@ export default (streakoidClient: AxiosInstance) => {
                 timezone,
                 localisedJobCompleteTime,
                 streakType,
-                numberOfStreaks,
             });
             return data;
         } catch (err) {

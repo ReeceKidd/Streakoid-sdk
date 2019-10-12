@@ -8,7 +8,6 @@ interface DailyJob {
     timezone: string;
     localisedJobCompleteTime: string;
     streakType: StreakTypes;
-    numberOfStreaks: number;
     createdAt: string;
     updatedAt: string;
 }
