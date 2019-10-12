@@ -14,6 +14,7 @@ enum RouterCategories {
     streakTrackingEvents = 'streak-tracking-events',
     groupMemberStreaks = 'group-member-streaks',
     friendRequests = 'friend-requests',
+    dailyJobs = 'daily-jobs',
 }
 
 export default RouterCategories;

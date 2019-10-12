@@ -10,6 +10,7 @@ import teamStreaks from './teamStreaks';
 import streakTrackingEvents from './streakTrackingEvents';
 import agendaJobs from './agendaJobs';
 import feedbacks from './feedbacks';
+import dailyJobs from './dailyJobs';
 import groupMemberStreaks from './groupMemberStreaks';
 import { getServiceConfig } from './getServiceConfig';
 import { AxiosInstance } from 'axios';
@@ -41,6 +42,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance) => {
         feedbacks: feedbacks(streakoidClient),
         groupMemberStreaks: groupMemberStreaks(streakoidClient),
         friendRequests: friendRequests(streakoidClient),
+        dailyJobs: dailyJobs(streakoidClient),
     };
 };
 

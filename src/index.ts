@@ -20,7 +20,7 @@ import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
-import TimezoneJob from './models/TimezoneJob';
+import DailyJob from './models/DailyJob';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
@@ -54,5 +54,5 @@ export {
     StreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
-    TimezoneJob,
+    DailyJob,
 };
