@@ -17,7 +17,6 @@ describe('POST /streak-tracking-events', () => {
             timezone,
             localisedJobCompleteTime,
             streakType: StreakTypes.solo,
-            wasSuccessful: true,
         });
 
         expect(dailyJob._id).toEqual(expect.any(String));
@@ -26,7 +25,6 @@ describe('POST /streak-tracking-events', () => {
         expect(dailyJob.timezone).toEqual('Europe/London');
         expect(dailyJob.localisedJobCompleteTime).toEqual(localisedJobCompleteTime);
         expect(dailyJob.streakType).toEqual(StreakTypes.solo);
-        expect(dailyJob.wasSuccessful).toEqual(true);
         expect(dailyJob.createdAt).toEqual(expect.any(String));
         expect(dailyJob.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(dailyJob).sort()).toEqual(
@@ -37,7 +35,6 @@ describe('POST /streak-tracking-events', () => {
                 'timezone',
                 'localisedJobCompleteTime',
                 'streakType',
-                'wasSuccessful',
                 'createdAt',
                 'updatedAt',
                 '__v',
