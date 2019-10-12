@@ -1,7 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import { StreakTrackingEventTypes } from '.';
 import StreakTypes from './StreakTypes';
-import GroupStreakTypes from './GroupStreakTypes';
 
 describe('SDK streakTrackingEvents', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -14,14 +13,12 @@ describe('SDK streakTrackingEvents', () => {
         const type = StreakTrackingEventTypes.inactiveStreak;
         const userId = 'userId';
         const streakId = 'streakId';
-        const streakType = StreakTypes.groupMemberStreak;
-        const groupStreakType = GroupStreakTypes.competition;
+        const streakType = StreakTypes.team;
         const query = {
             type,
             userId,
             streakId,
             streakType,
-            groupStreakType,
         };
         test('calls GET with correct URL when no query paramters are passed', async () => {
             expect.assertions(1);
@@ -41,7 +38,7 @@ describe('SDK streakTrackingEvents', () => {
             await streakoid.streakTrackingEvents.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/streak-tracking-events?type=${type}&userId=${userId}&streakId=${streakId}&streakType=${streakType}&groupStreakType=${groupStreakType}&`,
+                `/v1/streak-tracking-events?type=${type}&userId=${userId}&streakId=${streakId}&streakType=${streakType}&`,
             );
         });
 
@@ -85,16 +82,14 @@ describe('SDK streakTrackingEvents', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?streakType=${streakType}&`);
         });
 
-        test('calls GET with correct URL when groupStreakType query paramater is passed', async () => {
+        test('calls GET with correct URL when streakType query paramater is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.streakTrackingEvents.getAll({ groupStreakType });
+            await streakoid.streakTrackingEvents.getAll({ streakType });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/streak-tracking-events?groupStreakType=${groupStreakType}&`,
-            );
+            expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?streakType=${streakType}&`);
         });
     });
 
@@ -118,28 +113,26 @@ describe('SDK streakTrackingEvents', () => {
             const type = StreakTrackingEventTypes.inactiveStreak;
             const streakId = 'streakId';
             const userId = 'userId';
-            const streakType = StreakTypes.groupMemberStreak;
-            const groupStreakType = GroupStreakTypes.team;
+            const streakType = StreakTypes.team;
 
-            await streakoid.streakTrackingEvents.create({ type, streakId, userId, streakType, groupStreakType });
+            await streakoid.streakTrackingEvents.create({ type, streakId, userId, streakType });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/streak-tracking-events`, {
                 type,
                 streakId,
                 userId,
                 streakType,
-                groupStreakType,
             });
         });
 
-        test('calls POST without groupStreakType', async () => {
+        test('calls POST without streakType', async () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const type = StreakTrackingEventTypes.inactiveStreak;
             const streakId = 'streakId';
             const userId = 'userId';
-            const streakType = StreakTypes.groupMemberStreak;
+            const streakType = StreakTypes.team;
 
             await streakoid.streakTrackingEvents.create({ type, streakId, userId, streakType });
 

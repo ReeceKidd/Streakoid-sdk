@@ -2,19 +2,19 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
-import GroupStreakTypes from './GroupStreakTypes';
+import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         groupMemberStreakId,
-        groupStreakType,
+        streakType,
         teamStreakId,
     }: {
         userId?: string;
         groupMemberStreakId?: string;
-        groupStreakType?: GroupStreakTypes;
+        streakType?: StreakTypes;
         teamStreakId?: string;
     }): Promise<CompleteGroupMemberStreakTask[]> => {
         try {
@@ -25,8 +25,8 @@ export default (streakoidClient: AxiosInstance) => {
             if (groupMemberStreakId) {
                 getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}&`;
             }
-            if (groupStreakType) {
-                getAllURL = `${getAllURL}groupStreakType=${groupStreakType}&`;
+            if (streakType) {
+                getAllURL = `${getAllURL}streakType=${streakType}&`;
             }
             if (teamStreakId) {
                 getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
@@ -42,12 +42,12 @@ export default (streakoidClient: AxiosInstance) => {
     const create = async ({
         userId,
         groupMemberStreakId,
-        groupStreakType,
+        streakType,
         teamStreakId,
     }: {
         userId: string;
         groupMemberStreakId: string;
-        groupStreakType: GroupStreakTypes;
+        streakType: StreakTypes;
         teamStreakId: string;
     }): Promise<CompleteGroupMemberStreakTask> => {
         try {
@@ -56,7 +56,7 @@ export default (streakoidClient: AxiosInstance) => {
                 {
                     userId,
                     groupMemberStreakId,
-                    groupStreakType,
+                    streakType,
                     teamStreakId,
                 },
             );

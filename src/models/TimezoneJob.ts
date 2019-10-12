@@ -1,8 +1,9 @@
 import StreakTypes from '../StreakTypes';
-import { GroupStreakTypes, AgendaJobNames } from '..';
+import { AgendaJobNames } from '..';
 
 interface TimezoneJob {
     _id: string;
+    agendaJobId: string;
     jobName: AgendaJobNames;
     timezone: string;
     localisedJobCompleteTime: string;
@@ -10,7 +11,6 @@ interface TimezoneJob {
     numberOfStreaks: number;
     createdAt: string;
     updatedAt: string;
-    groupStreakType: GroupStreakTypes;
 }
 
 export default TimezoneJob;

@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const email = 'get-complete-group-member-task@gmail.com';
 const username = 'get-complete-group-member-task';
@@ -39,7 +39,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
         completeGroupMemberStreakTaskId = groupMemberStreakTaskComplete._id;
     });
@@ -58,7 +58,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         expect(completeGroupMemberStreakTasks.length).toBeGreaterThanOrEqual(1);
@@ -69,7 +69,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
         expect(completeGroupMemberStreakTask.userId).toEqual(userId);
         expect(completeGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
-        expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+        expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
         expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.createdAt).toBeDefined();
@@ -82,7 +82,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
                 'groupMemberStreakId',
                 'taskCompleteTime',
                 'taskCompleteDay',
-                'groupStreakType',
+                'streakType',
                 'createdAt',
                 'updatedAt',
                 '__v',

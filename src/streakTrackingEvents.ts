@@ -5,7 +5,6 @@ import RouterCategories from './RouterCategories';
 import StreakTrackingEvent from './models/StreakTrackingEvent';
 import { StreakTrackingEventTypes } from '.';
 import StreakTypes from './StreakTypes';
-import GroupStreakTypes from './GroupStreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
@@ -14,13 +13,11 @@ export default (streakoidClient: AxiosInstance) => {
         userId,
         streakId,
         streakType,
-        groupStreakType,
     }: {
         type?: StreakTrackingEventTypes;
         userId?: string;
         streakId?: string;
         streakType?: StreakTypes;
-        groupStreakType?: GroupStreakTypes;
     }): Promise<StreakTrackingEvent[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}?`;
@@ -36,9 +33,6 @@ export default (streakoidClient: AxiosInstance) => {
             }
             if (streakType) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakType=${streakType}&`;
-            }
-            if (groupStreakType) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}groupStreakType=${groupStreakType}&`;
             }
             const { data } = await streakoidClient.get(getAllSoloStreaksURL);
             return data;
@@ -63,13 +57,11 @@ export default (streakoidClient: AxiosInstance) => {
         streakId,
         userId,
         streakType,
-        groupStreakType,
     }: {
         type: StreakTrackingEventTypes;
         streakId: string;
         userId: string;
         streakType: StreakTypes;
-        groupStreakType?: GroupStreakTypes;
     }): Promise<StreakTrackingEvent> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`, {
@@ -77,7 +69,6 @@ export default (streakoidClient: AxiosInstance) => {
                 streakId,
                 userId,
                 streakType,
-                groupStreakType,
             });
             return data;
         } catch (err) {

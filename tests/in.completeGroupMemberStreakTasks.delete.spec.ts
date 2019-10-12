@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const email = 'delete-incomplete-group-member-streak-tasks-user@gmail.com';
 const username = 'delete-incomplete-group-member-streak-tasks-user';
@@ -40,14 +40,14 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;

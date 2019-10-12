@@ -1,5 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { GroupStreakTypes } from '.';
+import { StreakTypes } from '.';
 
 describe('SDK IncompleteGroupMemberStreakTasks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -29,15 +29,13 @@ describe('SDK IncompleteGroupMemberStreakTasks', () => {
             );
         });
 
-        test('calls GET with correct URL when just groupStreakType is passed', async () => {
+        test('calls GET with correct URL when just streakType is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.incompleteGroupMemberStreakTasks.getAll({ groupStreakType: GroupStreakTypes.team });
+            await streakoid.incompleteGroupMemberStreakTasks.getAll({ streakType: StreakTypes.team });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?groupStreakType=team&`,
-            );
+            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks?streakType=team&`);
         });
 
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
@@ -51,18 +49,18 @@ describe('SDK IncompleteGroupMemberStreakTasks', () => {
             );
         });
 
-        test('calls GET with correct URL when both userId, groupMemberStreakId and groupStreakType is passed', async () => {
+        test('calls GET with correct URL when both userId, groupMemberStreakId and streakType is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             await streakoid.incompleteGroupMemberStreakTasks.getAll({
                 userId: 'userId',
                 groupMemberStreakId: 'groupMemberStreakId',
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?userId=userId&groupMemberStreakId=groupMemberStreakId&groupStreakType=team&`,
+                `/v1/incomplete-group-member-streak-tasks?userId=userId&groupMemberStreakId=groupMemberStreakId&streakType=team&`,
             );
         });
 
@@ -82,20 +80,20 @@ describe('SDK IncompleteGroupMemberStreakTasks', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const groupMemberStreakId = 'groupMemberStreakId';
-            const groupStreakType = GroupStreakTypes.team;
+            const streakType = StreakTypes.team;
             const teamStreakId = 'teamStreakId';
 
             await streakoid.incompleteGroupMemberStreakTasks.create({
                 userId,
                 groupMemberStreakId,
-                groupStreakType,
+                streakType,
                 teamStreakId,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks`, {
                 userId,
                 groupMemberStreakId,
-                groupStreakType,
+                streakType,
                 teamStreakId,
             });
         });

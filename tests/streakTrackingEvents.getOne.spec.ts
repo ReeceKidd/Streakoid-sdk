@@ -32,7 +32,7 @@ describe('GET /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
-            streakType: StreakTypes.soloStreak,
+            streakType: StreakTypes.solo,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -52,8 +52,8 @@ describe('GET /streak-tracking-events', () => {
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.userId).toBeDefined();
         expect(streakTrackingEvent.streakId).toBeDefined();
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
-        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
+        expect(streakTrackingEvent.streakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(

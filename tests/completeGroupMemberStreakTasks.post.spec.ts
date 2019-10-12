@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const registeredEmail = 'create-complete-group-member-streak-tasks-user@gmail.com';
 const registeredUsername = 'create-complete-group-member-streak-tasks-user';
@@ -51,7 +51,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                 userId,
                 teamStreakId,
                 groupMemberStreakId,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
@@ -60,7 +60,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
             expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+            expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
             expect(completeGroupMemberStreakTask.createdAt).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.updatedAt).toEqual(expect.any(String));
             expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual(
@@ -71,7 +71,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                     'groupMemberStreakId',
                     'taskCompleteTime',
                     'taskCompleteDay',
-                    'groupStreakType',
+                    'streakType',
                     'createdAt',
                     'updatedAt',
                     '__v',
@@ -146,7 +146,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: groupMemberStreakWithCurrentStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
@@ -155,7 +155,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakWithCurrentStreak._id);
             expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+            expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
             expect(completeGroupMemberStreakTask.createdAt).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.updatedAt).toEqual(expect.any(String));
             expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual(
@@ -166,7 +166,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                     'groupMemberStreakId',
                     'taskCompleteTime',
                     'taskCompleteDay',
-                    'groupStreakType',
+                    'streakType',
                     'createdAt',
                     'updatedAt',
                     '__v',
@@ -228,21 +228,21 @@ describe('POST /complete-group-member-streak-tasks', () => {
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: newGroupMemberStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             await streakoid.incompleteGroupMemberStreakTasks.create({
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: newGroupMemberStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create({
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: newGroupMemberStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
@@ -251,7 +251,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(newGroupMemberStreak._id);
             expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+            expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
             expect(completeGroupMemberStreakTask.createdAt).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.updatedAt).toEqual(expect.any(String));
             expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual(
@@ -262,7 +262,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                     'groupMemberStreakId',
                     'taskCompleteTime',
                     'taskCompleteDay',
-                    'groupStreakType',
+                    'streakType',
                     'createdAt',
                     'updatedAt',
                     '__v',
@@ -337,21 +337,21 @@ describe('POST /complete-group-member-streak-tasks', () => {
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: groupMemberStreakWithCurrentStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             await streakoid.incompleteGroupMemberStreakTasks.create({
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: groupMemberStreakWithCurrentStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create({
                 userId,
                 teamStreakId: newTeamStreak._id,
                 groupMemberStreakId: groupMemberStreakWithCurrentStreak._id,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.team,
             });
 
             expect(completeGroupMemberStreakTask._id).toEqual(expect.any(String));
@@ -360,7 +360,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakWithCurrentStreak._id);
             expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(completeGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+            expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
             expect(completeGroupMemberStreakTask.createdAt).toEqual(expect.any(String));
             expect(completeGroupMemberStreakTask.updatedAt).toEqual(expect.any(String));
             expect(Object.keys(completeGroupMemberStreakTask).sort()).toEqual(
@@ -371,7 +371,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
                     'groupMemberStreakId',
                     'taskCompleteTime',
                     'taskCompleteDay',
-                    'groupStreakType',
+                    'streakType',
                     'createdAt',
                     'updatedAt',
                     '__v',
@@ -425,13 +425,13 @@ describe('POST /complete-group-member-streak-tasks', () => {
                     userId,
                     teamStreakId,
                     groupMemberStreakId: secondGroupMemberStreakId,
-                    groupStreakType: GroupStreakTypes.team,
+                    streakType: StreakTypes.team,
                 });
                 await streakoid.completeGroupMemberStreakTasks.create({
                     userId,
                     teamStreakId,
                     groupMemberStreakId: secondGroupMemberStreakId,
-                    groupStreakType: GroupStreakTypes.team,
+                    streakType: StreakTypes.team,
                 });
             } catch (err) {
                 expect(err.response.status).toEqual(422);

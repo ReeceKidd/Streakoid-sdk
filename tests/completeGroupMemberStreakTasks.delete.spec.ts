@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const email = 'delete-complete-group-member-streak-tasks-user@gmail.com';
 const username = 'delete-complete-group-member-streak-tasks-user';
@@ -41,7 +41,7 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
         completeGroupMemberStreakTaskId = completeGroupMemberStreakTask._id;
     });

@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const email = 'get-incomplete-group-member-streaks-task@gmail.com';
 const username = 'get-incomplete-group-member-streak-task';
@@ -40,14 +40,14 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;
@@ -66,7 +66,7 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         const incompleteGroupMemberStreakTask = incompleteGroupMemberStreakTasks[0];
@@ -74,7 +74,7 @@ describe('GET /incomplete-solo-streak-tasks', () => {
         expect(incompleteGroupMemberStreakTask._id).toBeDefined();
         expect(incompleteGroupMemberStreakTask.userId).toEqual(userId);
         expect(incompleteGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
-        expect(incompleteGroupMemberStreakTask.groupStreakType).toEqual(GroupStreakTypes.team);
+        expect(incompleteGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
         expect(incompleteGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteGroupMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteGroupMemberStreakTask.taskIncompleteDay).toEqual(expect.any(String));
@@ -85,7 +85,7 @@ describe('GET /incomplete-solo-streak-tasks', () => {
                 '_id',
                 'userId',
                 'groupMemberStreakId',
-                'groupStreakType',
+                'streakType',
                 'teamStreakId',
                 'taskIncompleteTime',
                 'taskIncompleteDay',

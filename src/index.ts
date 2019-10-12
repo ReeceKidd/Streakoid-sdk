@@ -24,7 +24,6 @@ import TimezoneJob from './models/TimezoneJob';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
-import GroupStreakTypes from './GroupStreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
 
@@ -53,7 +52,6 @@ export {
     FriendRequestStatus,
     PopulatedFriendRequest,
     StreakTypes,
-    GroupStreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
     TimezoneJob,

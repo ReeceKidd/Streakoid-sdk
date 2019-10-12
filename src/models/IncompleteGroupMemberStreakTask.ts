@@ -1,11 +1,11 @@
-import GroupStreakTypes from '../GroupStreakTypes';
+import StreakTypes from '../StreakTypes';
 
 interface IncompleteGroupMemberStreakTask {
     _id: string;
     streakId: string;
     userId: string;
     groupMemberStreakId: string;
-    groupStreakType: GroupStreakTypes;
+    streakType: StreakTypes;
     taskIncompleteTime: Date;
     taskIncompleteDay: string;
     createdAt: string;

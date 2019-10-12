@@ -32,7 +32,7 @@ describe(`DELETE /solo-streaks`, () => {
             type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
-            streakType: StreakTypes.soloStreak,
+            streakType: StreakTypes.solo,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;

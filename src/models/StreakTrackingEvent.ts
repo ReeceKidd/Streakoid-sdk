@@ -1,5 +1,4 @@
 import StreakTypes from '../StreakTypes';
-import GroupStreakTypes from '../GroupStreakTypes';
 import StreakTrackingEventTypes from '../StreakTrackingEventTypes';
 
 interface StreakTrackingEvent {
@@ -10,7 +9,6 @@ interface StreakTrackingEvent {
     userId: string;
     createdAt: string;
     updatedAt: string;
-    groupStreakType: GroupStreakTypes;
 }
 
 export default StreakTrackingEvent;

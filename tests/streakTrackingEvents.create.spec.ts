@@ -1,5 +1,5 @@
 import { streakoid } from '../src/streakoid';
-import { StreakTypes, StreakTrackingEventTypes, GroupStreakTypes } from '../src';
+import { StreakTypes, StreakTrackingEventTypes } from '../src';
 
 const email = 'create-team-streak-user@gmail.com';
 const username = 'create-team-streak-user';
@@ -63,7 +63,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.lostStreak,
             streakId: soloStreakId,
             userId,
-            streakType: StreakTypes.soloStreak,
+            streakType: StreakTypes.solo,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -72,8 +72,8 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.lostStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
-        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
+        expect(streakTrackingEvent.streakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
@@ -88,7 +88,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.maintainedStreak,
             streakId: soloStreakId,
             userId,
-            streakType: StreakTypes.soloStreak,
+            streakType: StreakTypes.solo,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -97,8 +97,8 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.maintainedStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
-        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
+        expect(streakTrackingEvent.streakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
@@ -113,7 +113,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.inactiveStreak,
             streakId: soloStreakId,
             userId,
-            streakType: StreakTypes.soloStreak,
+            streakType: StreakTypes.solo,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -121,8 +121,8 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.inactiveStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.soloStreak);
-        expect(streakTrackingEvent.groupStreakType).toBeUndefined();
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
+        expect(streakTrackingEvent.streakType).toBeUndefined();
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
@@ -138,8 +138,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.lostStreak,
             streakId: groupMemberStreakId,
             userId,
-            streakType: StreakTypes.groupMemberStreak,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -148,22 +147,11 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.lostStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.groupMemberStreak);
-        expect(streakTrackingEvent.groupStreakType).toEqual(GroupStreakTypes.team);
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            [
-                '_id',
-                'type',
-                'streakId',
-                'userId',
-                'streakType',
-                'groupStreakType',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -174,8 +162,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.maintainedStreak,
             streakId: groupMemberStreakId,
             userId,
-            streakType: StreakTypes.groupMemberStreak,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -184,22 +171,11 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.maintainedStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.groupMemberStreak);
-        expect(streakTrackingEvent.groupStreakType).toEqual(GroupStreakTypes.team);
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            [
-                '_id',
-                'type',
-                'streakId',
-                'userId',
-                'streakType',
-                'groupStreakType',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -210,8 +186,7 @@ describe('POST /streak-tracking-events', () => {
             type: StreakTrackingEventTypes.inactiveStreak,
             streakId: groupMemberStreakId,
             userId,
-            streakType: StreakTypes.groupMemberStreak,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
 
         streakTrackingEventId = streakTrackingEvent._id;
@@ -220,26 +195,16 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.inactiveStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
-        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.groupMemberStreak);
-        expect(streakTrackingEvent.groupStreakType).toEqual(GroupStreakTypes.team);
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
+        expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            [
-                '_id',
-                'type',
-                'streakId',
-                'userId',
-                'streakType',
-                'groupStreakType',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
-    test('if streak type equals group member streak groupStreakType must be defined', async () => {
+    test('if streak type equals group member streak streakType must be defined', async () => {
         expect.assertions(3);
 
         try {
@@ -247,16 +212,16 @@ describe('POST /streak-tracking-events', () => {
                 type: StreakTrackingEventTypes.inactiveStreak,
                 streakId: groupMemberStreakId,
                 userId,
-                streakType: StreakTypes.groupMemberStreak,
+                streakType: StreakTypes.team,
             });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toBe('400-62');
-            expect(err.response.data.message).toEqual(`groupStreakType must be defined.`);
+            expect(err.response.data.message).toEqual(`streakType must be defined.`);
         }
     });
 
-    test('groupStreakType cannot be added if streak type equals solo streak', async () => {
+    test('streakType cannot be added if streak type equals solo streak', async () => {
         expect.assertions(3);
 
         try {
@@ -264,13 +229,12 @@ describe('POST /streak-tracking-events', () => {
                 type: StreakTrackingEventTypes.inactiveStreak,
                 streakId: groupMemberStreakId,
                 userId,
-                streakType: StreakTypes.soloStreak,
-                groupStreakType: GroupStreakTypes.team,
+                streakType: StreakTypes.solo,
             });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toBe('400-61');
-            expect(err.response.data.message).toEqual(`groupStreakType should not be defined for a soloStreak.`);
+            expect(err.response.data.message).toEqual(`streakType should not be defined for a soloStreak.`);
         }
     });
 });

@@ -1,6 +1,6 @@
 enum StreakTypes {
-    soloStreak = 'soloStreak',
-    groupMemberStreak = 'groupMemberStreak',
+    solo = 'solo',
+    team = 'team',
 }
 
 export default StreakTypes;

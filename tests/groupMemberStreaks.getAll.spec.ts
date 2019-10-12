@@ -1,5 +1,5 @@
 import { streakoid, londonTimezone } from '../src/streakoid';
-import { GroupStreakTypes } from '../src';
+import { StreakTypes } from '../src';
 
 const email = 'get-group-member-streaks@gmail.com';
 const username = 'get-group-member-streaks-user';
@@ -186,7 +186,7 @@ describe('GET /group-member-streaks', () => {
             userId,
             teamStreakId: secondteamStreakId,
             groupMemberStreakId: secondGroupMemberStreakId,
-            groupStreakType: GroupStreakTypes.team,
+            streakType: StreakTypes.team,
         });
         completedGroupMemberStreakTaskId = completedGroupMemberStreakTask._id;
 
