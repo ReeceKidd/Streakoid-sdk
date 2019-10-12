@@ -14,7 +14,7 @@ export default (streakoidClient: AxiosInstance) => {
     }: {
         userId?: string;
         groupMemberStreakId?: string;
-        streakType?: StreakTypes;
+        streakType?: StreakTypes.team;
         teamStreakId?: string;
     }): Promise<CompleteGroupMemberStreakTask[]> => {
         try {
@@ -47,7 +47,7 @@ export default (streakoidClient: AxiosInstance) => {
     }: {
         userId: string;
         groupMemberStreakId: string;
-        streakType: StreakTypes;
+        streakType: StreakTypes.team;
         teamStreakId: string;
     }): Promise<CompleteGroupMemberStreakTask> => {
         try {

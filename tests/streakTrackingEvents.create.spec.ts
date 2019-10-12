@@ -57,7 +57,7 @@ describe('POST /streak-tracking-events', () => {
     });
 
     test(`lost solo streak tracking events can be created`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.lostStreak,
@@ -73,7 +73,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
-        expect(streakTrackingEvent.streakType).toBeUndefined();
+
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
@@ -82,7 +82,7 @@ describe('POST /streak-tracking-events', () => {
     });
 
     test(`maintained solo streak tracking events can be created`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.maintainedStreak,
@@ -98,7 +98,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
-        expect(streakTrackingEvent.streakType).toBeUndefined();
+
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
@@ -107,7 +107,7 @@ describe('POST /streak-tracking-events', () => {
     });
 
     test(`inactive solo streak tracking events can be created`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.inactiveStreak,
@@ -122,7 +122,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.userId).toEqual(userId);
         expect(streakTrackingEvent.streakId).toEqual(soloStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
-        expect(streakTrackingEvent.streakType).toBeUndefined();
+
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
@@ -132,7 +132,7 @@ describe('POST /streak-tracking-events', () => {
     });
 
     test(`lost team member streak tracking events can be created`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.lostStreak,
@@ -151,12 +151,12 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
     test(`maintained team member streak tracking events can be created`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.maintainedStreak,
@@ -175,7 +175,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -200,41 +200,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
-            ['_id', 'type', 'streakId', 'userId', 'streakType', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'type', 'streakId', 'userId', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
-    });
-
-    test('if streak type equals group member streak streakType must be defined', async () => {
-        expect.assertions(3);
-
-        try {
-            await streakoid.streakTrackingEvents.create({
-                type: StreakTrackingEventTypes.inactiveStreak,
-                streakId: groupMemberStreakId,
-                userId,
-                streakType: StreakTypes.team,
-            });
-        } catch (err) {
-            expect(err.response.status).toEqual(400);
-            expect(err.response.data.code).toBe('400-62');
-            expect(err.response.data.message).toEqual(`streakType must be defined.`);
-        }
-    });
-
-    test('streakType cannot be added if streak type equals solo streak', async () => {
-        expect.assertions(3);
-
-        try {
-            await streakoid.streakTrackingEvents.create({
-                type: StreakTrackingEventTypes.inactiveStreak,
-                streakId: groupMemberStreakId,
-                userId,
-                streakType: StreakTypes.solo,
-            });
-        } catch (err) {
-            expect(err.response.status).toEqual(400);
-            expect(err.response.data.code).toBe('400-61');
-            expect(err.response.data.message).toEqual(`streakType should not be defined for a soloStreak.`);
-        }
     });
 });

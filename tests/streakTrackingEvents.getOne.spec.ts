@@ -45,7 +45,7 @@ describe('GET /streak-tracking-events', () => {
     });
 
     test(`retreives individual streak tracking event`, async () => {
-        expect.assertions(8);
+        expect.assertions(7);
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.getOne(streakTrackingEventId);
 
@@ -53,7 +53,6 @@ describe('GET /streak-tracking-events', () => {
         expect(streakTrackingEvent.userId).toBeDefined();
         expect(streakTrackingEvent.streakId).toBeDefined();
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
-        expect(streakTrackingEvent.streakType).toBeUndefined();
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(

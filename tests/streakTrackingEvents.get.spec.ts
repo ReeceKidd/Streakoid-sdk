@@ -46,7 +46,7 @@ describe('GET /streak-tracking-events', () => {
     });
 
     test(`streak tracking events can be retreived without a query paramater`, async () => {
-        expect.assertions(9);
+        expect.assertions(8);
 
         const streakTrackingEvents = await streakoid.streakTrackingEvents.getAll({});
         expect(streakTrackingEvents.length).toBeGreaterThanOrEqual(1);
@@ -56,7 +56,7 @@ describe('GET /streak-tracking-events', () => {
         expect(streakTrackingEvent.userId).toBeDefined();
         expect(streakTrackingEvent.streakId).toBeDefined();
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.solo);
-        expect(streakTrackingEvent.streakType).toBeUndefined();
+
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakTrackingEvent).sort()).toEqual(
