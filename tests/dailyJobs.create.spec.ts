@@ -5,7 +5,7 @@ jest.setTimeout(120000);
 
 describe('POST /streak-tracking-events', () => {
     test(`creates a successful soloStreakDailyTrackerJob dailyJob`, async () => {
-        expect.assertions(10);
+        expect.assertions(9);
 
         const agendaJobId = 'agendaJobId';
         const timezone = 'Europe/London';

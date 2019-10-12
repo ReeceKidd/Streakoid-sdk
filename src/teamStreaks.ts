@@ -6,6 +6,7 @@ import groupMembers from './groupMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
+import TeamStreakStatus from './TeamStreakStatus';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default (streakoidClient: AxiosInstance) => {
@@ -14,11 +15,13 @@ export default (streakoidClient: AxiosInstance) => {
         memberId,
         timezone,
         status,
+        teamStreakStatus,
     }: {
         creatorId?: string;
         memberId?: string;
         timezone?: string;
         status?: StreakStatus;
+        teamStreakStatus?: TeamStreakStatus;
     }): Promise<PopulatedTeamStreak[]> => {
         try {
             let getAllteamStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamStreaks}?`;
@@ -33,6 +36,9 @@ export default (streakoidClient: AxiosInstance) => {
             }
             if (status) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}status=${status}&`;
+            }
+            if (teamStreakStatus) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}teamStreakStatus=${teamStreakStatus}&`;
             }
             const { data } = await streakoidClient.get(getAllteamStreaksURL);
             return data;
@@ -91,6 +97,7 @@ export default (streakoidClient: AxiosInstance) => {
             numberOfMinutes?: number;
             timezone?: string;
             status?: StreakStatus;
+            teamStreakStatus?: TeamStreakStatus;
         };
     }): Promise<TeamStreak> => {
         try {

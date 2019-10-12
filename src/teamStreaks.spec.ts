@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import StreakStatus from './StreakStatus';
+import TeamStreakStatus from './TeamStreakStatus';
 
 describe('SDK TeamStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -9,6 +10,19 @@ describe('SDK TeamStreaks', () => {
     });
 
     describe('getAll', () => {
+        const creatorId = 'creatorId';
+        const memberId = 'memberId';
+        const timezone = 'Europe/London';
+        const status = StreakStatus.live;
+        const teamStreakStatus = TeamStreakStatus.ongoing;
+
+        const query = {
+            creatorId,
+            memberId,
+            timezone,
+            status,
+            teamStreakStatus,
+        };
         test('calls GET with correct URL when no query paramters are passed', async () => {
             expect.assertions(1);
 
@@ -23,8 +37,6 @@ describe('SDK TeamStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const creatorId = 'memberId';
-
             await streakoid.teamStreaks.getAll({ creatorId });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?creatorId=${creatorId}&`);
@@ -33,8 +45,6 @@ describe('SDK TeamStreaks', () => {
         test('calls GET with correct URL when memberId query paramater is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-            const memberId = 'memberId';
 
             await streakoid.teamStreaks.getAll({ memberId });
 
@@ -45,8 +55,6 @@ describe('SDK TeamStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const timezone = `Europe/London`;
-
             await streakoid.teamStreaks.getAll({ timezone });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?timezone=${timezone}&`);
@@ -56,11 +64,29 @@ describe('SDK TeamStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const status = StreakStatus.live;
-
             await streakoid.teamStreaks.getAll({ status });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?status=${status}&`);
+        });
+
+        test('calls GET with correct URL when teamStreakStatus query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.teamStreaks.getAll({ teamStreakStatus });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?teamStreakStatus=${teamStreakStatus}&`);
+        });
+
+        test('calls GET with correct URL when all paramaters are passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.teamStreaks.getAll(query);
+
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&teamStreakStatus=${teamStreakStatus}&`,
+            );
         });
     });
 
@@ -111,6 +137,7 @@ describe('SDK TeamStreaks', () => {
             const numberOfMinutes = 30;
             const timezone = 'Europe/London';
             const status = StreakStatus.archived;
+            const teamStreakStatus = TeamStreakStatus.ongoing;
 
             const updateData = {
                 streakName,
@@ -118,6 +145,7 @@ describe('SDK TeamStreaks', () => {
                 numberOfMinutes,
                 timezone,
                 status,
+                teamStreakStatus,
             };
 
             await streakoid.teamStreaks.update({
