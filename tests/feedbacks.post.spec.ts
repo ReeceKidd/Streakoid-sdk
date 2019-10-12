@@ -26,7 +26,7 @@ describe('POST /feedbacks', () => {
         expect.assertions(7);
 
         const feedbackPageUrl = '/solo-streaks';
-        const feedbackUsername = 'username';
+        const feedbackUsername = 'feedbackusername';
         const feedbackUserEmail = 'userEmail';
         const feedback = 'feedback';
 
