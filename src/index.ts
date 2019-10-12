@@ -26,6 +26,7 @@ import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
+import StreakStatus from './StreakStatus';
 import TeamStreakStatus from './TeamStreakStatus';
 
 export {
@@ -56,5 +57,6 @@ export {
     StreakTrackingEventTypes,
     AgendaJobNames,
     DailyJob,
+    StreakStatus,
     TeamStreakStatus,
 };
