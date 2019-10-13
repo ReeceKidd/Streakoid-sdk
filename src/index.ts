@@ -27,7 +27,6 @@ import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
 import StreakStatus from './StreakStatus';
-import TeamStreakStatus from './TeamStreakStatus';
 
 export {
     streakoidClientFactory,
@@ -58,5 +57,4 @@ export {
     AgendaJobNames,
     DailyJob,
     StreakStatus,
-    TeamStreakStatus,
 };

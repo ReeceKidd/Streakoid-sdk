@@ -6,7 +6,6 @@ import groupMembers from './groupMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
-import TeamStreakStatus from './TeamStreakStatus';
 import { CurrentStreak, PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -16,7 +15,6 @@ export default (streakoidClient: AxiosInstance) => {
         memberId,
         timezone,
         status,
-        teamStreakStatus,
         completedToday,
         active,
     }: {
@@ -24,7 +22,6 @@ export default (streakoidClient: AxiosInstance) => {
         memberId?: string;
         timezone?: string;
         status?: StreakStatus;
-        teamStreakStatus?: TeamStreakStatus;
         completedToday?: boolean;
         active?: boolean;
     }): Promise<PopulatedTeamStreak[]> => {
@@ -41,9 +38,6 @@ export default (streakoidClient: AxiosInstance) => {
             }
             if (status) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}status=${status}&`;
-            }
-            if (teamStreakStatus) {
-                getAllteamStreaksURL = `${getAllteamStreaksURL}teamStreakStatus=${teamStreakStatus}&`;
             }
             if (completedToday) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}completedToday=${completedToday}&`;
@@ -108,7 +102,6 @@ export default (streakoidClient: AxiosInstance) => {
             numberOfMinutes?: number;
             timezone?: string;
             status?: StreakStatus;
-            teamStreakStatus?: TeamStreakStatus;
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
             completedToday?: boolean;

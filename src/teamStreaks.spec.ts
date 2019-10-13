@@ -1,6 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import StreakStatus from './StreakStatus';
-import TeamStreakStatus from './TeamStreakStatus';
 import { CurrentStreak } from '.';
 import PastStreak from './models/PastStreak';
 
@@ -16,7 +15,6 @@ describe('SDK TeamStreaks', () => {
         const memberId = 'memberId';
         const timezone = 'Europe/London';
         const status = StreakStatus.live;
-        const teamStreakStatus = TeamStreakStatus.ongoing;
         const completedToday = true;
         const active = true;
 
@@ -25,7 +23,6 @@ describe('SDK TeamStreaks', () => {
             memberId,
             timezone,
             status,
-            teamStreakStatus,
             completedToday,
             active,
         };
@@ -75,15 +72,6 @@ describe('SDK TeamStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?status=${status}&`);
         });
 
-        test('calls GET with correct URL when teamStreakStatus query paramater is passed', async () => {
-            expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-            await streakoid.teamStreaks.getAll({ teamStreakStatus });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?teamStreakStatus=${teamStreakStatus}&`);
-        });
-
         test('calls GET with correct URL when completedToday query paramater is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -109,7 +97,7 @@ describe('SDK TeamStreaks', () => {
             await streakoid.teamStreaks.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&teamStreakStatus=${teamStreakStatus}&`,
+                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&`,
             );
         });
     });
@@ -161,7 +149,6 @@ describe('SDK TeamStreaks', () => {
             const numberOfMinutes = 30;
             const timezone = 'Europe/London';
             const status = StreakStatus.archived;
-            const teamStreakStatus = TeamStreakStatus.ongoing;
             const currentStreak: CurrentStreak = {
                 startDate: new Date().toString(),
                 numberOfDaysInARow: 1,
@@ -176,7 +163,6 @@ describe('SDK TeamStreaks', () => {
                 numberOfMinutes,
                 timezone,
                 status,
-                teamStreakStatus,
                 currentStreak,
                 pastStreaks,
                 completedToday,

@@ -1,6 +1,5 @@
 import PopulatedMember from './PopulatedMember';
 import StreakStatus from '../StreakStatus';
-import TeamStreakStatus from '../TeamStreakStatus';
 import { CurrentStreak } from '..';
 import PastStreak from './PastStreak';
 
@@ -11,7 +10,6 @@ interface PopulatedTeamStreak {
     completedToday: boolean;
     active: boolean;
     status: StreakStatus;
-    teamStreakStatus: TeamStreakStatus;
     currentStreak: CurrentStreak;
     pastStreaks: Array<PastStreak>;
     members: PopulatedMember[];
