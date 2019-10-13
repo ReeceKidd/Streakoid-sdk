@@ -41,7 +41,7 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
         completeGroupMemberStreakTaskId = completeGroupMemberStreakTask._id;
     });

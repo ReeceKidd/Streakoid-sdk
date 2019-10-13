@@ -40,14 +40,14 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;
@@ -66,7 +66,7 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         const incompleteGroupMemberStreakTask = incompleteGroupMemberStreakTasks[0];
@@ -74,7 +74,7 @@ describe('GET /incomplete-solo-streak-tasks', () => {
         expect(incompleteGroupMemberStreakTask._id).toBeDefined();
         expect(incompleteGroupMemberStreakTask.userId).toEqual(userId);
         expect(incompleteGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
-        expect(incompleteGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
+        expect(incompleteGroupMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
         expect(incompleteGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteGroupMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteGroupMemberStreakTask.taskIncompleteDay).toEqual(expect.any(String));

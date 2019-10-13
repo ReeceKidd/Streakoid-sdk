@@ -39,7 +39,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
         completeGroupMemberStreakTaskId = groupMemberStreakTaskComplete._id;
     });
@@ -58,7 +58,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         expect(completeGroupMemberStreakTasks.length).toBeGreaterThanOrEqual(1);
@@ -69,7 +69,7 @@ describe('GET /complete-group-member-streak-tasks', () => {
         expect(completeGroupMemberStreakTask.userId).toEqual(userId);
         expect(completeGroupMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(completeGroupMemberStreakTask.groupMemberStreakId).toEqual(groupMemberStreakId);
-        expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.team);
+        expect(completeGroupMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
         expect(completeGroupMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
         expect(completeGroupMemberStreakTask.createdAt).toBeDefined();

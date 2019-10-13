@@ -1,8 +1,8 @@
 import { streakoid, londonTimezone } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
 
-const registeredEmail = 'create-team-streak-user@gmail.com';
-const registeredUsername = 'create-team-streak-user';
+const email = 'create-team-streak-user@gmail.com';
+const username = 'create-team-streak-user';
 
 jest.setTimeout(120000);
 
@@ -13,8 +13,8 @@ describe('POST /team-streaks', () => {
 
     beforeAll(async () => {
         const user = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
+            username,
+            email,
         });
         userId = user._id;
     });
@@ -26,7 +26,7 @@ describe('POST /team-streaks', () => {
     });
 
     test(`team streak can be created with description and numberOfMinutes`, async () => {
-        expect.assertions(15);
+        expect.assertions(20);
 
         const streakName = 'Reading';
         const streakDescription = 'Everyday I must do 30 minutes of reading';
@@ -44,7 +44,7 @@ describe('POST /team-streaks', () => {
         expect(teamStreak.members.length).toEqual(1);
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
-        expect(member.username).toEqual(expect.any(String));
+        expect(member.username).toEqual(username);
         expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
 
         const { groupMemberStreak } = member;
@@ -65,11 +65,16 @@ describe('POST /team-streaks', () => {
         );
 
         expect(teamStreak.streakName).toEqual(streakName);
+        expect(teamStreak.status).toEqual(StreakStatus.live);
         expect(teamStreak.streakDescription).toEqual(streakDescription);
         expect(teamStreak.numberOfMinutes).toEqual(numberOfMinutes);
-        expect(teamStreak.status).toEqual(StreakStatus.live);
         expect(teamStreak.creatorId).toEqual(userId);
         expect(teamStreak.timezone).toEqual(londonTimezone);
+        expect(teamStreak.active).toEqual(false);
+        expect(teamStreak.completedToday).toEqual(false);
+        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamStreak.pastStreaks.length).toEqual(0);
         expect(Object.keys(teamStreak).sort()).toEqual(
             [
                 '_id',
@@ -79,6 +84,10 @@ describe('POST /team-streaks', () => {
                 'streakName',
                 'streakDescription',
                 'numberOfMinutes',
+                'active',
+                'completedToday',
+                'currentStreak',
+                'pastStreaks',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -96,7 +105,7 @@ describe('POST /team-streaks', () => {
     });
 
     test(`team streak can be created without description or numberOfMinutes`, async () => {
-        expect.assertions(13);
+        expect.assertions(18);
 
         const streakName = 'meditation';
         const members: { memberId: string; groupMemberStreakId?: string }[] = [{ memberId: userId }];
@@ -110,7 +119,7 @@ describe('POST /team-streaks', () => {
         expect(teamStreak.members.length).toEqual(1);
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
-        expect(member.username).toEqual(expect.any(String));
+        expect(member.username).toEqual(username);
         expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
 
         const { groupMemberStreak } = member;
@@ -134,14 +143,23 @@ describe('POST /team-streaks', () => {
         expect(teamStreak.status).toEqual(StreakStatus.live);
         expect(teamStreak.creatorId).toEqual(userId);
         expect(teamStreak.timezone).toEqual(londonTimezone);
+        expect(teamStreak.active).toEqual(false);
+        expect(teamStreak.completedToday).toEqual(false);
+        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamStreak.pastStreaks.length).toEqual(0);
         expect(Object.keys(teamStreak).sort()).toEqual(
             [
                 '_id',
                 'status',
                 'members',
                 'creatorId',
-                'streakName',
+                'active',
+                'completedToday',
+                'currentStreak',
+                'pastStreaks',
                 'timezone',
+                'streakName',
                 'createdAt',
                 'updatedAt',
                 '__v',

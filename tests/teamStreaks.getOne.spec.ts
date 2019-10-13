@@ -37,7 +37,7 @@ describe('GET /team-streaks/:teamStreakId', () => {
     });
 
     test(`team streak can be retreived with populated member information`, async () => {
-        expect.assertions(14);
+        expect.assertions(19);
 
         const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
 
@@ -69,6 +69,11 @@ describe('GET /team-streaks/:teamStreakId', () => {
         expect(teamStreak.streakDescription).toEqual(streakDescription);
         expect(teamStreak.creatorId).toEqual(userId);
         expect(teamStreak.timezone).toEqual(londonTimezone);
+        expect(teamStreak.active).toEqual(false);
+        expect(teamStreak.completedToday).toEqual(false);
+        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamStreak.pastStreaks.length).toEqual(0);
         expect(Object.keys(teamStreak).sort()).toEqual(
             [
                 '_id',
@@ -77,6 +82,10 @@ describe('GET /team-streaks/:teamStreakId', () => {
                 'creatorId',
                 'streakName',
                 'streakDescription',
+                'active',
+                'completedToday',
+                'currentStreak',
+                'pastStreaks',
                 'timezone',
                 'createdAt',
                 'updatedAt',

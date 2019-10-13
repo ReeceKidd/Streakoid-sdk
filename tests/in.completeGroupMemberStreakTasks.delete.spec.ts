@@ -40,14 +40,14 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
 
         incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;

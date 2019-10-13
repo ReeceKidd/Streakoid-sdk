@@ -186,7 +186,7 @@ describe('GET /group-member-streaks', () => {
             userId,
             teamStreakId: secondteamStreakId,
             groupMemberStreakId: secondGroupMemberStreakId,
-            streakType: StreakTypes.team,
+            streakType: StreakTypes.teamMember,
         });
         completedGroupMemberStreakTaskId = completedGroupMemberStreakTask._id;
 
