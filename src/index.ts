@@ -28,6 +28,7 @@ import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
 import StreakStatus from './StreakStatus';
+import RouterCategories from './RouterCategories';
 
 export {
     streakoidClientFactory,
@@ -59,4 +60,5 @@ export {
     AgendaJobNames,
     DailyJob,
     StreakStatus,
+    RouterCategories,
 };
