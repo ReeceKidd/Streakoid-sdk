@@ -97,7 +97,7 @@ describe('SDK TeamStreaks', () => {
             await streakoid.teamStreaks.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&`,
+                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&completedToday=${completedToday}&active=${true}&`,
             );
         });
     });
