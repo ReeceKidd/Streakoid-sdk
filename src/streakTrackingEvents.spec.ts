@@ -125,21 +125,19 @@ describe('SDK streakTrackingEvents', () => {
             });
         });
 
-        test('calls POST without streakType', async () => {
+        test('calls POST without userId', async () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const type = StreakTrackingEventTypes.inactiveStreak;
             const streakId = 'streakId';
-            const userId = 'userId';
             const streakType = StreakTypes.team;
 
-            await streakoid.streakTrackingEvents.create({ type, streakId, userId, streakType });
+            await streakoid.streakTrackingEvents.create({ type, streakId, streakType });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/streak-tracking-events`, {
                 type,
                 streakId,
-                userId,
                 streakType,
             });
         });

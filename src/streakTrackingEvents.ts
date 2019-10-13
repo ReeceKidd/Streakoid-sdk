@@ -55,13 +55,13 @@ export default (streakoidClient: AxiosInstance) => {
     const create = async ({
         type,
         streakId,
-        userId,
         streakType,
+        userId,
     }: {
         type: StreakTrackingEventTypes;
         streakId: string;
-        userId: string;
         streakType: StreakTypes;
+        userId?: string;
     }): Promise<StreakTrackingEvent> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`, {
