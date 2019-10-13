@@ -1,6 +1,6 @@
 export enum AgendaJobNames {
     soloStreakDailyTracker = 'soloStreakDailyTracker',
-    groupMemberStreakDailyTracker = 'groupMemberStreakDailyTracker',
+    teamStreakDailyTracker = 'teamStreakDailyTracker',
 }
 
 export default AgendaJobNames;
