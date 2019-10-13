@@ -3,7 +3,7 @@ import RouterCategories from './RouterCategories';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const agendaJobs = (streakoidClient: AxiosInstance) => {
     const deleteOne = (agendaJobId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.agendaJobs}/${agendaJobId}`);
@@ -16,3 +16,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { agendaJobs };

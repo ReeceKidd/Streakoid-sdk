@@ -7,7 +7,7 @@ import { StreakTrackingEventTypes } from '.';
 import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         type,
         userId,
@@ -93,3 +93,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { streakTrackingEvents };

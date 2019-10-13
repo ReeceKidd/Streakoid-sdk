@@ -4,7 +4,7 @@ import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const completeSoloStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         streakId,
@@ -64,3 +64,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { completeSoloStreakTasks };

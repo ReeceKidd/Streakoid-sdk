@@ -7,7 +7,7 @@ import GroupMember from './models/GroupMember';
 import TeamStreakRouterCategories from './TeamStreakRouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const groupMembers = (streakoidClient: AxiosInstance) => {
     const create = async ({
         friendId,
         teamStreakId,
@@ -47,3 +47,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { groupMembers };

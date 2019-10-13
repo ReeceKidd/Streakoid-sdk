@@ -2,14 +2,14 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import groupMembers from './groupMembers';
+import { groupMembers } from './groupMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
 import { CurrentStreak, PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const teamStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         creatorId,
         memberId,
@@ -136,3 +136,5 @@ export default (streakoidClient: AxiosInstance) => {
         groupMembers: groupMembers(streakoidClient),
     };
 };
+
+export { teamStreaks };

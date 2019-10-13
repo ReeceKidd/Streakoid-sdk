@@ -5,7 +5,7 @@ import RouterCategories from './RouterCategories';
 import User from './models/User';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const users = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         searchQuery,
         username,
@@ -88,3 +88,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { users };

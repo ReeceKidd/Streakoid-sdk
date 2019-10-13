@@ -1,24 +1,15 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
+import CompleteTeamStreakTask from './models/CompleteTeamStreakTask';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
-    const getAll = async ({
-        userId,
-        streakId,
-    }: {
-        userId?: string;
-        streakId?: string;
-    }): Promise<CompleteSoloStreakTask[]> => {
+const completeTeamStreakTasks = (streakoidClient: AxiosInstance) => {
+    const getAll = async ({ teamStreakId }: { teamStreakId?: string }): Promise<CompleteTeamStreakTask[]> => {
         try {
-            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}?`;
-            if (userId) {
-                getAllURL = `${getAllURL}userId=${userId}&`;
-            }
-            if (streakId) {
-                getAllURL = `${getAllURL}streakId=${streakId}`;
+            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeTeamStreakTasks}?`;
+            if (teamStreakId) {
+                getAllURL = `${getAllURL}teamStreakId=${teamStreakId}`;
             }
             const { data } = await streakoidClient.get(getAllURL);
             return data;
@@ -27,19 +18,12 @@ export default (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const create = async ({
-        userId,
-        soloStreakId,
-    }: {
-        userId: string;
-        soloStreakId: string;
-    }): Promise<CompleteSoloStreakTask> => {
+    const create = async ({ teamStreakId }: { teamStreakId: string }): Promise<CompleteTeamStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}`,
+                `/${ApiVersions.v1}/${RouterCategories.completeTeamStreakTasks}`,
                 {
-                    userId,
-                    soloStreakId,
+                    teamStreakId,
                 },
             );
             return data;
@@ -48,10 +32,10 @@ export default (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (completeSoloStreakTaskId: string): Promise<AxiosResponse> => {
+    const deleteOne = (completeTeamStreakTaskId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}/${completeSoloStreakTaskId}`,
+                `/${ApiVersions.v1}/${RouterCategories.completeTeamStreakTasks}/${completeTeamStreakTaskId}`,
             );
         } catch (err) {
             return Promise.reject(err);
@@ -64,3 +48,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { completeTeamStreakTasks };

@@ -10,7 +10,7 @@ export enum stripeRouterPaths {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const stripe = (streakoidClient: AxiosInstance) => {
     const createSubscription = async ({ token, id }: { token: string; id: string }): Promise<User> => {
         try {
             const { data } = await streakoidClient.post(
@@ -46,3 +46,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteSubscription,
     };
 };
+
+export { stripe };

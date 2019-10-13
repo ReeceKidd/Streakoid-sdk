@@ -7,7 +7,7 @@ import CurrentStreak from './models/CurrentStreak';
 import { PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         completedToday,
@@ -118,3 +118,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { groupMemberStreaks };

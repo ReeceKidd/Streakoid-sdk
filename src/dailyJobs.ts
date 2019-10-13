@@ -6,7 +6,7 @@ import StreakTypes from './StreakTypes';
 import DailyJob from './models/DailyJob';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const dailyJobs = (streakoidClient: AxiosInstance) => {
     const create = async ({
         agendaJobId,
         jobName,
@@ -38,3 +38,5 @@ export default (streakoidClient: AxiosInstance) => {
         create,
     };
 };
+
+export { dailyJobs };

@@ -5,7 +5,7 @@ import RouterCategories from './RouterCategories';
 import Friend from './models/Friend';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const friends = (streakoidClient: AxiosInstance) => {
     const getAll = async (userId: string): Promise<Friend[]> => {
         const { data } = await streakoidClient.get(
             `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.friends}`,
@@ -44,3 +44,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { friends };

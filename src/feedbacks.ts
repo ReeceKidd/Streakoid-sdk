@@ -4,7 +4,7 @@ import Feedback from './models/Feedback';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const feedbacks = (streakoidClient: AxiosInstance) => {
     const create = async ({
         userId,
         pageUrl,
@@ -45,3 +45,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { feedbacks };

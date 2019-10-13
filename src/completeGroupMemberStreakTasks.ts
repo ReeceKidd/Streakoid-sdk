@@ -5,7 +5,7 @@ import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTas
 import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         groupMemberStreakId,
@@ -82,3 +82,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { completeGroupMemberStreakTasks };

@@ -6,7 +6,7 @@ import { FriendRequestStatus } from '.';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const friendRequests = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         requesterId,
         requesteeId,
@@ -92,3 +92,5 @@ export default (streakoidClient: AxiosInstance) => {
         deleteOne,
     };
 };
+
+export { friendRequests };

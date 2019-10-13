@@ -1,21 +1,23 @@
-import completeSoloStreakTasks from './completeSoloStreakTasks';
-import incompleteSoloStreakTasks from './incompleteSoloStreakTasks';
-import completeGroupMemberStreakTasks from './completeGroupMemberStreakTasks';
-import incompleteGroupMemberStreakTasks from './incompleteGroupMemberStreakTasks';
-import soloStreaks from './soloStreaks';
-import stripe from './stripe';
-import usersFactory from './users';
-import friends from './friends';
-import teamStreaks from './teamStreaks';
-import streakTrackingEvents from './streakTrackingEvents';
-import agendaJobs from './agendaJobs';
-import feedbacks from './feedbacks';
-import dailyJobs from './dailyJobs';
-import groupMemberStreaks from './groupMemberStreaks';
+import { completeSoloStreakTasks } from './completeSoloStreakTasks';
+import { incompleteSoloStreakTasks } from './incompleteSoloStreakTasks';
+import { completeGroupMemberStreakTasks } from './completeGroupMemberStreakTasks';
+import { incompleteGroupMemberStreakTasks } from './incompleteGroupMemberStreakTasks';
+import { soloStreaks } from './soloStreaks';
+import { stripe } from './stripe';
+import { users } from './users';
+import { friends } from './friends';
+import { teamStreaks } from './teamStreaks';
+import { streakTrackingEvents } from './streakTrackingEvents';
+import { agendaJobs } from './agendaJobs';
+import { feedbacks } from './feedbacks';
+import { dailyJobs } from './dailyJobs';
+import { completeTeamStreakTasks } from './completeTeamStreakTasks';
+import { groupMemberStreaks } from './groupMemberStreaks';
+import { friendRequests } from './friendRequests';
+
 import { getServiceConfig } from './getServiceConfig';
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
-import friendRequests from './friendRequests';
 
 const { APPLICATION_URL } = getServiceConfig();
 
@@ -30,10 +32,11 @@ export const streakoidFactory = (streakoidClient: AxiosInstance) => {
         incompleteSoloStreakTasks: incompleteSoloStreakTasks(streakoidClient),
         completeGroupMemberStreakTasks: completeGroupMemberStreakTasks(streakoidClient),
         incompleteGroupMemberStreakTasks: incompleteGroupMemberStreakTasks(streakoidClient),
+        completeTeamStreakTasks: completeTeamStreakTasks(streakoidClient),
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
         users: {
-            ...usersFactory(streakoidClient),
+            ...users(streakoidClient),
             friends: friends(streakoidClient),
         },
         teamStreaks: teamStreaks(streakoidClient),

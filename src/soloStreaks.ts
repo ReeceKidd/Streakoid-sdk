@@ -8,7 +8,7 @@ import StreakStatus from './StreakStatus';
 import { PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default (streakoidClient: AxiosInstance) => {
+const soloStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         completedToday,
@@ -131,3 +131,5 @@ export default (streakoidClient: AxiosInstance) => {
         update,
     };
 };
+
+export { soloStreaks };
