@@ -17,6 +17,8 @@ describe('SDK TeamStreaks', () => {
         const timezone = 'Europe/London';
         const status = StreakStatus.live;
         const teamStreakStatus = TeamStreakStatus.ongoing;
+        const completedToday = true;
+        const active = true;
 
         const query = {
             creatorId,
@@ -24,6 +26,8 @@ describe('SDK TeamStreaks', () => {
             timezone,
             status,
             teamStreakStatus,
+            completedToday,
+            active,
         };
         test('calls GET with correct URL when no query paramters are passed', async () => {
             expect.assertions(1);
@@ -78,6 +82,24 @@ describe('SDK TeamStreaks', () => {
             await streakoid.teamStreaks.getAll({ teamStreakStatus });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?teamStreakStatus=${teamStreakStatus}&`);
+        });
+
+        test('calls GET with correct URL when completedToday query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.teamStreaks.getAll({ completedToday });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?completedToday=${completedToday}&`);
+        });
+
+        test('calls GET with correct URL when active query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.teamStreaks.getAll({ active });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?active=${active}&`);
         });
 
         test('calls GET with correct URL when all paramaters are passed', async () => {

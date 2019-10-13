@@ -17,12 +17,16 @@ export default (streakoidClient: AxiosInstance) => {
         timezone,
         status,
         teamStreakStatus,
+        completedToday,
+        active,
     }: {
         creatorId?: string;
         memberId?: string;
         timezone?: string;
         status?: StreakStatus;
         teamStreakStatus?: TeamStreakStatus;
+        completedToday?: boolean;
+        active?: boolean;
     }): Promise<PopulatedTeamStreak[]> => {
         try {
             let getAllteamStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamStreaks}?`;
@@ -40,6 +44,12 @@ export default (streakoidClient: AxiosInstance) => {
             }
             if (teamStreakStatus) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}teamStreakStatus=${teamStreakStatus}&`;
+            }
+            if (completedToday) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}completedToday=${completedToday}&`;
+            }
+            if (active) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}active=${active}&`;
             }
             const { data } = await streakoidClient.get(getAllteamStreaksURL);
             return data;
