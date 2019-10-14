@@ -1,5 +1,5 @@
 enum SupportedRequestHeaders {
-    xAccessToken = 'x-access-token',
+    Authorization = 'Authorization',
     xTimezone = 'x-timezone',
 }
 
