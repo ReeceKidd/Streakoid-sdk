@@ -21,7 +21,7 @@ describe('DELETE /users/:userId', () => {
             expect(deleteUserResponse.status).toBe(204);
             await streakoid.users.getOne(userId);
         } catch (err) {
-            expect(err.response.status).toBe(400);
+            expect(err.response.status).toBe(401);
             expect(err.response.data.message).toEqual('Not authorized.');
         }
     });
@@ -32,7 +32,7 @@ describe('DELETE /users/:userId', () => {
         try {
             await streakoid.users.deleteOne(userId);
         } catch (err) {
-            expect(err.response.status).toBe(400);
+            expect(err.response.status).toBe(401);
             expect(err.response.data.message).toEqual('Not authorized.');
         }
     });

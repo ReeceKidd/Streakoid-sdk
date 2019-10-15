@@ -90,7 +90,7 @@ describe('GET /users', () => {
     test('returns user when partial searchTerm is used', async () => {
         expect.assertions(13);
 
-        const users = await streakoid.users.getAll({ searchQuery: 'te' });
+        const users = await streakoid.users.getAll({ searchQuery: 'tes' });
         expect(users.length).toBeGreaterThanOrEqual(1);
 
         const user = users[0];
