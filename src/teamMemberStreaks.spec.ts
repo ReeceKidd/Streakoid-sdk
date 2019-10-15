@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 
-describe('SDK groupMemberStreaks', () => {
+describe('SDK teamMemberStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);
 
     afterEach(() => {
@@ -12,7 +12,7 @@ describe('SDK groupMemberStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.groupMemberStreaks.getAll({});
+            await streakoid.teamMemberStreaks.getAll({});
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?`);
         });
@@ -23,7 +23,7 @@ describe('SDK groupMemberStreaks', () => {
 
             const userId = 'userId';
 
-            await streakoid.groupMemberStreaks.getAll({ userId });
+            await streakoid.teamMemberStreaks.getAll({ userId });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?userId=${userId}&`);
         });
@@ -34,7 +34,7 @@ describe('SDK groupMemberStreaks', () => {
 
             const completedToday = true;
 
-            await streakoid.groupMemberStreaks.getAll({ completedToday });
+            await streakoid.teamMemberStreaks.getAll({ completedToday });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?completedToday=true&`);
         });
@@ -45,7 +45,7 @@ describe('SDK groupMemberStreaks', () => {
 
             const timezone = `Europe/London`;
 
-            await streakoid.groupMemberStreaks.getAll({ timezone });
+            await streakoid.teamMemberStreaks.getAll({ timezone });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?timezone=${timezone}&`);
         });
@@ -56,7 +56,7 @@ describe('SDK groupMemberStreaks', () => {
 
             const active = true;
 
-            await streakoid.groupMemberStreaks.getAll({ active });
+            await streakoid.teamMemberStreaks.getAll({ active });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?active=${active}`);
         });
@@ -68,7 +68,7 @@ describe('SDK groupMemberStreaks', () => {
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.groupMemberStreaks.getOne('id');
+            await streakoid.teamMemberStreaks.getOne('id');
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks/id`);
         });
@@ -83,7 +83,7 @@ describe('SDK groupMemberStreaks', () => {
             const userId = 'userId';
             const teamStreakId = 'teamStreakId';
 
-            await streakoid.groupMemberStreaks.create({
+            await streakoid.teamMemberStreaks.create({
                 userId,
                 teamStreakId,
             });
@@ -105,8 +105,8 @@ describe('SDK groupMemberStreaks', () => {
                 timezone,
             };
 
-            await streakoid.groupMemberStreaks.update({
-                groupMemberStreakId: 'id',
+            await streakoid.teamMemberStreaks.update({
+                teamMemberStreakId: 'id',
                 updateData,
             });
 
@@ -121,7 +121,7 @@ describe('SDK groupMemberStreaks', () => {
             expect.assertions(1);
             streakoidClient.delete = jest.fn();
 
-            await streakoid.groupMemberStreaks.deleteOne('id');
+            await streakoid.teamMemberStreaks.deleteOne('id');
 
             expect(streakoidClient.delete).toBeCalledWith(`/v1/group-member-streaks/id`);
         });

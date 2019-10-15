@@ -1,54 +1,54 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
+import CompleteTeamMemberStreakTask from './models/CompleteTeamMemberStreakTask';
 import StreakTypes from './StreakTypes';
 
-export interface CompleteGroupMemberStreakTaskReturnType {
+export interface CompleteTeamMemberStreakTaskReturnType {
     getAll: ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId?: string;
-        groupMemberStreakId?: string;
+        teamMemberStreakId?: string;
         streakType?: StreakTypes.teamMember;
         teamStreakId?: string;
-    }) => Promise<CompleteGroupMemberStreakTask[]>;
+    }) => Promise<CompleteTeamMemberStreakTask[]>;
     create: ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId: string;
-        groupMemberStreakId: string;
+        teamMemberStreakId: string;
         streakType: StreakTypes.teamMember;
         teamStreakId: string;
-    }) => Promise<CompleteGroupMemberStreakTask>;
+    }) => Promise<CompleteTeamMemberStreakTask>;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
+const completeTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId?: string;
-        groupMemberStreakId?: string;
+        teamMemberStreakId?: string;
         streakType?: StreakTypes.teamMember;
         teamStreakId?: string;
-    }): Promise<CompleteGroupMemberStreakTask[]> => {
+    }): Promise<CompleteTeamMemberStreakTask[]> => {
         try {
-            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}?`;
+            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}?`;
             if (userId) {
                 getAllURL = `${getAllURL}userId=${userId}&`;
             }
-            if (groupMemberStreakId) {
-                getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}&`;
+            if (teamMemberStreakId) {
+                getAllURL = `${getAllURL}teamMemberStreakId=${teamMemberStreakId}&`;
             }
             if (streakType) {
                 getAllURL = `${getAllURL}streakType=${streakType}&`;
@@ -66,21 +66,21 @@ const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
 
     const create = async ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId: string;
-        groupMemberStreakId: string;
+        teamMemberStreakId: string;
         streakType: StreakTypes.teamMember;
         teamStreakId: string;
-    }): Promise<CompleteGroupMemberStreakTask> => {
+    }): Promise<CompleteTeamMemberStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}`,
+                `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}`,
                 {
                     userId,
-                    groupMemberStreakId,
+                    teamMemberStreakId,
                     streakType,
                     teamStreakId,
                 },
@@ -91,10 +91,10 @@ const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (completeGroupMemberStreakTaskId: string): Promise<AxiosResponse> => {
+    const deleteOne = (completeTeamMemberStreakTaskId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.completeGroupMemberStreakTasks}/${completeGroupMemberStreakTaskId}`,
+                `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}/${completeTeamMemberStreakTaskId}`,
             );
         } catch (err) {
             return Promise.reject(err);
@@ -108,4 +108,4 @@ const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     };
 };
 
-export { completeGroupMemberStreakTasks };
+export { completeTeamMemberStreakTasks };

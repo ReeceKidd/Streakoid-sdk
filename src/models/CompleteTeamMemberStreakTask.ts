@@ -1,10 +1,10 @@
 import StreakTypes from '../StreakTypes';
 
-interface CompleteGroupMemberStreakTask {
+interface CompleteTeamMemberStreakTask {
     _id: string;
     streakId: string;
     userId: string;
-    groupMemberStreakId: string;
+    teamMemberStreakId: string;
     streakType: StreakTypes;
     taskCompleteTime: Date;
     taskCompleteDay: string;
@@ -13,4 +13,4 @@ interface CompleteGroupMemberStreakTask {
     teamStreakId?: string;
 }
 
-export default CompleteGroupMemberStreakTask;
+export default CompleteTeamMemberStreakTask;

@@ -7,7 +7,7 @@ describe('POST /group-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let createdGroupMemberStreakId: string;
+    let createdTeamMemberStreakId: string;
 
     const streakName = 'Daily Spanish';
     const streakDescription = 'Everyday I must do Spanish on Duolingo';
@@ -32,13 +32,13 @@ describe('POST /group-member-streaks', () => {
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
         await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.groupMemberStreaks.deleteOne(createdGroupMemberStreakId);
+        await streakoid.teamMemberStreaks.deleteOne(createdTeamMemberStreakId);
     });
 
-    test(`creates groupMember streak associated with groupId`, async () => {
+    test(`creates teamMember streak associated with groupId`, async () => {
         expect.assertions(12);
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
@@ -52,7 +52,7 @@ describe('POST /group-member-streaks', () => {
             pastStreaks,
             createdAt,
             updatedAt,
-        } = groupMemberStreak;
+        } = teamMemberStreak;
 
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
@@ -65,7 +65,7 @@ describe('POST /group-member-streaks', () => {
         expect(timezone).toEqual(londonTimezone);
         expect(createdAt).toEqual(expect.any(String));
         expect(updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 'currentStreak',
                 'completedToday',
@@ -86,7 +86,7 @@ describe('POST /group-member-streaks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.groupMemberStreaks.create({
+            await streakoid.teamMemberStreaks.create({
                 userId: 'incorrect-userid',
                 teamStreakId,
             });
@@ -100,7 +100,7 @@ describe('POST /group-member-streaks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.groupMemberStreaks.create({
+            await streakoid.teamMemberStreaks.create({
                 userId,
                 teamStreakId: 'incorrect-team-streak-id',
             });

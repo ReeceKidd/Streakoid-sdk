@@ -1,4 +1,4 @@
-import PopulatedMember from './PopulatedMember';
+import PopulatedMember from './PopulatedTeamMember';
 import StreakStatus from '../StreakStatus';
 import { CurrentStreak } from '..';
 import PastStreak from './PastStreak';

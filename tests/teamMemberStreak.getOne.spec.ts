@@ -5,11 +5,11 @@ const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
-describe('GET /group-member-streaks/:groupMemberStreakId', () => {
+describe('GET /group-member-streaks/:teamMemberStreakId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
+    let teamMemberStreakId: string;
 
     beforeAll(async () => {
         const user = await getUser();
@@ -25,36 +25,36 @@ describe('GET /group-member-streaks/:groupMemberStreakId', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
         await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.groupMemberStreaks.deleteOne(groupMemberStreakId);
+        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
     });
 
     test(`team member streak can be retreived`, async () => {
         expect.assertions(12);
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.getOne(groupMemberStreakId);
+        const teamMemberStreak = await streakoid.teamMemberStreaks.getOne(teamMemberStreakId);
 
-        expect(groupMemberStreak._id).toEqual(expect.any(String));
-        expect(groupMemberStreak.currentStreak.numberOfDaysInARow).toEqual(0);
-        expect(Object.keys(groupMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
-        expect(groupMemberStreak.completedToday).toEqual(false);
-        expect(groupMemberStreak.active).toEqual(false);
-        expect(groupMemberStreak.pastStreaks).toEqual([]);
-        expect(groupMemberStreak.userId).toEqual(expect.any(String));
-        expect(groupMemberStreak.teamStreakId).toEqual(teamStreakId);
-        expect(groupMemberStreak.timezone).toEqual(londonTimezone);
-        expect(groupMemberStreak.createdAt).toEqual(expect.any(String));
-        expect(groupMemberStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        expect(teamMemberStreak._id).toEqual(expect.any(String));
+        expect(teamMemberStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamMemberStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamMemberStreak.completedToday).toEqual(false);
+        expect(teamMemberStreak.active).toEqual(false);
+        expect(teamMemberStreak.pastStreaks).toEqual([]);
+        expect(teamMemberStreak.userId).toEqual(expect.any(String));
+        expect(teamMemberStreak.teamStreakId).toEqual(teamStreakId);
+        expect(teamMemberStreak.timezone).toEqual(londonTimezone);
+        expect(teamMemberStreak.createdAt).toEqual(expect.any(String));
+        expect(teamMemberStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -75,7 +75,7 @@ describe('GET /group-member-streaks/:groupMemberStreakId', () => {
         expect.assertions(5);
 
         try {
-            await streakoid.groupMemberStreaks.getOne('5d54487483233622e43270f9');
+            await streakoid.teamMemberStreaks.getOne('5d54487483233622e43270f9');
         } catch (err) {
             const { data } = err.response;
             const { code, message, httpStatusCode } = data;

@@ -98,7 +98,7 @@ describe(`PATCH /team-streaks`, () => {
 
         const member = members[0];
         expect(member.memberId).toBeDefined();
-        expect(member.groupMemberStreakId).toEqual(expect.any(String));
-        expect(Object.keys(member).sort()).toEqual(['memberId', 'groupMemberStreakId'].sort());
+        expect(member.teamMemberStreakId).toEqual(expect.any(String));
+        expect(Object.keys(member).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
     });
 });

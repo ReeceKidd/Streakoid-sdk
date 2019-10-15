@@ -2,12 +2,12 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import GroupMemberStreak from './models/GroupMemberStreak';
+import TeamMemberStreak from './models/TeamMemberStreak';
 import CurrentStreak from './models/CurrentStreak';
 import { PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
+const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         completedToday,
@@ -18,39 +18,37 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
         completedToday?: boolean;
         timezone?: string;
         active?: boolean;
-    }): Promise<GroupMemberStreak[]> => {
+    }): Promise<TeamMemberStreak[]> => {
         try {
-            let getAllGroupMemberStreaksURL = `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}?`;
+            let getAllTeamMemberStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}?`;
 
             if (userId) {
-                getAllGroupMemberStreaksURL = `${getAllGroupMemberStreaksURL}userId=${userId}&`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}userId=${userId}&`;
             }
 
             if (completedToday !== undefined) {
-                getAllGroupMemberStreaksURL = `${getAllGroupMemberStreaksURL}completedToday=${Boolean(
-                    completedToday,
-                )}&`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}completedToday=${Boolean(completedToday)}&`;
             }
 
             if (timezone) {
-                getAllGroupMemberStreaksURL = `${getAllGroupMemberStreaksURL}timezone=${timezone}&`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}timezone=${timezone}&`;
             }
 
             if (active !== undefined) {
-                getAllGroupMemberStreaksURL = `${getAllGroupMemberStreaksURL}active=${Boolean(active)}`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}active=${Boolean(active)}`;
             }
 
-            const { data } = await streakoidClient.get(getAllGroupMemberStreaksURL);
+            const { data } = await streakoidClient.get(getAllTeamMemberStreaksURL);
             return data;
         } catch (err) {
             return Promise.reject(err);
         }
     };
 
-    const getOne = async (groupMemberStreakId: string): Promise<GroupMemberStreak> => {
+    const getOne = async (teamMemberStreakId: string): Promise<TeamMemberStreak> => {
         try {
             const { data } = await streakoidClient.get(
-                `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`,
+                `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
             );
             return data;
         } catch (err) {
@@ -64,9 +62,9 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
     }: {
         userId: string;
         teamStreakId: string;
-    }): Promise<GroupMemberStreak> => {
+    }): Promise<TeamMemberStreak> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}`, {
+            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}`, {
                 userId,
                 teamStreakId,
             });
@@ -77,10 +75,10 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
     };
 
     const update = async ({
-        groupMemberStreakId,
+        teamMemberStreakId,
         updateData,
     }: {
-        groupMemberStreakId: string;
+        teamMemberStreakId: string;
         updateData?: {
             timezone?: string;
             completedToday?: boolean;
@@ -88,10 +86,10 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
         };
-    }): Promise<GroupMemberStreak> => {
+    }): Promise<TeamMemberStreak> => {
         try {
             const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`,
+                `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
                 updateData,
             );
             return data;
@@ -100,10 +98,10 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (groupMemberStreakId: string): Promise<AxiosResponse> => {
+    const deleteOne = (teamMemberStreakId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.groupMemberStreaks}/${groupMemberStreakId}`,
+                `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
             );
         } catch (err) {
             return Promise.reject(err);
@@ -119,4 +117,4 @@ const groupMemberStreaks = (streakoidClient: AxiosInstance) => {
     };
 };
 
-export { groupMemberStreaks };
+export { teamMemberStreaks };

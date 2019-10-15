@@ -29,7 +29,7 @@ describe('POST /team-streaks', () => {
         const streakName = 'Reading';
         const streakDescription = 'Everyday I must do 30 minutes of reading';
         const numberOfMinutes = 30;
-        const members: { memberId: string; groupMemberStreakId?: string }[] = [{ memberId: userId }];
+        const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -43,10 +43,10 @@ describe('POST /team-streaks', () => {
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -106,7 +106,7 @@ describe('POST /team-streaks', () => {
         expect.assertions(18);
 
         const streakName = 'meditation';
-        const members: { memberId: string; groupMemberStreakId?: string }[] = [{ memberId: userId }];
+        const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -118,10 +118,10 @@ describe('POST /team-streaks', () => {
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',

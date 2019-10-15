@@ -10,10 +10,10 @@ describe('GET /group-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
+    let teamMemberStreakId: string;
     let secondteamStreakId: string;
-    let secondGroupMemberStreakId: string;
-    let completedGroupMemberStreakTaskId: string;
+    let secondTeamMemberStreakId: string;
+    let completedTeamMemberStreakTaskId: string;
 
     beforeAll(async () => {
         const user = await getUser();
@@ -29,20 +29,20 @@ describe('GET /group-member-streaks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
         await streakoid.teamStreaks.deleteOne(teamStreakId);
         await streakoid.teamStreaks.deleteOne(secondteamStreakId);
-        await streakoid.groupMemberStreaks.deleteOne(groupMemberStreakId);
-        await streakoid.groupMemberStreaks.deleteOne(secondGroupMemberStreakId);
-        await streakoid.completeGroupMemberStreakTasks.deleteOne(completedGroupMemberStreakTaskId);
+        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
+        await streakoid.teamMemberStreaks.deleteOne(secondTeamMemberStreakId);
+        await streakoid.completeTeamMemberStreakTasks.deleteOne(completedTeamMemberStreakTaskId);
     });
 
     test(`request passes when group member streak is patched with correct keys`, async () => {
@@ -57,8 +57,8 @@ describe('GET /group-member-streaks', () => {
         };
         const pastStreaks: PastStreak[] = [];
 
-        const updatedGroupMemberStreak = await streakoid.groupMemberStreaks.update({
-            groupMemberStreakId,
+        const updatedTeamMemberStreak = await streakoid.teamMemberStreaks.update({
+            teamMemberStreakId,
             updateData: {
                 timezone,
                 completedToday,
@@ -68,21 +68,21 @@ describe('GET /group-member-streaks', () => {
             },
         });
 
-        expect(updatedGroupMemberStreak._id).toEqual(expect.any(String));
-        expect(updatedGroupMemberStreak.currentStreak.numberOfDaysInARow).toEqual(10);
-        expect(updatedGroupMemberStreak.currentStreak.startDate).toEqual(expect.any(String));
-        expect(Object.keys(updatedGroupMemberStreak.currentStreak).sort()).toEqual(
+        expect(updatedTeamMemberStreak._id).toEqual(expect.any(String));
+        expect(updatedTeamMemberStreak.currentStreak.numberOfDaysInARow).toEqual(10);
+        expect(updatedTeamMemberStreak.currentStreak.startDate).toEqual(expect.any(String));
+        expect(Object.keys(updatedTeamMemberStreak.currentStreak).sort()).toEqual(
             ['startDate', 'numberOfDaysInARow'].sort(),
         );
-        expect(updatedGroupMemberStreak.completedToday).toEqual(false);
-        expect(updatedGroupMemberStreak.active).toEqual(false);
-        expect(updatedGroupMemberStreak.pastStreaks).toEqual([]);
-        expect(updatedGroupMemberStreak.userId).toEqual(expect.any(String));
-        expect(updatedGroupMemberStreak.teamStreakId).toEqual(expect.any(String));
-        expect(updatedGroupMemberStreak.timezone).toEqual(timezone);
-        expect(updatedGroupMemberStreak.createdAt).toEqual(expect.any(String));
-        expect(updatedGroupMemberStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(updatedGroupMemberStreak).sort()).toEqual(
+        expect(updatedTeamMemberStreak.completedToday).toEqual(false);
+        expect(updatedTeamMemberStreak.active).toEqual(false);
+        expect(updatedTeamMemberStreak.pastStreaks).toEqual([]);
+        expect(updatedTeamMemberStreak.userId).toEqual(expect.any(String));
+        expect(updatedTeamMemberStreak.teamStreakId).toEqual(expect.any(String));
+        expect(updatedTeamMemberStreak.timezone).toEqual(timezone);
+        expect(updatedTeamMemberStreak.createdAt).toEqual(expect.any(String));
+        expect(updatedTeamMemberStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(updatedTeamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',

@@ -1,29 +1,29 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import IncompleteGroupMemberStreakTask from './models/IncompleteGroupMemberStreakTask';
+import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const incompleteGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
+const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId?: string;
-        groupMemberStreakId?: string;
+        teamMemberStreakId?: string;
         streakType?: StreakTypes.teamMember;
         teamStreakId?: string;
-    }): Promise<IncompleteGroupMemberStreakTask[]> => {
+    }): Promise<IncompleteTeamMemberStreakTask[]> => {
         try {
-            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.incompleteGroupMemberStreakTasks}?`;
+            let getAllURL = `/${ApiVersions.v1}/${RouterCategories.incompleteTeamMemberStreakTasks}?`;
             if (userId) {
                 getAllURL = `${getAllURL}userId=${userId}&`;
             }
-            if (groupMemberStreakId) {
-                getAllURL = `${getAllURL}groupMemberStreakId=${groupMemberStreakId}&`;
+            if (teamMemberStreakId) {
+                getAllURL = `${getAllURL}teamMemberStreakId=${teamMemberStreakId}&`;
             }
             if (streakType) {
                 getAllURL = `${getAllURL}streakType=${streakType}&`;
@@ -40,21 +40,21 @@ const incompleteGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
 
     const create = async ({
         userId,
-        groupMemberStreakId,
+        teamMemberStreakId,
         streakType,
         teamStreakId,
     }: {
         userId: string;
-        groupMemberStreakId: string;
+        teamMemberStreakId: string;
         streakType: StreakTypes.teamMember;
         teamStreakId: string;
-    }): Promise<IncompleteGroupMemberStreakTask> => {
+    }): Promise<IncompleteTeamMemberStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.incompleteGroupMemberStreakTasks}`,
+                `/${ApiVersions.v1}/${RouterCategories.incompleteTeamMemberStreakTasks}`,
                 {
                     userId,
-                    groupMemberStreakId,
+                    teamMemberStreakId,
                     streakType,
                     teamStreakId,
                 },
@@ -65,10 +65,10 @@ const incompleteGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (IncompleteGroupMemberStreakTaskId: string): Promise<AxiosResponse> => {
+    const deleteOne = (IncompleteTeamMemberStreakTaskId: string): Promise<AxiosResponse> => {
         try {
             return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.incompleteGroupMemberStreakTasks}/${IncompleteGroupMemberStreakTaskId}`,
+                `/${ApiVersions.v1}/${RouterCategories.incompleteTeamMemberStreakTasks}/${IncompleteTeamMemberStreakTaskId}`,
             );
         } catch (err) {
             return Promise.reject(err);
@@ -82,4 +82,4 @@ const incompleteGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     };
 };
 
-export { incompleteGroupMemberStreakTasks };
+export { incompleteTeamMemberStreakTasks };

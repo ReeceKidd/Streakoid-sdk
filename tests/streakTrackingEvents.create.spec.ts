@@ -13,7 +13,7 @@ describe('POST /streak-tracking-events', () => {
     let soloStreakId: string;
     let streakTrackingEventId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
+    let teamMemberStreakId: string;
 
     beforeAll(async () => {
         const user = await getUser();
@@ -37,12 +37,12 @@ describe('POST /streak-tracking-events', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId: teamStreak._id,
         });
 
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
     });
 
     afterAll(async () => {
@@ -50,7 +50,7 @@ describe('POST /streak-tracking-events', () => {
         await streakoid.soloStreaks.deleteOne(soloStreakId);
         await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
         await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.groupMemberStreaks.deleteOne(groupMemberStreakId);
+        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
     });
 
     test(`lost solo streak tracking events can be created`, async () => {
@@ -133,7 +133,7 @@ describe('POST /streak-tracking-events', () => {
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.lostStreak,
-            streakId: groupMemberStreakId,
+            streakId: teamMemberStreakId,
             userId,
             streakType: StreakTypes.team,
         });
@@ -143,7 +143,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.lostStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
+        expect(streakTrackingEvent.streakId).toEqual(teamMemberStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
@@ -157,7 +157,7 @@ describe('POST /streak-tracking-events', () => {
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.maintainedStreak,
-            streakId: groupMemberStreakId,
+            streakId: teamMemberStreakId,
             userId,
             streakType: StreakTypes.team,
         });
@@ -167,7 +167,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.maintainedStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
+        expect(streakTrackingEvent.streakId).toEqual(teamMemberStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));
         expect(streakTrackingEvent.updatedAt).toEqual(expect.any(String));
@@ -181,7 +181,7 @@ describe('POST /streak-tracking-events', () => {
 
         const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
             type: StreakTrackingEventTypes.inactiveStreak,
-            streakId: groupMemberStreakId,
+            streakId: teamMemberStreakId,
             userId,
             streakType: StreakTypes.team,
         });
@@ -191,7 +191,7 @@ describe('POST /streak-tracking-events', () => {
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.inactiveStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
-        expect(streakTrackingEvent.streakId).toEqual(groupMemberStreakId);
+        expect(streakTrackingEvent.streakId).toEqual(teamMemberStreakId);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.streakType).toEqual(StreakTypes.team);
         expect(streakTrackingEvent.createdAt).toEqual(expect.any(String));

@@ -8,8 +8,8 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
-    let completeGroupMemberStreakTaskId: string;
+    let teamMemberStreakId: string;
+    let completeTeamMemberStreakTaskId: string;
 
     const streakName = 'Intermittent fasting';
     const streakDescription = 'I will not eat until 1pm everyday';
@@ -29,19 +29,19 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
 
-        const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create({
+        const completeTeamMemberStreakTask = await streakoid.completeTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
-            groupMemberStreakId,
+            teamMemberStreakId,
             streakType: StreakTypes.teamMember,
         });
-        completeGroupMemberStreakTaskId = completeGroupMemberStreakTask._id;
+        completeTeamMemberStreakTaskId = completeTeamMemberStreakTask._id;
     });
 
     afterAll(async () => {
@@ -53,7 +53,7 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         test('deletes complete-group-member-streak-tasks', async () => {
             expect.assertions(1);
 
-            const response = await streakoid.completeGroupMemberStreakTasks.deleteOne(completeGroupMemberStreakTaskId);
+            const response = await streakoid.completeTeamMemberStreakTasks.deleteOne(completeTeamMemberStreakTaskId);
 
             expect(response.status).toEqual(204);
         });

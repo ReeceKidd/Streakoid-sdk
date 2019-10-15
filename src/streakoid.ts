@@ -1,7 +1,7 @@
 import { completeSoloStreakTasks } from './completeSoloStreakTasks';
 import { incompleteSoloStreakTasks } from './incompleteSoloStreakTasks';
-import { completeGroupMemberStreakTasks } from './completeGroupMemberStreakTasks';
-import { incompleteGroupMemberStreakTasks } from './incompleteGroupMemberStreakTasks';
+import { completeTeamMemberStreakTasks } from './completeTeamMemberStreakTasks';
+import { incompleteTeamMemberStreakTasks } from './incompleteTeamMemberStreakTasks';
 import { soloStreaks } from './soloStreaks';
 import { stripe } from './stripe';
 import { users } from './users';
@@ -12,7 +12,7 @@ import { agendaJobs } from './agendaJobs';
 import { feedbacks } from './feedbacks';
 import { dailyJobs } from './dailyJobs';
 import { completeTeamStreakTasks } from './completeTeamStreakTasks';
-import { groupMemberStreaks } from './groupMemberStreaks';
+import { teamMemberStreaks } from './teamMemberStreaks';
 import { friendRequests } from './friendRequests';
 
 import { getServiceConfig } from './getServiceConfig';
@@ -29,8 +29,8 @@ export const streakoidClient = streakoidClientFactory(APPLICATION_URL, londonTim
 export interface StreakoidFactory {
     completeSoloStreakTasks: ReturnType<typeof completeSoloStreakTasks>;
     incompleteSoloStreakTasks: ReturnType<typeof incompleteSoloStreakTasks>;
-    completeGroupMemberStreakTasks: ReturnType<typeof completeGroupMemberStreakTasks>;
-    incompleteGroupMemberStreakTasks: ReturnType<typeof incompleteGroupMemberStreakTasks>;
+    completeTeamMemberStreakTasks: ReturnType<typeof completeTeamMemberStreakTasks>;
+    incompleteTeamMemberStreakTasks: ReturnType<typeof incompleteTeamMemberStreakTasks>;
     completeTeamStreakTasks: ReturnType<typeof completeTeamStreakTasks>;
     soloStreaks: ReturnType<typeof soloStreaks>;
     stripe: ReturnType<typeof stripe>;
@@ -62,7 +62,7 @@ export interface StreakoidFactory {
     streakTrackingEvents: ReturnType<typeof streakTrackingEvents>;
     agendaJobs: ReturnType<typeof agendaJobs>;
     feedbacks: ReturnType<typeof feedbacks>;
-    groupMemberStreaks: ReturnType<typeof groupMemberStreaks>;
+    teamMemberStreaks: ReturnType<typeof teamMemberStreaks>;
     friendRequests: ReturnType<typeof friendRequests>;
     dailyJobs: ReturnType<typeof dailyJobs>;
 }
@@ -71,8 +71,8 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
     return {
         completeSoloStreakTasks: completeSoloStreakTasks(streakoidClient),
         incompleteSoloStreakTasks: incompleteSoloStreakTasks(streakoidClient),
-        completeGroupMemberStreakTasks: completeGroupMemberStreakTasks(streakoidClient),
-        incompleteGroupMemberStreakTasks: incompleteGroupMemberStreakTasks(streakoidClient),
+        completeTeamMemberStreakTasks: completeTeamMemberStreakTasks(streakoidClient),
+        incompleteTeamMemberStreakTasks: incompleteTeamMemberStreakTasks(streakoidClient),
         completeTeamStreakTasks: completeTeamStreakTasks(streakoidClient),
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
@@ -84,7 +84,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         streakTrackingEvents: streakTrackingEvents(streakoidClient),
         agendaJobs: agendaJobs(streakoidClient),
         feedbacks: feedbacks(streakoidClient),
-        groupMemberStreaks: groupMemberStreaks(streakoidClient),
+        teamMemberStreaks: teamMemberStreaks(streakoidClient),
         friendRequests: friendRequests(streakoidClient),
         dailyJobs: dailyJobs(streakoidClient),
     };

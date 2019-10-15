@@ -8,8 +8,8 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
-    let incompleteGroupMemberStreakTaskId: string;
+    let teamMemberStreakId: string;
+    let incompleteTeamMemberStreakTaskId: string;
 
     const streakName = 'Intermittent fasting';
 
@@ -26,28 +26,28 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
 
         // Group member streaks tasks must be completed before they can be incompleted.
-        await streakoid.completeGroupMemberStreakTasks.create({
+        await streakoid.completeTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
-            groupMemberStreakId,
+            teamMemberStreakId,
             streakType: StreakTypes.teamMember,
         });
 
-        const incompleteGroupMemberStreakTask = await streakoid.incompleteGroupMemberStreakTasks.create({
+        const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
-            groupMemberStreakId,
+            teamMemberStreakId,
             streakType: StreakTypes.teamMember,
         });
 
-        incompleteGroupMemberStreakTaskId = incompleteGroupMemberStreakTask._id;
+        incompleteTeamMemberStreakTaskId = incompleteTeamMemberStreakTask._id;
     });
 
     afterAll(async () => {
@@ -58,8 +58,8 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
         test('deletes incomplete-solo-streak-tasks', async () => {
             expect.assertions(1);
 
-            const response = await streakoid.incompleteGroupMemberStreakTasks.deleteOne(
-                incompleteGroupMemberStreakTaskId,
+            const response = await streakoid.incompleteTeamMemberStreakTasks.deleteOne(
+                incompleteTeamMemberStreakTaskId,
             );
 
             expect(response.status).toEqual(204);

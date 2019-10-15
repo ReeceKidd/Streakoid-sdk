@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import { groupMembers } from './groupMembers';
+import { teamMembers } from './teamMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
@@ -72,7 +72,7 @@ const teamStreaks = (streakoidClient: AxiosInstance) => {
     }: {
         creatorId: string;
         streakName: string;
-        members: { memberId: string; groupMemberStreakId?: string }[];
+        members: { memberId: string; teamMemberStreakId?: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
     }): Promise<PopulatedTeamStreak> => {
@@ -133,7 +133,7 @@ const teamStreaks = (streakoidClient: AxiosInstance) => {
         create,
         update,
         deleteOne,
-        groupMembers: groupMembers(streakoidClient),
+        teamMembers: teamMembers(streakoidClient),
     };
 };
 

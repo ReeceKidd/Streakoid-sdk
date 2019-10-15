@@ -38,7 +38,7 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
         });
         createdteamStreakId = teamStreak._id;
 
-        await streakoid.teamStreaks.groupMembers.create({
+        await streakoid.teamStreaks.teamMembers.create({
             friendId,
             teamStreakId: createdteamStreakId,
         });
@@ -53,7 +53,7 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
     test(`deletes member from team streak`, async () => {
         expect.assertions(29);
 
-        const { status } = await streakoid.teamStreaks.groupMembers.deleteOne({
+        const { status } = await streakoid.teamStreaks.teamMembers.deleteOne({
             teamStreakId: createdteamStreakId,
             memberId: friendId,
         });
@@ -102,18 +102,18 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
         const member = teamStreak.members[0];
         expect(member._id).toEqual(userId);
         expect(member.username).toEqual(username);
-        expect(Object.keys(member)).toEqual(['_id', 'username', 'groupMemberStreak']);
+        expect(Object.keys(member)).toEqual(['_id', 'username', 'teamMemberStreak']);
 
-        expect(member.groupMemberStreak._id).toEqual(expect.any(String));
-        expect(member.groupMemberStreak.completedToday).toEqual(false);
-        expect(member.groupMemberStreak.active).toEqual(false);
-        expect(member.groupMemberStreak.pastStreaks).toEqual([]);
-        expect(member.groupMemberStreak.userId).toEqual(userId);
-        expect(member.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
-        expect(member.groupMemberStreak.timezone).toEqual(londonTimezone);
-        expect(member.groupMemberStreak.createdAt).toEqual(expect.any(String));
-        expect(member.groupMemberStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(member.groupMemberStreak)).toEqual([
+        expect(member.teamMemberStreak._id).toEqual(expect.any(String));
+        expect(member.teamMemberStreak.completedToday).toEqual(false);
+        expect(member.teamMemberStreak.active).toEqual(false);
+        expect(member.teamMemberStreak.pastStreaks).toEqual([]);
+        expect(member.teamMemberStreak.userId).toEqual(userId);
+        expect(member.teamMemberStreak.teamStreakId).toEqual(createdteamStreakId);
+        expect(member.teamMemberStreak.timezone).toEqual(londonTimezone);
+        expect(member.teamMemberStreak.createdAt).toEqual(expect.any(String));
+        expect(member.teamMemberStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(member.teamMemberStreak)).toEqual([
             '_id',
             'currentStreak',
             'completedToday',

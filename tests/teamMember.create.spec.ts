@@ -49,7 +49,7 @@ describe('POST /team-streaks/:id/members', () => {
         expect.assertions(48);
 
         try {
-            const members = await streakoid.teamStreaks.groupMembers.create({
+            const members = await streakoid.teamStreaks.teamMembers.create({
                 friendId,
                 teamStreakId: createdteamStreakId,
             });
@@ -58,13 +58,13 @@ describe('POST /team-streaks/:id/members', () => {
 
             const currentUser = members[0];
             expect(currentUser.memberId).toEqual(userId);
-            expect(currentUser.groupMemberStreakId).toEqual(expect.any(String));
-            expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'groupMemberStreakId'].sort());
+            expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
+            expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
             const friend = members[1];
             expect(friend.memberId).toEqual(friendId);
-            expect(friend.groupMemberStreakId).toEqual(expect.any(String));
-            expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'groupMemberStreakId'].sort());
+            expect(friend.teamMemberStreakId).toEqual(expect.any(String));
+            expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
             const teamStreak = await streakoid.teamStreaks.getOne(createdteamStreakId);
 
@@ -108,18 +108,18 @@ describe('POST /team-streaks/:id/members', () => {
             const member = teamStreak.members[0];
             expect(member._id).toEqual(userId);
             expect(member.username).toEqual(username);
-            expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+            expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-            expect(member.groupMemberStreak._id).toEqual(expect.any(String));
-            expect(member.groupMemberStreak.completedToday).toEqual(false);
-            expect(member.groupMemberStreak.active).toEqual(false);
-            expect(member.groupMemberStreak.pastStreaks).toEqual([]);
-            expect(member.groupMemberStreak.userId).toEqual(userId);
-            expect(member.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
-            expect(member.groupMemberStreak.timezone).toEqual(londonTimezone);
-            expect(member.groupMemberStreak.createdAt).toEqual(expect.any(String));
-            expect(member.groupMemberStreak.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(member.groupMemberStreak).sort()).toEqual(
+            expect(member.teamMemberStreak._id).toEqual(expect.any(String));
+            expect(member.teamMemberStreak.completedToday).toEqual(false);
+            expect(member.teamMemberStreak.active).toEqual(false);
+            expect(member.teamMemberStreak.pastStreaks).toEqual([]);
+            expect(member.teamMemberStreak.userId).toEqual(userId);
+            expect(member.teamMemberStreak.teamStreakId).toEqual(createdteamStreakId);
+            expect(member.teamMemberStreak.timezone).toEqual(londonTimezone);
+            expect(member.teamMemberStreak.createdAt).toEqual(expect.any(String));
+            expect(member.teamMemberStreak.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(member.teamMemberStreak).sort()).toEqual(
                 [
                     '_id',
                     'currentStreak',
@@ -138,18 +138,18 @@ describe('POST /team-streaks/:id/members', () => {
             const friendMember = teamStreak.members[1];
             expect(friendMember._id).toEqual(friendId);
             expect(friendMember.username).toEqual(friendUsername);
-            expect(Object.keys(friendMember).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+            expect(Object.keys(friendMember).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-            expect(friendMember.groupMemberStreak._id).toEqual(expect.any(String));
-            expect(friendMember.groupMemberStreak.completedToday).toEqual(false);
-            expect(friendMember.groupMemberStreak.active).toEqual(false);
-            expect(friendMember.groupMemberStreak.pastStreaks).toEqual([]);
-            expect(friendMember.groupMemberStreak.userId).toEqual(friendId);
-            expect(friendMember.groupMemberStreak.teamStreakId).toEqual(createdteamStreakId);
-            expect(friendMember.groupMemberStreak.timezone).toEqual(londonTimezone);
-            expect(friendMember.groupMemberStreak.createdAt).toEqual(expect.any(String));
-            expect(friendMember.groupMemberStreak.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(friendMember.groupMemberStreak).sort()).toEqual(
+            expect(friendMember.teamMemberStreak._id).toEqual(expect.any(String));
+            expect(friendMember.teamMemberStreak.completedToday).toEqual(false);
+            expect(friendMember.teamMemberStreak.active).toEqual(false);
+            expect(friendMember.teamMemberStreak.pastStreaks).toEqual([]);
+            expect(friendMember.teamMemberStreak.userId).toEqual(friendId);
+            expect(friendMember.teamMemberStreak.teamStreakId).toEqual(createdteamStreakId);
+            expect(friendMember.teamMemberStreak.timezone).toEqual(londonTimezone);
+            expect(friendMember.teamMemberStreak.createdAt).toEqual(expect.any(String));
+            expect(friendMember.teamMemberStreak.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(friendMember.teamMemberStreak).sort()).toEqual(
                 [
                     '_id',
                     'currentStreak',

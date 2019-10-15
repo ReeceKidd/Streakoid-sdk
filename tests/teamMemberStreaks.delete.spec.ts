@@ -7,7 +7,7 @@ describe('DELETE /group-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let groupMemberStreakId: string;
+    let teamMemberStreakId: string;
 
     const streakName = 'Daily Spanish';
     const streakDescription = 'Everyday I must do Spanish on Duolingo';
@@ -28,12 +28,12 @@ describe('DELETE /group-member-streaks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId: teamStreak._id,
         });
 
-        groupMemberStreakId = groupMemberStreak._id;
+        teamMemberStreakId = teamMemberStreak._id;
     });
 
     afterAll(async () => {
@@ -41,10 +41,10 @@ describe('DELETE /group-member-streaks', () => {
         await streakoid.teamStreaks.deleteOne(teamStreakId);
     });
 
-    test(`deletes groupMember streak`, async () => {
+    test(`deletes teamMember streak`, async () => {
         expect.assertions(1);
 
-        const response = await streakoid.groupMemberStreaks.deleteOne(groupMemberStreakId);
+        const response = await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
         expect(response.status).toEqual(204);
     });
 });

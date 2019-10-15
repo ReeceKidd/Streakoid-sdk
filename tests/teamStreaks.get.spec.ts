@@ -105,10 +105,10 @@ describe('GET /team-streaks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -124,7 +124,7 @@ describe('GET /team-streaks', () => {
             ].sort(),
         );
 
-        const { currentStreak } = groupMemberStreak;
+        const { currentStreak } = teamMemberStreak;
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
     });
 
@@ -178,10 +178,10 @@ describe('GET /team-streaks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -197,7 +197,7 @@ describe('GET /team-streaks', () => {
             ].sort(),
         );
 
-        const { currentStreak } = groupMemberStreak;
+        const { currentStreak } = teamMemberStreak;
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
     });
 
@@ -251,10 +251,10 @@ describe('GET /team-streaks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -270,7 +270,7 @@ describe('GET /team-streaks', () => {
             ].sort(),
         );
 
-        const { currentStreak } = groupMemberStreak;
+        const { currentStreak } = teamMemberStreak;
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
     });
 
@@ -329,10 +329,10 @@ describe('GET /team-streaks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -348,7 +348,7 @@ describe('GET /team-streaks', () => {
             ].sort(),
         );
 
-        const { currentStreak } = groupMemberStreak;
+        const { currentStreak } = teamMemberStreak;
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
     });
 
@@ -399,10 +399,10 @@ describe('GET /team-streaks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'groupMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
-        const { groupMemberStreak } = member;
-        expect(Object.keys(groupMemberStreak).sort()).toEqual(
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
@@ -418,7 +418,7 @@ describe('GET /team-streaks', () => {
             ].sort(),
         );
 
-        const { currentStreak } = groupMemberStreak;
+        const { currentStreak } = teamMemberStreak;
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
     });
 });

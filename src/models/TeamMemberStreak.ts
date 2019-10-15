@@ -1,4 +1,4 @@
-interface GroupMemberStreak {
+interface TeamMemberStreak {
     _id: string;
     userId: string;
     teamStreakId: string;
@@ -19,4 +19,4 @@ interface GroupMemberStreak {
     updatedAt: string;
 }
 
-export default GroupMemberStreak;
+export default TeamMemberStreak;

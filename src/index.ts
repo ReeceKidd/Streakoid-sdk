@@ -2,17 +2,17 @@ import { streakoidClientFactory } from './streakoidClient';
 import { streakoidFactory } from './streakoid';
 
 import AgendaJob from './models/AgendaJob';
-import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
-import IncompleteGroupMemberStreakTask from './models/IncompleteGroupMemberStreakTask';
+import CompleteTeamMemberStreakTask from './models/CompleteTeamMemberStreakTask';
+import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
 import IncompleteSoloStreakTask from './models/IncompleteSoloStreakTask';
 import CurrentStreak from './models/CurrentStreak';
 import Feedback from './models/Feedback';
 import Friend from './models/Friend';
-import GroupMember from './models/GroupMember';
-import GroupMemberStreak from './models/GroupMemberStreak';
+import TeamMember from './models/TeamMember';
+import TeamMemberStreak from './models/TeamMemberStreak';
 import PastStreak from './models/PastStreak';
-import PopulatedMember from './models/PopulatedMember';
+import PopulatedTeamMember from './models/PopulatedTeamMember';
 import SoloStreak from './models/SoloStreak';
 import StreakTrackingEvent from './models/StreakTrackingEvent';
 import User from './models/User';
@@ -34,18 +34,18 @@ export {
     streakoidClientFactory,
     streakoidFactory,
     AgendaJob,
-    CompleteGroupMemberStreakTask,
-    IncompleteGroupMemberStreakTask,
+    CompleteTeamMemberStreakTask,
+    IncompleteTeamMemberStreakTask,
     CompleteSoloStreakTask,
     IncompleteSoloStreakTask,
     CompleteTeamStreakTask,
     CurrentStreak,
     Feedback,
     Friend,
-    GroupMember,
-    GroupMemberStreak,
+    TeamMember,
+    TeamMemberStreak,
     PastStreak,
-    PopulatedMember,
+    PopulatedTeamMember,
     SoloStreak,
     StreakTrackingEvent,
     User,

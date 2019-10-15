@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 
-describe('SDK groupMembers', () => {
+describe('SDK teamMembers', () => {
     const streakoid = streakoidFactory(streakoidClient);
 
     afterEach(() => {
@@ -16,7 +16,7 @@ describe('SDK groupMembers', () => {
             const friendId = 'friendId';
             const teamStreakId = 'teamStreakId';
 
-            await streakoid.teamStreaks.groupMembers.create({
+            await streakoid.teamStreaks.teamMembers.create({
                 friendId,
                 teamStreakId,
             });
@@ -32,7 +32,7 @@ describe('SDK groupMembers', () => {
             expect.assertions(1);
             streakoidClient.delete = jest.fn();
 
-            await streakoid.teamStreaks.groupMembers.deleteOne({
+            await streakoid.teamStreaks.teamMembers.deleteOne({
                 teamStreakId: 'teamStreakId',
                 memberId: 'memberId',
             });
