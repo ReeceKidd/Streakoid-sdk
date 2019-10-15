@@ -6,7 +6,7 @@ const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-group-member-streak-tasks', () => {
+describe('GET /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;

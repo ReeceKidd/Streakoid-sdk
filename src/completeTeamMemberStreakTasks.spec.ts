@@ -17,7 +17,7 @@ describe('SDK completeSoloStreakTasks', () => {
                 userId: 'userId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-group-member-streak-tasks?userId=userId&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-member-streak-tasks?userId=userId&`);
         });
 
         test('calls GET with correct URL when just teamMemberStreakId is passed', async () => {
@@ -29,7 +29,7 @@ describe('SDK completeSoloStreakTasks', () => {
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-group-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
+                `/v1/complete-team-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
             );
         });
 
@@ -41,7 +41,7 @@ describe('SDK completeSoloStreakTasks', () => {
                 streakType: StreakTypes.teamMember,
             });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-group-member-streak-tasks?streakType=teamMember&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-member-streak-tasks?streakType=teamMember&`);
         });
 
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
@@ -53,7 +53,7 @@ describe('SDK completeSoloStreakTasks', () => {
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-group-member-streak-tasks?teamStreakId=teamStreakId&`,
+                `/v1/complete-team-member-streak-tasks?teamStreakId=teamStreakId&`,
             );
         });
 
@@ -69,7 +69,7 @@ describe('SDK completeSoloStreakTasks', () => {
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-group-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&streakType=teamMember&teamStreakId=teamStreakId&`,
+                `/v1/complete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&streakType=teamMember&teamStreakId=teamStreakId&`,
             );
         });
 
@@ -99,7 +99,7 @@ describe('SDK completeSoloStreakTasks', () => {
                 teamStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/complete-group-member-streak-tasks`, {
+            expect(streakoidClient.post).toBeCalledWith(`/v1/complete-team-member-streak-tasks`, {
                 userId,
                 teamMemberStreakId,
                 streakType,
@@ -115,7 +115,7 @@ describe('SDK completeSoloStreakTasks', () => {
 
             await streakoid.completeTeamMemberStreakTasks.deleteOne('id');
 
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/complete-group-member-streak-tasks/id`);
+            expect(streakoidClient.delete).toBeCalledWith(`/v1/complete-team-member-streak-tasks/id`);
         });
     });
 });

@@ -3,7 +3,7 @@ import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
-describe('DELETE /group-member-streaks', () => {
+describe('DELETE /team-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;

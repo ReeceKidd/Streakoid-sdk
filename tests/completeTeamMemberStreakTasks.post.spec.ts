@@ -4,7 +4,7 @@ import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
-describe('POST /complete-group-member-streak-tasks', () => {
+describe('POST /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
@@ -41,8 +41,8 @@ describe('POST /complete-group-member-streak-tasks', () => {
         await streakoid.teamStreaks.deleteOne(teamStreakId);
     });
 
-    describe('POST /v1/complete-group-member-streak-tasks', () => {
-        test('user can complete a group member streak task with a new current streak', async () => {
+    describe('POST /v1/complete-team-member-streak-tasks', () => {
+        test('user can complete a team member streak task with a new current streak', async () => {
             expect.assertions(23);
 
             const completeTeamMemberStreakTask = await streakoid.completeTeamMemberStreakTasks.create({
@@ -108,7 +108,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             );
         });
 
-        test('user can complete a group member streak task with an exsiting current streak', async () => {
+        test('user can complete a team member streak task with an exsiting current streak', async () => {
             expect.assertions(23);
 
             const members = [{ memberId: userId }];
@@ -203,7 +203,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             );
         });
 
-        test('user can complete, incomplete and recomplete a group member streak task with a new current streak', async () => {
+        test('user can complete, incomplete and recomplete a team member streak task with a new current streak', async () => {
             expect.assertions(23);
 
             const members = [{ memberId: userId }];
@@ -299,7 +299,7 @@ describe('POST /complete-group-member-streak-tasks', () => {
             );
         });
 
-        test('user can complete, incomplete and recomplete a group member streak task with an existing streak', async () => {
+        test('user can complete, incomplete and recomplete a team member streak task with an existing streak', async () => {
             expect.assertions(23);
 
             const members = [{ memberId: userId }];

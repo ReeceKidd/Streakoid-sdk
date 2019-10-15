@@ -6,7 +6,7 @@ const streakName = 'Daily Italian';
 
 jest.setTimeout(120000);
 
-describe('GET /group-member-streaks', () => {
+describe('GET /team-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;

@@ -3,7 +3,7 @@ import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
-describe('POST /group-member-streaks', () => {
+describe('POST /team-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
@@ -35,7 +35,7 @@ describe('POST /group-member-streaks', () => {
         await streakoid.teamMemberStreaks.deleteOne(createdTeamMemberStreakId);
     });
 
-    test(`creates teamMember streak associated with groupId`, async () => {
+    test(`creates teamMember streak associated with teamId`, async () => {
         expect.assertions(12);
 
         const teamMemberStreak = await streakoid.teamMemberStreaks.create({

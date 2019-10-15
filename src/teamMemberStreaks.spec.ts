@@ -14,7 +14,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?`);
         });
 
         test('calls GET with correct URL when userId query paramater is passed', async () => {
@@ -25,7 +25,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getAll({ userId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?userId=${userId}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?userId=${userId}&`);
         });
 
         test('calls GET with correct URL when completedToday query paramater is passed', async () => {
@@ -36,7 +36,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getAll({ completedToday });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?completedToday=true&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?completedToday=true&`);
         });
 
         test('calls GET with correct URL when timezone query paramater is passed', async () => {
@@ -47,7 +47,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getAll({ timezone });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?timezone=${timezone}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?timezone=${timezone}&`);
         });
 
         test('calls GET with correct URL when active query paramater is passed', async () => {
@@ -58,7 +58,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getAll({ active });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks?active=${active}`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?active=${active}`);
         });
     });
 
@@ -70,7 +70,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.getOne('id');
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/group-member-streaks/id`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks/id`);
         });
     });
 
@@ -88,7 +88,7 @@ describe('SDK teamMemberStreaks', () => {
                 teamStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/group-member-streaks`, {
+            expect(streakoidClient.post).toBeCalledWith(`/v1/team-member-streaks`, {
                 userId,
                 teamStreakId,
             });
@@ -110,7 +110,7 @@ describe('SDK teamMemberStreaks', () => {
                 updateData,
             });
 
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/group-member-streaks/id`, {
+            expect(streakoidClient.patch).toBeCalledWith(`/v1/team-member-streaks/id`, {
                 ...updateData,
             });
         });
@@ -123,7 +123,7 @@ describe('SDK teamMemberStreaks', () => {
 
             await streakoid.teamMemberStreaks.deleteOne('id');
 
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/group-member-streaks/id`);
+            expect(streakoidClient.delete).toBeCalledWith(`/v1/team-member-streaks/id`);
         });
     });
 });

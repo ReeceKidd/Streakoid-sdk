@@ -6,7 +6,7 @@ const streakName = 'Daily Italian';
 
 jest.setTimeout(120000);
 
-describe('GET /group-member-streaks', () => {
+describe('GET /team-member-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
@@ -45,7 +45,7 @@ describe('GET /group-member-streaks', () => {
         await streakoid.completeTeamMemberStreakTasks.deleteOne(completedTeamMemberStreakTaskId);
     });
 
-    test(`request passes when group member streak is patched with correct keys`, async () => {
+    test(`request passes when team member streak is patched with correct keys`, async () => {
         expect.assertions(13);
 
         const timezone = 'Europe/Paris';

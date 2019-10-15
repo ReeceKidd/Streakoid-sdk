@@ -15,7 +15,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
 
             await streakoid.incompleteTeamMemberStreakTasks.getAll({ userId: 'userId' });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks?userId=userId&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-team-member-streak-tasks?userId=userId&`);
         });
 
         test('calls GET with correct URL when just teamMemberStreakId is passed', async () => {
@@ -25,7 +25,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
             await streakoid.incompleteTeamMemberStreakTasks.getAll({ teamMemberStreakId: 'teamMemberStreakId' });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
+                `/v1/incomplete-team-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
             );
         });
 
@@ -36,7 +36,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
             await streakoid.incompleteTeamMemberStreakTasks.getAll({ streakType: StreakTypes.teamMember });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?streakType=teamMember&`,
+                `/v1/incomplete-team-member-streak-tasks?streakType=teamMember&`,
             );
         });
 
@@ -47,7 +47,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
             await streakoid.incompleteTeamMemberStreakTasks.getAll({ teamStreakId: 'teamStreakId' });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?teamStreakId=teamStreakId&`,
+                `/v1/incomplete-team-member-streak-tasks?teamStreakId=teamStreakId&`,
             );
         });
 
@@ -62,7 +62,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/incomplete-group-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&streakType=teamMember&`,
+                `/v1/incomplete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&streakType=teamMember&`,
             );
         });
 
@@ -72,7 +72,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
 
             await streakoid.incompleteTeamMemberStreakTasks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks?`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-team-member-streak-tasks?`);
         });
     });
 
@@ -92,7 +92,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
                 teamStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks`, {
+            expect(streakoidClient.post).toBeCalledWith(`/v1/incomplete-team-member-streak-tasks`, {
                 userId,
                 teamMemberStreakId,
                 streakType,
@@ -108,7 +108,7 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
 
             await streakoid.incompleteTeamMemberStreakTasks.deleteOne('id');
 
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/incomplete-group-member-streak-tasks/id`);
+            expect(streakoidClient.delete).toBeCalledWith(`/v1/incomplete-team-member-streak-tasks/id`);
         });
     });
 });

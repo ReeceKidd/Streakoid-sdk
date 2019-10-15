@@ -2,8 +2,8 @@ import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
 
-const friendEmail = 'group-member-friend@gmail.com';
-const friendUsername = 'groupmemberfrienduser';
+const friendEmail = 'team-member-friend@gmail.com';
+const friendUsername = 'teammemberfrienduser';
 
 jest.setTimeout(120000);
 

@@ -4,7 +4,7 @@ import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
-describe('DELETE /complete-group-member-streak-tasks', () => {
+describe('DELETE /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
@@ -49,8 +49,8 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         await streakoid.teamStreaks.deleteOne(teamStreakId);
     });
 
-    describe('DELETE /v1/complete-group-member-streak-tasks', () => {
-        test('deletes complete-group-member-streak-tasks', async () => {
+    describe('DELETE /v1/complete-team-member-streak-tasks', () => {
+        test('deletes complete-team-member-streak-tasks', async () => {
             expect.assertions(1);
 
             const response = await streakoid.completeTeamMemberStreakTasks.deleteOne(completeTeamMemberStreakTaskId);
