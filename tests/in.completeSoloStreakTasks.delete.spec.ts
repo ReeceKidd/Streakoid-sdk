@@ -1,11 +1,10 @@
-import { streakoid } from '../src/streakoid';
-
-const email = 'delete-Incomplete-solo-streak-tasks-user@gmail.com';
-const username = 'delete-solo-streak-tasks-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('DELETE /incomplete-solo-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
     let IncompleteSoloStreakTaskId: string;
@@ -13,11 +12,9 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
     const streakName = 'Intermittent fasting';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            email,
-            username,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,

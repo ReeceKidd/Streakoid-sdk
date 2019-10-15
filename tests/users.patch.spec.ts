@@ -1,20 +1,17 @@
-import { streakoid } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
-
-const email = 'patch-solo-streak-updateduser@gmail.com';
-const username = 'patch-solo-streak-updateduser';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe(`PATCH /users`, () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
 
     beforeAll(async () => {
-        const updatedUser = await streakoid.users.create({
-            email,
-            username,
-        });
-        userId = updatedUser._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
     });
 
     afterAll(async () => {

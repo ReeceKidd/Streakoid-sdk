@@ -1,22 +1,20 @@
-import { streakoid } from '../src/streakoid';
-
-const email = 'get-incomplete-solo-streak-task@gmail.com';
-const username = 'get-incomplete-solo-streak-task';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
 describe('GET /incomplete-solo-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
     let incompleteSoloStreakTaskId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({

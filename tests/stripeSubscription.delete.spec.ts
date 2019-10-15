@@ -1,8 +1,7 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
+import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
-const registeredEmail = 'stripe-subscription-delete@gmail.com';
-const registeredUsername = 'stripe-subscription-delete';
 const basicUserEmail = 'basic-subscription-user@gmail.com';
 const basicUserUsername = 'basic-subscription-user';
 
@@ -10,15 +9,14 @@ jest.setTimeout(120000);
 
 describe(`DELETE /subscriptions`, () => {
     let subscription: string;
+    let streakoid: StreakoidFactory;
     let userId: string;
     let basicUserId: string;
 
     beforeAll(async () => {
-        const userResponse = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
-        userId = userResponse._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
 
         const token = 'tok_visa';
         const subscribeUser = await streakoid.stripe.createSubscription({
@@ -53,8 +51,8 @@ describe(`DELETE /subscriptions`, () => {
         expect(user.type).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(registeredUsername);
-        expect(user.email).toEqual(registeredEmail);
+        expect(user.username).toEqual(username);
+        expect(user.email).toEqual(email);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));

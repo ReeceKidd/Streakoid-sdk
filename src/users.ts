@@ -4,8 +4,31 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import User from './models/User';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const users = (streakoidClient: AxiosInstance) => {
+interface Users {
+    getAll: ({
+        searchQuery,
+        username,
+        email,
+    }: {
+        searchQuery?: string;
+        username?: string;
+        email?: string;
+    }) => Promise<User[]>;
+    getOne: (userId: string) => Promise<User>;
+    create: ({ username, email }: { username: string; email: string }) => Promise<User>;
+    update: ({
+        userId,
+        updateData,
+    }: {
+        userId: string;
+        updateData?: {
+            timezone?: string;
+        };
+    }) => Promise<User>;
+    deleteOne: (userId: string) => Promise<AxiosResponse>;
+}
+
+const users = (streakoidClient: AxiosInstance): Users => {
     const getAll = async ({
         searchQuery,
         username,

@@ -1,19 +1,16 @@
-import { streakoid } from '../src/streakoid';
-
-const email = 'delete-user@gmail.com';
-const username = 'delete-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
+import { StreakoidFactory } from '../src/streakoid';
 
 jest.setTimeout(120000);
 
 describe('DELETE /users/:userId', () => {
-    let userId = '';
+    let streakoid: StreakoidFactory;
+    let userId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            email,
-            username,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
     });
 
     test(`deletes user`, async () => {
@@ -25,7 +22,7 @@ describe('DELETE /users/:userId', () => {
             await streakoid.users.getOne(userId);
         } catch (err) {
             expect(err.response.status).toBe(400);
-            expect(err.response.data.message).toEqual('User does not exist.');
+            expect(err.response.data.message).toEqual('Not authorized.');
         }
     });
 
@@ -36,7 +33,7 @@ describe('DELETE /users/:userId', () => {
             await streakoid.users.deleteOne(userId);
         } catch (err) {
             expect(err.response.status).toBe(400);
-            expect(err.response.data.message).toEqual('User does not exist.');
+            expect(err.response.data.message).toEqual('Not authorized.');
         }
     });
 });

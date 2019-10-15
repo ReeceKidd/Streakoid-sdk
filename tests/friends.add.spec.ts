@@ -1,8 +1,6 @@
-import { streakoid } from '../src/streakoid';
+import { StreakoidFactory } from '../src/streakoid';
 import { FriendRequestStatus } from '../src';
-
-const email = 'friends.add.user@gmail.com';
-const username = 'friends-add-user';
+import { getUser, streakoidTest, username } from './setup/streakoidTest';
 
 const friendEmail = 'friend.emai@gmail.com';
 const friendUsername = 'friend-username@gmail.com';
@@ -13,6 +11,7 @@ const secondFriendUsername = 'second-friend-username';
 jest.setTimeout(120000);
 
 describe('POST /users/:id/friends', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
     let friendRequestId: string;
@@ -20,11 +19,9 @@ describe('POST /users/:id/friends', () => {
     let secondFriendId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
         const friend = await streakoid.users.create({
             username: friendUsername,

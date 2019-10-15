@@ -4,6 +4,31 @@ import RouterCategories from './RouterCategories';
 import CompleteGroupMemberStreakTask from './models/CompleteGroupMemberStreakTask';
 import StreakTypes from './StreakTypes';
 
+export interface CompleteGroupMemberStreakTaskReturnType {
+    getAll: ({
+        userId,
+        groupMemberStreakId,
+        streakType,
+        teamStreakId,
+    }: {
+        userId?: string;
+        groupMemberStreakId?: string;
+        streakType?: StreakTypes.teamMember;
+        teamStreakId?: string;
+    }) => Promise<CompleteGroupMemberStreakTask[]>;
+    create: ({
+        userId,
+        groupMemberStreakId,
+        streakType,
+        teamStreakId,
+    }: {
+        userId: string;
+        groupMemberStreakId: string;
+        streakType: StreakTypes.teamMember;
+        teamStreakId: string;
+    }) => Promise<CompleteGroupMemberStreakTask>;
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const completeGroupMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({

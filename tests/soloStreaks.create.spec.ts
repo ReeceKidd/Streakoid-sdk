@@ -1,13 +1,12 @@
-import { streakoid } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'create-solo-streak-user@gmail.com';
-const username = 'create-solo-streak-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
+import { StreakoidFactory } from '../src/streakoid';
 
 jest.setTimeout(120000);
 
 describe('POST /solo-streaks', () => {
-    let registeredUserId: string;
+    let streakoid: StreakoidFactory;
+    let userId: string;
     let soloStreakId: string;
     let soloStreakNoDescriptionId: string;
 
@@ -16,15 +15,14 @@ describe('POST /solo-streaks', () => {
     const streakNumberOfMinutes = 30;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            email,
-            username,
-        });
-        registeredUserId = user._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
+        userId = user._id;
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(registeredUserId);
+        await streakoid.users.deleteOne(userId);
         await streakoid.soloStreaks.deleteOne(soloStreakId);
         await streakoid.soloStreaks.deleteOne(soloStreakNoDescriptionId);
     });
@@ -33,7 +31,7 @@ describe('POST /solo-streaks', () => {
         expect.assertions(14);
 
         const soloStreak = await streakoid.soloStreaks.create({
-            userId: registeredUserId,
+            userId,
             streakName: name,
             streakDescription: description,
             numberOfMinutes: streakNumberOfMinutes,
@@ -44,7 +42,6 @@ describe('POST /solo-streaks', () => {
             status,
             streakDescription,
             numberOfMinutes,
-            userId,
             _id,
             currentStreak,
             completedToday,
@@ -60,7 +57,7 @@ describe('POST /solo-streaks', () => {
         expect(status).toEqual(StreakStatus.live);
         expect(streakDescription).toEqual(streakDescription);
         expect(numberOfMinutes).toEqual(streakNumberOfMinutes);
-        expect(userId).toEqual(registeredUserId);
+        expect(soloStreak.userId).toEqual(userId);
         expect(_id).toBeDefined();
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
@@ -93,7 +90,7 @@ describe('POST /solo-streaks', () => {
         expect.assertions(14);
 
         const soloStreak = await streakoid.soloStreaks.create({
-            userId: registeredUserId,
+            userId,
             streakName: name,
         });
 
@@ -102,7 +99,6 @@ describe('POST /solo-streaks', () => {
             status,
             streakDescription,
             numberOfMinutes,
-            userId,
             _id,
             currentStreak,
             completedToday,
@@ -116,7 +112,7 @@ describe('POST /solo-streaks', () => {
         expect(status).toEqual(StreakStatus.live);
         expect(numberOfMinutes).toEqual(undefined);
         expect(streakDescription).toEqual('');
-        expect(userId).toEqual(registeredUserId);
+        expect(soloStreak.userId).toEqual(userId);
         expect(_id).toBeDefined();
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(currentStreak.numberOfDaysInARow).toEqual(0);

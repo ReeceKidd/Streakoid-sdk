@@ -14,8 +14,8 @@ describe('SDK completeSoloStreakTasks', () => {
 
             const userId = '12345678';
             const pageUrl = '/solo-streaks';
-            const username = 'username';
             const userEmail = 'userEmail';
+            const username = 'username';
             const feedbackText = 'feedback';
 
             await streakoid.feedbacks.create({

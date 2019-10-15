@@ -1,8 +1,6 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'get--one-team-streak@gmail.com';
-const username = 'get-one-team-streak-user';
+import { getUser, streakoidTest, username } from './setup/streakoidTest';
 
 const streakName = 'Daily Meditation';
 const streakDescription = 'Each day I must meditate at ';
@@ -10,14 +8,14 @@ const streakDescription = 'Each day I must meditate at ';
 jest.setTimeout(120000);
 
 describe('GET /team-streaks/:teamStreakId', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const members = [{ memberId: userId }];

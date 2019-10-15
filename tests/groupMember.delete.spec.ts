@@ -1,8 +1,6 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'create-groupmember-user@gmail.com';
-const username = 'create-groupmember-user';
+import { getUser, streakoidTest, username } from './setup/streakoidTest';
 
 const friendEmail = 'friend@gmail.com';
 const friendUsername = 'friendUser';
@@ -10,6 +8,7 @@ const friendUsername = 'friendUser';
 jest.setTimeout(120000);
 
 describe('DELETE /team-streaks/:id/members/:id', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
     let createdteamStreakId: string;
@@ -18,11 +17,9 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
     const streakDescription = 'Everyday I must drink two litres of water';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
         const friend = await streakoid.users.create({
             username: friendUsername,

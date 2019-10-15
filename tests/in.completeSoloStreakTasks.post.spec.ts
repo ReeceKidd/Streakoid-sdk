@@ -1,12 +1,11 @@
-import { streakoid } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'create-incomplete-solo-streak-tasks-user@gmail.com';
-const username = 'create-incomplete-solo-streak-tasks-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('POST /Incomplete-solo-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
     let secondSoloStreakId: string;
@@ -14,10 +13,9 @@ describe('POST /Incomplete-solo-streak-tasks', () => {
     const streakName = 'Intermittent fasting';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({

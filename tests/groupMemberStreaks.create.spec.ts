@@ -1,11 +1,10 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
-
-const registeredEmail = 'create-groupMember-streak-user@gmail.com';
-const registeredUsername = 'create-groupMember-streak-user';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('POST /group-member-streaks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let createdGroupMemberStreakId: string;
@@ -14,10 +13,9 @@ describe('POST /group-member-streaks', () => {
     const streakDescription = 'Everyday I must do Spanish on Duolingo';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const members = [{ memberId: userId }];

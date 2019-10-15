@@ -1,8 +1,7 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
+import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
-const registeredEmail = 'stripe-subscription-user@gmail.com';
-const registeredUsername = 'stripe-subscription-user';
 const secondRegisteredEmail = 'second-stripe-subscription-user@gmail.com';
 const secondRegisteredUsername = 'second-registered-username';
 const premiumEmail = 'premium-email@gmail.com';
@@ -11,18 +10,17 @@ const premiumUsername = 'premium-username';
 jest.setTimeout(120000);
 
 describe(`POST /subscriptions`, () => {
-    let userId = '';
+    let streakoid: StreakoidFactory;
+    let userId: string;
     let secondId = '';
     let premiumId = '';
 
     const validToken = 'tok_visa';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
         const secondRegistrationResponse = await streakoid.users.create({
             username: secondRegisteredUsername,
@@ -62,8 +60,8 @@ describe(`POST /subscriptions`, () => {
         expect(user.type).toEqual(UserTypes.premium);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(registeredUsername);
-        expect(user.email).toEqual(registeredEmail);
+        expect(user.username).toEqual(username);
+        expect(user.email).toEqual(email);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));

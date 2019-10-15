@@ -1,8 +1,6 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'get-solo-streaks@gmail.com';
-const username = 'get-solo-streaks-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const soloStreakName = 'Daily Spanish';
 const soloStreakDescription = 'Each day I must do the insame amount 50xp of Duolingo';
@@ -10,24 +8,23 @@ const soloStreakDescription = 'Each day I must do the insame amount 50xp of Duol
 jest.setTimeout(120000);
 
 describe('GET /solo-streaks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
     let secondSoloStreakId: string;
     let completedTaskResponseId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            email,
-            username,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
+        const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName: soloStreakName,
             streakDescription: soloStreakDescription,
         });
-        soloStreakId = createSoloStreakResponse._id;
+        soloStreakId = soloStreak._id;
     });
 
     afterAll(async () => {
@@ -92,7 +89,7 @@ describe('GET /solo-streaks', () => {
         const soloStreak = soloStreaks[0];
 
         expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
-        expect(Object.keys(soloStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
+        expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
         expect(soloStreak.status).toEqual(StreakStatus.live);
         expect(soloStreak.completedToday).toEqual(false);
         expect(soloStreak.active).toEqual(false);

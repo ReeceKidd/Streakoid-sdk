@@ -1,12 +1,11 @@
-import { streakoid } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const registeredEmail = 'patch-team-streak-user@gmail.com';
-const registeredUsername = 'patch-team-streak-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe(`PATCH /team-streaks`, () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
 
@@ -14,10 +13,9 @@ describe(`PATCH /team-streaks`, () => {
     const streakDescription = 'I will follow the paleo diet every day';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const members = [{ memberId: userId }];

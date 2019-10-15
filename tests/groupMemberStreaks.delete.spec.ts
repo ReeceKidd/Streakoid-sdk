@@ -1,11 +1,10 @@
-import { streakoid } from '../src/streakoid';
-
-const email = 'delete-groupMember-streak-user@gmail.com';
-const username = 'delete-groupMember-streak-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('DELETE /group-member-streaks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
@@ -14,10 +13,9 @@ describe('DELETE /group-member-streaks', () => {
     const streakDescription = 'Everyday I must do Spanish on Duolingo';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const members = [{ memberId: userId }];

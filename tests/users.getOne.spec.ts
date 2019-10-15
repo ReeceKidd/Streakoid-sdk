@@ -1,19 +1,17 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
-
-const email = 'get-user@gmail.com';
-const username = 'get-user';
+import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('GET /users/:userId', () => {
-    let userId = '';
+    let streakoid: StreakoidFactory;
+    let userId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
     });
 

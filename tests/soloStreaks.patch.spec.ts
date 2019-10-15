@@ -1,12 +1,11 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'patch-solo-streak-user@gmail.com';
-const username = 'patch-solo-streak-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe(`PATCH /solo-streaks`, () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
 
@@ -14,11 +13,9 @@ describe(`PATCH /solo-streaks`, () => {
     const streakDescription = 'I will follow the keto diet every day';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            email,
-            username,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({
             userId,

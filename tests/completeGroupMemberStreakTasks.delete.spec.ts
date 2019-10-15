@@ -1,12 +1,11 @@
-import { streakoidTest } from './streakoidTest';
 import { StreakTypes } from '../src';
-
-const email = 'delete-complete-group-member-streak-tasks-user@gmail.com';
-const username = 'delete-complete-group-member-streak-tasks-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('DELETE /complete-group-member-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
@@ -16,14 +15,13 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
     const streakDescription = 'I will not eat until 1pm everyday';
 
     beforeAll(async () => {
-        const user = await streakoidTest.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
         const members = [{ memberId: userId }];
 
-        const teamStreak = await streakoidTest.teamStreaks.create({
+        const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
             streakName,
             streakDescription,
@@ -31,13 +29,13 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const groupMemberStreak = await streakoidTest.groupMemberStreaks.create({
+        const groupMemberStreak = await streakoid.groupMemberStreaks.create({
             userId,
             teamStreakId,
         });
         groupMemberStreakId = groupMemberStreak._id;
 
-        const completeGroupMemberStreakTask = await streakoidTest.completeGroupMemberStreakTasks.create({
+        const completeGroupMemberStreakTask = await streakoid.completeGroupMemberStreakTasks.create({
             userId,
             teamStreakId,
             groupMemberStreakId,
@@ -47,17 +45,15 @@ describe('DELETE /complete-group-member-streak-tasks', () => {
     });
 
     afterAll(async () => {
-        await streakoidTest.users.deleteOne(userId);
-        await streakoidTest.teamStreaks.deleteOne(teamStreakId);
+        await streakoid.users.deleteOne(userId);
+        await streakoid.teamStreaks.deleteOne(teamStreakId);
     });
 
     describe('DELETE /v1/complete-group-member-streak-tasks', () => {
         test('deletes complete-group-member-streak-tasks', async () => {
             expect.assertions(1);
 
-            const response = await streakoidTest.completeGroupMemberStreakTasks.deleteOne(
-                completeGroupMemberStreakTaskId,
-            );
+            const response = await streakoid.completeGroupMemberStreakTasks.deleteOne(completeGroupMemberStreakTaskId);
 
             expect(response.status).toEqual(204);
         });

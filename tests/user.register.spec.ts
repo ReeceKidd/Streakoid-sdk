@@ -1,17 +1,20 @@
-import { streakoid } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe(`POST /users`, () => {
-    const username = 'tester1';
-    const email = 'tester1@gmail.com';
+    let streakoid: StreakoidFactory;
     let userId: string;
     let registeredUserId: string;
+    const username = 'registerusername';
+    const email = 'register@gmail.com';
 
     beforeAll(async () => {
-        const response = await streakoid.users.create({ username, email });
-        userId = response._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
     });
 
     afterAll(async () => {
@@ -21,9 +24,6 @@ describe(`POST /users`, () => {
 
     test('user can register successfully', async () => {
         expect.assertions(12);
-
-        const username = 'registerusername';
-        const email = 'register@gmail.com';
 
         const user = await streakoid.users.create({
             username,
@@ -62,6 +62,7 @@ describe(`POST /users`, () => {
     test('fails because username is missing from request', async () => {
         expect.assertions(2);
 
+        const email = 'register1@gmail.com';
         try {
             await streakoid.users.create({ username: '', email });
         } catch (err) {
@@ -74,7 +75,6 @@ describe(`POST /users`, () => {
 
     test('fails because username already exists', async () => {
         expect.assertions(3);
-
         try {
             await streakoid.users.create({ username, email: 'new-email@gmail.com' });
         } catch (err) {

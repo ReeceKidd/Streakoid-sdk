@@ -1,14 +1,13 @@
-import { streakoid } from '../src/streakoid';
+import { StreakoidFactory } from '../src/streakoid';
 import { PastStreak } from '../src';
-
-const email = 'get-group-member-streaks@gmail.com';
-const username = 'get-group-member-streaks-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = 'Daily Italian';
 
 jest.setTimeout(120000);
 
 describe('GET /group-member-streaks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
@@ -17,10 +16,9 @@ describe('GET /group-member-streaks', () => {
     let completedGroupMemberStreakTaskId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
         const members = [{ memberId: userId }];
 

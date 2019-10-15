@@ -1,22 +1,20 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
-
-const email = 'get-one-group-member-streak@gmail.com';
-const username = 'get-one-group-member-streak-user';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
 describe('GET /group-member-streaks/:groupMemberStreakId', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
         const members = [{ memberId: userId }];
 

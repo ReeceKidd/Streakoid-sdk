@@ -1,9 +1,23 @@
-import { streakoid } from '../src/streakoid';
 import { StreakTypes, AgendaJobNames } from '../src';
+import { streakoidTest, getUser } from './setup/streakoidTest';
+import { StreakoidFactory } from '../src/streakoid';
 
 jest.setTimeout(120000);
 
 describe('POST /streak-tracking-events', () => {
+    let streakoid: StreakoidFactory;
+    let userId: string;
+
+    beforeAll(async () => {
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
+    });
+
+    afterAll(async () => {
+        await streakoid.users.deleteOne(userId);
+    });
+
     test(`creates a successful soloStreakDailyTrackerJob dailyJob`, async () => {
         expect.assertions(9);
 

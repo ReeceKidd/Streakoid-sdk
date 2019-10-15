@@ -3,8 +3,13 @@ import RouterCategories from './RouterCategories';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
 import { AxiosInstance, AxiosResponse } from 'axios';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const completeSoloStreakTasks = (streakoidClient: AxiosInstance) => {
+export interface CompleteSoloStreakTasksReturnType {
+    getAll: ({ userId, streakId }: { userId?: string; streakId?: string }) => Promise<CompleteSoloStreakTask[]>;
+    create: ({ userId, soloStreakId }: { userId: string; soloStreakId: string }) => Promise<CompleteSoloStreakTask>;
+    deleteOne: (completeSoloStreakTaskId: string) => Promise<AxiosResponse>;
+}
+
+const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloStreakTasksReturnType => {
     const getAll = async ({
         userId,
         streakId,

@@ -1,7 +1,5 @@
-import { streakoid } from '../src/streakoid';
-
-const registeredEmail = 'delete-user@gmail.com';
-const registeredUsername = 'delete-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const friendEmail = 'delete-friend@gmail.com';
 const friendUsername = 'delete-friend';
@@ -9,21 +7,20 @@ const friendUsername = 'delete-friend';
 jest.setTimeout(120000);
 
 describe('DELETE /users/:userId/friends/:friendId', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
 
     beforeAll(async () => {
-        const userRegistrationResponse = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
-        userId = userRegistrationResponse._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
 
-        const friendRegistrationResponse = await streakoid.users.create({
+        const friend = await streakoid.users.create({
             username: friendUsername,
             email: friendEmail,
         });
-        friendId = friendRegistrationResponse._id;
+        friendId = friend._id;
 
         await streakoid.friendRequests.create({
             requesterId: friendId,

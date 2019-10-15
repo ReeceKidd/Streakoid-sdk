@@ -1,25 +1,22 @@
-import { streakoid } from '../src/streakoid';
 import { StreakTypes } from '../src';
-
-const email = 'get-complete-group-member-task@gmail.com';
-const username = 'get-complete-group-member-task';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = '10 minutes journaling';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-group-member-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
     let completeGroupMemberStreakTaskId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
         userId = user._id;
+        streakoid = await streakoidTest();
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({

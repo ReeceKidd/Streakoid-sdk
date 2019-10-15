@@ -1,24 +1,21 @@
-import { streakoid } from '../src/streakoid';
-
-const email = 'create-feedback-user@gmail.com';
-const username = 'create-feedback-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('POST /feedbacks', () => {
-    let registeredUserId: string;
+    let streakoid: StreakoidFactory;
+    let userId: string;
     let feedbackId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
-        registeredUserId = user._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(registeredUserId);
+        await streakoid.users.deleteOne(userId);
         await streakoid.feedbacks.deleteOne(feedbackId);
     });
 
@@ -31,18 +28,18 @@ describe('POST /feedbacks', () => {
         const feedback = 'feedback';
 
         const feedbackDocument = await streakoid.feedbacks.create({
-            userId: registeredUserId,
+            userId,
             pageUrl: feedbackPageUrl,
             username: feedbackUsername,
             userEmail: feedbackUserEmail,
             feedbackText: feedback,
         });
 
-        const { _id, userId, pageUrl, username, userEmail, feedbackText } = feedbackDocument;
+        const { _id, pageUrl, username, userEmail, feedbackText } = feedbackDocument;
 
         feedbackId = feedbackDocument._id;
         expect(_id).toEqual(expect.any(String));
-        expect(userId).toEqual(registeredUserId);
+        expect(feedbackDocument.userId).toEqual(userId);
         expect(pageUrl).toEqual(feedbackPageUrl);
         expect(username).toEqual(feedbackUsername);
         expect(userEmail).toEqual(feedbackUserEmail);

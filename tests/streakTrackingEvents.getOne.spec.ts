@@ -1,8 +1,6 @@
-import { streakoid } from '../src/streakoid';
 import { StreakTrackingEventTypes, StreakTypes } from '../src';
-
-const registeredEmail = 'get-one-streak-tracking@gmail.com';
-const registeredUsername = 'get-one-streak-tracking';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = 'Daily yoga';
 const streakDescription = 'Every day I must do yoga before 12pm';
@@ -10,15 +8,15 @@ const streakDescription = 'Every day I must do yoga before 12pm';
 jest.setTimeout(120000);
 
 describe('GET /streak-tracking-events', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
     let streakTrackingEventId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username: registeredUsername,
-            email: registeredEmail,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const soloStreak = await streakoid.soloStreaks.create({

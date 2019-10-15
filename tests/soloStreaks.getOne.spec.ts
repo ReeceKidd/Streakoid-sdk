@@ -1,8 +1,6 @@
-import { streakoid, londonTimezone } from '../src/streakoid';
+import { londonTimezone, StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
-
-const email = 'get-one-solo-streak@gmail.com';
-const username = 'get-one-solo-streak-user';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = '10 minutes journaling';
 const streakDescription = 'Each day I must do 10 minutes journaling';
@@ -10,15 +8,15 @@ const streakDescription = 'Each day I must do 10 minutes journaling';
 jest.setTimeout(120000);
 
 describe('GET /solo-streaks/:soloStreakId', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
 
     let soloStreakId: string;
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
 
         const createSoloStreakResponse = await streakoid.soloStreaks.create({

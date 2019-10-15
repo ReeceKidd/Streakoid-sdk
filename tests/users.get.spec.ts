@@ -1,20 +1,17 @@
-import { streakoid } from '../src/streakoid';
 import UserTypes from '../src/userTypes';
-
-const email = 'search-user@gmail.com';
-const username = 'search-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('GET /users', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
 
     beforeAll(async () => {
-        const createUserResponse = await streakoid.users.create({
-            username,
-            email,
-        });
-        userId = createUserResponse._id;
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
     });
 
     afterAll(async () => {
@@ -93,7 +90,7 @@ describe('GET /users', () => {
     test('returns user when partial searchTerm is used', async () => {
         expect.assertions(13);
 
-        const users = await streakoid.users.getAll({ searchQuery: 'search' });
+        const users = await streakoid.users.getAll({ searchQuery: 'te' });
         expect(users.length).toBeGreaterThanOrEqual(1);
 
         const user = users[0];

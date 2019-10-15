@@ -1,12 +1,11 @@
-import { streakoid } from '../src/streakoid';
 import { StreakTypes } from '../src';
-
-const email = 'create-complete-group-member-streak-task-user@gmail.com';
-const username = 'create-complete-group-member-streak-tasks-user';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
 describe('POST /complete-group-member-streak-tasks', () => {
+    let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
     let groupMemberStreakId: string;
@@ -16,10 +15,9 @@ describe('POST /complete-group-member-streak-tasks', () => {
     const streakDescription = 'I will not eat until 1pm everyday';
 
     beforeAll(async () => {
-        const user = await streakoid.users.create({
-            username,
-            email,
-        });
+        const user = await getUser();
+        userId = user._id;
+        streakoid = await streakoidTest();
         userId = user._id;
         const members = [{ memberId: userId }];
 
