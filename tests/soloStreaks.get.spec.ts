@@ -76,12 +76,30 @@ describe('GET /solo-streaks', () => {
         );
     });
 
-    test('solo streaks not completed today can be retreived', async () => {
-        expect.assertions(15);
+    test('incomplete solo streaks can be retreived', async () => {
+        expect.assertions(16);
+
+        const newSoloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName: soloStreakName,
+        });
+
+        // Simulate an incomplete solo streak
+        await streakoid.soloStreaks.update({
+            soloStreakId: newSoloStreak._id,
+            updateData: {
+                active: true,
+                completedToday: false,
+                currentStreak: {
+                    startDate: new Date().toString(),
+                    numberOfDaysInARow: 1,
+                },
+            },
+        });
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
             completedToday: false,
-            active: false,
+            active: true,
             status: StreakStatus.live,
         });
         expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
@@ -89,10 +107,11 @@ describe('GET /solo-streaks', () => {
         const soloStreak = soloStreaks[0];
 
         expect(soloStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
-        expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(soloStreak.currentStreak.startDate).toEqual(expect.any(String));
+        expect(Object.keys(soloStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
         expect(soloStreak.status).toEqual(StreakStatus.live);
         expect(soloStreak.completedToday).toEqual(false);
-        expect(soloStreak.active).toEqual(false);
+        expect(soloStreak.active).toEqual(true);
         expect(soloStreak.pastStreaks).toEqual([]);
         expect(soloStreak._id).toEqual(expect.any(String));
         expect(soloStreak.streakName).toEqual(expect.any(String));
@@ -120,7 +139,7 @@ describe('GET /solo-streaks', () => {
         );
     });
 
-    test('solo streaks that have been completed today can be retreived', async () => {
+    test('completed solo streaks can be retreived', async () => {
         expect.assertions(16);
 
         const streakName = '30 minutes of reading';
