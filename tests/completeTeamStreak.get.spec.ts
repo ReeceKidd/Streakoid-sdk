@@ -1,6 +1,6 @@
-import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest, username } from './setup/streakoidTest';
-import { StreakStatus, StreakTypes } from '../src';
+import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
+import { StreakTypes } from '../src';
 
 const streakName = '10 minutes journaling';
 
@@ -29,19 +29,16 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
         teamStreakId = teamStreak._id;
 
-        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
-            userId,
-            teamStreakId,
-        });
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({ userId });
+        const teamMemberStreak = teamMemberStreaks[0];
         teamMemberStreakId = teamMemberStreak._id;
 
-        const teamMemberStreakTaskComplete = await streakoid.completeTeamMemberStreakTasks.create({
+        await streakoid.completeTeamMemberStreakTasks.create({
             userId,
-            teamStreakId,
             teamMemberStreakId,
+            teamStreakId,
             streakType: StreakTypes.teamMember,
         });
-        completeTeamMemberStreakTaskId = teamMemberStreakTaskComplete._id;
     });
 
     afterAll(async () => {
@@ -53,7 +50,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`completeTeamStreaks can be retreived`, async () => {
-        expect.assertions(26);
+        expect.assertions(7);
 
         const completeTeamStreaks = await streakoid.completeTeamStreaks.getAll({ teamStreakId });
         const completeTeamStreak = completeTeamStreaks[0];
@@ -68,64 +65,5 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(completeTeamStreak).sort()).toEqual(
             ['_id', 'teamStreakId', 'taskCompleteTime', 'taskCompleteDay', 'createdAt', 'updatedAt', '__v'].sort(),
         );
-
-        const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
-
-        expect(teamStreak.members.length).toEqual(1);
-        const member = teamStreak.members[0];
-        expect(member._id).toBeDefined();
-        expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
-
-        const { teamMemberStreak } = member;
-        expect(Object.keys(teamMemberStreak).sort()).toEqual(
-            [
-                '_id',
-                'currentStreak',
-                'completedToday',
-                'active',
-                'pastStreaks',
-                'userId',
-                'teamStreakId',
-                'timezone',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
-        );
-
-        expect(teamStreak.streakName).toEqual(streakName);
-        expect(teamStreak.status).toEqual(StreakStatus.live);
-        expect(teamStreak.creatorId).toEqual(userId);
-        expect(teamStreak.timezone).toEqual(londonTimezone);
-        expect(teamStreak.active).toEqual(true);
-        expect(teamStreak.completedToday).toEqual(true);
-        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(1);
-        expect(teamStreak.currentStreak.startDate).toEqual(expect.any(String));
-        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
-        expect(teamStreak.pastStreaks.length).toEqual(0);
-        expect(Object.keys(teamStreak).sort()).toEqual(
-            [
-                '_id',
-                'status',
-                'members',
-                'creatorId',
-                'streakName',
-                'active',
-                'completedToday',
-                'currentStreak',
-                'pastStreaks',
-                'timezone',
-                'createdAt',
-                'updatedAt',
-                '__v',
-                'creator',
-            ].sort(),
-        );
-
-        const { creator } = teamStreak;
-        expect(creator._id).toBeDefined();
-        expect(creator.username).toEqual(username);
-        expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 });
