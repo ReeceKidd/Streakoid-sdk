@@ -2,19 +2,16 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
 import { AxiosInstance, AxiosResponse } from 'axios';
-import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         teamMemberStreakId,
-        streakType,
         teamStreakId,
     }: {
         userId?: string;
         teamMemberStreakId?: string;
-        streakType?: StreakTypes.teamMember;
         teamStreakId?: string;
     }): Promise<IncompleteTeamMemberStreakTask[]> => {
         try {
@@ -24,9 +21,6 @@ const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
             }
             if (teamMemberStreakId) {
                 getAllURL = `${getAllURL}teamMemberStreakId=${teamMemberStreakId}&`;
-            }
-            if (streakType) {
-                getAllURL = `${getAllURL}streakType=${streakType}&`;
             }
             if (teamStreakId) {
                 getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
@@ -41,12 +35,10 @@ const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
     const create = async ({
         userId,
         teamMemberStreakId,
-        streakType,
         teamStreakId,
     }: {
         userId: string;
         teamMemberStreakId: string;
-        streakType: StreakTypes.teamMember;
         teamStreakId: string;
     }): Promise<IncompleteTeamMemberStreakTask> => {
         try {
@@ -55,7 +47,6 @@ const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
                 {
                     userId,
                     teamMemberStreakId,
-                    streakType,
                     teamStreakId,
                 },
             );

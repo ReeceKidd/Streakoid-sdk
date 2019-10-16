@@ -1,4 +1,3 @@
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
@@ -37,14 +36,12 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         incompleteTeamMemberStreakTaskId = incompleteTeamMemberStreakTask._id;
@@ -63,7 +60,6 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         const incompleteTeamMemberStreakTask = incompleteTeamMemberStreakTasks[0];
@@ -71,7 +67,6 @@ describe('GET /incomplete-solo-streak-tasks', () => {
         expect(incompleteTeamMemberStreakTask._id).toBeDefined();
         expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
         expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
-        expect(incompleteTeamMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
         expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamMemberStreakTask.taskIncompleteDay).toEqual(expect.any(String));

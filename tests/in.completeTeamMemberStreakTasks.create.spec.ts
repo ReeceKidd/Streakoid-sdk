@@ -1,4 +1,3 @@
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
@@ -36,7 +35,6 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
     });
 
@@ -52,13 +50,11 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
                 userId,
                 teamStreakId,
                 teamMemberStreakId,
-                streakType: StreakTypes.teamMember,
             });
 
             expect(incompleteTeamMemberStreakTask._id).toBeDefined();
             expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
             expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
-            expect(incompleteTeamMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
             expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
             expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
             expect(incompleteTeamMemberStreakTask.taskIncompleteDay).toEqual(expect.any(String));
@@ -139,20 +135,17 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
                 userId,
                 teamStreakId,
                 teamMemberStreakId: multipleDayTeamMemberStreak._id,
-                streakType: StreakTypes.teamMember,
             });
 
             const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
                 userId,
                 teamMemberStreakId: multipleDayTeamMemberStreak._id,
                 teamStreakId: newTeamStreak._id,
-                streakType: StreakTypes.teamMember,
             });
 
             expect(incompleteTeamMemberStreakTask._id).toBeDefined();
             expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
             expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(multipleDayTeamMemberStreak._id);
-            expect(incompleteTeamMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
             expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(newTeamStreak._id);
             expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
             expect(incompleteTeamMemberStreakTask.taskIncompleteDay).toEqual(expect.any(String));
@@ -223,7 +216,6 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
                     userId,
                     teamStreakId: newTeamStreak._id,
                     teamMemberStreakId: newTeamMemberStreak._id,
-                    streakType: StreakTypes.teamMember,
                 });
             } catch (err) {
                 expect(err.response.status).toEqual(422);

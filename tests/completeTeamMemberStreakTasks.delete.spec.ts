@@ -1,4 +1,3 @@
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
@@ -39,7 +38,6 @@ describe('DELETE /complete-team-member-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
         completeTeamMemberStreakTaskId = completeTeamMemberStreakTask._id;
     });

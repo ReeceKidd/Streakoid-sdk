@@ -1,6 +1,5 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -35,7 +34,6 @@ describe('DELETE /complete-team-streak-tasks', () => {
             userId,
             teamMemberStreakId,
             teamStreakId,
-            streakType: StreakTypes.teamMember,
         });
     });
 

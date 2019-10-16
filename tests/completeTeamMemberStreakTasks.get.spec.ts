@@ -1,4 +1,3 @@
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
@@ -36,7 +35,6 @@ describe('GET /complete-team-member-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
         completeTeamMemberStreakTaskId = teamMemberStreakTaskComplete._id;
     });
@@ -55,7 +53,6 @@ describe('GET /complete-team-member-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         expect(completeTeamMemberStreakTasks.length).toBeGreaterThanOrEqual(1);
@@ -66,7 +63,6 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(completeTeamMemberStreakTask.userId).toEqual(userId);
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
-        expect(completeTeamMemberStreakTask.streakType).toEqual(StreakTypes.teamMember);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
         expect(completeTeamMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
         expect(completeTeamMemberStreakTask.createdAt).toBeDefined();

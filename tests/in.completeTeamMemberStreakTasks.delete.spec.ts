@@ -1,4 +1,3 @@
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
@@ -37,14 +36,12 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
             teamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
 
         incompleteTeamMemberStreakTaskId = incompleteTeamMemberStreakTask._id;

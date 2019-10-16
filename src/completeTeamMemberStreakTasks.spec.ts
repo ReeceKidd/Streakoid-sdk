@@ -1,5 +1,4 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { StreakTypes } from '.';
 
 describe('SDK completeSoloStreakTasks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -33,17 +32,6 @@ describe('SDK completeSoloStreakTasks', () => {
             );
         });
 
-        test('calls GET with correct URL when just streakType is passed', async () => {
-            expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-            await streakoid.completeTeamMemberStreakTasks.getAll({
-                streakType: StreakTypes.teamMember,
-            });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-member-streak-tasks?streakType=teamMember&`);
-        });
-
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -64,12 +52,11 @@ describe('SDK completeSoloStreakTasks', () => {
             await streakoid.completeTeamMemberStreakTasks.getAll({
                 userId: 'userId',
                 teamMemberStreakId: 'teamMemberStreakId',
-                streakType: StreakTypes.teamMember,
                 teamStreakId: 'teamStreakId',
             });
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&streakType=teamMember&teamStreakId=teamStreakId&`,
+                `/v1/complete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&teamStreakId=teamStreakId&`,
             );
         });
 
@@ -89,20 +76,17 @@ describe('SDK completeSoloStreakTasks', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const teamMemberStreakId = 'teamMemberStreakId';
-            const streakType = StreakTypes.teamMember;
             const teamStreakId = 'teamStreakId';
 
             await streakoid.completeTeamMemberStreakTasks.create({
                 userId,
                 teamMemberStreakId,
-                streakType,
                 teamStreakId,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/complete-team-member-streak-tasks`, {
                 userId,
                 teamMemberStreakId,
-                streakType,
                 teamStreakId,
             });
         });

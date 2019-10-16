@@ -1,5 +1,4 @@
 import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import { StreakTypes } from '../src';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 
 const streakName = 'Daily Italian';
@@ -184,7 +183,6 @@ describe('GET /team-member-streaks', () => {
             userId,
             teamStreakId: secondteamStreakId,
             teamMemberStreakId: secondTeamMemberStreakId,
-            streakType: StreakTypes.teamMember,
         });
         completedTeamMemberStreakTaskId = completedTeamMemberStreakTask._id;
 

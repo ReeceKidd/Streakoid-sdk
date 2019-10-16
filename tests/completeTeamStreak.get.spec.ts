@@ -1,6 +1,5 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-import { StreakTypes } from '../src';
 
 const streakName = '10 minutes journaling';
 
@@ -37,7 +36,6 @@ describe('GET /complete-solo-streak-tasks', () => {
             userId,
             teamMemberStreakId,
             teamStreakId,
-            streakType: StreakTypes.teamMember,
         });
     });
 
