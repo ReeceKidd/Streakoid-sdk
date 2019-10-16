@@ -17,10 +17,10 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
         status,
     }: {
         userId?: string;
-        completedToday?: boolean;
         timezone?: string;
-        active?: boolean;
         status?: StreakStatus;
+        active?: boolean;
+        completedToday?: boolean;
     }): Promise<SoloStreak[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
@@ -29,20 +29,20 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}userId=${userId}&`;
             }
 
-            if (completedToday !== undefined) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(completedToday)}&`;
-            }
-
             if (timezone) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}&`;
             }
 
-            if (active !== undefined) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}&`;
-            }
-
             if (status) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
+            }
+
+            if (completedToday !== undefined) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(completedToday)}&`;
+            }
+
+            if (active !== undefined) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}&`;
             }
 
             const { data } = await streakoidClient.get(getAllSoloStreaksURL);

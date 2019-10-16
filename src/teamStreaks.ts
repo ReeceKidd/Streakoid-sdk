@@ -39,11 +39,11 @@ const teamStreaks = (streakoidClient: AxiosInstance) => {
             if (status) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}status=${status}&`;
             }
-            if (completedToday) {
-                getAllteamStreaksURL = `${getAllteamStreaksURL}completedToday=${completedToday}&`;
+            if (completedToday !== undefined) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}completedToday=${Boolean(completedToday)}&`;
             }
-            if (active) {
-                getAllteamStreaksURL = `${getAllteamStreaksURL}active=${active}&`;
+            if (active !== undefined) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}active=${Boolean(active)}&`;
             }
             const { data } = await streakoidClient.get(getAllteamStreaksURL);
             return data;
