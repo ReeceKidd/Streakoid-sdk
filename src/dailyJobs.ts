@@ -7,6 +7,36 @@ import DailyJob from './models/DailyJob';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const dailyJobs = (streakoidClient: AxiosInstance) => {
+    const getAll = async ({
+        agendaJobId,
+        jobName,
+        timezone,
+    }: {
+        agendaJobId?: string;
+        jobName?: AgendaJobNames;
+        timezone?: string;
+    }): Promise<DailyJob[]> => {
+        try {
+            let getAllDailyJobsURL = `/${ApiVersions.v1}/${RouterCategories.dailyJobs}?`;
+
+            if (agendaJobId) {
+                getAllDailyJobsURL = `${getAllDailyJobsURL}agendaJobId=${agendaJobId}&`;
+            }
+
+            if (jobName) {
+                getAllDailyJobsURL = `${getAllDailyJobsURL}jobName=${jobName}&`;
+            }
+
+            if (timezone) {
+                getAllDailyJobsURL = `${getAllDailyJobsURL}timezone=${timezone}&`;
+            }
+
+            const { data } = await streakoidClient.get(getAllDailyJobsURL);
+            return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
     const create = async ({
         agendaJobId,
         jobName,
@@ -35,6 +65,7 @@ const dailyJobs = (streakoidClient: AxiosInstance) => {
     };
 
     return {
+        getAll,
         create,
     };
 };
