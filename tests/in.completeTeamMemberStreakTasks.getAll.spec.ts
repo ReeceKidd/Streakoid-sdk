@@ -53,8 +53,8 @@ describe('GET /incomplete-solo-streak-tasks', () => {
         await streakoid.incompleteTeamMemberStreakTasks.deleteOne(incompleteTeamMemberStreakTaskId);
     });
 
-    test(`IncompleteTeamMemberStreakTasks can be retreived`, async () => {
-        expect.assertions(10);
+    test(`incompleteTeamMemberStreakTasks can be retreived`, async () => {
+        expect.assertions(9);
 
         const incompleteTeamMemberStreakTasks = await streakoid.incompleteTeamMemberStreakTasks.getAll({
             userId,
@@ -77,7 +77,6 @@ describe('GET /incomplete-solo-streak-tasks', () => {
                 '_id',
                 'userId',
                 'teamMemberStreakId',
-                'streakType',
                 'teamStreakId',
                 'taskIncompleteTime',
                 'taskIncompleteDay',

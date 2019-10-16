@@ -47,7 +47,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
     });
 
     test(`completeTeamMemberStreakTasks can be retreived`, async () => {
-        expect.assertions(11);
+        expect.assertions(10);
 
         const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
             userId,
@@ -75,7 +75,6 @@ describe('GET /complete-team-member-streak-tasks', () => {
                 'teamMemberStreakId',
                 'taskCompleteTime',
                 'taskCompleteDay',
-                'streakType',
                 'createdAt',
                 'updatedAt',
                 '__v',

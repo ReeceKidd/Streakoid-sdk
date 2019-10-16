@@ -44,7 +44,7 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
 
     describe('POST /v1/incomplete-solo-streak-tasks', () => {
         test('user can incomplete a team member streak task and the start date gets reset if it is the first day of the streak', async () => {
-            expect.assertions(23);
+            expect.assertions(22);
 
             const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
                 userId,
@@ -65,7 +65,6 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
                     '_id',
                     'userId',
                     'teamMemberStreakId',
-                    'streakType',
                     'teamStreakId',
                     'taskIncompleteTime',
                     'taskIncompleteDay',
@@ -108,6 +107,7 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
         });
 
         test('user can incomplete a team member streak task after the first day of the streak', async () => {
+            expect.assertions(22);
             const members = [{ memberId: userId }];
             const newTeamStreak = await streakoid.teamStreaks.create({
                 creatorId: userId,
@@ -156,7 +156,6 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
                     '_id',
                     'userId',
                     'teamMemberStreakId',
-                    'streakType',
                     'teamStreakId',
                     'taskIncompleteTime',
                     'taskIncompleteDay',
