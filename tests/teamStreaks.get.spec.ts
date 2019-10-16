@@ -250,7 +250,7 @@ describe('GET /team-streaks', () => {
 
         const member = members[0];
         expect(member._id).toBeDefined();
-        expect(member.username).toEqual(username);
+        expect(member.username).toEqual(expect.any(String));
         expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;

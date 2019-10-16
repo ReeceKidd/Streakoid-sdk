@@ -1,4 +1,4 @@
-interface CompleteSoloStreakTask {
+interface CompleteTeamStreak {
     _id: string;
     teamStreakId: string;
     taskCompleteTime: Date;
@@ -7,4 +7,4 @@ interface CompleteSoloStreakTask {
     updatedAt: string;
 }
 
-export default CompleteSoloStreakTask;
+export default CompleteTeamStreak;

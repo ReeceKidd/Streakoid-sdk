@@ -1,6 +1,6 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-import { StreakStatus } from '../src';
+import { StreakStatus, StreakTypes } from '../src';
 
 const streakName = '10 minutes journaling';
 
@@ -10,7 +10,9 @@ describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let completeTeamStreakTaskId: string;
+    let completeTeamStreakId: string;
+    let teamMemberStreakId: string;
+    let completeTeamMemberStreakTaskId: string;
 
     beforeAll(async () => {
         const user = await getUser();
@@ -26,29 +28,44 @@ describe('GET /complete-solo-streak-tasks', () => {
             members,
         });
         teamStreakId = teamStreak._id;
+
+        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
+            userId,
+            teamStreakId,
+        });
+        teamMemberStreakId = teamMemberStreak._id;
+
+        const teamMemberStreakTaskComplete = await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId,
+            teamMemberStreakId,
+            streakType: StreakTypes.teamMember,
+        });
+        completeTeamMemberStreakTaskId = teamMemberStreakTaskComplete._id;
     });
 
     afterAll(async () => {
         await streakoid.users.deleteOne(userId);
         await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.completeTeamStreakTasks.deleteOne(completeTeamStreakTaskId);
+        await streakoid.completeTeamStreaks.deleteOne(completeTeamStreakId);
+        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
+        await streakoid.completeTeamMemberStreakTasks.deleteOne(completeTeamMemberStreakTaskId);
     });
 
-    test(`completeTeamStreakTasks can be retreived`, async () => {
+    test(`completeTeamStreaks can be retreived`, async () => {
         expect.assertions(26);
 
-        const completeTeamStreakTask = await streakoid.completeTeamStreakTasks.create({
-            teamStreakId,
-        });
-        completeTeamStreakTaskId = completeTeamStreakTask._id;
+        const completeTeamStreaks = await streakoid.completeTeamStreaks.getAll({ teamStreakId });
+        const completeTeamStreak = completeTeamStreaks[0];
+        completeTeamStreakId = completeTeamStreak._id;
 
-        expect(completeTeamStreakTask._id).toBeDefined();
-        expect(completeTeamStreakTask.teamStreakId).toEqual(teamStreakId);
-        expect(completeTeamStreakTask.taskCompleteTime).toEqual(expect.any(String));
-        expect(completeTeamStreakTask.taskCompleteDay).toEqual(expect.any(String));
-        expect(completeTeamStreakTask.createdAt).toEqual(expect.any(String));
-        expect(completeTeamStreakTask.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(completeTeamStreakTask).sort()).toEqual(
+        expect(completeTeamStreak._id).toBeDefined();
+        expect(completeTeamStreak.teamStreakId).toEqual(teamStreakId);
+        expect(completeTeamStreak.taskCompleteTime).toEqual(expect.any(String));
+        expect(completeTeamStreak.taskCompleteDay).toEqual(expect.any(String));
+        expect(completeTeamStreak.createdAt).toEqual(expect.any(String));
+        expect(completeTeamStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(completeTeamStreak).sort()).toEqual(
             ['_id', 'teamStreakId', 'taskCompleteTime', 'taskCompleteDay', 'createdAt', 'updatedAt', '__v'].sort(),
         );
 

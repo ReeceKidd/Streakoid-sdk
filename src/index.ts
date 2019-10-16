@@ -21,7 +21,7 @@ import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 import DailyJob from './models/DailyJob';
-import CompleteTeamStreakTask from './models/CompleteTeamStreakTask';
+import CompleteTeamStreak from './models/CompleteTeamStreak';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
@@ -38,7 +38,7 @@ export {
     IncompleteTeamMemberStreakTask,
     CompleteSoloStreakTask,
     IncompleteSoloStreakTask,
-    CompleteTeamStreakTask,
+    CompleteTeamStreak,
     CurrentStreak,
     Feedback,
     Friend,

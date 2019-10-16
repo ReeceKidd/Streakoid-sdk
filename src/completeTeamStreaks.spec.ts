@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 
-describe('SDK completeTeamStreakTasks', () => {
+describe('SDK completeTeamStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);
 
     afterEach(() => {
@@ -12,7 +12,7 @@ describe('SDK completeTeamStreakTasks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamStreakTasks.getAll({ teamStreakId: 'teamStreakId' });
+            await streakoid.completeTeamStreaks.getAll({ teamStreakId: 'teamStreakId' });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-streak-tasks?teamStreakId=teamStreakId`);
         });
@@ -21,25 +21,9 @@ describe('SDK completeTeamStreakTasks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamStreakTasks.getAll({});
+            await streakoid.completeTeamStreaks.getAll({});
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-streak-tasks?`);
-        });
-    });
-
-    describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
-            expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const teamStreakId = 'teamStreakId';
-
-            await streakoid.completeTeamStreakTasks.create({
-                teamStreakId,
-            });
-
-            expect(streakoidClient.post).toBeCalledWith(`/v1/complete-team-streak-tasks`, {
-                teamStreakId,
-            });
         });
     });
 
@@ -48,7 +32,7 @@ describe('SDK completeTeamStreakTasks', () => {
             expect.assertions(1);
             streakoidClient.delete = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamStreakTasks.deleteOne('id');
+            await streakoid.completeTeamStreaks.deleteOne('id');
 
             expect(streakoidClient.delete).toBeCalledWith(`/v1/complete-team-streak-tasks/id`);
         });
