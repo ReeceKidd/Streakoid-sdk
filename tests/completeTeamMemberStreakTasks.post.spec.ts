@@ -206,7 +206,10 @@ describe('POST /complete-team-member-streak-tasks', () => {
             });
             teamStreakWithOneMemberId = teamStreakWithOneMember._id;
 
-            const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({ userId });
+            const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+                userId,
+                teamStreakId: teamStreakWithOneMemberId,
+            });
             const teamMemberStreak = teamMemberStreaks[0];
             const teamMemberStreakId = teamMemberStreak._id;
 

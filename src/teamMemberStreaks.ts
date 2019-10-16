@@ -29,7 +29,7 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
             }
 
             if (teamStreakId) {
-                teamStreakId = `${getAllTeamMemberStreaksURL}teamStreakId=${teamStreakId}&`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}teamStreakId=${teamStreakId}&`;
             }
 
             if (completedToday !== undefined) {
