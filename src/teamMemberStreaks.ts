@@ -10,11 +10,13 @@ import { PastStreak } from '.';
 const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
+        teamStreakId,
         completedToday,
         timezone,
         active,
     }: {
         userId?: string;
+        teamStreakId?: string;
         completedToday?: boolean;
         timezone?: string;
         active?: boolean;
@@ -24,6 +26,10 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
 
             if (userId) {
                 getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}userId=${userId}&`;
+            }
+
+            if (teamStreakId) {
+                teamStreakId = `${getAllTeamMemberStreaksURL}teamStreakId=${teamStreakId}&`;
             }
 
             if (completedToday !== undefined) {

@@ -8,6 +8,20 @@ describe('SDK teamMemberStreaks', () => {
     });
 
     describe('getAll', () => {
+        const userId = 'userId';
+        const teamStreakId = 'teamStreakId';
+        const completedToday = true;
+        const timezone = 'Europe/London';
+        const active = true;
+
+        const query = {
+            userId,
+            teamStreakId,
+            completedToday,
+            timezone,
+            active,
+        };
+
         test('calls GET with correct URL when no query paramters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -21,18 +35,23 @@ describe('SDK teamMemberStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const userId = 'userId';
-
             await streakoid.teamMemberStreaks.getAll({ userId });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when completedToday query paramater is passed', async () => {
+        test('calls GET with correct URL when teamStreakId query paramater is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const completedToday = true;
+            await streakoid.teamMemberStreaks.getAll({ teamStreakId });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?teamStreakId=${teamStreakId}&`);
+        });
+
+        test('calls GET with correct URL when completedToday query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             await streakoid.teamMemberStreaks.getAll({ completedToday });
 
@@ -43,8 +62,6 @@ describe('SDK teamMemberStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const timezone = `Europe/London`;
-
             await streakoid.teamMemberStreaks.getAll({ timezone });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?timezone=${timezone}&`);
@@ -54,11 +71,20 @@ describe('SDK teamMemberStreaks', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const active = true;
-
             await streakoid.teamMemberStreaks.getAll({ active });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?active=${active}`);
+        });
+
+        test('calls GET with correct URL when all query paramaters are passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.teamMemberStreaks.getAll(query);
+
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}`,
+            );
         });
     });
 
