@@ -2,7 +2,7 @@ enum StreakTrackingEventTypes {
     lostStreak = 'lostStreak',
     maintainedStreak = 'maintainedStreak',
     inactiveStreak = 'inactiveStreak',
-    forcedLostStreakBecauseTeamMemberDidNotCompleteTask = 'forcedLostStreakBecauseTeamMemberDidNotCompleteTask',
+    forcedToLoseTeamStreakBecauseTeamMemberDidNotCompleteTask = 'forcedToLoseTeamStreakBecauseTeamMemberDidNotCompleteTask',
 }
 
 export default StreakTrackingEventTypes;
