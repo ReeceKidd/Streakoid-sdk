@@ -1,5 +1,5 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { streakoidTest, getUser, username, email } from './setup/streakoidTest';
+import { streakoidTest, getUser, username } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
@@ -38,23 +38,12 @@ describe('GET /users/:userId', () => {
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
-            [
-                'stripe',
-                'type',
-                'friends',
-                '_id',
-                'username',
-                'email',
-                'timezone',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 

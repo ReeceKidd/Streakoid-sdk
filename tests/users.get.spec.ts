@@ -7,7 +7,7 @@ import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('GET /users', () => {
     let streakoid: StreakoidFactory;
 
     beforeAll(async () => {
@@ -39,23 +39,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
-        expect(user.email).toEqual(expect.any(String));
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
-            [
-                'stripe',
-                'type',
-                'friends',
-                '_id',
-                'username',
-                'email',
-                'timezone',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -73,23 +62,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
-            [
-                'stripe',
-                'type',
-                'friends',
-                '_id',
-                'username',
-                'email',
-                'timezone',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -107,22 +85,13 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(user)).toEqual([
-            'stripe',
-            'type',
-            'friends',
-            '_id',
-            'username',
-            'email',
-            'timezone',
-            'createdAt',
-            'updatedAt',
-            '__v',
-        ]);
+        expect(Object.keys(user).sort()).toEqual(
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
     });
 
     test('returns exact user when username query paramater is used', async () => {
@@ -139,22 +108,13 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(user)).toEqual([
-            'stripe',
-            'type',
-            'friends',
-            '_id',
-            'username',
-            'email',
-            'timezone',
-            'createdAt',
-            'updatedAt',
-            '__v',
-        ]);
+        expect(Object.keys(user).sort()).toEqual(
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
     });
 
     test('returns exact user when email query paramater is used', async () => {
@@ -171,21 +131,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
+        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(user)).toEqual([
-            'stripe',
-            'type',
-            'friends',
-            '_id',
-            'username',
-            'email',
-            'timezone',
-            'createdAt',
-            'updatedAt',
-            '__v',
-        ]);
+        expect(Object.keys(user).sort()).toEqual(
+            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
     });
 });

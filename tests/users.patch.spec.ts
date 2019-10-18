@@ -1,5 +1,5 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
+import { getUser, streakoidTest, username } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
@@ -45,7 +45,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedUser.friends).toEqual([]);
         expect(updatedUser._id).toEqual(expect.any(String));
         expect(updatedUser.username).toEqual(username);
-        expect(updatedUser.email).toEqual(email);
+        expect(updatedUser.email).toBeUndefined();
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
