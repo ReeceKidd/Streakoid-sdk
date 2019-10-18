@@ -13,14 +13,15 @@ describe('SDK stripe', () => {
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
 
-            const token = 'token';
-            const id = 'id';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const token: any = 'token';
+            const userId = 'id';
 
-            await streakoid.stripe.createSubscription({ token, id });
+            await streakoid.stripe.createSubscription({ token, userId });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/stripe/subscriptions`, {
                 token,
-                id,
+                userId,
             });
         });
     });
