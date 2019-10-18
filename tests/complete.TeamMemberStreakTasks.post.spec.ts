@@ -1,32 +1,34 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
+import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-const friendUsername = 'friend';
-const friendEmail = 'friend@gmail.com';
-
-describe('POST /complete-team-member-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
-
-    const streakName = 'Intermittent fasting';
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-        const friend = await streakoid.users.create({ username: friendUsername, email: friendEmail });
-        console.log(friend);
-        friendId = friend._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     describe('POST /v1/complete-team-member-streak-tasks', () => {

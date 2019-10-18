@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
@@ -56,20 +56,9 @@ const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (IncompleteTeamMemberStreakTaskId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.incompleteTeamMemberStreakTasks}/${IncompleteTeamMemberStreakTaskId}`,
-            );
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         create,
-        deleteOne,
     };
 };
 

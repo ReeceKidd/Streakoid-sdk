@@ -35,15 +35,4 @@ describe('SDK completeSoloStreakTasks', () => {
             });
         });
     });
-
-    describe('deleteOne', () => {
-        test('calls DELETE correct URL ', async () => {
-            expect.assertions(1);
-            streakoidClient.delete = jest.fn();
-
-            await streakoid.feedbacks.deleteOne('id');
-
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/feedbacks/id`);
-        });
-    });
 });

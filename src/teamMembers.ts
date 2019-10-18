@@ -6,8 +6,12 @@ import RouterCategories from './RouterCategories';
 import TeamMember from './models/TeamMember';
 import TeamStreakRouterCategories from './TeamStreakRouterCategories';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const teamMembers = (streakoidClient: AxiosInstance) => {
+export interface TeamMembers {
+    create: ({ friendId, teamStreakId }: { friendId: string; teamStreakId: string }) => Promise<TeamMember[]>;
+    deleteOne: ({ teamStreakId, memberId }: { teamStreakId: string; memberId: string }) => Promise<AxiosResponse>;
+}
+
+const teamMembers = (streakoidClient: AxiosInstance): TeamMembers => {
     const create = async ({
         friendId,
         teamStreakId,

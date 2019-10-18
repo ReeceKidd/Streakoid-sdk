@@ -1,41 +1,44 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-
-const streakName = 'Daily Meditation';
-const streakDescription = 'Each day I must meditate at ';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /team-streaks/:teamStreakId', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
 
-        const members = [{ memberId: userId }];
+            const members = [{ memberId: userId }];
 
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            streakDescription,
-            members,
-        });
-        teamStreakId = teamStreak._id;
+            const teamStreak = await streakoid.teamStreaks.create({
+                creatorId: userId,
+                streakName,
+                members,
+            });
+            teamStreakId = teamStreak._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`team streak can be retreived with populated member information`, async () => {
-        expect.assertions(19);
+        expect.assertions(18);
 
         const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
 
@@ -64,7 +67,6 @@ describe('GET /team-streaks/:teamStreakId', () => {
 
         expect(teamStreak.streakName).toEqual(streakName);
         expect(teamStreak.status).toEqual(StreakStatus.live);
-        expect(teamStreak.streakDescription).toEqual(streakDescription);
         expect(teamStreak.creatorId).toEqual(userId);
         expect(teamStreak.timezone).toEqual(londonTimezone);
         expect(teamStreak.active).toEqual(false);
@@ -79,7 +81,6 @@ describe('GET /team-streaks/:teamStreakId', () => {
                 'members',
                 'creatorId',
                 'streakName',
-                'streakDescription',
                 'active',
                 'completedToday',
                 'currentStreak',

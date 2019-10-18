@@ -1,21 +1,29 @@
-import UserTypes from '../src/userTypes';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
-describe(`PATCH /users`, () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {

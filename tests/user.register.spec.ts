@@ -1,25 +1,29 @@
-import UserTypes from '../src/userTypes';
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
-describe(`POST /users`, () => {
+const username = 'username';
+const email = 'email@gmail.com';
+
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let registeredUserId: string;
-    const username = 'registerusername';
-    const email = 'register@gmail.com';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(registeredUserId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test('user can register successfully', async () => {
@@ -55,8 +59,6 @@ describe(`POST /users`, () => {
                 '__v',
             ].sort(),
         );
-
-        registeredUserId = user._id;
     });
 
     test('fails because username is missing from request', async () => {

@@ -1,38 +1,38 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('POST /team-member-streaks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let createdTeamMemberStreakId: string;
-
     const streakName = 'Daily Spanish';
-    const streakDescription = 'Everyday I must do Spanish on Duolingo';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const members = [{ memberId: userId }];
 
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            streakDescription,
-            members,
-        });
-        teamStreakId = teamStreak._id;
+            const teamStreak = await streakoid.teamStreaks.create({
+                creatorId: userId,
+                streakName,
+                members,
+            });
+            teamStreakId = teamStreak._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.teamMemberStreaks.deleteOne(createdTeamMemberStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`creates teamMember streak associated with teamId`, async () => {

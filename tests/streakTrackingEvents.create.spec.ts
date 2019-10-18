@@ -1,56 +1,53 @@
-import { StreakTypes, StreakTrackingEventTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = 'Daily yoga';
-const streakDescription = 'Every day I must do yoga before 12pm';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakTrackingEventTypes, StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /streak-tracking-events', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
-    let streakTrackingEventId: string;
-    let teamStreakId: string;
     let teamMemberStreakId: string;
+    const streakName = 'Daily Spanish';
+    const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const soloStreak = await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+                streakDescription,
+            });
+            soloStreakId = soloStreak._id;
 
-        const soloStreak = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-        });
-        soloStreakId = soloStreak._id;
+            const members = [{ memberId: userId }];
 
-        const members = [{ memberId: userId }];
+            const teamStreak = await streakoid.teamStreaks.create({
+                creatorId: userId,
+                streakName,
+                streakDescription,
+                members,
+            });
 
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            streakDescription,
-            members,
-        });
-        teamStreakId = teamStreak._id;
-
-        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
-            userId,
-            teamStreakId: teamStreak._id,
-        });
-
-        teamMemberStreakId = teamMemberStreak._id;
+            await streakoid.teamMemberStreaks.create({
+                userId,
+                teamStreakId: teamStreak._id,
+            });
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`lost solo streak tracking events can be created`, async () => {
@@ -62,8 +59,6 @@ describe('POST /streak-tracking-events', () => {
             userId,
             streakType: StreakTypes.solo,
         });
-
-        streakTrackingEventId = streakTrackingEvent._id;
 
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.lostStreak);
@@ -88,8 +83,6 @@ describe('POST /streak-tracking-events', () => {
             streakType: StreakTypes.solo,
         });
 
-        streakTrackingEventId = streakTrackingEvent._id;
-
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.maintainedStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
@@ -112,8 +105,6 @@ describe('POST /streak-tracking-events', () => {
             userId,
             streakType: StreakTypes.solo,
         });
-
-        streakTrackingEventId = streakTrackingEvent._id;
 
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.inactiveStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
@@ -138,8 +129,6 @@ describe('POST /streak-tracking-events', () => {
             streakType: StreakTypes.team,
         });
 
-        streakTrackingEventId = streakTrackingEvent._id;
-
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.lostStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
@@ -162,8 +151,6 @@ describe('POST /streak-tracking-events', () => {
             streakType: StreakTypes.team,
         });
 
-        streakTrackingEventId = streakTrackingEvent._id;
-
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.maintainedStreak);
         expect(streakTrackingEvent.userId).toEqual(userId);
@@ -185,8 +172,6 @@ describe('POST /streak-tracking-events', () => {
             userId,
             streakType: StreakTypes.team,
         });
-
-        streakTrackingEventId = streakTrackingEvent._id;
 
         expect(streakTrackingEvent._id).toEqual(expect.any(String));
         expect(streakTrackingEvent.type).toEqual(StreakTrackingEventTypes.inactiveStreak);

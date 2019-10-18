@@ -1,27 +1,36 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const friendEmail = 'friend.get.emai@gmail.com';
-const friendUsername = 'friend-get-username';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { getFriend, friendUsername } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('GET /users/:id/friends', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
+    });
 
-        const friendRegistrationResponse = await streakoid.users.create({
-            username: friendUsername,
-            email: friendEmail,
-        });
-        friendId = friendRegistrationResponse._id;
+    afterAll(async () => {
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
+    });
+
+    test(`user can get a list of friends`, async () => {
+        expect.assertions(4);
 
         await streakoid.friendRequests.create({
             requesterId: friendId,
@@ -29,15 +38,6 @@ describe('GET /users/:id/friends', () => {
         });
 
         await streakoid.users.friends.addFriend({ userId, friendId });
-    });
-
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-    });
-
-    test(`user can get a list of friends`, async () => {
-        expect.assertions(4);
 
         const friends = await streakoid.users.friends.getAll(userId);
         expect(friends.length).toEqual(1);

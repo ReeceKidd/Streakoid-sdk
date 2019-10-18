@@ -1,46 +1,45 @@
-import StreakTrackingEventTypes from '../src/streakTrackingEventTypes';
-import { StreakTypes } from '../src';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = 'Daily yoga';
-const streakDescription = 'Every day I must do yoga before 12pm';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakTrackingEventTypes, StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /streak-tracking-events', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let soloStreakId: string;
-    let streakTrackingEventId: string;
+    const streakName = 'Daily Spanish';
+    const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const soloStreak = await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+                streakDescription,
+            });
+            soloStreakId = soloStreak._id;
 
-        const soloStreak = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-        });
-        soloStreakId = soloStreak._id;
-
-        const streakTrackingEvent = await streakoid.streakTrackingEvents.create({
-            type: StreakTrackingEventTypes.lostStreak,
-            streakId: soloStreakId,
-            userId,
-            streakType: StreakTypes.solo,
-        });
-
-        streakTrackingEventId = streakTrackingEvent._id;
+            await streakoid.streakTrackingEvents.create({
+                type: StreakTrackingEventTypes.lostStreak,
+                streakId: soloStreakId,
+                userId,
+                streakType: StreakTypes.solo,
+            });
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.streakTrackingEvents.deleteOne(streakTrackingEventId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`streak tracking events can be retreived without a query paramater`, async () => {

@@ -1,45 +1,42 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { FriendRequestStatus } from '../src';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-
-const friendEmail = 'get-all-friend-email@gmail.com';
-const friendUsername = 'get-all-friend-request-username';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { getFriend, friendUsername } from './setup/getFriend';
+import { FriendRequestStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /friend-requests', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
-    let friendRequestId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        const friend = await streakoid.users.create({
-            email: friendEmail,
-            username: friendUsername,
-        });
-        friendId = friend._id;
-
-        const friendRequest = await streakoid.friendRequests.create({
-            requesteeId: userId,
-            requesterId: friendId,
-        });
-
-        friendRequestId = friendRequest._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-        await streakoid.friendRequests.deleteOne(friendRequestId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`friend requests can be retreived with requesterId query parameter`, async () => {
         expect.assertions(12);
+
+        await streakoid.friendRequests.create({
+            requesterId: userId,
+            requesteeId: friendId,
+        });
 
         const friendRequests = await streakoid.friendRequests.getAll({
             requesterId: friendId,
@@ -47,8 +44,6 @@ describe('GET /friend-requests', () => {
         expect(friendRequests.length).toBeGreaterThanOrEqual(1);
 
         const friendRequest = friendRequests[0];
-
-        friendRequestId = friendRequest._id;
 
         expect(friendRequest._id).toEqual(expect.any(String));
         expect(friendRequest.requestee._id).toEqual(userId);
@@ -75,8 +70,6 @@ describe('GET /friend-requests', () => {
 
         const friendRequest = friendRequests[0];
 
-        friendRequestId = friendRequest._id;
-
         expect(friendRequest._id).toEqual(expect.any(String));
         expect(friendRequest.requestee._id).toEqual(userId);
         expect(friendRequest.requestee.username).toEqual(username);
@@ -101,8 +94,6 @@ describe('GET /friend-requests', () => {
         expect(friendRequests.length).toBeGreaterThanOrEqual(1);
 
         const friendRequest = friendRequests[0];
-
-        friendRequestId = friendRequest._id;
 
         expect(friendRequest._id).toEqual(expect.any(String));
         expect(friendRequest.requestee._id).toEqual(userId);

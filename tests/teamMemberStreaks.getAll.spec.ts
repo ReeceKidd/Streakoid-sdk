@@ -1,47 +1,43 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = 'Daily Italian';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('GET /team-member-streaks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let teamStreakId: string;
-    let teamMemberStreakId: string;
-    let secondteamStreakId: string;
-    let secondTeamMemberStreakId: string;
-    let completedTeamMemberStreakTaskId: string;
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-        const members = [{ memberId: userId }];
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const members = [{ memberId: userId }];
 
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-        teamStreakId = teamStreak._id;
+            const teamStreak = await streakoid.teamStreaks.create({
+                creatorId: userId,
+                streakName,
+                members,
+            });
+            teamStreakId = teamStreak._id;
 
-        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
-            userId,
-            teamStreakId,
-        });
-        teamMemberStreakId = teamMemberStreak._id;
+            await streakoid.teamMemberStreaks.create({
+                userId,
+                teamStreakId,
+            });
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.teamStreaks.deleteOne(secondteamStreakId);
-        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
-        await streakoid.teamMemberStreaks.deleteOne(secondTeamMemberStreakId);
-        await streakoid.completeTeamMemberStreakTasks.deleteOne(completedTeamMemberStreakTaskId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`team member streaks can be retreived with userId query parameter`, async () => {
@@ -166,25 +162,22 @@ describe('GET /team-member-streaks', () => {
 
         const members = [{ memberId: userId }];
 
-        const createdteamStreak = await streakoid.teamStreaks.create({
+        const secondTeamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
             streakName,
             members,
         });
-        secondteamStreakId = createdteamStreak._id;
 
-        const createdTeamMemberStreak = await streakoid.teamMemberStreaks.create({
+        const secondTeamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        secondTeamMemberStreakId = createdTeamMemberStreak._id;
 
-        const completedTeamMemberStreakTask = await streakoid.completeTeamMemberStreakTasks.create({
+        await streakoid.completeTeamMemberStreakTasks.create({
             userId,
-            teamStreakId: secondteamStreakId,
-            teamMemberStreakId: secondTeamMemberStreakId,
+            teamStreakId: secondTeamStreak._id,
+            teamMemberStreakId: secondTeamMemberStreak._id,
         });
-        completedTeamMemberStreakTaskId = completedTeamMemberStreakTask._id;
 
         const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
             completedToday: true,

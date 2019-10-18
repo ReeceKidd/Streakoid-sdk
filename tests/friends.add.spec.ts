@@ -1,58 +1,42 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { FriendRequestStatus } from '../src';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-
-const friendEmail = 'friend.emai@gmail.com';
-const friendUsername = 'friend-username@gmail.com';
-
-const secondFriendEmail = 'second.friend@gmail.com';
-const secondFriendUsername = 'second-friend-username';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { getFriend, friendUsername } from './setup/getFriend';
+import { FriendRequestStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /users/:id/friends', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
-    let friendRequestId: string;
-    let secondFriendRequestId: string;
-    let secondFriendId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        const friend = await streakoid.users.create({
-            username: friendUsername,
-            email: friendEmail,
-        });
-        friendId = friend._id;
-
-        const friendRequest = await streakoid.friendRequests.create({
-            requesteeId: userId,
-            requesterId: friendId,
-        });
-
-        friendRequestId = friendRequest._id;
-
-        const secondFriend = await streakoid.users.create({
-            username: secondFriendUsername,
-            email: secondFriendEmail,
-        });
-        secondFriendId = secondFriend._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-        await streakoid.users.deleteOne(secondFriendId);
-        await streakoid.friendRequests.deleteOne(friendRequestId);
-        await streakoid.friendRequests.deleteOne(secondFriendRequestId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`user can add a friend if they are not already on their friends list`, async () => {
         expect.assertions(22);
+
+        await streakoid.friendRequests.create({
+            requesterId: friendId,
+            requesteeId: userId,
+        });
 
         const updatedFriends = await streakoid.users.friends.addFriend({
             userId,
@@ -102,6 +86,12 @@ describe('POST /users/:id/friends', () => {
     test(`user can't add the same friend twice`, async () => {
         expect.assertions(3);
 
+        const secondFriend = await streakoid.users.create({
+            username: 'secondfriend',
+            email: 'secondfriend@gmail.com',
+        });
+        const secondFriendId = secondFriend._id;
+
         await streakoid.friendRequests.create({
             requesterId: secondFriendId,
             requesteeId: userId,
@@ -127,10 +117,15 @@ describe('POST /users/:id/friends', () => {
     test(`user can't add a friend without a friend request`, async () => {
         expect.assertions(3);
 
+        const newFriend = await streakoid.users.create({
+            username: 'newfriend',
+            email: 'newfriend@gmail.com',
+        });
+        const newFriendId = newFriend._id;
         try {
             await streakoid.users.friends.addFriend({
                 userId: friendId,
-                friendId: secondFriendId,
+                friendId: newFriendId,
             });
         } catch (err) {
             expect(err.response.status).toEqual(400);

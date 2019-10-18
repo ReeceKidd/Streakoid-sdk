@@ -1,26 +1,29 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /team-streaks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let teamStreakId: string;
-    let secondteamStreakId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.teamStreaks.deleteOne(secondteamStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`team streak can be created with description and numberOfMinutes`, async () => {
@@ -98,8 +101,6 @@ describe('POST /team-streaks', () => {
         expect(creator._id).toBeDefined();
         expect(creator.username).toEqual(expect.any(String));
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
-
-        teamStreakId = teamStreak._id;
     });
 
     test(`team streak can be created without description or numberOfMinutes`, async () => {
@@ -169,7 +170,5 @@ describe('POST /team-streaks', () => {
         expect(creator._id).toBeDefined();
         expect(creator.username).toEqual(expect.any(String));
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
-
-        secondteamStreakId = teamStreak._id;
     });
 });

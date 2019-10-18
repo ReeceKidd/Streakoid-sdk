@@ -1,66 +1,60 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-
-const friendEmail = 'friend@gmail.com';
-const friendUsername = 'friendUser';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
+import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('DELETE /team-streaks/:id/members/:id', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
-    let createdteamStreakId: string;
-
-    const streakName = 'Drink water';
-    const streakDescription = 'Everyday I must drink two litres of water';
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        const friend = await streakoid.users.create({
-            username: friendUsername,
-            email: friendEmail,
-        });
-
-        friendId = friend._id;
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            streakDescription,
-            members,
-        });
-        createdteamStreakId = teamStreak._id;
-
-        await streakoid.teamStreaks.teamMembers.create({
-            friendId,
-            teamStreakId: createdteamStreakId,
-        });
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-        await streakoid.teamStreaks.deleteOne(createdteamStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`deletes member from team streak`, async () => {
         expect.assertions(29);
 
+        const members = [{ memberId: userId }];
+
+        const originalTeamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        await streakoid.teamStreaks.teamMembers.create({
+            friendId,
+            teamStreakId: originalTeamStreak._id,
+        });
+
         const { status } = await streakoid.teamStreaks.teamMembers.deleteOne({
-            teamStreakId: createdteamStreakId,
+            teamStreakId: originalTeamStreak._id,
             memberId: friendId,
         });
 
         expect(status).toEqual(204);
 
-        const teamStreak = await streakoid.teamStreaks.getOne(createdteamStreakId);
+        const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
 
         expect(teamStreak.streakName).toEqual(expect.any(String));
         expect(teamStreak.status).toEqual(StreakStatus.live);
@@ -109,7 +103,7 @@ describe('DELETE /team-streaks/:id/members/:id', () => {
         expect(member.teamMemberStreak.active).toEqual(false);
         expect(member.teamMemberStreak.pastStreaks).toEqual([]);
         expect(member.teamMemberStreak.userId).toEqual(userId);
-        expect(member.teamMemberStreak.teamStreakId).toEqual(createdteamStreakId);
+        expect(member.teamMemberStreak.teamStreakId).toEqual(originalTeamStreak._id);
         expect(member.teamMemberStreak.timezone).toEqual(londonTimezone);
         expect(member.teamMemberStreak.createdAt).toEqual(expect.any(String));
         expect(member.teamMemberStreak.updatedAt).toEqual(expect.any(String));

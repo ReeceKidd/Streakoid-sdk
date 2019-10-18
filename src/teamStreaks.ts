@@ -1,15 +1,65 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import { teamMembers } from './teamMembers';
+import { teamMembers, TeamMembers } from './teamMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
 import { CurrentStreak, PastStreak } from '.';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const teamStreaks = (streakoidClient: AxiosInstance) => {
+export interface TeamStreaks {
+    getAll: ({
+        creatorId,
+        memberId,
+        timezone,
+        status,
+        completedToday,
+        active,
+    }: {
+        creatorId?: string;
+        memberId?: string;
+        timezone?: string;
+        status?: StreakStatus;
+        completedToday?: boolean;
+        active?: boolean;
+    }) => Promise<PopulatedTeamStreak[]>;
+    getOne: (teamStreakId: string) => Promise<PopulatedTeamStreak>;
+    create: ({
+        creatorId,
+        streakName,
+        streakDescription,
+        numberOfMinutes,
+        members,
+    }: {
+        creatorId: string;
+        streakName: string;
+        members: { memberId: string; teamMemberStreakId?: string }[];
+        streakDescription?: string;
+        numberOfMinutes?: number;
+    }) => Promise<PopulatedTeamStreak>;
+    update: ({
+        teamStreakId,
+        updateData,
+    }: {
+        teamStreakId: string;
+        updateData: {
+            creatorId?: string;
+            streakName?: string;
+            streakDescription?: string;
+            numberOfMinutes?: number;
+            timezone?: string;
+            status?: StreakStatus;
+            currentStreak?: CurrentStreak;
+            pastStreaks?: PastStreak[];
+            completedToday?: boolean;
+            active?: boolean;
+        };
+    }) => Promise<TeamStreak>;
+    teamMembers: TeamMembers;
+}
+
+const teamStreaks = (streakoidClient: AxiosInstance): TeamStreaks => {
     const getAll = async ({
         creatorId,
         memberId,
@@ -119,20 +169,11 @@ const teamStreaks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (teamStreakId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}`);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         getOne,
         create,
         update,
-        deleteOne,
         teamMembers: teamMembers(streakoidClient),
     };
 };

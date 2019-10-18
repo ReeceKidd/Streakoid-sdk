@@ -1,10 +1,11 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import User from './models/User';
+import { friends } from './friends';
 
-interface Users {
+export interface Users {
     getAll: ({
         searchQuery,
         username,
@@ -25,7 +26,7 @@ interface Users {
             timezone?: string;
         };
     }) => Promise<User>;
-    deleteOne: (userId: string) => Promise<AxiosResponse>;
+    friends: ReturnType<typeof friends>;
 }
 
 const users = (streakoidClient: AxiosInstance): Users => {
@@ -95,20 +96,12 @@ const users = (streakoidClient: AxiosInstance): Users => {
         }
     };
 
-    const deleteOne = (userId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.users}/${userId}`);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         getOne,
         create,
         update,
-        deleteOne,
+        friends: friends(streakoidClient),
     };
 };
 

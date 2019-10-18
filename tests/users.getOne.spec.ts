@@ -1,22 +1,30 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
+import { streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import UserTypes from '../src/userTypes';
-import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
 
 jest.setTimeout(120000);
 
-describe('GET /users/:userId', () => {
+const username = 'username';
+const email = 'email@gmail.com';
+
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`retreives user`, async () => {

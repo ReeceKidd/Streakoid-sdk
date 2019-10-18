@@ -1,44 +1,39 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = '10 minutes journaling';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let completeSoloStreakTaskId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-        });
-
-        soloStreakId = createSoloStreakResponse._id;
-
-        const createSoloStreakTaskCompleteResponse = await streakoid.completeSoloStreakTasks.create({
-            userId,
-            soloStreakId,
-        });
-        completeSoloStreakTaskId = createSoloStreakTaskCompleteResponse._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.completeSoloStreakTasks.deleteOne(completeSoloStreakTaskId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`completeSoloStreakTasks can be retreived`, async () => {
         expect.assertions(8);
+
+        const streakName = 'Daily Spanish';
+
+        const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+        const soloStreakId = soloStreak._id;
+
+        await streakoid.completeSoloStreakTasks.create({ userId, soloStreakId });
 
         const completeSoloStreakTasks = await streakoid.completeSoloStreakTasks.getAll({
             userId,

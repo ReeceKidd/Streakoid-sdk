@@ -1,33 +1,36 @@
-import { StreakTypes, AgendaJobNames } from '../src';
-import { streakoidTest, getUser } from './setup/streakoidTest';
 import { StreakoidFactory } from '../src/streakoid';
+import { streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { AgendaJobNames, StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /streak-tracking-events', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    const jobName = AgendaJobNames.soloStreakDailyTracker;
     const agendaJobId = 'agendaJobId';
+    const jobName = AgendaJobNames.soloStreakDailyTracker;
     const timezone = 'Europe/London';
-    const localisedJobCompleteTime = new Date().toString();
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        await streakoid.dailyJobs.create({
-            agendaJobId,
-            jobName,
-            timezone,
-            localisedJobCompleteTime,
-            streakType: StreakTypes.solo,
-        });
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            streakoid = await streakoidTest();
+            await streakoid.dailyJobs.create({
+                agendaJobId,
+                jobName,
+                timezone,
+                localisedJobCompleteTime: new Date().toString(),
+                streakType: StreakTypes.solo,
+            });
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`gets a dailyJob using the agendaJobId query paramater`, async () => {

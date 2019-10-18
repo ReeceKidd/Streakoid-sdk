@@ -1,50 +1,56 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('DELETE /incomplete-solo-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let teamStreakId: string;
-    let teamMemberStreakId: string;
-
-    const streakName = 'Intermittent fasting';
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-        teamStreakId = teamStreak._id;
-
-        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
-            userId,
-            teamStreakId,
-        });
-        teamMemberStreakId = teamMemberStreak._id;
-
-        // Group member streaks tasks must be completed before they can be incompleted.
-        await streakoid.completeTeamMemberStreakTasks.create({
-            userId,
-            teamStreakId,
-            teamMemberStreakId,
-        });
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     describe('POST /v1/incomplete-solo-streak-tasks', () => {
         test('user can incomplete a team member streak task and the start date gets reset if it is the first day of the streak', async () => {
             expect.assertions(22);
+
+            const members = [{ memberId: userId }];
+
+            const teamStreak = await streakoid.teamStreaks.create({
+                creatorId: userId,
+                streakName,
+                members,
+            });
+            const teamStreakId = teamStreak._id;
+
+            const originalTeamMemberStreak = await streakoid.teamMemberStreaks.create({
+                userId,
+                teamStreakId,
+            });
+            const teamMemberStreakId = originalTeamMemberStreak._id;
+
+            // Group member streaks tasks must be completed before they can be incompleted.
+            await streakoid.completeTeamMemberStreakTasks.create({
+                userId,
+                teamStreakId,
+                teamMemberStreakId,
+            });
 
             const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
                 userId,
@@ -133,7 +139,7 @@ describe('DELETE /incomplete-solo-streak-tasks', () => {
             // Group member streaks tasks must be completed before they can be incompleted.
             await streakoid.completeTeamMemberStreakTasks.create({
                 userId,
-                teamStreakId,
+                teamStreakId: newTeamStreak._id,
                 teamMemberStreakId: multipleDayTeamMemberStreak._id,
             });
 

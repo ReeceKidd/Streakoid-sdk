@@ -1,53 +1,48 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = '10 minutes journaling';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-team-member-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let teamStreakId: string;
-    let teamMemberStreakId: string;
-    let completeTeamMemberStreakTaskId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-        teamStreakId = teamStreak._id;
-
-        const teamMemberStreak = await streakoid.teamMemberStreaks.create({
-            userId,
-            teamStreakId,
-        });
-        teamMemberStreakId = teamMemberStreak._id;
-
-        const teamMemberStreakTaskComplete = await streakoid.completeTeamMemberStreakTasks.create({
-            userId,
-            teamStreakId,
-            teamMemberStreakId,
-        });
-        completeTeamMemberStreakTaskId = teamMemberStreakTaskComplete._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamStreaks.deleteOne(teamStreakId);
-        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
-        await streakoid.completeTeamMemberStreakTasks.deleteOne(completeTeamMemberStreakTaskId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`completeTeamMemberStreakTasks can be retreived`, async () => {
         expect.assertions(10);
+
+        const streakName = 'Daily Spanish';
+
+        const creatorId = userId;
+        const members = [{ memberId: userId }];
+        const teamStreak = await streakoid.teamStreaks.create({ creatorId, streakName, members });
+        const teamStreakId = teamStreak._id;
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+        const teamMemberStreakId = teamMemberStreak._id;
+
+        await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
 
         const completeTeamMemberStreakTasks = await streakoid.completeTeamMemberStreakTasks.getAll({
             userId,

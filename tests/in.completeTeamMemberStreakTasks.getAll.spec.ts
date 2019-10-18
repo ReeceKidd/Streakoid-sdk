@@ -1,21 +1,34 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = '10 minutes journaling';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('GET /incomplete-solo-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let teamStreakId: string;
-    let teamMemberStreakId: string;
-    let incompleteTeamMemberStreakTaskId: string;
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
+    });
+
+    afterAll(async () => {
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
+    });
+
+    test(`incompleteTeamMemberStreakTasks can be retreived`, async () => {
+        expect.assertions(9);
+
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
@@ -23,13 +36,13 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             streakName,
             members,
         });
-        teamStreakId = teamStreak._id;
+        const teamStreakId = teamStreak._id;
 
         const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
             teamStreakId,
         });
-        teamMemberStreakId = teamMemberStreak._id;
+        const teamMemberStreakId = teamMemberStreak._id;
 
         // Group member streaks tasks must be completed before they can be incompleted.
         await streakoid.completeTeamMemberStreakTasks.create({
@@ -38,23 +51,11 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             teamMemberStreakId,
         });
 
-        const incompleteTeamMemberStreakTask = await streakoid.incompleteTeamMemberStreakTasks.create({
+        await streakoid.incompleteTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
             teamMemberStreakId,
         });
-
-        incompleteTeamMemberStreakTaskId = incompleteTeamMemberStreakTask._id;
-    });
-
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.teamMemberStreaks.deleteOne(teamMemberStreakId);
-        await streakoid.incompleteTeamMemberStreakTasks.deleteOne(incompleteTeamMemberStreakTaskId);
-    });
-
-    test(`incompleteTeamMemberStreakTasks can be retreived`, async () => {
-        expect.assertions(9);
 
         const incompleteTeamMemberStreakTasks = await streakoid.incompleteTeamMemberStreakTasks.getAll({
             userId,

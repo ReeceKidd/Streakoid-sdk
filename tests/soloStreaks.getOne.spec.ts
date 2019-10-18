@@ -1,42 +1,43 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = '10 minutes journaling';
-const streakDescription = 'Each day I must do 10 minutes journaling';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /solo-streaks/:soloStreakId', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-
-    let soloStreakId: string;
+    const streakName = 'Daily Spanish';
+    const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-        });
-        soloStreakId = createSoloStreakResponse._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`solo streak can be retreived`, async () => {
         expect.assertions(14);
 
-        const soloStreak = await streakoid.soloStreaks.getOne(soloStreakId);
+        const createdSoloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+            streakDescription,
+        });
+
+        const soloStreak = await streakoid.soloStreaks.getOne(createdSoloStreak._id);
 
         expect(soloStreak.streakName).toEqual(streakName);
         expect(soloStreak.status).toEqual(StreakStatus.live);

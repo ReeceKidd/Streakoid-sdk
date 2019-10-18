@@ -4,11 +4,9 @@ import { completeTeamMemberStreakTasks } from './completeTeamMemberStreakTasks';
 import { incompleteTeamMemberStreakTasks } from './incompleteTeamMemberStreakTasks';
 import { soloStreaks } from './soloStreaks';
 import { stripe } from './stripe';
-import { users } from './users';
-import { friends } from './friends';
-import { teamStreaks } from './teamStreaks';
+import { users, Users } from './users';
+import { teamStreaks, TeamStreaks } from './teamStreaks';
 import { streakTrackingEvents } from './streakTrackingEvents';
-import { agendaJobs } from './agendaJobs';
 import { feedbacks } from './feedbacks';
 import { dailyJobs } from './dailyJobs';
 import { completeTeamStreaks } from './completeTeamStreaks';
@@ -16,9 +14,8 @@ import { teamMemberStreaks } from './teamMemberStreaks';
 import { friendRequests } from './friendRequests';
 
 import { getServiceConfig } from './getServiceConfig';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
-import User from './models/User';
 
 const { APPLICATION_URL } = getServiceConfig();
 
@@ -34,33 +31,9 @@ export interface StreakoidFactory {
     completeTeamStreaks: ReturnType<typeof completeTeamStreaks>;
     soloStreaks: ReturnType<typeof soloStreaks>;
     stripe: ReturnType<typeof stripe>;
-    users: {
-        getAll: ({
-            searchQuery,
-            username,
-            email,
-        }: {
-            searchQuery?: string;
-            username?: string;
-            email?: string;
-        }) => Promise<User[]>;
-        getOne: (userId: string) => Promise<User>;
-        create: ({ username, email }: { username: string; email: string }) => Promise<User>;
-        update: ({
-            userId,
-            updateData,
-        }: {
-            userId: string;
-            updateData?: {
-                timezone?: string;
-            };
-        }) => Promise<User>;
-        deleteOne: (userId: string) => Promise<AxiosResponse>;
-        friends: ReturnType<typeof friends>;
-    };
-    teamStreaks: ReturnType<typeof teamStreaks>;
+    users: Users;
+    teamStreaks: TeamStreaks;
     streakTrackingEvents: ReturnType<typeof streakTrackingEvents>;
-    agendaJobs: ReturnType<typeof agendaJobs>;
     feedbacks: ReturnType<typeof feedbacks>;
     teamMemberStreaks: ReturnType<typeof teamMemberStreaks>;
     friendRequests: ReturnType<typeof friendRequests>;
@@ -76,13 +49,9 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         completeTeamStreaks: completeTeamStreaks(streakoidClient),
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
-        users: {
-            ...users(streakoidClient),
-            friends: friends(streakoidClient),
-        },
+        users: users(streakoidClient),
         teamStreaks: teamStreaks(streakoidClient),
         streakTrackingEvents: streakTrackingEvents(streakoidClient),
-        agendaJobs: agendaJobs(streakoidClient),
         feedbacks: feedbacks(streakoidClient),
         teamMemberStreaks: teamMemberStreaks(streakoidClient),
         friendRequests: friendRequests(streakoidClient),

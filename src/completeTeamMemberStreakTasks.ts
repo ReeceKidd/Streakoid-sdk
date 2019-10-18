@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import CompleteTeamMemberStreakTask from './models/CompleteTeamMemberStreakTask';
@@ -78,20 +78,9 @@ const completeTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (completeTeamMemberStreakTaskId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}/${completeTeamMemberStreakTaskId}`,
-            );
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         create,
-        deleteOne,
     };
 };
 

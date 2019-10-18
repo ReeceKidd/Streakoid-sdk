@@ -99,16 +99,4 @@ describe('SDK users', () => {
             });
         });
     });
-
-    describe('deleteOne', () => {
-        test('calls DELETE correct URL ', async () => {
-            expect.assertions(1);
-
-            streakoidClient.delete = jest.fn().mockResolvedValue(true);
-
-            await streakoid.users.deleteOne('userId');
-
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/users/userId`);
-        });
-    });
 });

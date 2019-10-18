@@ -1,41 +1,41 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const friendEmail = 'delete-friend@gmail.com';
-const friendUsername = 'delete-friend';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('DELETE /users/:userId/friends/:friendId', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
+    });
 
-        const friend = await streakoid.users.create({
-            username: friendUsername,
-            email: friendEmail,
-        });
-        friendId = friend._id;
+    afterAll(async () => {
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
+    });
 
+    test(`user can delete a friend`, async () => {
         await streakoid.friendRequests.create({
             requesterId: friendId,
             requesteeId: userId,
         });
 
         await streakoid.users.friends.addFriend({ userId, friendId });
-    });
-
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-    });
-
-    test(`user can delete a friend`, async () => {
         expect.assertions(1);
 
         const friends = await streakoid.users.friends.deleteOne(userId, friendId);

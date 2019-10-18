@@ -1,46 +1,47 @@
-import StreakStatus from '../src/StreakStatus';
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /Incomplete-solo-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let secondSoloStreakId: string;
-
-    const streakName = 'Intermittent fasting';
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-        });
-        soloStreakId = createSoloStreakResponse._id;
-
-        // Task must be completed before it can be incompleted
-        await streakoid.completeSoloStreakTasks.create({
-            userId,
-            soloStreakId,
-        });
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.soloStreaks.deleteOne(secondSoloStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     describe('POST /v1/incomplete-solo-streak-tasks', () => {
         test('user can incomplete a solo streak task and the solo streak tasks startdate gets reset if it is the first day of the streak', async () => {
             expect.assertions(21);
+
+            const createSoloStreakResponse = await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+            });
+            const soloStreakId = createSoloStreakResponse._id;
+
+            // Task must be completed before it can be incompleted
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
 
             const incompleteSoloStreakTask = await streakoid.incompleteSoloStreakTasks.create({
                 userId,
@@ -190,7 +191,7 @@ describe('POST /Incomplete-solo-streak-tasks', () => {
                 userId,
                 streakName,
             });
-            secondSoloStreakId = secondSoloStreak._id;
+            const secondSoloStreakId = secondSoloStreak._id;
             try {
                 await streakoid.incompleteSoloStreakTasks.create({
                     userId,

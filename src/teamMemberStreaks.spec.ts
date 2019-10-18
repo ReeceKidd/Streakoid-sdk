@@ -141,15 +141,4 @@ describe('SDK teamMemberStreaks', () => {
             });
         });
     });
-
-    describe('deleteOne', () => {
-        test('calls DELETE correct URL ', async () => {
-            expect.assertions(1);
-            streakoidClient.delete = jest.fn();
-
-            await streakoid.teamMemberStreaks.deleteOne('id');
-
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/team-member-streaks/id`);
-        });
-    });
 });

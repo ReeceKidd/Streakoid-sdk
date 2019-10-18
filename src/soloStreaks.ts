@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
@@ -115,18 +115,9 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (soloStreakId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         getOne,
-        deleteOne,
         create,
         update,
     };

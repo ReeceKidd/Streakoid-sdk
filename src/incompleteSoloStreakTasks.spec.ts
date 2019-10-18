@@ -68,15 +68,4 @@ describe('SDK IncompleteSoloStreakTasks', () => {
             });
         });
     });
-
-    describe('deleteOne', () => {
-        test('calls DELETE correct URL ', async () => {
-            expect.assertions(1);
-            streakoidClient.delete = jest.fn().mockResolvedValue(true);
-
-            await streakoid.incompleteSoloStreakTasks.deleteOne('id');
-
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/incomplete-solo-streak-tasks/id`);
-        });
-    });
 });

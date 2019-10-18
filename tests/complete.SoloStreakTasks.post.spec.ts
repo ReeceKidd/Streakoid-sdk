@@ -1,40 +1,38 @@
 import { StreakoidFactory } from '../src/streakoid';
 import StreakStatus from '../src/StreakStatus';
 import { getUser, streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('POST /complete-solo-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let secondSoloStreakId: string;
-
-    const streakName = 'Intermittent fasting';
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
-
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-        });
-        soloStreakId = createSoloStreakResponse._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.soloStreaks.deleteOne(secondSoloStreakId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     describe('POST /v1/complete-solo-streak-tasks', () => {
         test('user can complete a solo streak task with a new current streak', async () => {
             expect.assertions(21);
+
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
 
             const completeSoloStreakTask = await streakoid.completeSoloStreakTasks.create({
                 userId,
@@ -352,7 +350,7 @@ describe('POST /complete-solo-streak-tasks', () => {
                 userId,
                 streakName,
             });
-            secondSoloStreakId = secondSoloStreak._id;
+            const secondSoloStreakId = secondSoloStreak._id;
             try {
                 await streakoid.completeSoloStreakTasks.create({
                     userId,

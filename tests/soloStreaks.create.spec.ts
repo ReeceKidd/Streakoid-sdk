@@ -1,30 +1,32 @@
-import StreakStatus from '../src/StreakStatus';
-import { getUser, streakoidTest } from './setup/streakoidTest';
 import { StreakoidFactory } from '../src/streakoid';
+import { getUser, streakoidTest } from './setup/streakoidTest';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /solo-streaks', () => {
+const streakDescription = 'I must do 30 minutes of Spanish everyday';
+const numberOfMinutes = 30;
+
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let soloStreakNoDescriptionId: string;
-
-    const name = 'Daily Spanish';
-    const description = 'Everyday I must do Spanish on Duolingo';
-    const streakNumberOfMinutes = 30;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.soloStreaks.deleteOne(soloStreakNoDescriptionId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`creates solo streak with a description and numberOfMinutes`, async () => {
@@ -33,15 +35,13 @@ describe('POST /solo-streaks', () => {
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName: name,
-            streakDescription: description,
-            numberOfMinutes: streakNumberOfMinutes,
+            streakDescription,
+            numberOfMinutes,
         });
 
         const {
             streakName,
             status,
-            streakDescription,
-            numberOfMinutes,
             _id,
             currentStreak,
             completedToday,
@@ -51,12 +51,10 @@ describe('POST /solo-streaks', () => {
             updatedAt,
         } = soloStreak;
 
-        soloStreakId = _id;
-
         expect(streakName).toEqual(streakName);
         expect(status).toEqual(StreakStatus.live);
-        expect(streakDescription).toEqual(streakDescription);
-        expect(numberOfMinutes).toEqual(streakNumberOfMinutes);
+        expect(soloStreak.streakDescription).toEqual(streakDescription);
+        expect(soloStreak.numberOfMinutes).toEqual(numberOfMinutes);
         expect(soloStreak.userId).toEqual(userId);
         expect(_id).toBeDefined();
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
@@ -138,7 +136,5 @@ describe('POST /solo-streaks', () => {
                 '__v',
             ].sort(),
         );
-
-        soloStreakNoDescriptionId = soloStreak._id;
     });
 });

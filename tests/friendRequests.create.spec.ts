@@ -1,35 +1,33 @@
 import { StreakoidFactory } from '../src/streakoid';
-
-import { FriendRequestStatus } from '../src';
 import { getUser, streakoidTest, username } from './setup/streakoidTest';
-
-const friendEmail = 'friend-email@gmail.com';
-const friendUsername = 'friend-request-username';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { getFriend, friendUsername } from './setup/getFriend';
+import { FriendRequestStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /friend-requests', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
-    let friendRequestId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        const friend = await streakoid.users.create({
-            email: friendEmail,
-            username: friendUsername,
-        });
-        friendId = friend._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            const friend = await getFriend();
+            friendId = friend._id;
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.users.deleteOne(friendId);
-        await streakoid.friendRequests.deleteOne(friendRequestId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`creates friend request`, async () => {
@@ -39,8 +37,6 @@ describe('POST /friend-requests', () => {
             requesterId: userId,
             requesteeId: friendId,
         });
-
-        friendRequestId = friendRequest._id;
 
         expect(friendRequest._id).toEqual(expect.any(String));
         expect(friendRequest.requester._id).toEqual(userId);

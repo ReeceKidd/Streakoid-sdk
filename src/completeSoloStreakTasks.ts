@@ -1,12 +1,11 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 export interface CompleteSoloStreakTasksReturnType {
     getAll: ({ userId, streakId }: { userId?: string; streakId?: string }) => Promise<CompleteSoloStreakTask[]>;
     create: ({ userId, soloStreakId }: { userId: string; soloStreakId: string }) => Promise<CompleteSoloStreakTask>;
-    deleteOne: (completeSoloStreakTaskId: string) => Promise<AxiosResponse>;
 }
 
 const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloStreakTasksReturnType => {
@@ -53,20 +52,9 @@ const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloSt
         }
     };
 
-    const deleteOne = (completeSoloStreakTaskId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}/${completeSoloStreakTaskId}`,
-            );
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         create,
-        deleteOne,
     };
 };
 

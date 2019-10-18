@@ -1,37 +1,36 @@
-import { londonTimezone, StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const soloStreakName = 'Daily Spanish';
-const soloStreakDescription = 'Each day I must do the insame amount 50xp of Duolingo';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /solo-streaks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let secondSoloStreakId: string;
-    let completedTaskResponseId: string;
+    const streakName = 'Daily Spanish';
+    const streakDescription = 'Everyday I must do Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-
-        const soloStreak = await streakoid.soloStreaks.create({
-            userId,
-            streakName: soloStreakName,
-            streakDescription: soloStreakDescription,
-        });
-        soloStreakId = soloStreak._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+            await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+                streakDescription,
+            });
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.soloStreaks.deleteOne(secondSoloStreakId);
-        await streakoid.completeSoloStreakTasks.deleteOne(completedTaskResponseId);
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
     });
 
     test(`solo streaks can be retreived with user query parameter`, async () => {
@@ -81,7 +80,7 @@ describe('GET /solo-streaks', () => {
 
         const newSoloStreak = await streakoid.soloStreaks.create({
             userId,
-            streakName: soloStreakName,
+            streakName,
         });
 
         // Simulate an incomplete solo streak
@@ -145,18 +144,17 @@ describe('GET /solo-streaks', () => {
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
 
-        const createdSoloStreakResponse = await streakoid.soloStreaks.create({
+        const secondSoloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
         });
-        secondSoloStreakId = createdSoloStreakResponse._id;
+        const secondSoloStreakId = secondSoloStreak._id;
 
-        const completedTaskResponse = await streakoid.completeSoloStreakTasks.create({
+        await streakoid.completeSoloStreakTasks.create({
             userId,
             soloStreakId: secondSoloStreakId,
         });
-        completedTaskResponseId = completedTaskResponse._id;
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
             completedToday: true,
@@ -204,12 +202,12 @@ describe('GET /solo-streaks', () => {
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
 
-        const createdSoloStreakResponse = await streakoid.soloStreaks.create({
+        const secondSoloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
         });
-        secondSoloStreakId = createdSoloStreakResponse._id;
+        const secondSoloStreakId = secondSoloStreak._id;
 
         await streakoid.soloStreaks.update({
             soloStreakId: secondSoloStreakId,
@@ -260,12 +258,12 @@ describe('GET /solo-streaks', () => {
         const streakName = '30 minutes of reading';
         const streakDescription = 'Every day I must do 30 minutes of reading';
 
-        const createdSoloStreakResponse = await streakoid.soloStreaks.create({
+        const secondSoloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
         });
-        secondSoloStreakId = createdSoloStreakResponse._id;
+        const secondSoloStreakId = secondSoloStreak._id;
 
         await streakoid.soloStreaks.update({
             soloStreakId: secondSoloStreakId,

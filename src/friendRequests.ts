@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
@@ -77,19 +77,10 @@ const friendRequests = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (friendRequestId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.friendRequests}/${friendRequestId}`);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         create,
         update,
-        deleteOne,
     };
 };
 

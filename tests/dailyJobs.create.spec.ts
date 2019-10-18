@@ -1,21 +1,29 @@
+import mongoose from 'mongoose';
+
 import { StreakTypes, AgendaJobNames } from '../src';
-import { streakoidTest, getUser } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
 import { StreakoidFactory } from '../src/streakoid';
+import { getServiceConfig } from '../src/getServiceConfig';
+
+const { TEST_DATABASE_URI, NODE_ENV } = getServiceConfig();
 
 jest.setTimeout(120000);
 
-describe('POST /streak-tracking-events', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
+        if (NODE_ENV === 'test' && TEST_DATABASE_URI.includes('TEST')) {
+            await mongoose.connect(TEST_DATABASE_URI, { useNewUrlParser: true, useFindAndModify: false });
+            streakoid = await streakoidTest();
+        }
     });
 
     afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
+        if (NODE_ENV === 'test' && TEST_DATABASE_URI.includes('TEST')) {
+            await mongoose.connection.dropDatabase();
+            await mongoose.disconnect();
+        }
     });
 
     test(`creates a successful soloStreakDailyTrackerJob dailyJob`, async () => {

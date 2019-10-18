@@ -84,15 +84,4 @@ describe('SDK IncompleteTeamMemberStreakTasks', () => {
             });
         });
     });
-
-    describe('deleteOne', () => {
-        test('calls DELETE correct URL ', async () => {
-            expect.assertions(1);
-            streakoidClient.delete = jest.fn().mockResolvedValue(true);
-
-            await streakoid.incompleteTeamMemberStreakTasks.deleteOne('id');
-
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/incomplete-team-member-streak-tasks/id`);
-        });
-    });
 });

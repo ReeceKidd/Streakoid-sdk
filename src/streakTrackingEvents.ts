@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
@@ -76,21 +76,10 @@ const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (streakTrackingEventId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`,
-            );
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         getOne,
         create,
-        deleteOne,
     };
 };
 

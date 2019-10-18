@@ -1,28 +1,40 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-
-const streakName = '10 minutes journaling';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
-describe('GET /incomplete-solo-streak-tasks', () => {
+describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let soloStreakId: string;
-    let incompleteSoloStreakTaskId: string;
+    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
-        const user = await getUser();
-        userId = user._id;
-        streakoid = await streakoidTest();
-        userId = user._id;
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
+            streakoid = await streakoidTest();
+        }
+    });
 
-        const createSoloStreakResponse = await streakoid.soloStreaks.create({
+    afterAll(async () => {
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
+        }
+    });
+
+    test(`IncompleteSoloStreakTasks can be retreived`, async () => {
+        expect.assertions(8);
+
+        const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
         });
 
-        soloStreakId = createSoloStreakResponse._id;
+        const soloStreakId = soloStreak._id;
 
         // Solo streak tasks must be completed before they can be incompleted
 
@@ -31,21 +43,10 @@ describe('GET /incomplete-solo-streak-tasks', () => {
             soloStreakId,
         });
 
-        const createSoloStreakTaskIncompleteResponse = await streakoid.incompleteSoloStreakTasks.create({
+        await streakoid.incompleteSoloStreakTasks.create({
             userId,
             soloStreakId,
         });
-        incompleteSoloStreakTaskId = createSoloStreakTaskIncompleteResponse._id;
-    });
-
-    afterAll(async () => {
-        await streakoid.users.deleteOne(userId);
-        await streakoid.soloStreaks.deleteOne(soloStreakId);
-        await streakoid.incompleteSoloStreakTasks.deleteOne(incompleteSoloStreakTaskId);
-    });
-
-    test(`IncompleteSoloStreakTasks can be retreived`, async () => {
-        expect.assertions(8);
 
         const incompleteSoloStreakTasks = await streakoid.incompleteSoloStreakTasks.getAll({
             userId,

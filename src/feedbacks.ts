@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import Feedback from './models/Feedback';
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance } from 'axios';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const feedbacks = (streakoidClient: AxiosInstance) => {
@@ -32,17 +32,8 @@ const feedbacks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteOne = (feedbackId: string): Promise<AxiosResponse> => {
-        try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.feedbacks}/${feedbackId}`);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         create,
-        deleteOne,
     };
 };
 
