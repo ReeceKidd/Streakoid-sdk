@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { Token } from 'react-stripe-checkout';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
@@ -11,11 +12,11 @@ export enum stripeRouterPaths {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const stripe = (streakoidClient: AxiosInstance) => {
-    const createSubscription = async ({ token, id }: { token: string; id: string }): Promise<User> => {
+    const createSubscription = async ({ token, userId }: { token: Token; userId: string }): Promise<User> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.subscriptions}`,
-                { token, id },
+                { token, userId },
             );
             return data;
         } catch (err) {
