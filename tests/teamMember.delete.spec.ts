@@ -8,7 +8,7 @@ import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('DELETE /team-members', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
@@ -32,7 +32,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`deletes member from team streak`, async () => {
-        expect.assertions(29);
+        expect.assertions(28);
 
         const members = [{ memberId: userId }];
 
@@ -58,7 +58,6 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         expect(teamStreak.streakName).toEqual(expect.any(String));
         expect(teamStreak.status).toEqual(StreakStatus.live);
-        expect(teamStreak.streakDescription).toEqual(expect.any(String));
         expect(teamStreak.creatorId).toEqual(userId);
         expect(teamStreak.timezone).toEqual(expect.any(String));
         expect(teamStreak.active).toEqual(false);
@@ -74,7 +73,6 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'creatorId',
                 'creator',
                 'streakName',
-                'streakDescription',
                 'timezone',
                 'active',
                 'completedToday',

@@ -7,6 +7,7 @@ import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
+const streakName = 'Daily Spanish';
 const streakDescription = 'I must do 30 minutes of Spanish everyday';
 const numberOfMinutes = 30;
 
@@ -34,24 +35,14 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
-            streakName: name,
+            streakName,
             streakDescription,
             numberOfMinutes,
         });
 
-        const {
-            streakName,
-            status,
-            _id,
-            currentStreak,
-            completedToday,
-            active,
-            pastStreaks,
-            createdAt,
-            updatedAt,
-        } = soloStreak;
+        const { status, _id, currentStreak, completedToday, active, pastStreaks, createdAt, updatedAt } = soloStreak;
 
-        expect(streakName).toEqual(streakName);
+        expect(soloStreak.streakName).toEqual(streakName);
         expect(status).toEqual(StreakStatus.live);
         expect(soloStreak.streakDescription).toEqual(streakDescription);
         expect(soloStreak.numberOfMinutes).toEqual(numberOfMinutes);
@@ -89,11 +80,10 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
-            streakName: name,
+            streakName,
         });
 
         const {
-            streakName,
             status,
             streakDescription,
             numberOfMinutes,
@@ -106,7 +96,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             updatedAt,
         } = soloStreak;
 
-        expect(streakName).toEqual(streakName);
+        expect(soloStreak.streakName).toEqual(streakName);
         expect(status).toEqual(StreakStatus.live);
         expect(numberOfMinutes).toEqual(undefined);
         expect(streakDescription).toEqual('');

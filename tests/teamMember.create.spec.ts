@@ -32,7 +32,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`adds friend to team streak`, async () => {
-        expect.assertions(48);
+        expect.assertions(47);
 
         const members = [{ memberId: userId }];
 
@@ -49,17 +49,15 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         expect(teamMembers.length).toEqual(2);
 
-        const currentUser = members[0];
+        const currentUser = teamMembers[0];
         expect(currentUser.memberId).toEqual(userId);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
         expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
         expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
-        const friend = members[1];
+        const friend = teamMembers[1];
         expect(friend.memberId).toEqual(friendId);
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId'].sort());
+        expect(friend.teamMemberStreakId).toEqual(expect.any(String));
+        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
         const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
 

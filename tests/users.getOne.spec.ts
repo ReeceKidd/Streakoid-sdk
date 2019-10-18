@@ -1,5 +1,5 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { streakoidTest } from './setup/streakoidTest';
+import { streakoidTest, getUser, username, email } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
@@ -7,16 +7,15 @@ import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
-const username = 'username';
-const email = 'email@gmail.com';
-
-describe('GET /complete-solo-streak-tasks', () => {
+describe('GET /users/:userId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await connectToDatabase();
+            const user = await getUser();
+            userId = user._id;
             streakoid = await streakoidTest();
         }
     });

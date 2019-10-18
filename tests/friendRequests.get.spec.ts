@@ -34,8 +34,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(12);
 
         await streakoid.friendRequests.create({
-            requesterId: userId,
-            requesteeId: friendId,
+            requesteeId: userId,
+            requesterId: friendId,
         });
 
         const friendRequests = await streakoid.friendRequests.getAll({
