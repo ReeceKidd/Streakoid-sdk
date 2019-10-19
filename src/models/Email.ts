@@ -3,6 +3,8 @@ interface Email {
     name: string;
     email: string;
     message: string;
+    createdAt: string;
+    updatedAt: string;
     userId?: string;
     username?: string;
 }
