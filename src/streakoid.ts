@@ -16,6 +16,7 @@ import { friendRequests } from './friendRequests';
 import { getServiceConfig } from './getServiceConfig';
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
+import { emails } from './emails';
 
 const { APPLICATION_URL } = getServiceConfig();
 
@@ -38,6 +39,7 @@ export interface StreakoidFactory {
     teamMemberStreaks: ReturnType<typeof teamMemberStreaks>;
     friendRequests: ReturnType<typeof friendRequests>;
     dailyJobs: ReturnType<typeof dailyJobs>;
+    emails: ReturnType<typeof emails>;
 }
 
 export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFactory => {
@@ -56,6 +58,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         teamMemberStreaks: teamMemberStreaks(streakoidClient),
         friendRequests: friendRequests(streakoidClient),
         dailyJobs: dailyJobs(streakoidClient),
+        emails: emails(streakoidClient),
     };
 };
 

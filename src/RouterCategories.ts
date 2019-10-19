@@ -16,6 +16,7 @@ enum RouterCategories {
     teamMemberStreaks = 'team-member-streaks',
     friendRequests = 'friend-requests',
     dailyJobs = 'daily-jobs',
+    emails = 'emails',
 }
 
 export default RouterCategories;
