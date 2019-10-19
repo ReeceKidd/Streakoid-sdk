@@ -8,7 +8,7 @@ import { getFriend, friendUsername } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('POST /team-members', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;

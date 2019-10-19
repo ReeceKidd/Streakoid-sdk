@@ -43,7 +43,7 @@ describe('GET /users/:userId', () => {
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
-            ['stripe', 'type', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['stripe', 'userType', 'friends', '_id', 'username', 'timezone', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 

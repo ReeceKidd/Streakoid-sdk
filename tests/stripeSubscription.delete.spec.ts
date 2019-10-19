@@ -8,13 +8,13 @@ import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('DELETE /stripe-subscription', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let unsubscribedUserId: string;
     let subscription: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const token: any = 'tok_visa';
+    const token: any = { id: 'tok_visa' };
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -22,8 +22,8 @@ describe('GET /complete-solo-streak-tasks', () => {
             const user = await getUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const unsubscribedUser = await getFriend();
+            unsubscribedUserId = unsubscribedUser._id;
             const subscribeUser = await streakoid.stripe.createSubscription({
                 token,
                 userId,
@@ -45,7 +45,6 @@ describe('GET /complete-solo-streak-tasks', () => {
             subscription,
             userId,
         });
-
         expect(Object.keys(user.stripe).sort()).toEqual(['customer', 'subscription'].sort());
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(expect.any(String));
@@ -61,7 +60,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             [
                 '_id',
                 'stripe',
-                'type',
+                'userType',
                 'friends',
                 'username',
                 'email',
@@ -120,7 +119,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         try {
             await streakoid.stripe.deleteSubscription({
                 subscription,
-                userId: friendId,
+                userId: unsubscribedUserId,
             });
         } catch (err) {
             expect(err.response.status).toEqual(400);

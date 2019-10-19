@@ -50,7 +50,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
-            ['stripe', 'type', 'friends', '_id', 'timezone', 'username', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['stripe', 'userType', 'friends', '_id', 'timezone', 'username', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

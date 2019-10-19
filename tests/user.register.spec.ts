@@ -48,7 +48,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user).sort()).toEqual(
             [
                 'stripe',
-                'type',
+                'userType',
                 'friends',
                 '_id',
                 'timezone',
