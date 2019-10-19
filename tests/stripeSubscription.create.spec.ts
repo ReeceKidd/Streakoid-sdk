@@ -39,7 +39,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test.only('takes users payment and subscribes them', async () => {
+    test('takes users payment and subscribes them', async () => {
         expect.assertions(12);
 
         try {
