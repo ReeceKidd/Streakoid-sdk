@@ -15,7 +15,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     let userId: string;
     let premiumId: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const token: any = 'tok_visa';
+    const token: any = { id: 'tok_visa' };
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -42,39 +42,35 @@ describe('GET /complete-solo-streak-tasks', () => {
     test('takes users payment and subscribes them', async () => {
         expect.assertions(12);
 
-        try {
-            const user = await streakoid.stripe.createSubscription({
-                token,
-                userId,
-            });
-            expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
-            expect(user.stripe.subscription).toEqual(expect.any(String));
-            expect(user.stripe.customer).toEqual(expect.any(String));
-            expect(user.type).toEqual(UserTypes.premium);
-            expect(user.friends).toEqual([]);
-            expect(user._id).toEqual(expect.any(String));
-            expect(user.username).toEqual(username);
-            expect(user.email).toEqual(email);
-            expect(user.timezone).toEqual(londonTimezone);
-            expect(user.createdAt).toEqual(expect.any(String));
-            expect(user.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(user).sort()).toEqual(
-                [
-                    'stripe',
-                    'type',
-                    'friends',
-                    '_id',
-                    'username',
-                    'email',
-                    'timezone',
-                    'createdAt',
-                    'updatedAt',
-                    '__v',
-                ].sort(),
-            );
-        } catch (err) {
-            console.log(err.response.data);
-        }
+        const user = await streakoid.stripe.createSubscription({
+            token,
+            userId,
+        });
+        expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
+        expect(user.stripe.subscription).toEqual(expect.any(String));
+        expect(user.stripe.customer).toEqual(expect.any(String));
+        expect(user.type).toEqual(UserTypes.premium);
+        expect(user.friends).toEqual([]);
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(username);
+        expect(user.email).toEqual(email);
+        expect(user.timezone).toEqual(londonTimezone);
+        expect(user.createdAt).toEqual(expect.any(String));
+        expect(user.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                'stripe',
+                'type',
+                'friends',
+                '_id',
+                'username',
+                'email',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
     });
 
     test('sends correct error when id is empty', async () => {
