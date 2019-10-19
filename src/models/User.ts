@@ -5,7 +5,7 @@ interface User {
     _id: string;
     username: string;
     email: string;
-    type: UserTypes;
+    userType: UserTypes;
     timezone: string;
     friends: Friend[];
     stripe: {

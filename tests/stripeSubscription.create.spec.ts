@@ -49,7 +49,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(expect.any(String));
         expect(user.stripe.customer).toEqual(expect.any(String));
-        expect(user.type).toEqual(UserTypes.premium);
+        expect(user.userType).toEqual(UserTypes.premium);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);

@@ -35,7 +35,7 @@ describe('GET /users', () => {
         expect(Object.keys(user.stripe).sort()).toEqual(['customer', 'subscription'].sort());
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
-        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -58,7 +58,7 @@ describe('GET /users', () => {
         expect(Object.keys(user.stripe).sort()).toEqual(['customer', 'subscription'].sort());
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
-        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -81,7 +81,7 @@ describe('GET /users', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
-        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -104,7 +104,7 @@ describe('GET /users', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
-        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -127,7 +127,7 @@ describe('GET /users', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
-        expect(user.type).toEqual(UserTypes.basic);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
