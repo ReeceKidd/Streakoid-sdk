@@ -18,7 +18,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const token: any = { id: 'tok_visa', email };
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await connectToDatabase();
             const user = await getUser();
@@ -34,7 +34,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await disconnectFromDatabase();
         }
@@ -78,7 +78,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test.only('sends correct error when cvc check fails', async () => {
+    test('sends correct error when cvc check fails', async () => {
         expect.assertions(2);
         try {
             const token: any = { email, id: 'tok_cvcCheckFail' };
