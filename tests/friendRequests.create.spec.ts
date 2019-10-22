@@ -13,7 +13,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     let userId: string;
     let friendId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await connectToDatabase();
             const user = await getUser();
@@ -24,7 +24,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await disconnectFromDatabase();
         }
@@ -51,5 +51,50 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(friendRequest).sort()).toEqual(
             ['_id', 'requester', 'requestee', 'status', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+    });
+
+    test(`cannot send a friend request to someone who is already a friend`, async () => {
+        expect.assertions(3);
+
+        await streakoid.friendRequests.create({
+            requesterId: friendId,
+            requesteeId: userId,
+        });
+
+        await streakoid.users.friends.addFriend({
+            userId,
+            friendId,
+        });
+
+        try {
+            await streakoid.friendRequests.create({
+                requesterId: friendId,
+                requesteeId: userId,
+            });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual('Requestee is already a friend.');
+            expect(err.response.data.code).toEqual('400-46');
+        }
+    });
+
+    test(`cannot send a friend request twice in a row`, async () => {
+        expect.assertions(3);
+
+        await streakoid.friendRequests.create({
+            requesterId: friendId,
+            requesteeId: userId,
+        });
+
+        try {
+            await streakoid.friendRequests.create({
+                requesterId: friendId,
+                requesteeId: userId,
+            });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual('Friend request already sent.');
+            expect(err.response.data.code).toEqual('400-65');
+        }
     });
 });
