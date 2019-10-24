@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(12);
+        expect.assertions(13);
 
         const updatedTimezone = 'Europe/Paris';
 
