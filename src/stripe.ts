@@ -24,27 +24,8 @@ const stripe = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const deleteSubscription = async ({
-        subscription,
-        userId,
-    }: {
-        subscription: string;
-        userId: string;
-    }): Promise<User> => {
-        try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.deleteSubscriptions}`,
-                { subscription, userId },
-            );
-            return data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         createSubscription,
-        deleteSubscription,
     };
 };
 

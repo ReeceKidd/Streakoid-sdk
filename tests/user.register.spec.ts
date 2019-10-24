@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(12);
+        expect.assertions(13);
 
         const user = await streakoid.users.create({
             username,
@@ -43,6 +43,10 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.username).toEqual(username);
         expect(user.email).toEqual(email);
         expect(user.timezone).toEqual('Europe/London');
+        expect(user.profileImages).toEqual({
+            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -54,6 +58,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'timezone',
                 'username',
                 'email',
+                'profileImages',
                 'createdAt',
                 'updatedAt',
                 '__v',

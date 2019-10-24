@@ -47,10 +47,25 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedUser.username).toEqual(username);
         expect(updatedUser.email).toBeUndefined();
         expect(updatedUser.timezone).toEqual(updatedTimezone);
+        expect(updatedUser.profileImages).toEqual({
+            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
-            ['stripe', 'userType', 'friends', '_id', 'timezone', 'username', 'createdAt', 'updatedAt', '__v'].sort(),
+            [
+                'stripe',
+                'userType',
+                'friends',
+                '_id',
+                'timezone',
+                'profileImages',
+                'username',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
         );
     });
 });

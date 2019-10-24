@@ -25,19 +25,4 @@ describe('SDK stripe', () => {
             });
         });
     });
-
-    describe('deleteSubscription', () => {
-        test('calls POST with correct URL and  properties', async () => {
-            expect.assertions(1);
-
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
-
-            const subscription = 'subscription';
-            const userId = 'id';
-
-            await streakoid.stripe.deleteSubscription({ subscription, userId });
-
-            expect(streakoidClient.post).toBeCalledWith(`/v1/stripe/delete-subscriptions`, { subscription, userId });
-        });
-    });
 });
