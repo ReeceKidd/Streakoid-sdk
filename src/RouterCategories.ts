@@ -17,7 +17,7 @@ enum RouterCategories {
     friendRequests = 'friend-requests',
     dailyJobs = 'daily-jobs',
     emails = 'emails',
-    profilePictures = 'profile-pictures',
+    profileImages = 'profile-images',
 }
 
 export default RouterCategories;

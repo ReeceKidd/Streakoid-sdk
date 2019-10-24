@@ -1,5 +1,6 @@
 import UserTypes from '../userTypes';
 import Friend from './Friend';
+import ProfileImages from './ProfileImages';
 
 interface User {
     _id: string;
@@ -14,9 +15,7 @@ interface User {
     };
     createdAt: string;
     updatedAt: string;
-    profilePicture?: {
-        type: string;
-    };
+    profileImages: ProfileImages;
 }
 
 export default User;
