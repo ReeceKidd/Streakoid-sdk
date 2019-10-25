@@ -42,7 +42,6 @@ describe('GET /users', () => {
         expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
-            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.createdAt).toEqual(expect.any(String));
@@ -80,7 +79,6 @@ describe('GET /users', () => {
         expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
-            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.createdAt).toEqual(expect.any(String));
@@ -118,7 +116,6 @@ describe('GET /users', () => {
         expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
-            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.createdAt).toEqual(expect.any(String));
@@ -156,7 +153,6 @@ describe('GET /users', () => {
         expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
-            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.createdAt).toEqual(expect.any(String));
@@ -194,7 +190,6 @@ describe('GET /users', () => {
         expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
-            avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.createdAt).toEqual(expect.any(String));

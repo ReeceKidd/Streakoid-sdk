@@ -58,7 +58,6 @@ describe('GET /complete-solo-streak-tasks', () => {
             expect(user.email).toEqual(email);
             expect(user.timezone).toEqual(londonTimezone);
             expect(user.profileImages).toEqual({
-                avatarImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
                 originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
             });
             expect(user.createdAt).toEqual(expect.any(String));
