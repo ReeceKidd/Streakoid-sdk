@@ -31,7 +31,7 @@ Amplify.configure({
 
 const { APPLICATION_URL, COGNITO_USERNAME, COGNITO_EMAIL, COGNITO_PASSWORD } = getServiceConfig();
 
-const getIdToken = async (): Promise<string> => {
+export const getIdToken = async (): Promise<string> => {
     const cognitoUser = await Auth.signIn(COGNITO_EMAIL, COGNITO_PASSWORD);
     const { idToken } = cognitoUser.signInUserSession;
     return idToken.jwtToken;

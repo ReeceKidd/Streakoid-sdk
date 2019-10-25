@@ -43,7 +43,6 @@
         "axios": "^0.19.0",
         "eslint-config-prettier": "^6.4.0",
         "eslint-plugin-prettier": "^3.1.1",
-        "form-data": "^2.5.1",
         "mongoose": "^5.7.5",
         "node-fetch": "^2.6.0",
         "react": "^16.10.2",
