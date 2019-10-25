@@ -13,16 +13,14 @@ import { completeTeamStreaks } from './completeTeamStreaks';
 import { teamMemberStreaks } from './teamMemberStreaks';
 import { friendRequests } from './friendRequests';
 
-import { getServiceConfig } from './getServiceConfig';
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
 import { emails } from './emails';
 
-const { APPLICATION_URL } = getServiceConfig();
-
 export const londonTimezone = 'Europe/London';
 
-export const streakoidClient = streakoidClientFactory(APPLICATION_URL, londonTimezone);
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+export const streakoidClient = streakoidClientFactory(process.env.APPLICATION_URL!, londonTimezone);
 
 export interface StreakoidFactory {
     completeSoloStreakTasks: ReturnType<typeof completeSoloStreakTasks>;
