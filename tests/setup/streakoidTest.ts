@@ -1,9 +1,9 @@
 import * as fetch from 'node-fetch';
 import Amplify from 'aws-amplify';
 import { Auth } from 'aws-amplify';
-import { getServiceConfig } from '../../src/getServiceConfig';
 import { streakoidClientFactory } from '../../src';
 import { londonTimezone, streakoidFactory, streakoid } from '../../src/streakoid';
+import { email, username, password, applicationUrl } from './environment';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (global as any).fetch = fetch;
@@ -29,10 +29,8 @@ Amplify.configure({
     },
 });
 
-const { APPLICATION_URL, COGNITO_USERNAME, COGNITO_EMAIL, COGNITO_PASSWORD } = getServiceConfig();
-
 export const getIdToken = async (): Promise<string> => {
-    const cognitoUser = await Auth.signIn(COGNITO_EMAIL, COGNITO_PASSWORD);
+    const cognitoUser = await Auth.signIn(username, password);
     const { idToken } = cognitoUser.signInUserSession;
     return idToken.jwtToken;
 };
@@ -40,18 +38,15 @@ export const getIdToken = async (): Promise<string> => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const streakoidTest = async () => {
     const idToken = await getIdToken();
-    const strekoidClient = streakoidClientFactory(APPLICATION_URL, londonTimezone, idToken);
+    const strekoidClient = streakoidClientFactory(applicationUrl, londonTimezone, idToken);
     return streakoidFactory(strekoidClient);
 };
-
-export const username = COGNITO_USERNAME;
-export const email = COGNITO_EMAIL;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const getUser = async () => {
     return streakoid.users.create({
-        username: COGNITO_USERNAME,
-        email: COGNITO_EMAIL,
+        username,
+        email,
     });
 };
 

@@ -1,11 +1,9 @@
-import mongoose from 'mongoose';
-
 import { StreakTypes, AgendaJobNames } from '../src';
-import { streakoidTest } from './setup/streakoidTest';
+import { streakoidTest, getUser } from './setup/streakoidTest';
 import { StreakoidFactory } from '../src/streakoid';
-import { getServiceConfig } from '../src/getServiceConfig';
-
-const { TEST_DATABASE_URI, NODE_ENV } = getServiceConfig();
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { connectToDatabase } from './setup/connectToDatabase';
+import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 
 jest.setTimeout(120000);
 
@@ -13,16 +11,16 @@ describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
 
     beforeAll(async () => {
-        if (NODE_ENV === 'test' && TEST_DATABASE_URI.includes('TEST')) {
-            await mongoose.connect(TEST_DATABASE_URI, { useNewUrlParser: true, useFindAndModify: false });
+        if (isTestEnvironment()) {
+            await connectToDatabase();
+            await getUser();
             streakoid = await streakoidTest();
         }
     });
 
     afterAll(async () => {
-        if (NODE_ENV === 'test' && TEST_DATABASE_URI.includes('TEST')) {
-            await mongoose.connection.dropDatabase();
-            await mongoose.disconnect();
+        if (isTestEnvironment()) {
+            await disconnectFromDatabase();
         }
     });
 

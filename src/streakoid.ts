@@ -19,8 +19,10 @@ import { emails } from './emails';
 
 export const londonTimezone = 'Europe/London';
 
+const applicationUrl = 'http://localhost:3001';
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export const streakoidClient = streakoidClientFactory(process.env.APPLICATION_URL!, londonTimezone);
+export const streakoidClient = streakoidClientFactory(applicationUrl, londonTimezone);
 
 export interface StreakoidFactory {
     completeSoloStreakTasks: ReturnType<typeof completeSoloStreakTasks>;
