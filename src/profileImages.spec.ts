@@ -14,9 +14,9 @@ describe('SDK dailyJobs', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const image = 'image';
-
+            const formData = { image };
             await streakoid.profileImages.create({
-                image,
+                formData,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/profile-images`, {
