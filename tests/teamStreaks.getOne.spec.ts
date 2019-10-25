@@ -1,5 +1,6 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest, username } from './setup/streakoidTest';
+import { getUser, streakoidTest } from './setup/streakoidTest';
+import { username } from './setup/environment';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';

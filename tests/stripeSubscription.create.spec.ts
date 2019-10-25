@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest, username, email } from './setup/streakoidTest';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import UserTypes from '../src/userTypes';
+import { email, username } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -42,44 +43,39 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     test('takes users payment and subscribes them', async () => {
         expect.assertions(13);
-
-        try {
-            const user = await streakoid.stripe.createSubscription({
-                token,
-                userId,
-            });
-            expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
-            expect(user.stripe.subscription).toEqual(expect.any(String));
-            expect(user.stripe.customer).toEqual(expect.any(String));
-            expect(user.userType).toEqual(UserTypes.premium);
-            expect(user.friends).toEqual([]);
-            expect(user._id).toEqual(expect.any(String));
-            expect(user.username).toEqual(username);
-            expect(user.email).toEqual(email);
-            expect(user.timezone).toEqual(londonTimezone);
-            expect(user.profileImages).toEqual({
-                originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-            });
-            expect(user.createdAt).toEqual(expect.any(String));
-            expect(user.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(user).sort()).toEqual(
-                [
-                    'stripe',
-                    'userType',
-                    'friends',
-                    '_id',
-                    'username',
-                    'email',
-                    'timezone',
-                    'profileImages',
-                    'createdAt',
-                    'updatedAt',
-                    '__v',
-                ].sort(),
-            );
-        } catch (err) {
-            console.log(err);
-        }
+        const user = await streakoid.stripe.createSubscription({
+            token,
+            userId,
+        });
+        expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
+        expect(user.stripe.subscription).toEqual(expect.any(String));
+        expect(user.stripe.customer).toEqual(expect.any(String));
+        expect(user.userType).toEqual(UserTypes.premium);
+        expect(user.friends).toEqual([]);
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(username);
+        expect(user.email).toEqual(email);
+        expect(user.timezone).toEqual(londonTimezone);
+        expect(user.profileImages).toEqual({
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
+        expect(user.createdAt).toEqual(expect.any(String));
+        expect(user.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                'stripe',
+                'userType',
+                'friends',
+                '_id',
+                'username',
+                'email',
+                'timezone',
+                'profileImages',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
     });
 
     test('sends correct error when cvc check fails', async () => {

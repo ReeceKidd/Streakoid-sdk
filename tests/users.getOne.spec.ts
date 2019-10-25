@@ -1,9 +1,10 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { streakoidTest, getUser, username } from './setup/streakoidTest';
+import { streakoidTest, getUser } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import UserTypes from '../src/userTypes';
+import { username } from './setup/environment';
 
 jest.setTimeout(120000);
 
