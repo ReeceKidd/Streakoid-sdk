@@ -1,5 +1,4 @@
 interface ProfileImages {
-    avatarImageUrl: string;
     originalImageUrl: string;
 }
 
