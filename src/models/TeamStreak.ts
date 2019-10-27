@@ -10,7 +10,7 @@ interface TeamStreak {
     active: boolean;
     status: StreakStatus;
     currentStreak: CurrentStreak;
-    pastStreaks: Array<PastStreak>;
+    pastStreaks: PastStreak[];
     members: TeamMember[];
     timezone: string;
     createdAt: string;

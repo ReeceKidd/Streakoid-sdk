@@ -1,4 +1,4 @@
-import PopulatedMember from './PopulatedTeamMember';
+import PopulatedTeamMember from './PopulatedTeamMember';
 import StreakStatus from '../StreakStatus';
 import { CurrentStreak } from '..';
 import PastStreak from './PastStreak';
@@ -12,7 +12,7 @@ interface PopulatedTeamStreak {
     status: StreakStatus;
     currentStreak: CurrentStreak;
     pastStreaks: Array<PastStreak>;
-    members: PopulatedMember[];
+    members: PopulatedTeamMember[];
     timezone: string;
     creator: {
         _id: string;

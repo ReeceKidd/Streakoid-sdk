@@ -5,7 +5,7 @@ import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
 import { getFriend, friendUsername } from './setup/getFriend';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -53,12 +53,14 @@ describe('POST /team-members', () => {
         const currentUser = teamMembers[0];
         expect(currentUser.memberId).toEqual(userId);
         expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
+        expect(currentUser.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId', 'originalImageUrl'].sort());
 
         const friend = teamMembers[1];
         expect(friend.memberId).toEqual(friendId);
         expect(friend.teamMemberStreakId).toEqual(expect.any(String));
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
+        expect(friend.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId', 'originalImageUrl'].sort());
 
         const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
 
