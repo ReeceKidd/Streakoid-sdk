@@ -4,6 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
+import { originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -30,7 +31,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`user can get a list of friends`, async () => {
-        expect.assertions(4);
+        expect.assertions(5);
 
         await streakoid.friendRequests.create({
             requesterId: friendId,
@@ -45,7 +46,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const friend = friends[0];
         expect(friend.friendId).toEqual(friendId);
         expect(friend.username).toEqual(friendUsername);
-        expect(Object.keys(friend).sort()).toEqual(['username', 'friendId'].sort());
+        expect(friend.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(friend).sort()).toEqual(['username', 'friendId', 'profileImage'].sort());
     });
 
     test(`throws GetFriendsUserDoesNotExist error when user does not exist`, async () => {

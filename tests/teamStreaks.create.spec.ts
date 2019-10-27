@@ -1,13 +1,14 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest, username } from './setup/streakoidTest';
+import { getUser, streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
+import { username } from './setup/environment';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('GET /team-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 

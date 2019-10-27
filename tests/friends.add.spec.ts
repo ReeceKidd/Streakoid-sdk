@@ -5,11 +5,11 @@ import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
 import { FriendRequestStatus } from '../src';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('POST /user/friends', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let friendId: string;
@@ -32,7 +32,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`user can add a friend if they are not already on their friends list`, async () => {
-        expect.assertions(22);
+        expect.assertions(25);
 
         await streakoid.friendRequests.create({
             requesterId: friendId,
@@ -49,17 +49,20 @@ describe('GET /complete-solo-streak-tasks', () => {
         const friend = updatedFriends[0];
         expect(friend.friendId).toEqual(friendId);
         expect(friend.username).toEqual(expect.any(String));
-        expect(Object.keys(friend).sort()).toEqual(['friendId', 'username'].sort());
+        expect(friend.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(friend).sort()).toEqual(['friendId', 'username', 'profileImage'].sort());
 
         const updatedUser = await streakoid.users.getOne(userId);
         expect(updatedUser.friends[0].friendId).toEqual(friendId);
         expect(updatedUser.friends[0].username).toEqual(expect.any(String));
-        expect(Object.keys(updatedUser.friends[0]).sort()).toEqual(['friendId', 'username'].sort());
+        expect(updatedUser.friends[0].profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(updatedUser.friends[0]).sort()).toEqual(['friendId', 'username', 'profileImage'].sort());
 
         const updatedFriend = await streakoid.users.getOne(userId);
         expect(updatedFriend.friends[0].friendId).toEqual(friendId);
         expect(updatedFriend.friends[0].username).toEqual(expect.any(String));
-        expect(Object.keys(updatedFriend.friends[0]).sort()).toEqual(['friendId', 'username'].sort());
+        expect(updatedFriend.friends[0].profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(updatedFriend.friends[0]).sort()).toEqual(['friendId', 'username', 'profileImage'].sort());
 
         expect(updatedUser.friends.length).toEqual(1);
 
