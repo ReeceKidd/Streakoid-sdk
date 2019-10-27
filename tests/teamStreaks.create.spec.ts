@@ -4,7 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
-import { username, originalImageUrl } from './setup/environment';
+import { username } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -28,7 +28,7 @@ describe('GET /team-streaks', () => {
     });
 
     test(`team streak can be created with description and numberOfMinutes`, async () => {
-        expect.assertions(21);
+        expect.assertions(20);
 
         const streakName = 'Reading';
         const streakDescription = 'Everyday I must do 30 minutes of reading';
@@ -47,8 +47,7 @@ describe('GET /team-streaks', () => {
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(member.profileImage).toEqual(originalImageUrl);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(

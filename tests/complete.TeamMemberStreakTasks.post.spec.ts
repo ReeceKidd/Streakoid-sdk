@@ -201,7 +201,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
     });
 
     test('if lone team member has completed their task the new team streak gets updated.', async () => {
-        expect.assertions(48);
+        expect.assertions(49);
 
         const members = [{ memberId: userId }];
 
@@ -352,7 +352,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
     });
 
     test('if lone team member has completed their task the existing team streak gets updated.', async () => {
-        expect.assertions(48);
+        expect.assertions(49);
 
         const members = [{ memberId: userId }];
 
@@ -462,7 +462,8 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const member = updatedTeamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
         expect(Object.keys(updatedTeamStreak.members[0].teamMemberStreak).sort()).toEqual(
             [
                 '_id',

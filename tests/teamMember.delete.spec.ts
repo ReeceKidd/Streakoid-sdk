@@ -33,7 +33,7 @@ describe('DELETE /team-members', () => {
     });
 
     test(`deletes member from team streak`, async () => {
-        expect.assertions(28);
+        expect.assertions(29);
 
         const members = [{ memberId: userId }];
 

@@ -33,7 +33,7 @@ describe('POST /team-members', () => {
     });
 
     test(`adds friend to team streak`, async () => {
-        expect.assertions(45);
+        expect.assertions(49);
 
         const members = [{ memberId: userId }];
 
@@ -131,7 +131,10 @@ describe('POST /team-members', () => {
         const friendMember = teamStreak.members[1];
         expect(friendMember._id).toEqual(friendId);
         expect(friendMember.username).toEqual(friendUsername);
-        expect(Object.keys(friendMember).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(friendMember.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(friendMember).sort()).toEqual(
+            ['_id', 'username', 'profileImage', 'teamMemberStreak'].sort(),
+        );
 
         expect(friendMember.teamMemberStreak._id).toEqual(expect.any(String));
         expect(friendMember.teamMemberStreak.completedToday).toEqual(false);

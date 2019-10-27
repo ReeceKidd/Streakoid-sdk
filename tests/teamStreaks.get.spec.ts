@@ -266,7 +266,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`archived team streaks can be retreived`, async () => {
-        expect.assertions(16);
+        expect.assertions(17);
 
         await streakoid.teamStreaks.update({
             teamStreakId: teamStreakId,
@@ -335,7 +335,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`deleted team streaks can be retreived`, async () => {
-        expect.assertions(16);
+        expect.assertions(17);
 
         await streakoid.teamStreaks.update({
             teamStreakId,

@@ -39,7 +39,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`team streak can be retreived with populated member information`, async () => {
-        expect.assertions(18);
+        expect.assertions(19);
 
         const teamStreak = await streakoid.teamStreaks.getOne(teamStreakId);
 
