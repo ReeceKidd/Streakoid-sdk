@@ -1,6 +1,6 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
@@ -47,7 +47,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = teamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(

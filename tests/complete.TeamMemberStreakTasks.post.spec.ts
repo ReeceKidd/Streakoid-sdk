@@ -5,7 +5,7 @@ import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
 import { getFriend } from './setup/getFriend';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -298,7 +298,8 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const member = updatedTeamStreak.members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
         expect(Object.keys(updatedTeamStreak.members[0].teamMemberStreak).sort()).toEqual(
             [
                 '_id',

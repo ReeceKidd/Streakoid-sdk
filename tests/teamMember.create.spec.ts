@@ -33,7 +33,7 @@ describe('POST /team-members', () => {
     });
 
     test(`adds friend to team streak`, async () => {
-        expect.assertions(47);
+        expect.assertions(45);
 
         const members = [{ memberId: userId }];
 
@@ -53,14 +53,12 @@ describe('POST /team-members', () => {
         const currentUser = teamMembers[0];
         expect(currentUser.memberId).toEqual(userId);
         expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
-        expect(currentUser.profileImage).toEqual(originalImageUrl);
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId', 'originalImageUrl'].sort());
+        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
         const friend = teamMembers[1];
         expect(friend.memberId).toEqual(friendId);
         expect(friend.teamMemberStreakId).toEqual(expect.any(String));
-        expect(friend.profileImage).toEqual(originalImageUrl);
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId', 'originalImageUrl'].sort());
+        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
         const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
 
@@ -102,7 +100,8 @@ describe('POST /team-members', () => {
         const member = teamStreak.members[0];
         expect(member._id).toEqual(userId);
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         expect(member.teamMemberStreak._id).toEqual(expect.any(String));
         expect(member.teamMemberStreak.completedToday).toEqual(false);

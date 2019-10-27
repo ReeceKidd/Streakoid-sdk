@@ -5,7 +5,7 @@ import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
 import { getFriend } from './setup/getFriend';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -95,7 +95,8 @@ describe('DELETE /team-members', () => {
         const member = teamStreak.members[0];
         expect(member._id).toEqual(userId);
         expect(member.username).toEqual(username);
-        expect(Object.keys(member)).toEqual(['_id', 'username', 'teamMemberStreak']);
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member)).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak']);
 
         expect(member.teamMemberStreak._id).toEqual(expect.any(String));
         expect(member.teamMemberStreak.completedToday).toEqual(false);

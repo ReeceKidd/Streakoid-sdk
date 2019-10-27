@@ -4,7 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
 import { StreakStatus } from '../src';
-import { username } from './setup/environment';
+import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
@@ -50,7 +50,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`team streaks can be retreived with creatorId query paramater`, async () => {
-        expect.assertions(17);
+        expect.assertions(18);
 
         const teamStreaks = await streakoid.teamStreaks.getAll({ creatorId });
         expect(teamStreaks.length).toBeGreaterThanOrEqual(1);
@@ -89,7 +89,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(
@@ -121,7 +122,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`team streaks can be retreived with memberId query parameter`, async () => {
-        expect.assertions(17);
+        expect.assertions(18);
         const teamStreaks = await streakoid.teamStreaks.getAll({
             memberId: creatorId,
         });
@@ -160,7 +161,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(
@@ -192,7 +194,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`team streaks can be retreieved with timezone query parameter`, async () => {
-        expect.assertions(17);
+        expect.assertions(18);
         const teamStreaks = await streakoid.teamStreaks.getAll({ timezone: londonTimezone });
 
         expect(teamStreaks.length).toBeGreaterThanOrEqual(1);
@@ -231,7 +233,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(expect.any(String));
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(
@@ -307,7 +310,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(
@@ -375,7 +379,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         const member = members[0];
         expect(member._id).toBeDefined();
         expect(member.username).toEqual(username);
-        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
 
         const { teamMemberStreak } = member;
         expect(Object.keys(teamMemberStreak).sort()).toEqual(
