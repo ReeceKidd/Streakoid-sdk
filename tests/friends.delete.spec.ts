@@ -36,10 +36,14 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
 
         await streakoid.users.friends.addFriend({ userId, friendId });
-        expect.assertions(1);
+        expect.assertions(2);
 
         const friends = await streakoid.users.friends.deleteOne(userId, friendId);
         expect(friends.length).toEqual(0);
+
+        const updatedFriend = await streakoid.users.getOne(friendId);
+
+        expect(updatedFriend.friends.length).toEqual(0);
     });
 
     test(`can't delete a friend for a user that does not exist`, async () => {
