@@ -1,5 +1,6 @@
 import StreakStatus from '../StreakStatus';
 import { CurrentStreak, PastStreak } from '..';
+import TeamMember from './TeamMember';
 
 interface TeamStreak {
     _id: string;
@@ -10,7 +11,7 @@ interface TeamStreak {
     status: StreakStatus;
     currentStreak: CurrentStreak;
     pastStreaks: Array<PastStreak>;
-    members: { memberId: string; teamMemberStreakId: string }[];
+    members: TeamMember[];
     timezone: string;
     createdAt: string;
     updatedAt: string;
