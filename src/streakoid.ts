@@ -16,6 +16,7 @@ import { friendRequests } from './friendRequests';
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
 import { emails } from './emails';
+import { incompleteTeamStreaks } from './incompleteTeamStreaks';
 
 export const londonTimezone = 'Europe/London';
 
@@ -30,6 +31,7 @@ export interface StreakoidFactory {
     completeTeamMemberStreakTasks: ReturnType<typeof completeTeamMemberStreakTasks>;
     incompleteTeamMemberStreakTasks: ReturnType<typeof incompleteTeamMemberStreakTasks>;
     completeTeamStreaks: ReturnType<typeof completeTeamStreaks>;
+    incompleteTeamStreaks: ReturnType<typeof incompleteTeamStreaks>;
     soloStreaks: ReturnType<typeof soloStreaks>;
     stripe: ReturnType<typeof stripe>;
     users: Users;
@@ -49,6 +51,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         completeTeamMemberStreakTasks: completeTeamMemberStreakTasks(streakoidClient),
         incompleteTeamMemberStreakTasks: incompleteTeamMemberStreakTasks(streakoidClient),
         completeTeamStreaks: completeTeamStreaks(streakoidClient),
+        incompleteTeamStreaks: incompleteTeamStreaks(streakoidClient),
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
         users: users(streakoidClient),
