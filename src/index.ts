@@ -6,6 +6,8 @@ import CompleteTeamMemberStreakTask from './models/CompleteTeamMemberStreakTask'
 import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
 import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
 import IncompleteSoloStreakTask from './models/IncompleteSoloStreakTask';
+import CompleteTeamStreak from './models/CompleteTeamStreak';
+import IncompleteTeamStreak from './models/IncompleteTeamStreak';
 import CurrentStreak from './models/CurrentStreak';
 import Feedback from './models/Feedback';
 import Friend from './models/Friend';
@@ -21,7 +23,6 @@ import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 import DailyJob from './models/DailyJob';
-import CompleteTeamStreak from './models/CompleteTeamStreak';
 import Email from './models/Email';
 import ProfileImages from './models/ProfileImages';
 import SupportedRequestHeaders from './SupportedRequestHeaders';
@@ -41,6 +42,7 @@ export {
     CompleteSoloStreakTask,
     IncompleteSoloStreakTask,
     CompleteTeamStreak,
+    IncompleteTeamStreak,
     Email,
     ProfileImages,
     CurrentStreak,

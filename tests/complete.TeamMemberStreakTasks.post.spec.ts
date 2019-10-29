@@ -847,6 +847,115 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
+    test.only('completing one team streak for the day does not affect another existing team streak.', async () => {
+        expect.assertions(30);
+
+        const members = [{ memberId: userId }];
+
+        const reading = 'reading';
+
+        const readingTeamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: reading,
+            members,
+        });
+
+        const readingTeamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: readingTeamStreak._id,
+        });
+        const readingTeamMemberStreak = readingTeamMemberStreaks[0];
+        const readingTeamMemberStreakId = readingTeamMemberStreak._id;
+
+        const yoga = 'yoga';
+
+        const yogaTeamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: yoga,
+            members,
+        });
+
+        const yogaTeamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: yogaTeamStreak._id,
+        });
+        const yogaTeamMemberStreak = yogaTeamMemberStreaks[0];
+        const yogTeamMemberStreakId = yogaTeamMemberStreak._id;
+
+        const completeReadingTeamMemberStreakTask = await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: readingTeamStreak._id,
+            teamMemberStreakId: readingTeamMemberStreakId,
+        });
+        expect(completeReadingTeamMemberStreakTask._id).toEqual(expect.any(String));
+        expect(completeReadingTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeReadingTeamMemberStreakTask.teamStreakId).toEqual(readingTeamStreak._id);
+        expect(completeReadingTeamMemberStreakTask.teamMemberStreakId).toEqual(readingTeamMemberStreakId);
+        expect(completeReadingTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
+        expect(completeReadingTeamMemberStreakTask.taskCompleteDay).toEqual(expect.any(String));
+        expect(completeReadingTeamMemberStreakTask.createdAt).toEqual(expect.any(String));
+        expect(completeReadingTeamMemberStreakTask.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(completeReadingTeamMemberStreakTask).sort()).toEqual(
+            [
+                '_id',
+                'userId',
+                'teamStreakId',
+                'teamMemberStreakId',
+                'taskCompleteTime',
+                'taskCompleteDay',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const updatedReadingTeamMemberStreak = await streakoid.teamMemberStreaks.getOne(readingTeamMemberStreakId);
+
+        expect(updatedReadingTeamMemberStreak._id).toEqual(expect.any(String));
+        expect(updatedReadingTeamMemberStreak.currentStreak.numberOfDaysInARow).toEqual(1);
+        expect(updatedReadingTeamMemberStreak.currentStreak.startDate).toEqual(expect.any(String));
+        expect(Object.keys(updatedReadingTeamMemberStreak.currentStreak).sort()).toEqual(
+            ['startDate', 'numberOfDaysInARow'].sort(),
+        );
+        expect(updatedReadingTeamMemberStreak.completedToday).toEqual(true);
+        expect(updatedReadingTeamMemberStreak.active).toEqual(true);
+        expect(updatedReadingTeamMemberStreak.pastStreaks).toEqual([]);
+        expect(updatedReadingTeamMemberStreak.userId).toEqual(expect.any(String));
+        expect(updatedReadingTeamMemberStreak.teamStreakId).toEqual(readingTeamStreak._id);
+        expect(updatedReadingTeamMemberStreak.timezone).toEqual(expect.any(String));
+        expect(updatedReadingTeamMemberStreak.createdAt).toEqual(expect.any(String));
+        expect(updatedReadingTeamMemberStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(updatedReadingTeamMemberStreak).sort()).toEqual(
+            [
+                '_id',
+                'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                'userId',
+                'teamStreakId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const updatedYogaTeamMemberStreak = await streakoid.teamMemberStreaks.getOne(yogTeamMemberStreakId);
+
+        expect(updatedYogaTeamMemberStreak.active).toEqual(yogaTeamMemberStreak.active);
+        expect(updatedYogaTeamMemberStreak.completedToday).toEqual(yogaTeamMemberStreak.completedToday);
+        expect(updatedYogaTeamMemberStreak.currentStreak).toEqual(yogaTeamMemberStreak.currentStreak);
+        expect(updatedYogaTeamMemberStreak.pastStreaks).toEqual(yogaTeamMemberStreak.pastStreaks);
+
+        const updatedYogaTeamStreak = await streakoid.teamStreaks.getOne(yogaTeamStreak._id);
+
+        expect(updatedYogaTeamStreak.active).toEqual(yogaTeamStreak.active);
+        expect(updatedYogaTeamStreak.completedToday).toEqual(yogaTeamStreak.completedToday);
+        expect(updatedYogaTeamStreak.currentStreak).toEqual(yogaTeamStreak.currentStreak);
+        expect(updatedYogaTeamStreak.pastStreaks).toEqual(yogaTeamStreak.pastStreaks);
+    });
+
     test('user cannot complete the same team streak member task in the same day', async () => {
         expect.assertions(3);
 
