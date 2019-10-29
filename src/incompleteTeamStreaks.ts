@@ -1,11 +1,11 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import CompleteTeamStreak from './models/CompleteTeamStreak';
 import { AxiosInstance } from 'axios';
+import IncompleteTeamStreak from './models/IncompleteTeamStreak';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const incompleteTeamStreaks = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ teamStreakId }: { teamStreakId?: string }): Promise<CompleteTeamStreak[]> => {
+    const getAll = async ({ teamStreakId }: { teamStreakId?: string }): Promise<IncompleteTeamStreak[]> => {
         try {
             let getAllURL = `/${ApiVersions.v1}/${RouterCategories.incompleteTeamStreaks}?`;
             if (teamStreakId) {

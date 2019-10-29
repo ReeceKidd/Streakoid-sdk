@@ -847,7 +847,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
-    test.only('completing one team streak for the day does not affect another existing team streak.', async () => {
+    test('completing one team streak for the day does not affect another existing team streak.', async () => {
         expect.assertions(30);
 
         const members = [{ memberId: userId }];

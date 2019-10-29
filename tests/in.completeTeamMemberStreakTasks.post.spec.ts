@@ -1,12 +1,14 @@
-import { StreakoidFactory } from '../src/streakoid';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { getUser, streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { username, originalImageUrl } from './setup/environment';
+import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('GET /incomplete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     const streakName = 'Daily Spanish';
@@ -27,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     describe('POST /v1/incomplete-solo-streak-tasks', () => {
-        test('user can incomplete a team member streak task and the start date gets reset if it is the first day of the streak', async () => {
+        test.only('lone user can incomplete a team member streak task, the start date gets reset of the teamMemberStreak and teamStreak if it is the first day of the streak', async () => {
             expect.assertions(22);
 
             const members = [{ memberId: userId }];
@@ -45,7 +47,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             });
             const teamMemberStreakId = originalTeamMemberStreak._id;
 
-            // Group member streaks tasks must be completed before they can be incompleted.
+            // Team member streaks tasks must be completed before they can be incompleted.
             await streakoid.completeTeamMemberStreakTasks.create({
                 userId,
                 teamStreakId,
@@ -110,6 +112,81 @@ describe('GET /complete-solo-streak-tasks', () => {
                     '__v',
                 ].sort(),
             );
+
+            const incompleteTeamStreaks = await streakoid.incompleteTeamStreaks.getAll({
+                teamStreakId: teamStreak._id,
+            });
+            const incompleteTeamStreak = incompleteTeamStreaks[0];
+
+            expect(incompleteTeamStreak._id).toBeDefined();
+            expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
+            expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
+            expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
+            expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
+            expect(incompleteTeamStreak.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(incompleteTeamStreak).sort()).toEqual(
+                ['_id', 'teamStreakId', 'taskCompleteTime', 'taskCompleteDay', 'createdAt', 'updatedAt', '__v'].sort(),
+            );
+
+            const updatedTeamStreak = await streakoid.teamStreaks.getOne(teamStreak._id);
+
+            expect(updatedTeamStreak.members.length).toEqual(1);
+            const member = updatedTeamStreak.members[0];
+            expect(member._id).toBeDefined();
+            expect(member.username).toEqual(username);
+            expect(member.profileImage).toEqual(originalImageUrl);
+            expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
+            expect(Object.keys(updatedTeamStreak.members[0].teamMemberStreak).sort()).toEqual(
+                [
+                    '_id',
+                    'currentStreak',
+                    'completedToday',
+                    'active',
+                    'pastStreaks',
+                    'userId',
+                    'teamStreakId',
+                    'timezone',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+
+            expect(updatedTeamStreak.streakName).toEqual(streakName);
+            expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
+            expect(updatedTeamStreak.creatorId).toEqual(userId);
+            expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
+            expect(updatedTeamStreak.active).toEqual(true);
+            expect(updatedTeamStreak.completedToday).toEqual(true);
+            expect(updatedTeamStreak.currentStreak.numberOfDaysInARow).toEqual(1);
+            expect(updatedTeamStreak.currentStreak.startDate).toEqual(expect.any(String));
+            expect(Object.keys(updatedTeamStreak.currentStreak).sort()).toEqual(
+                ['numberOfDaysInARow', 'startDate'].sort(),
+            );
+            expect(updatedTeamStreak.pastStreaks.length).toEqual(0);
+            expect(Object.keys(updatedTeamStreak).sort()).toEqual(
+                [
+                    '_id',
+                    'status',
+                    'members',
+                    'creatorId',
+                    'streakName',
+                    'active',
+                    'completedToday',
+                    'currentStreak',
+                    'pastStreaks',
+                    'timezone',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                    'creator',
+                ].sort(),
+            );
+
+            const { creator } = updatedTeamStreak;
+            expect(creator._id).toBeDefined();
+            expect(creator.username).toEqual(username);
+            expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
         });
 
         test('user can incomplete a team member streak task after the first day of the streak', async () => {
@@ -136,7 +213,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 },
             });
 
-            // Group member streaks tasks must be completed before they can be incompleted.
+            // Team member streaks tasks must be completed before they can be incompleted.
             await streakoid.completeTeamMemberStreakTasks.create({
                 userId,
                 teamStreakId: newTeamStreak._id,
@@ -224,7 +301,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 });
             } catch (err) {
                 expect(err.response.status).toEqual(422);
-                expect(err.response.data.message).toEqual('Group member streak task has not been completed today.');
+                expect(err.response.data.message).toEqual('Team member streak task has not been completed today.');
                 expect(err.response.data.code).toEqual('422-04');
             }
         });
