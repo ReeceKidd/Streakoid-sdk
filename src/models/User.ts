@@ -8,11 +8,11 @@ interface User {
     username: string;
     membershipInformation: {
         isPayingMember: boolean;
-        becameAMember: string;
+        pastMemberships: PastSubscription[];
+        becameAMember?: string;
         currentMembership?: {
             startDate: string;
         };
-        pastMemberships: PastSubscription[];
     };
     email: string;
     userType: UserTypes;
