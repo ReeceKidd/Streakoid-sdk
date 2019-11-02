@@ -1,11 +1,19 @@
 import UserTypes from '../userTypes';
 import Friend from './Friend';
 import ProfileImages from './ProfileImages';
+import PastSubscription from './PastSubscription';
 
 interface User {
     _id: string;
     username: string;
-    isMember: boolean;
+    isPayingMember: boolean;
+    memberHistory: {
+        becameAMemberDate: string,
+        currentSubscription: {
+            startDate: string
+        }
+        pastSubscriptions: PastSubscription[]
+    }
     email: string;
     userType: UserTypes;
     timezone: string;
