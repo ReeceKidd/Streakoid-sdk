@@ -9,7 +9,7 @@ interface User {
     membershipInformation: {
         isPayingMember: boolean;
         becameAMember: string;
-        currentMembership: {
+        currentMembership?: {
             startDate: string;
         };
         pastMemberships: PastSubscription[];
