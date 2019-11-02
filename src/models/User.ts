@@ -6,8 +6,8 @@ import PastSubscription from './PastSubscription';
 interface User {
     _id: string;
     username: string;
-    isPayingMember: boolean;
-    memberHistory: {
+    membershipInformation: {
+        isPayingMember: boolean;
         becameAMember: string;
         currentMembership: {
             startDate: string;
