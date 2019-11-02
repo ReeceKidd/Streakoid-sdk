@@ -5,6 +5,7 @@ import ProfileImages from './ProfileImages';
 interface User {
     _id: string;
     username: string;
+    isMember: boolean;
     email: string;
     userType: UserTypes;
     timezone: string;
