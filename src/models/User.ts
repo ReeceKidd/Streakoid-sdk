@@ -8,12 +8,12 @@ interface User {
     username: string;
     isPayingMember: boolean;
     memberHistory: {
-        becameAMemberDate: string,
-        currentSubscription: {
-            startDate: string
-        }
-        pastSubscriptions: PastSubscription[]
-    }
+        becameAMember: string;
+        currentMembership: {
+            startDate: string;
+        };
+        pastMemberships: PastSubscription[];
+    };
     email: string;
     userType: UserTypes;
     timezone: string;
