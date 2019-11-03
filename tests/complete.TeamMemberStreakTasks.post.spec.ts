@@ -986,7 +986,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             });
         } catch (err) {
             expect(err.response.status).toEqual(422);
-            expect(err.response.data.message).toEqual('Group member streak task already completed today.');
+            expect(err.response.data.message).toEqual('Team member streak task already completed today.');
             expect(err.response.data.code).toEqual('422-03');
         }
     });

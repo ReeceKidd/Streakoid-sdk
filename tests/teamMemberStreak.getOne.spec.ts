@@ -85,7 +85,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             const { code, message, httpStatusCode } = data;
             expect(err.response.status).toEqual(400);
             expect(code).toEqual('400-34');
-            expect(message).toEqual('Group member streak does not exist.');
+            expect(message).toEqual('Team member streak does not exist.');
             expect(httpStatusCode).toEqual(400);
             expect(Object.keys(data).sort()).toEqual(['code', 'message', 'httpStatusCode'].sort());
         }

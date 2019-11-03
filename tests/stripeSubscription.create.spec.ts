@@ -40,8 +40,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test.only('takes users payment and subscribes them', async () => {
-        expect.assertions(13);
+    test('takes users payment and subscribes them', async () => {
+        expect.assertions(15);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -50,10 +50,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.stripe.subscription).toEqual(expect.any(String));
         expect(user.stripe.customer).toEqual(expect.any(String));
         expect(user.membershipInformation.isPayingMember).toEqual(true);
-        console.log(user.membershipInformation.currentMembershipStartDate);
         expect(user.membershipInformation.currentMembershipStartDate).toEqual(expect.any(String));
-        expect(Object.keys(user.membershipInformation.currentMembershipStartDate)).toEqual(['startDate']);
-        expect(Object.keys(user.membershipInformation)).toEqual(['isPayingMember', 'currentMembership']);
+        expect(Object.keys(user.membershipInformation)).toEqual(['isPayingMember', 'currentMembershipStartDate']);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -69,6 +67,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'stripe',
                 'userType',
                 'friends',
+                'membershipInformation',
                 '_id',
                 'username',
                 'email',

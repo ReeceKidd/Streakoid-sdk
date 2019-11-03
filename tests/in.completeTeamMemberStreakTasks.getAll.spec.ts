@@ -44,7 +44,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
         const teamMemberStreakId = teamMemberStreak._id;
 
-        // Group member streaks tasks must be completed before they can be incompleted.
+        // Team member streaks tasks must be completed before they can be incompleted.
         await streakoid.completeTeamMemberStreakTasks.create({
             userId,
             teamStreakId,
