@@ -4,7 +4,6 @@ import { getUser, streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { connectToDatabase } from './setup/connectToDatabase';
 import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
-import UserTypes from '../src/userTypes';
 import { email, username } from './setup/environment';
 
 jest.setTimeout(120000);
@@ -41,7 +40,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test('takes users payment and subscribes them', async () => {
+    test.only('takes users payment and subscribes them', async () => {
         expect.assertions(13);
         const user = await streakoid.stripe.createSubscription({
             token,
@@ -50,7 +49,11 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(expect.any(String));
         expect(user.stripe.customer).toEqual(expect.any(String));
-        expect(user.userType).toEqual(UserTypes.premium);
+        expect(user.membershipInformation.isPayingMember).toEqual(true);
+        console.log(user.membershipInformation.currentMembershipStartDate);
+        expect(user.membershipInformation.currentMembershipStartDate).toEqual(expect.any(String));
+        expect(Object.keys(user.membershipInformation.currentMembershipStartDate)).toEqual(['startDate']);
+        expect(Object.keys(user.membershipInformation)).toEqual(['isPayingMember', 'currentMembership']);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);

@@ -28,18 +28,14 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retreives user`, async () => {
-        expect.assertions(13);
+        expect.assertions(9);
 
         const user = await streakoid.users.getOne(userId);
 
-        expect(Object.keys(user.stripe).sort()).toEqual(['customer', 'subscription'].sort());
-        expect(user.stripe.subscription).toEqual(null);
-        expect(user.stripe.customer).toEqual(null);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toBeUndefined();
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -48,8 +44,8 @@ describe('GET /users/:userId', () => {
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
-                'stripe',
                 'userType',
+                'isPayingMember',
                 'friends',
                 '_id',
                 'username',
@@ -57,7 +53,6 @@ describe('GET /users/:userId', () => {
                 'profileImages',
                 'createdAt',
                 'updatedAt',
-                '__v',
             ].sort(),
         );
     });

@@ -9,10 +9,7 @@ interface User {
     membershipInformation: {
         isPayingMember: boolean;
         pastMemberships: PastSubscription[];
-        becameAMember?: string;
-        currentMembership?: {
-            startDate: string;
-        };
+        currentMembershipStartDate: Date | null;
     };
     email: string;
     userType: UserTypes;
