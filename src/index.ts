@@ -18,6 +18,7 @@ import PopulatedTeamMember from './models/PopulatedTeamMember';
 import SoloStreak from './models/SoloStreak';
 import StreakTrackingEvent from './models/StreakTrackingEvent';
 import User from './models/User';
+import FormattedUser from './models/FormattedUser';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
@@ -55,6 +56,7 @@ export {
     SoloStreak,
     StreakTrackingEvent,
     User,
+    FormattedUser,
     TeamStreak,
     PopulatedTeamStreak,
     SupportedRequestHeaders,

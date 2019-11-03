@@ -4,6 +4,7 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import User from './models/User';
 import { friends } from './friends';
+import { FormattedUser } from '.';
 
 export interface Users {
     getAll: ({
@@ -14,8 +15,8 @@ export interface Users {
         searchQuery?: string;
         username?: string;
         email?: string;
-    }) => Promise<User[]>;
-    getOne: (userId: string) => Promise<User>;
+    }) => Promise<FormattedUser[]>;
+    getOne: (userId: string) => Promise<FormattedUser>;
     create: ({ username, email }: { username: string; email: string }) => Promise<User>;
     update: ({
         userId,
@@ -38,7 +39,7 @@ const users = (streakoidClient: AxiosInstance): Users => {
         searchQuery?: string;
         username?: string;
         email?: string;
-    }): Promise<User[]> => {
+    }): Promise<FormattedUser[]> => {
         try {
             let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
             if (searchQuery) {
@@ -55,7 +56,7 @@ const users = (streakoidClient: AxiosInstance): Users => {
         }
     };
 
-    const getOne = async (userId: string): Promise<User> => {
+    const getOne = async (userId: string): Promise<FormattedUser> => {
         try {
             const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.users}/${userId}`);
             return data;
