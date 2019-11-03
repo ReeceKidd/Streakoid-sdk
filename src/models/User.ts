@@ -1,7 +1,7 @@
-import UserTypes from '../userTypes';
 import Friend from './Friend';
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
+import UserTypes from '../userTypes';
 
 interface User {
     _id: string;
