@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
 import { FriendRequestStatus } from '../src';
 import { username } from './setup/environment';
@@ -16,8 +17,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();
@@ -27,7 +28,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -47,7 +48,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         const friendRequest = friendRequests[0];
 
         expect(friendRequest._id).toEqual(expect.any(String));
-        expect(friendRequest.requestee._id).toEqual(userId);
+        expect(friendRequest.requestee._id).toBeDefined();
         expect(friendRequest.requestee.username).toEqual(username);
         expect(Object.keys(friendRequest.requestee).sort()).toEqual(['_id', 'username']);
         expect(friendRequest.requester._id).toEqual(friendId);
@@ -72,7 +73,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         const friendRequest = friendRequests[0];
 
         expect(friendRequest._id).toEqual(expect.any(String));
-        expect(friendRequest.requestee._id).toEqual(userId);
+        expect(friendRequest.requestee._id).toBeDefined();
         expect(friendRequest.requestee.username).toEqual(username);
         expect(Object.keys(friendRequest.requestee).sort()).toEqual(['_id', 'username']);
         expect(friendRequest.requester._id).toEqual(friendId);
@@ -97,7 +98,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         const friendRequest = friendRequests[0];
 
         expect(friendRequest._id).toEqual(expect.any(String));
-        expect(friendRequest.requestee._id).toEqual(userId);
+        expect(friendRequest.requestee._id).toBeDefined();
         expect(friendRequest.requestee.username).toEqual(username);
         expect(Object.keys(friendRequest.requestee).sort()).toEqual(['_id', 'username']);
         expect(friendRequest.requester._id).toEqual(friendId);

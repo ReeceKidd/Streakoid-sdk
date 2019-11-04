@@ -1,8 +1,9 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { username, originalImageUrl } from './setup/environment';
 import { StreakStatus } from '../src';
 import { getFriend } from './setup/getFriend';
@@ -17,8 +18,8 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();
@@ -28,7 +29,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
     test('lone user can incomplete a team member streak task for the first day of a streak.', async () => {
@@ -63,7 +64,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
         expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -120,7 +121,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -164,7 +165,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(false);
         expect(updatedTeamStreak.completedToday).toEqual(false);
@@ -243,7 +244,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(multipleDayTeamMemberStreak._id);
         expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(multipleDayTeamStreak._id);
         expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -300,7 +301,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -344,7 +345,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(false);
         expect(updatedTeamStreak.completedToday).toEqual(false);
@@ -440,7 +441,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             teamMemberStreakId: userTeamMemberStreak._id,
         });
         expect(incompleteTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(userTeamMemberStreak._id);
         expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -497,7 +498,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -541,7 +542,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(true);
         expect(updatedTeamStreak.completedToday).toEqual(false);
@@ -636,7 +637,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             teamMemberStreakId: multipleDayUserTeamMemberStreak._id,
         });
         expect(incompleteTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteTeamMemberStreakTask.teamMemberStreakId).toEqual(multipleDayUserTeamMemberStreak._id);
         expect(incompleteTeamMemberStreakTask.teamStreakId).toEqual(multipleDayStreak._id);
         expect(incompleteTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -693,7 +694,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -737,7 +738,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(true);
         expect(updatedTeamStreak.completedToday).toEqual(false);
@@ -802,7 +803,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteUserTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteUserTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteUserTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteUserTeamMemberStreakTask.teamMemberStreakId).toEqual(userTeamMemberStreak._id);
         expect(incompleteUserTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteUserTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -865,7 +866,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteFriendTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteFriendTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteFriendTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteFriendTeamMemberStreakTask.teamMemberStreakId).toEqual(friendTeamMemberStreak._id);
         expect(incompleteFriendTeamMemberStreakTask.teamStreakId).toEqual(teamStreakId);
         expect(incompleteFriendTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -924,7 +925,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -968,7 +969,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(false);
         expect(updatedTeamStreak.completedToday).toEqual(false);
@@ -1064,7 +1065,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteUserTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteUserTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteUserTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteUserTeamMemberStreakTask.teamMemberStreakId).toEqual(multipleDayUserTeamMemberStreak._id);
         expect(incompleteUserTeamMemberStreakTask.teamStreakId).toEqual(multipleDayStreak._id);
         expect(incompleteUserTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -1135,7 +1136,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(teamStreakAfterUserIncomplete.streakName).toEqual(streakName);
         expect(teamStreakAfterUserIncomplete.status).toEqual(StreakStatus.live);
-        expect(teamStreakAfterUserIncomplete.creatorId).toEqual(userId);
+        expect(teamStreakAfterUserIncomplete.creatorId).toBeDefined();
         expect(teamStreakAfterUserIncomplete.timezone).toEqual(londonTimezone);
         expect(teamStreakAfterUserIncomplete.active).toEqual(true);
         expect(teamStreakAfterUserIncomplete.completedToday).toEqual(false);
@@ -1171,7 +1172,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         expect(incompleteFriendTeamMemberStreakTask._id).toBeDefined();
-        expect(incompleteFriendTeamMemberStreakTask.userId).toEqual(userId);
+        expect(incompleteFriendTeamMemberStreakTask.userId).toBeDefined();
         expect(incompleteFriendTeamMemberStreakTask.teamMemberStreakId).toEqual(multipleDayFriendTeamMemberStreak._id);
         expect(incompleteFriendTeamMemberStreakTask.teamStreakId).toEqual(multipleDayStreak._id);
         expect(incompleteFriendTeamMemberStreakTask.taskIncompleteTime).toEqual(expect.any(String));
@@ -1232,7 +1233,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(incompleteTeamStreak._id).toBeDefined();
         expect(incompleteTeamStreak.teamStreakId).toEqual(multipleDayStreak._id);
-        expect(incompleteTeamStreak.userId).toEqual(userId);
+        expect(incompleteTeamStreak.userId).toBeDefined();
         expect(incompleteTeamStreak.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteTeamStreak.taskIncompleteDay).toEqual(expect.any(String));
         expect(incompleteTeamStreak.createdAt).toEqual(expect.any(String));
@@ -1276,7 +1277,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(false);
         expect(updatedTeamStreak.completedToday).toEqual(false);

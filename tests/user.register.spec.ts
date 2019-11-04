@@ -1,8 +1,8 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
@@ -15,19 +15,19 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
+            await setUpDatabase();
             streakoid = await streakoidTest();
         }
     });
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(13);
+        expect.assertions(17);
 
         const user = await streakoid.users.create({
             username,
@@ -37,6 +37,14 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
         expect(user.stripe.subscription).toEqual(null);
         expect(user.stripe.customer).toEqual(null);
+        expect(Object.keys(user.membershipInformation)).toEqual([
+            'isPayingMember',
+            'currentMembershipStartDate',
+            'pastMemberships',
+        ]);
+        expect(user.membershipInformation.isPayingMember).toEqual(false);
+        expect(user.membershipInformation.currentMembershipStartDate).toBeNull();
+        expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
@@ -51,6 +59,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user).sort()).toEqual(
             [
                 'stripe',
+                'membershipInformation',
                 'userType',
                 'friends',
                 '_id',

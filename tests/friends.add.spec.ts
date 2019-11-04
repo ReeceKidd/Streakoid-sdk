@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
 import { FriendRequestStatus } from '../src';
 import { username, originalImageUrl } from './setup/environment';
@@ -16,8 +17,8 @@ describe('POST /user/friends', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();
@@ -27,7 +28,7 @@ describe('POST /user/friends', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -73,7 +74,7 @@ describe('POST /user/friends', () => {
         const acceptedFriendRequest = friendRequests[0];
 
         expect(acceptedFriendRequest._id).toEqual(expect.any(String));
-        expect(acceptedFriendRequest.requestee._id).toEqual(userId);
+        expect(acceptedFriendRequest.requestee._id).toBeDefined();
         expect(acceptedFriendRequest.requestee.username).toEqual(username);
         expect(Object.keys(acceptedFriendRequest.requestee).sort()).toEqual(['_id', 'username']);
         expect(acceptedFriendRequest.requester._id).toEqual(friendId);

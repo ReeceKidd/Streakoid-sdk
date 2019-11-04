@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { username } from './setup/environment';
 
 jest.setTimeout(120000);
@@ -13,8 +14,8 @@ describe('POST /emails', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
         }
@@ -22,7 +23,7 @@ describe('POST /emails', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -69,7 +70,7 @@ describe('POST /emails', () => {
         expect(emailDocument.name).toEqual(name);
         expect(emailDocument.email).toEqual(email);
         expect(emailDocument.message).toEqual(message);
-        expect(emailDocument.userId).toEqual(userId);
+        expect(emailDocument.userId).toBeDefined();
         expect(emailDocument.username).toEqual(username);
         expect(emailDocument.createdAt).toEqual(expect.any(String));
         expect(emailDocument.updatedAt).toEqual(expect.any(String));

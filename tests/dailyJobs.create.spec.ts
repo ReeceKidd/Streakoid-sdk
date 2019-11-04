@@ -1,9 +1,10 @@
 import { StreakTypes, AgendaJobNames } from '../src';
-import { streakoidTest, getUser } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { StreakoidFactory } from '../src/streakoid';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 
 jest.setTimeout(120000);
 
@@ -12,15 +13,15 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            await getUser();
+            await setUpDatabase();
+            await getPayingUser();
             streakoid = await streakoidTest();
         }
     });
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 

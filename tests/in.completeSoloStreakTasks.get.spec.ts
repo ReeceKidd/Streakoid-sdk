@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 
 jest.setTimeout(120000);
 
@@ -13,8 +14,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
         }
@@ -22,7 +23,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -56,7 +57,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         const incompleteSoloStreakTask = incompleteSoloStreakTasks[0];
 
         expect(incompleteSoloStreakTask._id).toEqual(expect.any(String));
-        expect(incompleteSoloStreakTask.userId).toEqual(userId);
+        expect(incompleteSoloStreakTask.userId).toBeDefined();
         expect(incompleteSoloStreakTask.streakId).toEqual(soloStreakId);
         expect(incompleteSoloStreakTask.taskIncompleteTime).toEqual(expect.any(String));
         expect(incompleteSoloStreakTask.taskIncompleteDay).toEqual(expect.any(String));

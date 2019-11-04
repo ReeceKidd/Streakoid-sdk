@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
 
@@ -14,8 +15,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
         }
@@ -23,12 +24,12 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(13);
+        expect.assertions(17);
 
         const updatedTimezone = 'Europe/Paris';
 
@@ -42,6 +43,14 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(updatedUser.stripe)).toEqual(['customer', 'subscription']);
         expect(updatedUser.stripe.subscription).toEqual(null);
         expect(updatedUser.stripe.customer).toEqual(null);
+        expect(Object.keys(updatedUser.membershipInformation)).toEqual([
+            'isPayingMember',
+            'currentMembershipStartDate',
+            'pastMemberships',
+        ]);
+        expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
+        expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
+        expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(updatedUser.friends).toEqual([]);
         expect(updatedUser._id).toEqual(expect.any(String));
@@ -56,6 +65,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(updatedUser).sort()).toEqual(
             [
                 'stripe',
+                'membershipInformation',
                 'userType',
                 'friends',
                 '_id',

@@ -1,8 +1,8 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { AgendaJobNames, StreakTypes } from '../src';
 
 jest.setTimeout(120000);
@@ -15,7 +15,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
+            await setUpDatabase();
             streakoid = await streakoidTest();
             await streakoid.dailyJobs.create({
                 agendaJobId,
@@ -29,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 

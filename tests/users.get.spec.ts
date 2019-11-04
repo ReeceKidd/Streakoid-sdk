@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { streakoidTest, getUser } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { email, username } from './setup/environment';
 
@@ -13,15 +14,15 @@ describe('GET /users', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            await getUser();
+            await setUpDatabase();
+            await getPayingUser();
             streakoid = await streakoidTest();
         }
     });
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -34,7 +35,8 @@ describe('GET /users', () => {
         const user = users[0];
 
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.isPayingMember).toEqual(false), expect(user.friends).toEqual(expect.any(Array));
+        expect(user.isPayingMember).toEqual(true);
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -66,7 +68,7 @@ describe('GET /users', () => {
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.isPayingMember).toEqual(false);
+        expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -99,7 +101,7 @@ describe('GET /users', () => {
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.isPayingMember).toEqual(false);
+        expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -132,7 +134,7 @@ describe('GET /users', () => {
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.isPayingMember).toEqual(false);
+        expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -165,7 +167,7 @@ describe('GET /users', () => {
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.isPayingMember).toEqual(false);
+        expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);

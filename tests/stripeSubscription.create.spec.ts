@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { email, username } from './setup/environment';
+import { getUser } from './setup/getUser';
 
 jest.setTimeout(120000);
 
@@ -20,7 +21,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
+            await setUpDatabase();
             const user = await getUser();
             userId = user._id;
             streakoid = await streakoidTest();
@@ -36,12 +37,12 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterEach(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(15);
+        expect.assertions(16);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -51,7 +52,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.stripe.customer).toEqual(expect.any(String));
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.currentMembershipStartDate).toEqual(expect.any(String));
-        expect(Object.keys(user.membershipInformation)).toEqual(['isPayingMember', 'currentMembershipStartDate']);
+        expect(user.membershipInformation.pastMemberships).toEqual([]);
+        expect(Object.keys(user.membershipInformation)).toEqual([
+            'isPayingMember',
+            'currentMembershipStartDate',
+            'pastMemberships',
+        ]);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);

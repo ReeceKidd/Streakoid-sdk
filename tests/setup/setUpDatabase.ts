@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { databaseUri } from './environment';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const connectToDatabase = async (): Promise<any> => {
+const setUpDatabase = async (): Promise<any> => {
     await mongoose.connect(databaseUri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -11,4 +11,4 @@ const connectToDatabase = async (): Promise<any> => {
     return mongoose.connection.dropDatabase();
 };
 
-export { connectToDatabase };
+export { setUpDatabase };

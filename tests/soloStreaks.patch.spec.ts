@@ -1,8 +1,9 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
@@ -15,8 +16,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
         }
@@ -24,7 +25,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -52,7 +53,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedSoloStreak.streakName).toEqual(updatedName);
         expect(updatedSoloStreak.status).toEqual(StreakStatus.live);
         expect(updatedSoloStreak.streakDescription).toEqual(updatedDescription);
-        expect(updatedSoloStreak.userId).toEqual(userId);
+        expect(updatedSoloStreak.userId).toBeDefined();
         expect(updatedSoloStreak.completedToday).toEqual(false);
         expect(updatedSoloStreak.active).toEqual(false);
         expect(updatedSoloStreak.pastStreaks).toEqual([]);

@@ -1,8 +1,9 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
@@ -17,8 +18,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
         }
@@ -26,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -46,7 +47,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(status).toEqual(StreakStatus.live);
         expect(soloStreak.streakDescription).toEqual(streakDescription);
         expect(soloStreak.numberOfMinutes).toEqual(numberOfMinutes);
-        expect(soloStreak.userId).toEqual(userId);
+        expect(soloStreak.userId).toBeDefined();
         expect(_id).toBeDefined();
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(currentStreak.numberOfDaysInARow).toEqual(0);
@@ -100,7 +101,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(status).toEqual(StreakStatus.live);
         expect(numberOfMinutes).toEqual(undefined);
         expect(streakDescription).toEqual('');
-        expect(soloStreak.userId).toEqual(userId);
+        expect(soloStreak.userId).toBeDefined();
         expect(_id).toBeDefined();
         expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(currentStreak.numberOfDaysInARow).toEqual(0);

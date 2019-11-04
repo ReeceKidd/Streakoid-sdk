@@ -1,11 +1,12 @@
 import { StreakoidFactory } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
 import { FriendRequestStatus } from '../src';
 import { username } from './setup/environment';
+import { getPayingUser } from './setup/getPayingUser';
 
 jest.setTimeout(120000);
 
@@ -16,8 +17,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();
@@ -27,7 +28,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     afterEach(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -40,7 +41,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
 
         expect(friendRequest._id).toEqual(expect.any(String));
-        expect(friendRequest.requester._id).toEqual(userId);
+        expect(friendRequest.requester._id).toBeDefined();
         expect(friendRequest.requester.username).toEqual(username);
         expect(Object.keys(friendRequest.requester).sort()).toEqual(['_id', 'username']);
         expect(friendRequest.requestee._id).toEqual(friendId);

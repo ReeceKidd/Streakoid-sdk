@@ -1,8 +1,9 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
-import { getUser, streakoidTest } from './setup/streakoidTest';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
-import { connectToDatabase } from './setup/connectToDatabase';
-import { disconnectFromDatabase } from './setup/disconnectFromDatabase';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 import { getFriend } from './setup/getFriend';
 import { username, originalImageUrl } from './setup/environment';
@@ -17,8 +18,8 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await connectToDatabase();
-            const user = await getUser();
+            await setUpDatabase();
+            const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();
@@ -28,7 +29,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
     afterAll(async () => {
         if (isTestEnvironment()) {
-            await disconnectFromDatabase();
+            await tearDownDatabase();
         }
     });
 
@@ -55,7 +56,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId: teamMemberStreak._id,
         });
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreak._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreak._id);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -146,7 +147,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         });
 
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreak._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakWithCurrentStreak._id);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -224,7 +225,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId,
         });
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreakWithOneMember._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -318,7 +319,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(true);
         expect(updatedTeamStreak.completedToday).toEqual(true);
@@ -388,7 +389,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId,
         });
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreakWithCurrentStreak._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(teamMemberStreakId);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -482,7 +483,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         expect(updatedTeamStreak.streakName).toEqual(streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(updatedTeamStreak.creatorId).toEqual(userId);
+        expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
         expect(updatedTeamStreak.active).toEqual(true);
         expect(updatedTeamStreak.completedToday).toEqual(true);
@@ -547,7 +548,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId: userTeamMemberStreakId,
         });
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreakWithTwoMembers._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(userTeamMemberStreakId);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -641,7 +642,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(unaffectedTeamStreak.members.length).toEqual(2);
         expect(unaffectedTeamStreak.streakName).toEqual(streakName);
         expect(unaffectedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(unaffectedTeamStreak.creatorId).toEqual(userId);
+        expect(unaffectedTeamStreak.creatorId).toBeDefined();
         expect(unaffectedTeamStreak.timezone).toEqual(londonTimezone);
         expect(unaffectedTeamStreak.active).toEqual(true);
         expect(unaffectedTeamStreak.completedToday).toEqual(false);
@@ -718,7 +719,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId: userTeamMemberStreakId,
         });
         expect(completeTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeTeamMemberStreakTask.userId).toBeDefined();
         expect(completeTeamMemberStreakTask.teamStreakId).toEqual(teamStreakWithCurrentStreak._id);
         expect(completeTeamMemberStreakTask.teamMemberStreakId).toEqual(userTeamMemberStreakId);
         expect(completeTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
@@ -812,7 +813,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(unaffectedTeamStreak.members.length).toEqual(2);
         expect(unaffectedTeamStreak.streakName).toEqual(streakName);
         expect(unaffectedTeamStreak.status).toEqual(StreakStatus.live);
-        expect(unaffectedTeamStreak.creatorId).toEqual(userId);
+        expect(unaffectedTeamStreak.creatorId).toBeDefined();
         expect(unaffectedTeamStreak.timezone).toEqual(londonTimezone);
         expect(unaffectedTeamStreak.active).toEqual(true);
         expect(unaffectedTeamStreak.completedToday).toEqual(false);
@@ -888,7 +889,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             teamMemberStreakId: readingTeamMemberStreakId,
         });
         expect(completeReadingTeamMemberStreakTask._id).toEqual(expect.any(String));
-        expect(completeReadingTeamMemberStreakTask.userId).toEqual(userId);
+        expect(completeReadingTeamMemberStreakTask.userId).toBeDefined();
         expect(completeReadingTeamMemberStreakTask.teamStreakId).toEqual(readingTeamStreak._id);
         expect(completeReadingTeamMemberStreakTask.teamMemberStreakId).toEqual(readingTeamMemberStreakId);
         expect(completeReadingTeamMemberStreakTask.taskCompleteTime).toEqual(expect.any(String));
