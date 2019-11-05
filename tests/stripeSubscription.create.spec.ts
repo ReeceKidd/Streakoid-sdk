@@ -42,7 +42,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(16);
+        expect.assertions(18);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -66,6 +66,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.pushNotificationToken).toBeNull();
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -79,6 +81,8 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'email',
                 'timezone',
                 'profileImages',
+                'pushNotificationToken',
+                'endpointArn',
                 'createdAt',
                 'updatedAt',
                 '__v',

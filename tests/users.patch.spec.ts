@@ -29,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(17);
+        expect.assertions(19);
 
         const updatedTimezone = 'Europe/Paris';
 
@@ -60,6 +60,8 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(updatedUser.pushNotificationToken).toBeNull();
+        expect(updatedUser.endpointArn).toBeNull();
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
@@ -71,6 +73,8 @@ describe('GET /complete-solo-streak-tasks', () => {
                 '_id',
                 'timezone',
                 'profileImages',
+                'pushNotificationToken',
+                'endpointArn',
                 'username',
                 'createdAt',
                 'updatedAt',
