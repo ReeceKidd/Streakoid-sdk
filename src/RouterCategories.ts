@@ -19,7 +19,7 @@ enum RouterCategories {
     dailyJobs = 'daily-jobs',
     emails = 'emails',
     profileImages = 'profile-images',
-    pushNotifications = 'push-notifications',
+    registerDeviceForNotifications = 'register-device-for-notifications',
 }
 
 export default RouterCategories;

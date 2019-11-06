@@ -12,7 +12,7 @@ const streakName = 'Daily Spanish';
 const streakDescription = 'I must do 30 minutes of Spanish everyday';
 const numberOfMinutes = 30;
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('POST /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
