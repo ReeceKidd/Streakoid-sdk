@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import mongoose from 'mongoose';
+
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
@@ -6,6 +8,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { email, username } from './setup/environment';
 import { getUser } from './setup/getUser';
+import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
@@ -42,35 +45,62 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(18);
+        expect.assertions(28);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
         });
-        expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
-        expect(user.stripe.subscription).toEqual(expect.any(String));
-        expect(user.stripe.customer).toEqual(expect.any(String));
-        expect(user.membershipInformation.isPayingMember).toEqual(true);
-        expect(user.membershipInformation.currentMembershipStartDate).toEqual(expect.any(String));
-        expect(user.membershipInformation.pastMemberships).toEqual([]);
-        expect(Object.keys(user.membershipInformation)).toEqual([
-            'isPayingMember',
-            'currentMembershipStartDate',
-            'pastMemberships',
-        ]);
+        expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
         expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
+            [
+                'userType',
+                'isPayingMember',
+                'friends',
+                '_id',
+                'username',
+                'timezone',
+                'profileImages',
+                'createdAt',
+                'updatedAt',
+                'endpointArn',
+            ].sort(),
+        );
+
+        const databaseUser = await mongoose.connection.db.collection('Users').findOne({ username });
+        expect(Object.keys(databaseUser.stripe)).toEqual(['customer', 'subscription']);
+        expect(databaseUser.stripe.subscription).toEqual(expect.any(String));
+        expect(databaseUser.stripe.customer).toEqual(expect.any(String));
+        expect(databaseUser.membershipInformation.isPayingMember).toEqual(true);
+        expect(databaseUser.membershipInformation.currentMembershipStartDate).toBeDefined();
+        expect(databaseUser.membershipInformation.pastMemberships).toEqual([]);
+        expect(Object.keys(databaseUser.membershipInformation)).toEqual([
+            'isPayingMember',
+            'currentMembershipStartDate',
+            'pastMemberships',
+        ]);
+        expect(databaseUser.friends).toEqual([]);
+        expect(databaseUser._id).toBeDefined();
+        expect(databaseUser.username).toEqual(username);
+        expect(databaseUser.email).toEqual(email);
+        expect(databaseUser.timezone).toEqual(londonTimezone);
+        expect(databaseUser.profileImages).toEqual({
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
+        expect(databaseUser.pushNotificationToken).toBeNull();
+        expect(databaseUser.endpointArn).toBeNull();
+        expect(databaseUser.createdAt).toBeDefined();
+        expect(databaseUser.updatedAt).toBeDefined();
+        expect(Object.keys(databaseUser).sort()).toEqual(
             [
                 'stripe',
                 'userType',
