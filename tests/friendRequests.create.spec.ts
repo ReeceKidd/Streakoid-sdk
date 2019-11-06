@@ -6,7 +6,7 @@ import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend, friendUsername } from './setup/getFriend';
 import { FriendRequestStatus } from '../src';
 import { username } from './setup/environment';
-import { getPayingUser } from './setup/getPayingUser';
+import { getUserWithPushNotificationsEnabled } from './setup/getUserWithPushNotificationsEnabled';
 
 jest.setTimeout(120000);
 
@@ -18,7 +18,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
+            const user = await getUserWithPushNotificationsEnabled();
             userId = user._id;
             streakoid = await streakoidTest();
             const friend = await getFriend();

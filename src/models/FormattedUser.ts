@@ -12,6 +12,7 @@ interface FormattedUser {
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
+    endpointArn: string;
 }
 
 export default FormattedUser;
