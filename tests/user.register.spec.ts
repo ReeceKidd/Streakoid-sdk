@@ -27,53 +27,37 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(19);
+        expect.assertions(11);
 
         const user = await streakoid.users.create({
             username,
             email,
         });
 
-        expect(Object.keys(user.stripe)).toEqual(['customer', 'subscription']);
-        expect(user.stripe.subscription).toEqual(null);
-        expect(user.stripe.customer).toEqual(null);
-        expect(Object.keys(user.membershipInformation)).toEqual([
-            'isPayingMember',
-            'currentMembershipStartDate',
-            'pastMemberships',
-        ]);
-        expect(user.membershipInformation.isPayingMember).toEqual(false);
-        expect(user.membershipInformation.currentMembershipStartDate).toBeNull();
-        expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
-        expect(user.email).toEqual(email);
         expect(user.timezone).toEqual('Europe/London');
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.isPayingMember).toBe(false);
         expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
-                'stripe',
-                'membershipInformation',
                 'userType',
                 'friends',
                 '_id',
                 'timezone',
                 'username',
-                'email',
+                'isPayingMember',
                 'profileImages',
-                'pushNotificationToken',
                 'endpointArn',
                 'createdAt',
                 'updatedAt',
-                '__v',
             ].sort(),
         );
     });

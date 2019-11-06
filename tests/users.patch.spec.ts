@@ -29,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(19);
+        expect.assertions(20);
 
         const updatedTimezone = 'Europe/Paris';
 
@@ -40,45 +40,29 @@ describe('GET /complete-solo-streak-tasks', () => {
             },
         });
 
-        expect(Object.keys(updatedUser.stripe)).toEqual(['customer', 'subscription']);
-        expect(updatedUser.stripe.subscription).toEqual(null);
-        expect(updatedUser.stripe.customer).toEqual(null);
-        expect(Object.keys(updatedUser.membershipInformation)).toEqual([
-            'isPayingMember',
-            'currentMembershipStartDate',
-            'pastMemberships',
-        ]);
-        expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
-        expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(updatedUser.friends).toEqual([]);
         expect(updatedUser._id).toEqual(expect.any(String));
         expect(updatedUser.username).toEqual(username);
-        expect(updatedUser.email).toBeUndefined();
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(updatedUser.pushNotificationToken).toBeNull();
         expect(updatedUser.endpointArn).toBeNull();
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
             [
-                'stripe',
-                'membershipInformation',
                 'userType',
                 'friends',
                 '_id',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'isPayingMember',
                 'endpointArn',
                 'username',
                 'createdAt',
                 'updatedAt',
-                '__v',
             ].sort(),
         );
     });

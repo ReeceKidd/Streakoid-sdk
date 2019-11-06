@@ -8,11 +8,16 @@ const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
         username,
         email,
     });
-    const user = await mongoose.connection.db.collection('Users').findOne({});
+    const user = await mongoose.connection.db.collection('Users').findOne({ username });
     const updatedUser = await mongoose.connection.db.collection('Users').findOneAndUpdate(
         { _id: user._id },
         {
             $set: {
+                membershipInformation: {
+                    ...user.membershipInformation,
+                    isPayingMember: true,
+                    currentMembershipStartDate: new Date(),
+                },
                 endpointArn: `ExponentPushToken[oUwWRuBBN99CrfQwZs509b]`,
             },
         },

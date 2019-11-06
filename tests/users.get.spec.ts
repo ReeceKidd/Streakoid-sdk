@@ -27,7 +27,7 @@ describe('GET /users', () => {
     });
 
     test(`returns all users when no searchTerm is used`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({});
         expect(users.length).toBeGreaterThanOrEqual(1);
@@ -43,12 +43,14 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 'userType',
                 'isPayingMember',
+                'endpointArn',
                 'friends',
                 '_id',
                 'username',
@@ -61,7 +63,7 @@ describe('GET /users', () => {
     });
 
     test(`returns user when full searchTerm is used`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: username });
         expect(users.length).toBeGreaterThanOrEqual(1);
@@ -69,19 +71,21 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.friends).toEqual([]);
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 'userType',
                 'isPayingMember',
+                'endpointArn',
                 'friends',
                 '_id',
                 'username',
@@ -94,7 +98,7 @@ describe('GET /users', () => {
     });
 
     test('returns user when partial searchTerm is used', async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: 'tes' });
         expect(users.length).toBeGreaterThanOrEqual(1);
@@ -102,19 +106,21 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.friends).toEqual([]);
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 'userType',
                 'isPayingMember',
+                'endpointArn',
                 'friends',
                 '_id',
                 'username',
@@ -127,7 +133,7 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when username query paramater is used', async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ username });
         expect(users.length).toBeGreaterThanOrEqual(1);
@@ -135,19 +141,21 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.friends).toEqual([]);
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 'userType',
                 'isPayingMember',
+                'endpointArn',
                 'friends',
                 '_id',
                 'username',
@@ -160,7 +168,7 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when email query paramater is used', async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ email });
         expect(users.length).toBeGreaterThanOrEqual(1);
@@ -168,19 +176,21 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.friends).toEqual([]);
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 'userType',
                 'isPayingMember',
+                'endpointArn',
                 'friends',
                 '_id',
                 'username',

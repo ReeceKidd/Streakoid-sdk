@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import User from './models/User';
 import { friends } from './friends';
 import { FormattedUser } from '.';
 
@@ -17,7 +16,7 @@ export interface Users {
         email?: string;
     }) => Promise<FormattedUser[]>;
     getOne: (userId: string) => Promise<FormattedUser>;
-    create: ({ username, email }: { username: string; email: string }) => Promise<User>;
+    create: ({ username, email }: { username: string; email: string }) => Promise<FormattedUser>;
     update: ({
         userId,
         updateData,
@@ -26,7 +25,7 @@ export interface Users {
         updateData?: {
             timezone?: string;
         };
-    }) => Promise<User>;
+    }) => Promise<FormattedUser>;
     friends: ReturnType<typeof friends>;
 }
 
@@ -65,7 +64,7 @@ const users = (streakoidClient: AxiosInstance): Users => {
         }
     };
 
-    const create = async ({ username, email }: { username: string; email: string }): Promise<User> => {
+    const create = async ({ username, email }: { username: string; email: string }): Promise<FormattedUser> => {
         try {
             const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.users}`, {
                 username,
@@ -85,7 +84,7 @@ const users = (streakoidClient: AxiosInstance): Users => {
         updateData?: {
             timezone?: string;
         };
-    }): Promise<User> => {
+    }): Promise<FormattedUser> => {
         try {
             const { data } = await streakoidClient.patch(
                 `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`,

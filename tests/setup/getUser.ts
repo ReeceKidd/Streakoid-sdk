@@ -1,8 +1,8 @@
 import { username, email } from './environment';
 import { streakoid } from '../../src/streakoid';
-import { User } from '../../src';
+import { FormattedUser } from '../../src';
 
-const getUser = async (): Promise<User> => {
+const getUser = async (): Promise<FormattedUser> => {
     return streakoid.users.create({
         username,
         email,
