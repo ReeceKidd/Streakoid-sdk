@@ -13,18 +13,18 @@ describe(`SDK ${RouterCategories.registerDeviceForNotifications}`, () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const token = 'token';
+            const pushNotificationToken = 'token';
             const userId = 'userId';
             const platform = 'android';
 
             await streakoid.registerDeviceForNotifications.create({
-                token,
+                pushNotificationToken,
                 userId,
                 platform,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/register-device-for-notifications`, {
-                token,
+                pushNotificationToken,
                 userId,
                 platform,
             });

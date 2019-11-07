@@ -5,11 +5,11 @@ import RouterCategories from './RouterCategories';
 
 const registerDeviceForNotifications = (streakoidClient: AxiosInstance) => {
     const create = async ({
-        token,
+        pushNotificationToken,
         userId,
         platform,
     }: {
-        token: string;
+        pushNotificationToken: string;
         userId: string;
         platform: string;
     }): Promise<void> => {
@@ -17,7 +17,7 @@ const registerDeviceForNotifications = (streakoidClient: AxiosInstance) => {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.registerDeviceForNotifications}`,
                 {
-                    token,
+                    pushNotificationToken,
                     userId,
                     platform,
                 },
