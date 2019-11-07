@@ -12,6 +12,7 @@ interface FormattedUser {
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
+    pushNotificationToken: string;
 }
 
 export default FormattedUser;
