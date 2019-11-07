@@ -12,7 +12,7 @@ const registerDeviceForNotifications = (streakoidClient: AxiosInstance) => {
         token: string;
         userId: string;
         platform: string;
-    }): Promise<{ endpointArn: string }> => {
+    }): Promise<void> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.registerDeviceForNotifications}`,

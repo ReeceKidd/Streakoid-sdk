@@ -18,7 +18,6 @@ const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
                     isPayingMember: true,
                     currentMembershipStartDate: new Date(),
                 },
-                endpointArn: `ExponentPushToken[oUwWRuBBN99CrfQwZs509b]`,
             },
         },
     );

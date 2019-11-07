@@ -32,7 +32,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test(`creates friend request`, async () => {
+    test.only(`creates friend request`, async () => {
         expect.assertions(11);
 
         const friendRequest = await streakoid.friendRequests.create({
@@ -55,40 +55,28 @@ describe('GET /complete-solo-streak-tasks', () => {
         );
     });
 
-    test.only(`cannot send a friend request to someone who is already a friend`, async () => {
+    test(`cannot send a friend request to someone who is already a friend`, async () => {
         expect.assertions(3);
 
-        try {
-            console.log(friendId, userId);
+        await streakoid.friendRequests.create({
+            requesterId: friendId,
+            requesteeId: userId,
+        });
 
+        await streakoid.users.friends.addFriend({
+            userId,
+            friendId,
+        });
+
+        try {
             await streakoid.friendRequests.create({
                 requesterId: friendId,
                 requesteeId: userId,
             });
-
-            console.log(1);
-
-            await streakoid.users.friends.addFriend({
-                userId,
-                friendId,
-            });
-
-            console.log(2);
-
-            try {
-                await streakoid.friendRequests.create({
-                    requesterId: friendId,
-                    requesteeId: userId,
-                });
-                console.log('Success');
-            } catch (err) {
-                console.log(err);
-                expect(err.response.status).toEqual(400);
-                expect(err.response.data.message).toEqual('Requestee is already a friend.');
-                expect(err.response.data.code).toEqual('400-46');
-            }
         } catch (err) {
-            console.log(err);
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual('Requestee is already a friend.');
+            expect(err.response.data.code).toEqual('400-46');
         }
     });
 

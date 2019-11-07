@@ -23,7 +23,6 @@ interface User {
     updatedAt: string;
     profileImages: ProfileImages;
     pushNotificationToken: string;
-    endpointArn: string;
 }
 
 export default User;

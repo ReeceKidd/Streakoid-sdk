@@ -29,7 +29,7 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retreives user`, async () => {
-        expect.assertions(10);
+        expect.assertions(9);
 
         const user = await streakoid.users.getOne(userId);
 
@@ -41,7 +41,6 @@ describe('GET /users/:userId', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.endpointArn).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -55,7 +54,6 @@ describe('GET /users/:userId', () => {
                 'profileImages',
                 'createdAt',
                 'updatedAt',
-                'endpointArn',
             ].sort(),
         );
     });
