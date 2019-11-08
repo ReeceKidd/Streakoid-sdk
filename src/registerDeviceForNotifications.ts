@@ -14,6 +14,8 @@ const registerDeviceForNotifications = (streakoidClient: AxiosInstance) => {
         platform: string;
     }): Promise<void> => {
         try {
+            console.log('Register device for notification');
+            console.log(pushNotificationToken, userId, platform);
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.registerDeviceForNotifications}`,
                 {
