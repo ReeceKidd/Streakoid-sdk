@@ -8,7 +8,7 @@ import { getPayingUser } from './setup/getPayingUser';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('GET /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     const streakName = 'Daily Spanish';
