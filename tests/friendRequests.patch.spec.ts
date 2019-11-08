@@ -49,7 +49,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(rejectedFriendRequest.requestee._id).toBeDefined();
         expect(rejectedFriendRequest.requestee.username).toEqual(username);
         expect(Object.keys(rejectedFriendRequest.requestee).sort()).toEqual(['_id', 'username']);
-        expect(rejectedFriendRequest.requester._id).toEqual(friendId);
+        expect(rejectedFriendRequest.requester._id).toBeDefined();
         expect(rejectedFriendRequest.requester.username).toEqual(friendUsername);
         expect(Object.keys(rejectedFriendRequest.requester).sort()).toEqual(['_id', 'username']);
         expect(rejectedFriendRequest.status).toEqual(FriendRequestStatus.rejected);

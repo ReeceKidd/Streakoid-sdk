@@ -43,6 +43,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.isPayingMember).toBe(false);
+        expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -54,6 +55,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'username',
                 'isPayingMember',
                 'profileImages',
+                'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
             ].sort(),
