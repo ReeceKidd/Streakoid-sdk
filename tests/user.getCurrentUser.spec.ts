@@ -42,10 +42,10 @@ describe('GET /users/:userId', () => {
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(['completeSoloStreaksReminder'].sort());
         expect(Object.keys(user.notifications.completeSoloStreaksReminder).sort()).toEqual(
-            ['email', 'phone', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
         expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
-        expect(user.notifications.completeSoloStreaksReminder.phoneNotification).toEqual(false);
+        expect(user.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
         expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
         expect(user.friends).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);

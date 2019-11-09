@@ -45,7 +45,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(27);
+        expect.assertions(31);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -96,6 +96,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(databaseUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(Object.keys(databaseUser.notifications.completeSoloStreaksReminder).sort()).toEqual(
+            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+        );
+        expect(databaseUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
+        expect(databaseUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.createdAt).toBeDefined();
         expect(databaseUser.updatedAt).toBeDefined();
@@ -110,6 +116,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'email',
                 'timezone',
                 'profileImages',
+                'notifications',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
