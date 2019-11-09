@@ -5,31 +5,7 @@ import RouterCategories from './RouterCategories';
 import { friends } from './friends';
 import { FormattedUser } from '.';
 
-export interface Users {
-    getAll: ({
-        searchQuery,
-        username,
-        email,
-    }: {
-        searchQuery?: string;
-        username?: string;
-        email?: string;
-    }) => Promise<FormattedUser[]>;
-    getOne: (userId: string) => Promise<FormattedUser>;
-    create: ({ username, email }: { username: string; email: string }) => Promise<FormattedUser>;
-    update: ({
-        userId,
-        updateData,
-    }: {
-        userId: string;
-        updateData?: {
-            timezone?: string;
-        };
-    }) => Promise<FormattedUser>;
-    friends: ReturnType<typeof friends>;
-}
-
-const users = (streakoidClient: AxiosInstance): Users => {
+const users = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         searchQuery,
         username,

@@ -4,7 +4,8 @@ import { completeTeamMemberStreakTasks } from './completeTeamMemberStreakTasks';
 import { incompleteTeamMemberStreakTasks } from './incompleteTeamMemberStreakTasks';
 import { soloStreaks } from './soloStreaks';
 import { stripe } from './stripe';
-import { users, Users } from './users';
+import { users } from './users';
+import { user } from './user';
 import { teamStreaks, TeamStreaks } from './teamStreaks';
 import { streakTrackingEvents } from './streakTrackingEvents';
 import { feedbacks } from './feedbacks';
@@ -35,7 +36,8 @@ export interface StreakoidFactory {
     incompleteTeamStreaks: ReturnType<typeof incompleteTeamStreaks>;
     soloStreaks: ReturnType<typeof soloStreaks>;
     stripe: ReturnType<typeof stripe>;
-    users: Users;
+    users: ReturnType<typeof users>;
+    user: ReturnType<typeof user>;
     teamStreaks: TeamStreaks;
     streakTrackingEvents: ReturnType<typeof streakTrackingEvents>;
     feedbacks: ReturnType<typeof feedbacks>;
@@ -57,6 +59,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         soloStreaks: soloStreaks(streakoidClient),
         stripe: stripe(streakoidClient),
         users: users(streakoidClient),
+        user: user(streakoidClient),
         teamStreaks: teamStreaks(streakoidClient),
         streakTrackingEvents: streakTrackingEvents(streakoidClient),
         feedbacks: feedbacks(streakoidClient),

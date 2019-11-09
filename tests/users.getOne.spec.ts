@@ -33,10 +33,10 @@ describe('GET /users/:userId', () => {
 
         const user = await streakoid.users.getOne(userId);
 
-        expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
+        expect(user.userType).toEqual(UserTypes.basic);
+        expect(user.friends).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

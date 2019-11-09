@@ -10,7 +10,6 @@ export enum stripeRouterPaths {
     deleteSubscriptions = 'delete-subscriptions',
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const stripe = (streakoidClient: AxiosInstance) => {
     const createSubscription = async ({ token, userId }: { token: Token; userId: string }): Promise<FormattedUser> => {
         try {

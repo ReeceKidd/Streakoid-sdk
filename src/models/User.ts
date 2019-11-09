@@ -15,6 +15,13 @@ interface User {
     userType: UserTypes;
     timezone: string;
     friends: Friend[];
+    notifications: {
+        completeSoloStreaksReminder: {
+            email: boolean;
+            phone: boolean;
+            reminderTime: string;
+        };
+    };
     stripe: {
         customer: string;
         subscription: string;

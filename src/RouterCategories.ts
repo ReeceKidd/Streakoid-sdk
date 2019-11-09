@@ -2,6 +2,7 @@ enum RouterCategories {
     agendaJobs = 'agenda-jobs',
     feedbacks = 'feedbacks',
     users = 'users',
+    user = 'user',
     soloStreaks = 'solo-streaks',
     teamStreaks = 'team-streaks',
     completeSoloStreakTasks = 'complete-solo-streak-tasks',

@@ -18,6 +18,7 @@ const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
                     isPayingMember: true,
                     currentMembershipStartDate: new Date(),
                 },
+                pushNotificationToken: 'ExponentPushToken[joIk5nKe5G3IjcfZ2PyurD]',
             },
         },
     );
