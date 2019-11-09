@@ -19,4 +19,30 @@ describe('SDK users', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/user`);
         });
     });
+
+    describe('update', () => {
+        test('calls PATCH with correct URL and  parmaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.patch = jest.fn().mockResolvedValue(true);
+            const updateData = {
+                email: 'email@email.com',
+                notifications: {
+                    completeSoloStreaksReminder: {
+                        emailNotification: true,
+                        pushNotification: true,
+                        reminderTime: '21.00pm',
+                    },
+                },
+                timezone: 'Europe/London',
+                pushNotification: 'push-notification',
+            };
+
+            await streakoid.user.updateCurrentUser({ updateData });
+
+            expect(streakoidClient.patch).toBeCalledWith(`/v1/user`, {
+                ...updateData,
+            });
+        });
+    });
 });

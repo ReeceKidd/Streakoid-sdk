@@ -17,8 +17,8 @@ interface User {
     friends: Friend[];
     notifications: {
         completeSoloStreaksReminder: {
-            email: boolean;
-            phone: boolean;
+            emailNotification: boolean;
+            pushNotification: boolean;
             reminderTime: string;
         };
     };

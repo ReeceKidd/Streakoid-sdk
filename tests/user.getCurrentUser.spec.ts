@@ -34,7 +34,6 @@ describe('GET /users/:userId', () => {
         expect(user.email).toBeDefined();
         expect(user.username).toEqual(username);
         expect(user.userType).toEqual(UserTypes.basic);
-        console.log(user.membershipInformation);
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
@@ -45,8 +44,8 @@ describe('GET /users/:userId', () => {
         expect(Object.keys(user.notifications.completeSoloStreaksReminder).sort()).toEqual(
             ['email', 'phone', 'reminderTime'].sort(),
         );
-        expect(user.notifications.completeSoloStreaksReminder.email).toEqual(false);
-        expect(user.notifications.completeSoloStreaksReminder.phone).toEqual(false);
+        expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
+        expect(user.notifications.completeSoloStreaksReminder.phoneNotification).toEqual(false);
         expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
         expect(user.friends).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
