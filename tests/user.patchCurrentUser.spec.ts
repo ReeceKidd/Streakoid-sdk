@@ -9,7 +9,7 @@ import { username } from './setup/environment';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('PATCH /user', () => {
     let streakoid: StreakoidFactory;
 
     beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(21);
+        expect.assertions(19);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications = {
@@ -67,27 +67,22 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(updatedUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(true);
         expect(updatedUser.notifications.completeSoloStreaksReminder.reminderTime).toBeDefined();
-        expect(updatedUser.friends).toEqual([]);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(Object.keys(updatedUser.stripe).sort()).toEqual(['customer', 'subscription'].sort());
         expect(updatedUser.pushNotificationToken).toEqual(updatedPushNotificationToken);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
             [
-                '__v',
                 '_id',
                 'createdAt',
                 'email',
-                'friends',
                 'membershipInformation',
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
-                'stripe',
                 'timezone',
                 'updatedAt',
                 'userType',

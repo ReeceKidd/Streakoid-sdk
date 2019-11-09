@@ -4,7 +4,7 @@ import { User } from '../../src';
 import mongoose from 'mongoose';
 
 const getPayingUser = async (): Promise<User> => {
-    await streakoid.users.create({
+    await streakoid.user.create({
         username,
         email,
     });

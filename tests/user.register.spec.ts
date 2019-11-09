@@ -1,4 +1,4 @@
-import { StreakoidFactory } from '../src/streakoid';
+import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
@@ -27,37 +27,50 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(11);
+        expect.assertions(19);
 
-        const user = await streakoid.users.create({
+        const user = await streakoid.user.create({
             username,
             email,
         });
 
-        expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
+        expect(user.email).toBeDefined();
         expect(user.username).toEqual(username);
-        expect(user.timezone).toEqual('Europe/London');
+        expect(user.userType).toEqual(UserTypes.basic);
+        expect(Object.keys(user.membershipInformation).sort()).toEqual(
+            ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
+        );
+        expect(user.membershipInformation.isPayingMember).toEqual(false);
+        expect(user.membershipInformation.pastMemberships).toEqual([]);
+        expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
+        expect(Object.keys(user.notifications).sort()).toEqual(['completeSoloStreaksReminder'].sort());
+        expect(Object.keys(user.notifications.completeSoloStreaksReminder).sort()).toEqual(
+            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+        );
+        expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
+        expect(user.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
+        expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
+        expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.isPayingMember).toBe(false);
         expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
-                'userType',
-                'friends',
                 '_id',
-                'timezone',
-                'username',
-                'isPayingMember',
+                'createdAt',
+                'email',
+                'membershipInformation',
+                'notifications',
                 'profileImages',
                 'pushNotificationToken',
-                'createdAt',
+                'timezone',
                 'updatedAt',
+                'userType',
+                'username',
             ].sort(),
         );
     });
@@ -67,7 +80,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         const email = 'register1@gmail.com';
         try {
-            await streakoid.users.create({ username: '', email });
+            await streakoid.user.create({ username: '', email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
@@ -79,7 +92,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     test('fails because username already exists', async () => {
         expect.assertions(3);
         try {
-            await streakoid.users.create({ username, email: 'new-email@gmail.com' });
+            await streakoid.user.create({ username, email: 'new-email@gmail.com' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toBe('400-10');
@@ -91,7 +104,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.users.create({ username, email: '' });
+            await streakoid.user.create({ username, email: '' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
@@ -104,7 +117,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(3);
 
         try {
-            await streakoid.users.create({ username: 'tester01', email });
+            await streakoid.user.create({ username: 'tester01', email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toEqual('400-09');
@@ -116,7 +129,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.users.create({
+            await streakoid.user.create({
                 username: 'tester01',
                 email: 'invalid email',
             });

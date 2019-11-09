@@ -2,13 +2,25 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import User from './models/User';
+import CurrentUser from './models/CurrentUser';
 
 const user = (streakoidClient: AxiosInstance) => {
-    const getCurrentUser = async (): Promise<User> => {
+    const getCurrentUser = async (): Promise<CurrentUser> => {
         try {
             const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.user}`);
             return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
+    const create = async ({ username, email }: { username: string; email: string }): Promise<CurrentUser> => {
+        try {
+            const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.user}`, {
+                username,
+                email,
+            });
+            return response.data;
         } catch (err) {
             return Promise.reject(err);
         }
@@ -29,7 +41,7 @@ const user = (streakoidClient: AxiosInstance) => {
             timezone?: string;
             pushNotificationToken?: string;
         };
-    }): Promise<User> => {
+    }): Promise<CurrentUser> => {
         try {
             const { data } = await streakoidClient.patch(`/${ApiVersions.v1}/${RouterCategories.user}`, updateData);
             return data;
@@ -40,6 +52,7 @@ const user = (streakoidClient: AxiosInstance) => {
 
     return {
         getCurrentUser,
+        create,
         updateCurrentUser,
     };
 };
