@@ -32,7 +32,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test.only(`creates friend request`, async () => {
+    test(`creates friend request`, async () => {
         expect.assertions(11);
 
         const friendRequest = await streakoid.friendRequests.create({
