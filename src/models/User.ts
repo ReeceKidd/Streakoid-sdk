@@ -26,10 +26,10 @@ interface User {
         customer: string;
         subscription: string;
     };
-    createdAt: string;
-    updatedAt: string;
     profileImages: ProfileImages;
     pushNotificationToken: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export default User;

@@ -18,6 +18,10 @@ const getPayingUser = async (): Promise<User> => {
                     isPayingMember: true,
                     currentMembershipStartDate: new Date(),
                 },
+                stripe: {
+                    customer: 'customer',
+                    subscription: 'subscription',
+                },
             },
         },
     );
