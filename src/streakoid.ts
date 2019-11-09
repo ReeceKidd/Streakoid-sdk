@@ -18,7 +18,6 @@ import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
 import { emails } from './emails';
 import { incompleteTeamStreaks } from './incompleteTeamStreaks';
-import { registerDeviceForNotifications } from './registerDeviceForNotifications';
 
 export const londonTimezone = 'Europe/London';
 
@@ -45,7 +44,6 @@ export interface StreakoidFactory {
     friendRequests: ReturnType<typeof friendRequests>;
     dailyJobs: ReturnType<typeof dailyJobs>;
     emails: ReturnType<typeof emails>;
-    registerDeviceForNotifications: ReturnType<typeof registerDeviceForNotifications>;
 }
 
 export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFactory => {
@@ -67,7 +65,6 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         friendRequests: friendRequests(streakoidClient),
         dailyJobs: dailyJobs(streakoidClient),
         emails: emails(streakoidClient),
-        registerDeviceForNotifications: registerDeviceForNotifications(streakoidClient),
     };
 };
 
