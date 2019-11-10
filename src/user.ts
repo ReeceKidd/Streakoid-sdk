@@ -32,10 +32,14 @@ const user = (streakoidClient: AxiosInstance) => {
         updateData?: {
             email?: string;
             notifications?: {
-                completeSoloStreaksReminder?: {
-                    emailNotification?: boolean;
-                    pushNotification?: boolean;
-                    reminderTime?: string;
+                completeSoloStreaksReminder: {
+                    emailNotification: boolean;
+                    pushNotification: boolean;
+                    reminderTime: string;
+                };
+                friendRequest: {
+                    emailNotification: boolean;
+                    pushNotification: boolean;
                 };
             };
             timezone?: string;

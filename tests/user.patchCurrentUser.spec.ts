@@ -6,6 +6,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
+import Notifications from '../src/models/Notifications';
 
 jest.setTimeout(120000);
 
@@ -27,14 +28,18 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(19);
+        expect.assertions(22);
 
         const updatedEmail = 'email@gmail.com';
-        const updatedNotifications = {
+        const updatedNotifications: Notifications = {
             completeSoloStreaksReminder: {
                 emailNotification: true,
                 pushNotification: true,
                 reminderTime: new Date().toString(),
+            },
+            friendRequest: {
+                emailNotification: true,
+                pushNotification: true,
             },
         };
         const updatedTimezone = 'Europe/Paris';
@@ -60,13 +65,21 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(updatedUser.notifications).sort()).toEqual(['completeSoloStreaksReminder'].sort());
+        expect(Object.keys(updatedUser.notifications).sort()).toEqual(
+            ['completeSoloStreaksReminder', 'friendRequest'].sort(),
+        );
         expect(Object.keys(updatedUser.notifications.completeSoloStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
         expect(updatedUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(true);
         expect(updatedUser.notifications.completeSoloStreaksReminder.reminderTime).toBeDefined();
+        expect(Object.keys(updatedUser.notifications.friendRequest).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(updatedUser.notifications.friendRequest.emailNotification).toEqual(true);
+        expect(updatedUser.notifications.friendRequest.pushNotification).toEqual(true);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

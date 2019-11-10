@@ -1,6 +1,7 @@
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
+import Notifications from './Notifications';
 
 interface CurrentUser {
     _id: string;
@@ -13,13 +14,7 @@ interface CurrentUser {
     email: string;
     userType: UserTypes;
     timezone: string;
-    notifications: {
-        completeSoloStreaksReminder: {
-            emailNotification: boolean;
-            pushNotification: boolean;
-            reminderTime: string;
-        };
-    };
+    notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;
     createdAt: string;

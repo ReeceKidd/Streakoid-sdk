@@ -2,6 +2,7 @@ import Friend from './Friend';
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
+import Notifications from './Notifications';
 
 interface User {
     _id: string;
@@ -15,17 +16,7 @@ interface User {
     userType: UserTypes;
     timezone: string;
     friends: Friend[];
-    notifications: {
-        completeSoloStreaksReminder: {
-            emailNotification: boolean;
-            pushNotification: boolean;
-            reminderTime: string;
-        };
-        friendRequest: {
-            emailNotification: boolean;
-            pushNotification: boolean;
-        };
-    };
+    notifications: Notifications;
     stripe: {
         customer: string;
         subscription: string;
