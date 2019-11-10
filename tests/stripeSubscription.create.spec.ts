@@ -45,7 +45,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(31);
+        expect.assertions(34);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
