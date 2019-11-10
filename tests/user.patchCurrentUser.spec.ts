@@ -32,7 +32,7 @@ describe('PATCH /user', () => {
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
-            completeSoloStreaksReminder: {
+            completeStreaksReminder: {
                 emailNotification: true,
                 pushNotification: true,
                 reminderTime: 22,
@@ -66,14 +66,14 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.notifications).sort()).toEqual(
-            ['completeSoloStreaksReminder', 'friendRequest'].sort(),
+            ['completeStreaksReminder', 'friendRequest'].sort(),
         );
-        expect(Object.keys(updatedUser.notifications.completeSoloStreaksReminder).sort()).toEqual(
+        expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(updatedUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(true);
-        expect(updatedUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(22);
+        expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
+        expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
+        expect(updatedUser.notifications.completeStreaksReminder.reminderTime).toEqual(22);
         expect(Object.keys(updatedUser.notifications.friendRequest).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

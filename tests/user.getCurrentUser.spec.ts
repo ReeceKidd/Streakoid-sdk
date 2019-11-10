@@ -41,13 +41,13 @@ describe('GET /user', () => {
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(['completeSoloStreaksReminder', 'friendRequest'].sort());
-        expect(Object.keys(user.notifications.completeSoloStreaksReminder).sort()).toEqual(
+        expect(Object.keys(user.notifications).sort()).toEqual(['completeStreaksReminder', 'friendRequest'].sort());
+        expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
-        expect(user.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
-        expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(21);
+        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(false);
+        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(false);
+        expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
         expect(user.notifications.friendRequest.emailNotification).toEqual(false);
         expect(user.notifications.friendRequest.pushNotification).toEqual(false);

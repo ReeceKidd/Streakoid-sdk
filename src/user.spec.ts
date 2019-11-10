@@ -45,7 +45,7 @@ describe('SDK users', () => {
             const updateData = {
                 email: 'email@email.com',
                 notifications: {
-                    completeSoloStreaksReminder: {
+                    completeStreaksReminder: {
                         emailNotification: true,
                         pushNotification: true,
                         reminderTime: 21,

@@ -96,12 +96,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(databaseUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(Object.keys(databaseUser.notifications.completeSoloStreaksReminder).sort()).toEqual(
+        expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(databaseUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
-        expect(databaseUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
-        expect(databaseUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(21);
+        expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(false);
+        expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(databaseUser.notifications.friendRequest).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
