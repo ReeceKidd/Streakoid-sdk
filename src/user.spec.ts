@@ -50,6 +50,10 @@ describe('SDK users', () => {
                         pushNotification: true,
                         reminderTime: '21.00pm',
                     },
+                    friendRequest: {
+                        emailNotification: true,
+                        pushNotification: true,
+                    },
                 },
                 timezone: 'Europe/London',
                 pushNotification: 'push-notification',
