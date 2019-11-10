@@ -1,5 +1,5 @@
 interface Notifications {
-    completeSoloStreaksReminder: {
+    completeStreaksReminder: {
         emailNotification: boolean;
         pushNotification: boolean;
         reminderTime: number;
