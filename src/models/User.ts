@@ -21,6 +21,10 @@ interface User {
             pushNotification: boolean;
             reminderTime: string;
         };
+        friendRequest: {
+            emailNotification: boolean;
+            pushNotification: boolean;
+        };
     };
     stripe: {
         customer: string;
