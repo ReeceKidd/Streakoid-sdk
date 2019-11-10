@@ -35,7 +35,7 @@ describe('PATCH /user', () => {
             completeSoloStreaksReminder: {
                 emailNotification: true,
                 pushNotification: true,
-                reminderTime: new Date().toString(),
+                reminderTime: 22,
             },
             friendRequest: {
                 emailNotification: true,
@@ -73,7 +73,7 @@ describe('PATCH /user', () => {
         );
         expect(updatedUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeSoloStreaksReminder.reminderTime).toBeDefined();
+        expect(updatedUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(22);
         expect(Object.keys(updatedUser.notifications.friendRequest).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

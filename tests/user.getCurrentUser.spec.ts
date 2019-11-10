@@ -47,7 +47,7 @@ describe('GET /user', () => {
         );
         expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
         expect(user.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
-        expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
+        expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
         expect(user.notifications.friendRequest.emailNotification).toEqual(false);
         expect(user.notifications.friendRequest.pushNotification).toEqual(false);

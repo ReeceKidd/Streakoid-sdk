@@ -48,7 +48,7 @@ describe('SDK users', () => {
                     completeSoloStreaksReminder: {
                         emailNotification: true,
                         pushNotification: true,
-                        reminderTime: '21.00pm',
+                        reminderTime: 21,
                     },
                     friendRequest: {
                         emailNotification: true,

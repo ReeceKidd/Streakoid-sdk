@@ -35,7 +35,7 @@ const user = (streakoidClient: AxiosInstance) => {
                 completeSoloStreaksReminder: {
                     emailNotification: boolean;
                     pushNotification: boolean;
-                    reminderTime: string;
+                    reminderTime: number;
                 };
                 friendRequest: {
                     emailNotification: boolean;

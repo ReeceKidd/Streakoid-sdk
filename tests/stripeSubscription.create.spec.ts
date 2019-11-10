@@ -101,7 +101,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         );
         expect(databaseUser.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
         expect(databaseUser.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
-        expect(databaseUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
+        expect(databaseUser.notifications.completeSoloStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(databaseUser.notifications.friendRequest).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
