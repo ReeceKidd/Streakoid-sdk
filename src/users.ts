@@ -40,30 +40,9 @@ const users = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const update = async ({
-        userId,
-        updateData,
-    }: {
-        userId: string;
-        updateData?: {
-            timezone?: string;
-        };
-    }): Promise<FormattedUser> => {
-        try {
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.users}/${userId}`,
-                updateData,
-            );
-            return data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
         getOne,
-        update,
         friends: friends(streakoidClient),
     };
 };

@@ -61,25 +61,4 @@ describe('SDK users', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/users/userId`);
         });
     });
-
-    describe('update', () => {
-        test('calls PATCH with correct URL and  parmaters', async () => {
-            expect.assertions(1);
-
-            streakoidClient.patch = jest.fn().mockResolvedValue(true);
-            const timezone = 'Europe/London';
-            const updateData = {
-                timezone,
-            };
-
-            await streakoid.users.update({
-                userId: 'id',
-                updateData,
-            });
-
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/users/id`, {
-                ...updateData,
-            });
-        });
-    });
 });
