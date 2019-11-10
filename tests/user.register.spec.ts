@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(19);
+        expect.assertions(22);
 
         const user = await streakoid.user.create({
             username,
@@ -44,13 +44,16 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(['completeSoloStreaksReminder'].sort());
+        expect(Object.keys(user.notifications).sort()).toEqual(['completeSoloStreaksReminder', 'friendRequest'].sort());
         expect(Object.keys(user.notifications.completeSoloStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
         expect(user.notifications.completeSoloStreaksReminder.emailNotification).toEqual(false);
         expect(user.notifications.completeSoloStreaksReminder.pushNotification).toEqual(false);
         expect(user.notifications.completeSoloStreaksReminder.reminderTime).toEqual(null);
+        expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
+        expect(user.notifications.friendRequest.emailNotification).toEqual(false);
+        expect(user.notifications.friendRequest.pushNotification).toEqual(false);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
