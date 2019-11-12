@@ -28,39 +28,44 @@ describe('POST /emails', () => {
     });
 
     test(`creates email with minimum paramaters`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const name = 'Jane';
         const email = 'jane@gmail.com';
+        const subject = 'Cancel memership';
         const message = 'I need help';
 
         const emailDocument = await streakoid.emails.create({
             name,
             email,
+            subject,
             message,
         });
 
         expect(emailDocument._id).toEqual(expect.any(String));
         expect(emailDocument.name).toEqual(name);
         expect(emailDocument.email).toEqual(email);
+        expect(emailDocument.subject).toEqual(subject);
         expect(emailDocument.message).toEqual(message);
         expect(emailDocument.createdAt).toEqual(expect.any(String));
         expect(emailDocument.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(emailDocument).sort()).toEqual(
-            ['_id', 'name', 'email', 'message', '__v', 'createdAt', 'updatedAt'].sort(),
+            ['_id', 'name', 'email', 'subject', 'message', '__v', 'createdAt', 'updatedAt'].sort(),
         );
     });
 
     test(`creates email with all paramaters`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const name = 'Jane';
         const email = 'jane@gmail.com';
+        const subject = 'subject';
         const message = 'I need help';
 
         const emailDocument = await streakoid.emails.create({
             name,
             email,
+            subject,
             message,
             userId,
             username,
@@ -69,13 +74,25 @@ describe('POST /emails', () => {
         expect(emailDocument._id).toEqual(expect.any(String));
         expect(emailDocument.name).toEqual(name);
         expect(emailDocument.email).toEqual(email);
+        expect(emailDocument.subject).toEqual(subject);
         expect(emailDocument.message).toEqual(message);
         expect(emailDocument.userId).toBeDefined();
         expect(emailDocument.username).toEqual(username);
         expect(emailDocument.createdAt).toEqual(expect.any(String));
         expect(emailDocument.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(emailDocument).sort()).toEqual(
-            ['_id', 'name', 'email', 'message', 'username', 'createdAt', 'updatedAt', 'userId', '__v'].sort(),
+            [
+                '_id',
+                'name',
+                'email',
+                'subject',
+                'message',
+                'username',
+                'createdAt',
+                'updatedAt',
+                'userId',
+                '__v',
+            ].sort(),
         );
     });
 });
