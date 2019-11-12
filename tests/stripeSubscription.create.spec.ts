@@ -45,7 +45,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment and subscribes them', async () => {
-        expect.assertions(34);
+        expect.assertions(37);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -108,6 +108,12 @@ describe('GET /complete-solo-streak-tasks', () => {
         ]);
         expect(databaseUser.notifications.friendRequest.emailNotification).toEqual(false);
         expect(databaseUser.notifications.friendRequest.pushNotification).toEqual(false);
+        expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(false);
+        expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(false);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.createdAt).toBeDefined();
         expect(databaseUser.updatedAt).toBeDefined();

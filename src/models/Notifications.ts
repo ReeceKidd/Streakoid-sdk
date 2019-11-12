@@ -8,7 +8,7 @@ interface Notifications {
         emailNotification: boolean;
         pushNotification: boolean;
     };
-    teamUpdates: {
+    teamStreakUpdates: {
         emailNotification: boolean;
         pushNotification: boolean;
     };

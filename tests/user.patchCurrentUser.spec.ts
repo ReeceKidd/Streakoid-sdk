@@ -28,7 +28,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(22);
+        expect.assertions(25);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
@@ -38,6 +38,10 @@ describe('PATCH /user', () => {
                 reminderTime: 22,
             },
             friendRequest: {
+                emailNotification: true,
+                pushNotification: true,
+            },
+            teamStreakUpdates: {
                 emailNotification: true,
                 pushNotification: true,
             },
@@ -66,7 +70,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest'].sort(),
+            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -80,6 +84,12 @@ describe('PATCH /user', () => {
         ]);
         expect(updatedUser.notifications.friendRequest.emailNotification).toEqual(true);
         expect(updatedUser.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(Object.keys(updatedUser.notifications.teamStreakUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(updatedUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
+        expect(updatedUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
