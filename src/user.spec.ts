@@ -54,6 +54,10 @@ describe('SDK users', () => {
                         emailNotification: true,
                         pushNotification: true,
                     },
+                    teamStreakUpdates: {
+                        emailNotification: true,
+                        pushNotification: true,
+                    },
                 },
                 timezone: 'Europe/London',
                 pushNotification: 'push-notification',
