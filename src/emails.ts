@@ -8,12 +8,14 @@ const emails = (streakoidClient: AxiosInstance) => {
     const create = async ({
         name,
         email,
+        subject,
         message,
         userId,
         username,
     }: {
         name: string;
         email: string;
+        subject: string;
         message: string;
         userId?: string;
         username?: string;
@@ -22,6 +24,7 @@ const emails = (streakoidClient: AxiosInstance) => {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.emails}`, {
                 name,
                 email,
+                subject,
                 message,
                 userId,
                 username,

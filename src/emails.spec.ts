@@ -14,17 +14,20 @@ describe('SDK completeSoloStreakTasks', () => {
 
             const name = 'John Doe';
             const email = 'john@test.com';
+            const subject = 'subject';
             const message = 'Support request';
 
             await streakoid.emails.create({
                 name,
                 email,
+                subject,
                 message,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/emails`, {
                 name,
                 email,
+                subject,
                 message,
             });
         });
@@ -35,6 +38,7 @@ describe('SDK completeSoloStreakTasks', () => {
 
             const name = 'John Doe';
             const email = 'john@test.com';
+            const subject = 'subject';
             const message = 'Support request';
             const userId = 'userId';
             const username = 'username';
@@ -42,6 +46,7 @@ describe('SDK completeSoloStreakTasks', () => {
             await streakoid.emails.create({
                 name,
                 email,
+                subject,
                 message,
                 userId,
                 username,
@@ -50,6 +55,7 @@ describe('SDK completeSoloStreakTasks', () => {
             expect(streakoidClient.post).toBeCalledWith(`/v1/emails`, {
                 name,
                 email,
+                subject,
                 message,
                 userId,
                 username,
