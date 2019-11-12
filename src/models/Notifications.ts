@@ -8,6 +8,10 @@ interface Notifications {
         emailNotification: boolean;
         pushNotification: boolean;
     };
+    teamUpdates: {
+        emailNotification: boolean;
+        pushNotification: boolean;
+    };
 }
 
 export default Notifications;
