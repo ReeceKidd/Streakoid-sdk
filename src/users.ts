@@ -8,7 +8,7 @@ import { FormattedUser, CurrentUser } from '.';
 const users = (streakoidClient: AxiosInstance) => {
     const create = async ({ username, email }: { username: string; email: string }): Promise<CurrentUser> => {
         try {
-            const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.user}`, {
+            const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.users}`, {
                 username,
                 email,
             });
