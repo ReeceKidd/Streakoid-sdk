@@ -29,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             userId = user._id;
             streakoid = await streakoidTest();
 
-            const premiumUser = await streakoid.user.create({
+            const premiumUser = await streakoid.users.create({
                 username: premiumUsername,
                 email: premiumEmail,
             });

@@ -4,7 +4,7 @@ import { User } from '../../src';
 import mongoose from 'mongoose';
 
 const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
-    await streakoid.user.create({
+    await streakoid.users.create({
         username,
         email,
     });
