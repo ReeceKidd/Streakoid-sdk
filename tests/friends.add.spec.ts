@@ -91,7 +91,7 @@ describe('POST /user/friends', () => {
     test(`user can't add the same friend twice`, async () => {
         expect.assertions(3);
 
-        const secondFriend = await streakoid.user.create({
+        const secondFriend = await streakoid.users.create({
             username: 'secondfriend',
             email: 'secondfriend@gmail.com',
         });
@@ -122,7 +122,7 @@ describe('POST /user/friends', () => {
     test(`user can't add a friend without a friend request`, async () => {
         expect.assertions(3);
 
-        const newFriend = await streakoid.user.create({
+        const newFriend = await streakoid.users.create({
             username: 'newfriend',
             email: 'newfriend@gmail.com',
         });
