@@ -8,6 +8,23 @@ describe('SDK users', () => {
         jest.resetAllMocks();
     });
 
+    describe('create', () => {
+        test('calls POST with correct URL and  parmaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const username = 'username';
+            const email = 'email@gmail.com';
+
+            await streakoid.users.create({ username, email });
+
+            expect(streakoidClient.post).toBeCalledWith(`/v1/user`, {
+                username,
+                email,
+            });
+        });
+    });
+
     describe('getAll', () => {
         test('calls GET with correct URL and searchQuery paramater', async () => {
             expect.assertions(1);

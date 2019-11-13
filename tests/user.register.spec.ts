@@ -29,7 +29,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     test('user can register successfully', async () => {
         expect.assertions(22);
 
-        const user = await streakoid.user.create({
+        const user = await streakoid.users.create({
             username,
             email,
         });
@@ -83,7 +83,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         const email = 'register1@gmail.com';
         try {
-            await streakoid.user.create({ username: '', email });
+            await streakoid.users.create({ username: '', email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
@@ -95,7 +95,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     test('fails because username already exists', async () => {
         expect.assertions(3);
         try {
-            await streakoid.user.create({ username, email: 'new-email@gmail.com' });
+            await streakoid.users.create({ username, email: 'new-email@gmail.com' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toBe('400-10');
@@ -107,7 +107,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.user.create({ username, email: '' });
+            await streakoid.users.create({ username, email: '' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.message).toEqual(
@@ -120,7 +120,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(3);
 
         try {
-            await streakoid.user.create({ username: 'tester01', email });
+            await streakoid.users.create({ username: 'tester01', email });
         } catch (err) {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toEqual('400-09');
@@ -132,7 +132,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect.assertions(2);
 
         try {
-            await streakoid.user.create({
+            await streakoid.users.create({
                 username: 'tester01',
                 email: 'invalid email',
             });

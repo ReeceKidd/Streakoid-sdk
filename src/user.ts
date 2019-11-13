@@ -15,18 +15,6 @@ const user = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const create = async ({ username, email }: { username: string; email: string }): Promise<CurrentUser> => {
-        try {
-            const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.user}`, {
-                username,
-                email,
-            });
-            return response.data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     const updateCurrentUser = async ({
         updateData,
     }: {
@@ -47,7 +35,6 @@ const user = (streakoidClient: AxiosInstance) => {
 
     return {
         getCurrentUser,
-        create,
         updateCurrentUser,
     };
 };

@@ -7,7 +7,7 @@ export const friendUsername = 'friend';
 export const friendEmail = 'friend@gmail.com';
 
 const getFriend = async (): Promise<CurrentUser> => {
-    await streakoid.user.create({ username: friendUsername, email: friendEmail });
+    await streakoid.users.create({ username: friendUsername, email: friendEmail });
     const user = await mongoose.connection.db.collection('Users').findOne({ username: friendUsername });
     const updatedUser = await mongoose.connection.db.collection('Users').findOneAndUpdate(
         { _id: user._id },

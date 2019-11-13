@@ -3,7 +3,7 @@ import { streakoid } from '../../src/streakoid';
 import { CurrentUser } from '../../src';
 
 const getUser = async (): Promise<CurrentUser> => {
-    return streakoid.user.create({
+    return streakoid.users.create({
         username,
         email,
     });

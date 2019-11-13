@@ -20,23 +20,6 @@ describe('SDK users', () => {
         });
     });
 
-    describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
-            expect.assertions(1);
-
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const username = 'username';
-            const email = 'email@gmail.com';
-
-            await streakoid.user.create({ username, email });
-
-            expect(streakoidClient.post).toBeCalledWith(`/v1/user`, {
-                username,
-                email,
-            });
-        });
-    });
-
     describe('update', () => {
         test('calls PATCH with correct URL and  parmaters', async () => {
             expect.assertions(1);
