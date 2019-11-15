@@ -5,6 +5,7 @@ enum RouterCategories {
     user = 'user',
     soloStreaks = 'solo-streaks',
     teamStreaks = 'team-streaks',
+    streakRecommendations = 'streak-recommendations',
     completeSoloStreakTasks = 'complete-solo-streak-tasks',
     incompleteSoloStreakTasks = 'incomplete-solo-streak-tasks',
     completeTeamMemberStreakTasks = 'complete-team-member-streak-tasks',
