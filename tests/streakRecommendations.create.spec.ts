@@ -28,7 +28,7 @@ describe('POST /streak-recommendations', () => {
         }
     });
 
-    test.only(`creates streak recommendation with a description and numberOfMinutes`, async () => {
+    test(`creates streak recommendation with a description and numberOfMinutes`, async () => {
         expect.assertions(7);
 
         const streakRecommendation = await streakoid.streakRecommendations.create({
@@ -45,12 +45,12 @@ describe('POST /streak-recommendations', () => {
         expect(streakRecommendation.createdAt).toBeDefined();
         expect(streakRecommendation.updatedAt).toBeDefined();
         expect(Object.keys(streakRecommendation).sort()).toEqual(
-            ['streakName', 'streakDescription', 'numberOfMinutes', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'streakName', 'streakDescription', 'numberOfMinutes', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
     test(`creates streak recommendation without a description or number of minutes`, async () => {
-        expect.assertions(5);
+        expect.assertions(3);
 
         const streakRecomendation = await streakoid.streakRecommendations.create({
             streakName,
@@ -58,8 +58,8 @@ describe('POST /streak-recommendations', () => {
 
         expect(streakRecomendation._id).toBeDefined();
         expect(streakRecomendation.streakName).toEqual(streakName);
-        expect(numberOfMinutes).toEqual(undefined);
-        expect(streakDescription).toEqual('');
-        expect(Object.keys(streakRecomendation).sort()).toEqual(['streakName', 'createdAt', 'updatedAt', '__v'].sort());
+        expect(Object.keys(streakRecomendation).sort()).toEqual(
+            ['_id', 'streakDescription', 'streakName', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
     });
 });
