@@ -6,9 +6,17 @@ import StreakRecommendation from './models/StreakRecoomendation';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const streakRecommendations = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({  }: {}): Promise<StreakRecommendation[]> => {
+    const getAll = async ({ random, limit }: { random: boolean; limit: number }): Promise<StreakRecommendation[]> => {
         try {
-            const getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}?`;
+            let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}?`;
+
+            if (random) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}random=true&`;
+            }
+
+            if (limit) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}limit=${limit}&`;
+            }
 
             const { data } = await streakoidClient.get(getAllSoloStreaksURL);
             return data;
