@@ -1,11 +1,11 @@
 interface Badge {
     _id: string;
-    parentBadge: Badge;
     name: string;
+    currentLevel: number;
     description: string;
+    levels: Array<{ level: number; criteria: string }>;
     color: string;
     icon: string;
-    nextLevel?: Badge;
 }
 
 export default Badge;
