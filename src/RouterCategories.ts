@@ -21,6 +21,7 @@ enum RouterCategories {
     dailyJobs = 'daily-jobs',
     emails = 'emails',
     profileImages = 'profile-images',
+    badges = 'badges',
 }
 
 export default RouterCategories;
