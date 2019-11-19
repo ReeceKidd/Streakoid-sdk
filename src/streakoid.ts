@@ -14,6 +14,7 @@ import { completeTeamStreaks } from './completeTeamStreaks';
 import { teamMemberStreaks } from './teamMemberStreaks';
 import { friendRequests } from './friendRequests';
 import { streakRecommendations } from './streakRecommendations';
+import { badges } from './badges';
 
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
@@ -46,6 +47,7 @@ export interface StreakoidFactory {
     dailyJobs: ReturnType<typeof dailyJobs>;
     emails: ReturnType<typeof emails>;
     streakRecommendations: ReturnType<typeof streakRecommendations>;
+    badges: ReturnType<typeof badges>;
 }
 
 export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFactory => {
@@ -68,6 +70,7 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         dailyJobs: dailyJobs(streakoidClient),
         emails: emails(streakoidClient),
         streakRecommendations: streakRecommendations(streakoidClient),
+        badges: badges(streakoidClient),
     };
 };
 
