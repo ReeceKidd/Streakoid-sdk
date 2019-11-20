@@ -40,7 +40,8 @@ describe('SDK badges', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
-            const icon = 'spain-flag';
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const icon: any = 'faCog';
             const levels = [{ level: 0, color: 'blue', criteria: 'Must complete lesson on Duolingo' }];
 
             await streakoid.badges.create({
