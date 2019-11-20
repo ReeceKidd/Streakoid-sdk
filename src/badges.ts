@@ -2,7 +2,6 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
 import Badge from './models/Badge';
-import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const badges = (streakoidClient: AxiosInstance) => {
@@ -28,7 +27,7 @@ const badges = (streakoidClient: AxiosInstance) => {
     }: {
         name: string;
         description: string;
-        icon: FontAwesomeIconProps;
+        icon: string;
         levels: Array<{
             level: number;
             color: string;
