@@ -29,6 +29,9 @@ import Badge from './models/Badge';
 import DailyJob from './models/DailyJob';
 import Email from './models/Email';
 import ProfileImages from './models/ProfileImages';
+import Challenge from './models/Challenge';
+import ChallengeMember from './models/ChallengeMember';
+
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
@@ -65,6 +68,8 @@ export {
     PopulatedTeamStreak,
     StreakRecommendation,
     Badge,
+    Challenge,
+    ChallengeMember,
     SupportedRequestHeaders,
     FriendRequest,
     FriendRequestStatus,
