@@ -33,6 +33,18 @@ describe('SDK challenges', () => {
         });
     });
 
+    describe('getOne', () => {
+        test('calls GET with correct URL', async () => {
+            expect.assertions(1);
+
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.challenges.getOne('challengeId');
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges/challengeId`);
+        });
+    });
+
     describe('create', () => {
         test('calls POST with correct URL and  parmaters', async () => {
             expect.assertions(1);

@@ -19,6 +19,18 @@ const challenges = (streakoidClient: AxiosInstance) => {
             return Promise.reject(err);
         }
     };
+
+    const getOne = async (challengeId: string): Promise<Challenge> => {
+        try {
+            const { data } = await streakoidClient.get(
+                `/${ApiVersions.v1}/${RouterCategories.challenges}/${challengeId}`,
+            );
+            return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     const create = async ({
         name,
         description,
@@ -45,6 +57,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
 
     return {
         getAll,
+        getOne,
         create,
     };
 };
