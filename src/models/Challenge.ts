@@ -10,6 +10,7 @@ interface Challenge {
     members: ChallengeMember[];
     createdAt: string;
     updatedAt: string;
+    numberOfMinutes?: number;
 }
 
 export default Challenge;
