@@ -36,11 +36,13 @@ const challenges = (streakoidClient: AxiosInstance) => {
         description,
         icon,
         color,
+        levels,
     }: {
         name: string;
         description: string;
         icon: string;
         color: string;
+        levels: { level: number; badgeId: string; criteria: string }[];
     }): Promise<Challenge> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.challenges}`, {
@@ -48,6 +50,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
                 description,
                 icon,
                 color,
+                levels,
             });
             return data;
         } catch (err) {

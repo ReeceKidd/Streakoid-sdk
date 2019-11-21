@@ -14,6 +14,7 @@ describe('GET /challenges/:challengeId', () => {
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
     const color = 'blue';
+    const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -25,6 +26,7 @@ describe('GET /challenges/:challengeId', () => {
                 description,
                 icon,
                 color,
+                levels,
             });
             challengeId = challenge._id;
         }
@@ -47,10 +49,27 @@ describe('GET /challenges/:challengeId', () => {
         expect(challenge.icon).toEqual(icon);
         expect(challenge.color).toEqual(color);
         expect(challenge.members).toEqual([]);
+        expect(challenge.levels.length).toEqual(1);
+        const level = challenge.levels[0];
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'badgeId', 'criteria'].sort());
+        expect(level.level).toEqual(0);
+        expect(level.badgeId).toEqual('badgeId');
+        expect(level.criteria).toEqual('criteria');
         expect(challenge.createdAt).toEqual(expect.any(String));
         expect(challenge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(challenge).sort()).toEqual(
-            ['_id', 'name', 'description', 'icon', 'color', 'members', 'createdAt', 'updatedAt', '__v'].sort(),
+            [
+                '_id',
+                'name',
+                'description',
+                'icon',
+                'color',
+                'levels',
+                'members',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
         );
     });
 });

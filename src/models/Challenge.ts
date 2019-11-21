@@ -6,7 +6,7 @@ interface Challenge {
     description: string;
     icon: string;
     color: string;
-    levels: Array<{ level: number; badgeId: string; criteria: string }>;
+    levels: { _id: string; level: number; badgeId: string; criteria: string }[];
     members: ChallengeMember[];
     createdAt: string;
     updatedAt: string;
