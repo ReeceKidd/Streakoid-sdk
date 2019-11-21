@@ -37,7 +37,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge using the name query paramater`, async () => {
-        expect.assertions(9);
+        expect.assertions(14);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];
@@ -73,7 +73,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge without the query paramater`, async () => {
-        expect.assertions(9);
+        expect.assertions(14);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];
