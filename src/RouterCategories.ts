@@ -22,6 +22,7 @@ enum RouterCategories {
     emails = 'emails',
     profileImages = 'profile-images',
     badges = 'badges',
+    challenges = 'challenges',
 }
 
 export default RouterCategories;
