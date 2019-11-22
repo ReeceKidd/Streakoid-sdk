@@ -46,7 +46,7 @@ describe('SDK challenges', () => {
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and minimum parmaters', async () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
@@ -70,6 +70,36 @@ describe('SDK challenges', () => {
                 icon,
                 color,
                 levels,
+            });
+        });
+
+        test('calls POST with correct URL and all available parmaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const name = 'Spanish';
+            const description = 'Study Spanish everyday';
+            const icon = 'faCog';
+            const color = 'color';
+            const levels = [{ level: 1, badgeId: 'badgeId', criteria: 'criteria' }];
+            const numberOfMinutes = 30;
+
+            await streakoid.challenges.create({
+                name,
+                description,
+                icon,
+                color,
+                levels,
+                numberOfMinutes,
+            });
+
+            expect(streakoidClient.post).toBeCalledWith(`/v1/challenges`, {
+                name,
+                description,
+                icon,
+                color,
+                levels,
+                numberOfMinutes,
             });
         });
     });

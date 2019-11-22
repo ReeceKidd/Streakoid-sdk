@@ -24,7 +24,7 @@ describe('POST /challenges', () => {
         }
     });
 
-    test(`creates a challenge`, async () => {
+    test(`creates a challenge with minimum paramaters`, async () => {
         expect.assertions(14);
 
         const name = 'Duolingo';
@@ -63,6 +63,57 @@ describe('POST /challenges', () => {
                 'icon',
                 'color',
                 'levels',
+                'members',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+    });
+
+    test(`creates a challenge with maximum paramaters`, async () => {
+        expect.assertions(15);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const color = 'blue';
+        const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+        const numberOfMinutes = 30;
+
+        const challenge = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+            numberOfMinutes,
+        });
+
+        expect(challenge._id).toEqual(expect.any(String));
+        expect(challenge.name).toEqual(name);
+        expect(challenge.description).toEqual(description);
+        expect(challenge.icon).toEqual(icon);
+        expect(challenge.color).toEqual(color);
+        expect(challenge.members).toEqual([]);
+        expect(challenge.levels.length).toEqual(1);
+        expect(challenge.numberOfMinutes).toEqual(30);
+        const level = challenge.levels[0];
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'badgeId', 'criteria'].sort());
+        expect(level.level).toEqual(0);
+        expect(level.badgeId).toEqual('badgeId');
+        expect(level.criteria).toEqual('criteria');
+        expect(challenge.createdAt).toEqual(expect.any(String));
+        expect(challenge.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(challenge).sort()).toEqual(
+            [
+                '_id',
+                'name',
+                'description',
+                'icon',
+                'color',
+                'levels',
+                'numberOfMinutes',
                 'members',
                 'createdAt',
                 'updatedAt',
