@@ -31,6 +31,7 @@ import Email from './models/Email';
 import ProfileImages from './models/ProfileImages';
 import Challenge from './models/Challenge';
 import ChallengeMember from './models/ChallengeMember';
+import ChallengeStreak from './models/ChallengeStreak';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -70,6 +71,7 @@ export {
     Badge,
     Challenge,
     ChallengeMember,
+    ChallengeStreak,
     SupportedRequestHeaders,
     FriendRequest,
     FriendRequestStatus,
