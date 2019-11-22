@@ -32,6 +32,7 @@ import ProfileImages from './models/ProfileImages';
 import Challenge from './models/Challenge';
 import ChallengeMember from './models/ChallengeMember';
 import ChallengeStreak from './models/ChallengeStreak';
+import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -51,6 +52,7 @@ export {
     IncompleteSoloStreakTask,
     CompleteTeamStreak,
     IncompleteTeamStreak,
+    CompleteChallengeStreakTask,
     Email,
     ProfileImages,
     CurrentStreak,
