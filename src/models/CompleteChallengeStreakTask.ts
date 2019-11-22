@@ -1,6 +1,6 @@
 interface CompleteChallengeStreakTask {
     _id: string;
-    streakId: string;
+    challengeStreakId: string;
     userId: string;
     taskCompleteTime: Date;
     taskCompleteDay: string;
