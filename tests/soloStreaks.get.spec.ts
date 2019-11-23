@@ -98,6 +98,7 @@ describe('GET /solo-streaks', () => {
         });
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
+            userId,
             completedToday: false,
             active: true,
             status: StreakStatus.live,
@@ -158,6 +159,7 @@ describe('GET /solo-streaks', () => {
         });
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
+            userId,
             completedToday: true,
         });
         expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
@@ -216,6 +218,7 @@ describe('GET /solo-streaks', () => {
         });
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
+            userId,
             status: StreakStatus.archived,
         });
 
@@ -272,6 +275,7 @@ describe('GET /solo-streaks', () => {
         });
 
         const soloStreaks = await streakoid.soloStreaks.getAll({
+            userId,
             status: StreakStatus.deleted,
         });
 
