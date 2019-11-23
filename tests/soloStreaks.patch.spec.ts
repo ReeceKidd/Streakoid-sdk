@@ -8,7 +8,7 @@ import { StreakStatus } from '../src';
 
 jest.setTimeout(120000);
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('PATCH /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     const streakName = 'Daily Spanish';

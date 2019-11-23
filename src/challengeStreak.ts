@@ -4,6 +4,8 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import ChallengeStreak from './models/ChallengeStreak';
 import StreakStatus from './StreakStatus';
+import CurrentStreak from './models/CurrentStreak';
+import { PastStreak } from '.';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challengeStreaks = (streakoidClient: AxiosInstance) => {
@@ -80,9 +82,35 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         }
     };
 
+    const update = async ({
+        challengeStreakId,
+        updateData,
+    }: {
+        challengeStreakId: string;
+        updateData?: {
+            status?: StreakStatus;
+            completedToday?: boolean;
+            timezone?: string;
+            active?: boolean;
+            currentStreak?: CurrentStreak;
+            pastStreaks?: PastStreak[];
+        };
+    }): Promise<ChallengeStreak> => {
+        try {
+            const { data } = await streakoidClient.patch(
+                `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,
+                updateData,
+            );
+            return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     return {
         getAll,
         getOne,
+        update,
         create,
     };
 };

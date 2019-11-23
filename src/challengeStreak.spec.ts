@@ -105,4 +105,28 @@ describe('SDK challengeStreaks', () => {
             });
         });
     });
+
+    describe('update', () => {
+        test('calls PATCH with correct URL and  parmaters', async () => {
+            expect.assertions(1);
+
+            const completedToday = true;
+            const timezone = 'Europe/London';
+
+            streakoidClient.patch = jest.fn().mockResolvedValue(true);
+            const updateData = {
+                completedToday,
+                timezone,
+            };
+
+            await streakoid.challengeStreaks.update({
+                challengeStreakId: 'id',
+                updateData,
+            });
+
+            expect(streakoidClient.patch).toBeCalledWith(`/v1/challenge-streaks/id`, {
+                ...updateData,
+            });
+        });
+    });
 });
