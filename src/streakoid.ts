@@ -22,6 +22,8 @@ import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
 import { emails } from './emails';
 import { incompleteTeamStreaks } from './incompleteTeamStreaks';
+import { completeChallengeStreakTasks } from './completeChallengeStreakTask';
+import { incompleteChalllengeStreakTasks } from './incompleteChallengeStreakTask';
 
 export const londonTimezone = 'Europe/London';
 
@@ -37,6 +39,8 @@ export interface StreakoidFactory {
     incompleteTeamMemberStreakTasks: ReturnType<typeof incompleteTeamMemberStreakTasks>;
     completeTeamStreaks: ReturnType<typeof completeTeamStreaks>;
     incompleteTeamStreaks: ReturnType<typeof incompleteTeamStreaks>;
+    completeChallengeStreakTasks: ReturnType<typeof completeChallengeStreakTasks>;
+    incompleteChallengeStreakTasks: ReturnType<typeof incompleteChalllengeStreakTasks>;
     soloStreaks: ReturnType<typeof soloStreaks>;
     stripe: ReturnType<typeof stripe>;
     users: ReturnType<typeof users>;
@@ -77,6 +81,8 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         badges: badges(streakoidClient),
         challenges: challenges(streakoidClient),
         challengeStreaks: challengeStreaks(streakoidClient),
+        completeChallengeStreakTasks: completeChallengeStreakTasks(streakoidClient),
+        incompleteChallengeStreakTasks: incompleteChalllengeStreakTasks(streakoidClient),
     };
 };
 
