@@ -52,5 +52,17 @@
             "pre-commit": "npm run lint&& pretty-quick --staged --verbose",
             "pre-push": "npm run test"
         }
-    }
+    },
+    "directories": {
+        "lib": "lib",
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ReeceKidd/Streakoid-sdk.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ReeceKidd/Streakoid-sdk/issues"
+    },
+    "homepage": "https://github.com/ReeceKidd/Streakoid-sdk#readme"
 }
