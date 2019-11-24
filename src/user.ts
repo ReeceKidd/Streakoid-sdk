@@ -23,6 +23,7 @@ const user = (streakoidClient: AxiosInstance) => {
             notifications?: Notifications;
             timezone?: string;
             pushNotificationToken?: string;
+            badges?: string[];
         };
     }): Promise<CurrentUser> => {
         try {

@@ -54,6 +54,7 @@ describe('SDK badges', () => {
             expect(streakoidClient.post).toBeCalledWith(`/v1/badges`, {
                 name,
                 description,
+                badgeType,
                 icon,
             });
         });

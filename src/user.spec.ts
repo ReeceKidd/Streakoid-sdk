@@ -44,6 +44,7 @@ describe('SDK users', () => {
                 },
                 timezone: 'Europe/London',
                 pushNotification: 'push-notification',
+                badges: ['badgeId1', 'badgeId2'],
             };
 
             await streakoid.user.updateCurrentUser({ updateData });
