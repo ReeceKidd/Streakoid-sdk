@@ -40,6 +40,7 @@ import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
+import BadgeTypes from './BadgeTypes';
 import StreakStatus from './StreakStatus';
 import RouterCategories from './RouterCategories';
 
@@ -83,6 +84,7 @@ export {
     StreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
+    BadgeTypes,
     DailyJob,
     StreakStatus,
     RouterCategories,
