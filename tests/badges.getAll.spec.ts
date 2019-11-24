@@ -4,6 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getPayingUser } from './setup/getPayingUser';
+import { BadgeTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -11,6 +12,7 @@ describe('GET /badges', () => {
     let streakoid: StreakoidFactory;
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
+    const badgeType = BadgeTypes.challenge;
     const icon = 'duolingo';
 
     beforeAll(async () => {
@@ -21,6 +23,7 @@ describe('GET /badges', () => {
             await streakoid.badges.create({
                 name,
                 description,
+                badgeType,
                 icon,
             });
         }
@@ -33,7 +36,7 @@ describe('GET /badges', () => {
     });
 
     test(`gets a badge using the name query paramater`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const badges = await streakoid.badges.getAll({ name });
         const badge = badges[0];
@@ -42,15 +45,16 @@ describe('GET /badges', () => {
         expect(badge.name).toEqual(name);
         expect(badge.description).toEqual(description);
         expect(badge.icon).toEqual(icon);
+        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
         expect(badge.createdAt).toEqual(expect.any(String));
         expect(badge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(badge).sort()).toEqual(
-            ['_id', 'name', 'description', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'name', 'description', 'icon', 'badgeType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
     test(`gets a badge without the query paramater`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const badges = await streakoid.badges.getAll({ name });
         const badge = badges[0];
@@ -59,10 +63,11 @@ describe('GET /badges', () => {
         expect(badge.name).toEqual(name);
         expect(badge.description).toEqual(description);
         expect(badge.icon).toEqual(icon);
+        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
         expect(badge.createdAt).toEqual(expect.any(String));
         expect(badge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(badge).sort()).toEqual(
-            ['_id', 'name', 'description', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'name', 'description', 'icon', 'badgeType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

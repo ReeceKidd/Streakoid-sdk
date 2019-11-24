@@ -17,6 +17,7 @@ interface User {
     timezone: string;
     friends: Friend[];
     notifications: Notifications;
+    badges: string[];
     stripe: {
         customer: string;
         subscription: string;

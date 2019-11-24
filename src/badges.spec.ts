@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
+import { BadgeTypes } from '.';
 
 describe('SDK badges', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -40,11 +41,13 @@ describe('SDK badges', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
+            const badgeType = BadgeTypes.challenge;
             const icon = 'faCog';
 
             await streakoid.badges.create({
                 name,
                 description,
+                badgeType,
                 icon,
             });
 
