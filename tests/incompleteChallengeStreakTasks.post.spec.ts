@@ -15,7 +15,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
     let challengeId: string;
     let challengeStreakId: string;
     const color = 'blue';
-    const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {

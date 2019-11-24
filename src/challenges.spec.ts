@@ -55,7 +55,7 @@ describe('SDK challenges', () => {
             const icon = 'faCog';
             const color = 'color';
             const badgeId = 'badgeId';
-            const levels = [{ level: 1, badgeId: 'badgeId', criteria: 'criteria' }];
+            const levels = [{ level: 1, criteria: 'criteria' }];
 
             await streakoid.challenges.create({
                 name,
