@@ -10,24 +10,12 @@ jest.setTimeout(120000);
 
 describe('POST /challenges', () => {
     let streakoid: StreakoidFactory;
-    let badgeId: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             await getPayingUser();
             streakoid = await streakoidTest();
-            const name = 'Duolingo';
-            const description = 'Everyday I must complete a duolingo lesson';
-            const badgeType = BadgeTypes.challenge;
-            const icon = 'duolingo';
-            const badge = await streakoid.badges.create({
-                name,
-                description,
-                badgeType,
-                icon,
-            });
-            badgeId = badge._id;
         }
     });
 
@@ -37,8 +25,8 @@ describe('POST /challenges', () => {
         }
     });
 
-    test(`creates a challenge with minimum paramaters`, async () => {
-        expect.assertions(13);
+    test(`creates a challenge with a badge with minimum paramaters`, async () => {
+        expect.assertions(21);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -46,12 +34,11 @@ describe('POST /challenges', () => {
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
 
-        const challenge = await streakoid.challenges.create({
+        const { challenge, badge } = await streakoid.challenges.create({
             name,
             description,
             icon,
             color,
-            badgeId,
             levels,
         });
 
@@ -83,10 +70,21 @@ describe('POST /challenges', () => {
                 '__v',
             ].sort(),
         );
+
+        expect(badge._id).toEqual(expect.any(String));
+        expect(badge.name).toEqual(name);
+        expect(badge.description).toEqual(description);
+        expect(badge.icon).toEqual(icon);
+        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
+        expect(badge.createdAt).toEqual(expect.any(String));
+        expect(badge.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(badge).sort()).toEqual(
+            ['_id', 'name', 'description', 'badgeType', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
     });
 
-    test(`creates a challenge with maximum paramaters`, async () => {
-        expect.assertions(14);
+    test(`creates a challenge and badge with maximum paramaters`, async () => {
+        expect.assertions(22);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -95,12 +93,11 @@ describe('POST /challenges', () => {
         const levels = [{ level: 0, criteria: 'criteria' }];
         const numberOfMinutes = 30;
 
-        const challenge = await streakoid.challenges.create({
+        const { challenge, badge } = await streakoid.challenges.create({
             name,
             description,
             icon,
             color,
-            badgeId,
             levels,
             numberOfMinutes,
         });
@@ -134,6 +131,17 @@ describe('POST /challenges', () => {
                 'updatedAt',
                 '__v',
             ].sort(),
+        );
+
+        expect(badge._id).toEqual(expect.any(String));
+        expect(badge.name).toEqual(name);
+        expect(badge.description).toEqual(description);
+        expect(badge.icon).toEqual(icon);
+        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
+        expect(badge.createdAt).toEqual(expect.any(String));
+        expect(badge.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(badge).sort()).toEqual(
+            ['_id', 'name', 'description', 'badgeType', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

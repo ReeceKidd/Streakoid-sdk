@@ -54,7 +54,6 @@ describe('SDK challenges', () => {
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
             const color = 'color';
-            const badgeId = 'badgeId';
             const levels = [{ level: 1, criteria: 'criteria' }];
 
             await streakoid.challenges.create({
@@ -62,7 +61,6 @@ describe('SDK challenges', () => {
                 description,
                 icon,
                 color,
-                badgeId,
                 levels,
             });
 
@@ -71,7 +69,6 @@ describe('SDK challenges', () => {
                 description,
                 icon,
                 color,
-                badgeId,
                 levels,
             });
         });
@@ -84,7 +81,6 @@ describe('SDK challenges', () => {
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
             const color = 'color';
-            const badgeId = 'badgeId';
             const levels = [{ level: 1, criteria: 'criteria' }];
             const numberOfMinutes = 30;
 
@@ -93,7 +89,6 @@ describe('SDK challenges', () => {
                 description,
                 icon,
                 color,
-                badgeId,
                 levels,
                 numberOfMinutes,
             });
@@ -103,7 +98,6 @@ describe('SDK challenges', () => {
                 description,
                 icon,
                 color,
-                badgeId,
                 levels,
                 numberOfMinutes,
             });
