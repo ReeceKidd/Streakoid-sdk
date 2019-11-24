@@ -36,6 +36,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
         description,
         icon,
         color,
+        badgeId,
         numberOfMinutes,
         levels,
     }: {
@@ -43,7 +44,8 @@ const challenges = (streakoidClient: AxiosInstance) => {
         description: string;
         icon: string;
         color: string;
-        levels: { level: number; badgeId: string; criteria: string }[];
+        badgeId: string;
+        levels: { level: number; criteria: string }[];
         numberOfMinutes?: number;
     }): Promise<Challenge> => {
         try {
@@ -52,6 +54,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
                 description,
                 icon,
                 color,
+                badgeId,
                 levels,
                 numberOfMinutes,
             });

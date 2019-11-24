@@ -31,13 +31,15 @@ describe('POST /challenges', () => {
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const color = 'blue';
-        const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+        const badgeId = 'badgeId';
+        const levels = [{ level: 0, criteria: 'criteria' }];
 
         const challenge = await streakoid.challenges.create({
             name,
             description,
             icon,
             color,
+            badgeId,
             levels,
         });
 
@@ -49,9 +51,8 @@ describe('POST /challenges', () => {
         expect(challenge.members).toEqual([]);
         expect(challenge.levels.length).toEqual(1);
         const level = challenge.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'badgeId', 'criteria'].sort());
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
         expect(level.level).toEqual(0);
-        expect(level.badgeId).toEqual('badgeId');
         expect(level.criteria).toEqual('criteria');
         expect(challenge.createdAt).toEqual(expect.any(String));
         expect(challenge.updatedAt).toEqual(expect.any(String));
@@ -78,7 +79,8 @@ describe('POST /challenges', () => {
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const color = 'blue';
-        const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+        const badgeId = 'badgeId';
+        const levels = [{ level: 0, criteria: 'criteria' }];
         const numberOfMinutes = 30;
 
         const challenge = await streakoid.challenges.create({
@@ -86,6 +88,7 @@ describe('POST /challenges', () => {
             description,
             icon,
             color,
+            badgeId,
             levels,
             numberOfMinutes,
         });
@@ -99,9 +102,8 @@ describe('POST /challenges', () => {
         expect(challenge.levels.length).toEqual(1);
         expect(challenge.numberOfMinutes).toEqual(30);
         const level = challenge.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'badgeId', 'criteria'].sort());
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
         expect(level.level).toEqual(0);
-        expect(level.badgeId).toEqual('badgeId');
         expect(level.criteria).toEqual('criteria');
         expect(challenge.createdAt).toEqual(expect.any(String));
         expect(challenge.updatedAt).toEqual(expect.any(String));

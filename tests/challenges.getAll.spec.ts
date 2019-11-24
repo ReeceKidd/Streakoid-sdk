@@ -13,7 +13,8 @@ describe('GET /challenges', () => {
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
     const color = 'blue';
-    const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+    const badgeId = 'badgeId';
+    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -25,6 +26,7 @@ describe('GET /challenges', () => {
                 description,
                 icon,
                 color,
+                badgeId,
                 levels,
             });
         }
