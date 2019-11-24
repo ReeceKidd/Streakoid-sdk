@@ -23,23 +23,16 @@ const badges = (streakoidClient: AxiosInstance) => {
         name,
         description,
         icon,
-        levels,
     }: {
         name: string;
         description: string;
         icon: string;
-        levels: Array<{
-            level: number;
-            color: string;
-            criteria: string;
-        }>;
     }): Promise<Badge> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.badges}`, {
                 name,
                 description,
                 icon,
-                levels,
             });
             return data;
         } catch (err) {
