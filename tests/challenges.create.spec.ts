@@ -4,17 +4,30 @@ import { StreakoidFactory } from '../src/streakoid';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { BadgeTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('POST /challenges', () => {
     let streakoid: StreakoidFactory;
+    let badgeId: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             await getPayingUser();
             streakoid = await streakoidTest();
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const badgeType = BadgeTypes.challenge;
+            const icon = 'duolingo';
+            const badge = await streakoid.badges.create({
+                name,
+                description,
+                badgeType,
+                icon,
+            });
+            badgeId = badge._id;
         }
     });
 
@@ -25,13 +38,12 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with minimum paramaters`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const color = 'blue';
-        const badgeId = 'badgeId';
         const levels = [{ level: 0, criteria: 'criteria' }];
 
         const challenge = await streakoid.challenges.create({
@@ -63,6 +75,7 @@ describe('POST /challenges', () => {
                 'description',
                 'icon',
                 'color',
+                'badgeId',
                 'levels',
                 'members',
                 'createdAt',
@@ -73,13 +86,12 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with maximum paramaters`, async () => {
-        expect.assertions(15);
+        expect.assertions(14);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const color = 'blue';
-        const badgeId = 'badgeId';
         const levels = [{ level: 0, criteria: 'criteria' }];
         const numberOfMinutes = 30;
 
@@ -114,6 +126,7 @@ describe('POST /challenges', () => {
                 'description',
                 'icon',
                 'color',
+                'badgeId',
                 'levels',
                 'numberOfMinutes',
                 'members',

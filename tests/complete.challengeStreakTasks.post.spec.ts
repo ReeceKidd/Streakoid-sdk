@@ -5,19 +5,18 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { BadgeTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let badgeId: string;
     let challengeId: string;
     let challengeStreakId: string;
-    const name = 'Duolingo';
-    const description = 'Everyday I must complete a duolingo lesson';
-    const icon = 'duolingo';
     const color = 'blue';
-    const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -25,7 +24,18 @@ describe('GET /complete-challenge-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const challenge = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const badgeType = BadgeTypes.challenge;
+            const icon = 'duolingo';
+            const badge = await streakoid.badges.create({
+                name,
+                description,
+                badgeType,
+                icon,
+            });
+            badgeId = badge._id;
+            const challenge = await streakoid.challenges.create({ name, description, icon, color, badgeId, levels });
             challengeId = challenge._id;
             const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId: challenge._id });
             challengeStreakId = challengeStreak._id;
@@ -258,7 +268,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
             );
         });
 
-        test.only('user can complete, incomplete and recomplete a challenge streak with an exsiting current streak', async () => {
+        test('user can complete, incomplete and recomplete a challenge streak with an exsiting current streak', async () => {
             expect.assertions(21);
 
             const newChallengeStreak = await streakoid.challengeStreaks.create({
@@ -348,7 +358,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
             );
         });
 
-        test.only('user cannot complete the same challenge streak task in the same day', async () => {
+        test('user cannot complete the same challenge streak task in the same day', async () => {
             expect.assertions(3);
             const secondChallengeStreak = await streakoid.challengeStreaks.create({
                 userId,

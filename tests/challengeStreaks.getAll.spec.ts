@@ -3,7 +3,7 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, BadgeTypes } from '../src';
 import { getPayingUser } from './setup/getPayingUser';
 
 jest.setTimeout(120000);
@@ -11,12 +11,10 @@ jest.setTimeout(120000);
 describe('GET /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let badgeId: string;
     let challengeId: string;
-    const name = 'Duolingo';
-    const description = 'Everyday I must complete a duolingo lesson';
-    const icon = 'duolingo';
     const color = 'blue';
-    const levels = [{ level: 0, badgeId: 'badgeId', criteria: 'criteria' }];
+    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -24,10 +22,22 @@ describe('GET /challenge-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const badgeType = BadgeTypes.challenge;
+            const icon = 'duolingo';
+            const badge = await streakoid.badges.create({
+                name,
+                description,
+                badgeType,
+                icon,
+            });
+            badgeId = badge._id;
             const challenge = await streakoid.challenges.create({
                 name,
                 description,
                 icon,
+                badgeId,
                 color,
                 levels,
             });
