@@ -41,20 +41,17 @@ describe('SDK badges', () => {
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
-            const levels = [{ level: 0, color: 'blue', criteria: 'Must complete lesson on Duolingo' }];
 
             await streakoid.badges.create({
                 name,
                 description,
                 icon,
-                levels,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/badges`, {
                 name,
                 description,
                 icon,
-                levels,
             });
         });
     });
