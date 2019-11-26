@@ -1,5 +1,3 @@
-import ChallengeMember from './ChallengeMember';
-
 interface Challenge {
     _id: string;
     name: string;
@@ -8,7 +6,7 @@ interface Challenge {
     color: string;
     badgeId: string;
     levels: { _id: string; level: number; badgeId: string; criteria: string }[];
-    members: ChallengeMember[];
+    members: string[];
     createdAt: string;
     updatedAt: string;
     numberOfMinutes?: number;

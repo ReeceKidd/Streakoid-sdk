@@ -30,7 +30,6 @@ import DailyJob from './models/DailyJob';
 import Email from './models/Email';
 import ProfileImages from './models/ProfileImages';
 import Challenge from './models/Challenge';
-import ChallengeMember from './models/ChallengeMember';
 import ChallengeStreak from './models/ChallengeStreak';
 import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 import IncompleteChallengeStreakTask from './models/IncompleteChallengeStreakTask';
@@ -75,7 +74,6 @@ export {
     StreakRecommendation,
     Badge,
     Challenge,
-    ChallengeMember,
     ChallengeStreak,
     SupportedRequestHeaders,
     FriendRequest,
