@@ -1,6 +1,6 @@
 interface ChallengeMember {
     username: string;
-    friendId: string;
+    userId: string;
     profileImage: string;
 }
 
