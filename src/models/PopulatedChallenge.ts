@@ -1,4 +1,4 @@
-import ChallengeMember from './ChallengeMemer';
+import ChallengeMember from './ChallengeMember';
 
 interface PopulatedChallenge {
     _id: string;
