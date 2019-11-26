@@ -3,10 +3,11 @@ import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
 import Challenge from './models/Challenge';
 import { Badge } from '.';
+import PopulatedChallenge from './models/PopulatedChallenge';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challenges = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ name }: { name?: string }): Promise<Challenge[]> => {
+    const getAll = async ({ name }: { name?: string }): Promise<PopulatedChallenge[]> => {
         try {
             let getAllChallengesURL = `/${ApiVersions.v1}/${RouterCategories.challenges}?`;
 
@@ -21,7 +22,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const getOne = async (challengeId: string): Promise<Challenge> => {
+    const getOne = async (challengeId: string): Promise<PopulatedChallenge> => {
         try {
             const { data } = await streakoidClient.get(
                 `/${ApiVersions.v1}/${RouterCategories.challenges}/${challengeId}`,

@@ -33,6 +33,8 @@ import Challenge from './models/Challenge';
 import ChallengeStreak from './models/ChallengeStreak';
 import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 import IncompleteChallengeStreakTask from './models/IncompleteChallengeStreakTask';
+import ChallengeMember from './models/ChallengeMemer';
+import PopulatedChallenge from './models/PopulatedChallenge';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -75,6 +77,8 @@ export {
     Badge,
     Challenge,
     ChallengeStreak,
+    ChallengeMember,
+    PopulatedChallenge,
     SupportedRequestHeaders,
     FriendRequest,
     FriendRequestStatus,
