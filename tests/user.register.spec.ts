@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(25);
+        expect.assertions(26);
 
         const user = await streakoid.users.create({
             username,
@@ -41,6 +41,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
+        expect(user.badges).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -75,6 +76,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'createdAt',
                 'email',
                 'membershipInformation',
+                'badges',
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',

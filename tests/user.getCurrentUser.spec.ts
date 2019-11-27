@@ -27,7 +27,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(25);
+        expect.assertions(26);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -38,6 +38,7 @@ describe('GET /user', () => {
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
+        expect(user.badges).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -71,6 +72,7 @@ describe('GET /user', () => {
                 '_id',
                 'createdAt',
                 'email',
+                'badges',
                 'membershipInformation',
                 'notifications',
                 'profileImages',

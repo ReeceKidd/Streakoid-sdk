@@ -66,6 +66,7 @@ describe('PATCH /user', () => {
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
+        expect(updatedUser.badges).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -102,6 +103,7 @@ describe('PATCH /user', () => {
                 '_id',
                 'createdAt',
                 'email',
+                'badges',
                 'membershipInformation',
                 'notifications',
                 'profileImages',
