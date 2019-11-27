@@ -3,10 +3,10 @@ import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { friends } from './friends';
-import { FormattedUser, CurrentUser } from '.';
+import { FormattedUser, PopulatedCurrentUser } from '.';
 
 const users = (streakoidClient: AxiosInstance) => {
-    const create = async ({ username, email }: { username: string; email: string }): Promise<CurrentUser> => {
+    const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {
         try {
             const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.users}`, {
                 username,
