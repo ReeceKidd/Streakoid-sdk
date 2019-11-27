@@ -7,7 +7,7 @@ import PopulatedChallenge from './models/PopulatedChallenge';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challenges = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ name }: { name?: string }): Promise<PopulatedChallenge[]> => {
+    const getAll = async ({ name }: { name?: string }): Promise<Challenge[]> => {
         try {
             let getAllChallengesURL = `/${ApiVersions.v1}/${RouterCategories.challenges}?`;
 
