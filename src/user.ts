@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import CurrentUser from './models/CurrentUser';
 import Notifications from './models/Notifications';
 import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 
@@ -26,7 +25,7 @@ const user = (streakoidClient: AxiosInstance) => {
             pushNotificationToken?: string;
             badges?: string[];
         };
-    }): Promise<CurrentUser> => {
+    }): Promise<PopulatedCurrentUser> => {
         try {
             const { data } = await streakoidClient.patch(`/${ApiVersions.v1}/${RouterCategories.user}`, updateData);
             return data;
