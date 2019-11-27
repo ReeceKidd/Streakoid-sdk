@@ -28,7 +28,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(25);
+        expect.assertions(26);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
