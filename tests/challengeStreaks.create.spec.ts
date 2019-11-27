@@ -5,6 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
+import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
@@ -41,8 +42,8 @@ describe('POST /challenge-streaks', () => {
         }
     });
 
-    test(`creates challenge streak`, async () => {
-        expect.assertions(12);
+    test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
+        expect.assertions(27);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -74,6 +75,68 @@ describe('POST /challenge-streaks', () => {
                 'createdAt',
                 'updatedAt',
                 '__v',
+            ].sort(),
+        );
+
+        const updatedChallenge = await streakoid.challenges.getOne(challengeId);
+
+        expect(updatedChallenge._id).toEqual(expect.any(String));
+        expect(updatedChallenge.name).toEqual(name);
+        expect(updatedChallenge.description).toEqual(description);
+        expect(updatedChallenge.icon).toEqual(icon);
+        expect(updatedChallenge.color).toEqual(color);
+        expect(updatedChallenge.badgeId).toBeDefined();
+        expect(updatedChallenge.members.length).toEqual(1);
+        const challengeMember = updatedChallenge.members[0];
+        expect(Object.keys(challengeMember).sort()).toEqual(['profileImage', 'userId', 'username'].sort());
+        expect(updatedChallenge.levels.length).toEqual(1);
+        const level = updatedChallenge.levels[0];
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
+        expect(level.level).toEqual(0);
+        expect(level.criteria).toEqual('criteria');
+        expect(updatedChallenge.createdAt).toEqual(expect.any(String));
+        expect(updatedChallenge.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(updatedChallenge).sort()).toEqual(
+            [
+                '_id',
+                'name',
+                'description',
+                'icon',
+                'color',
+                'badgeId',
+                'levels',
+                'members',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const updatedUser = await streakoid.users.getOne(userId);
+
+        expect(updatedUser._id).toEqual(expect.any(String));
+        expect(updatedUser.username).toEqual(expect.any(String));
+        expect(updatedUser.userType).toEqual(UserTypes.basic);
+        expect(updatedUser.friends).toEqual([]);
+        expect(updatedUser.timezone).toEqual(expect.any(String));
+        expect(updatedUser.profileImages).toEqual({
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
+        expect(updatedUser.pushNotificationToken).toBeNull();
+        expect(updatedUser.createdAt).toEqual(expect.any(String));
+        expect(updatedUser.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(updatedUser).sort()).toEqual(
+            [
+                'userType',
+                'isPayingMember',
+                'friends',
+                '_id',
+                'username',
+                'timezone',
+                'profileImages',
+                'pushNotificationToken',
+                'createdAt',
+                'updatedAt',
             ].sort(),
         );
     });
