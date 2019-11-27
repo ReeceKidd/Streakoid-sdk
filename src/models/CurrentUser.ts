@@ -14,6 +14,7 @@ interface CurrentUser {
     email: string;
     userType: UserTypes;
     timezone: string;
+    badges: string[];
     notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;

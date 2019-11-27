@@ -43,7 +43,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
-        expect.assertions(27);
+        expect.assertions(38);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -118,6 +118,7 @@ describe('POST /challenge-streaks', () => {
         expect(updatedUser.username).toEqual(expect.any(String));
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(updatedUser.friends).toEqual([]);
+        expect(updatedUser.badges).toEqual([expect.any(String)]);
         expect(updatedUser.timezone).toEqual(expect.any(String));
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -130,6 +131,7 @@ describe('POST /challenge-streaks', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
+                'badges',
                 '_id',
                 'username',
                 'timezone',

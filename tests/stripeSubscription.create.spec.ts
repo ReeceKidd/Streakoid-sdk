@@ -15,7 +15,7 @@ jest.setTimeout(120000);
 const premiumUsername = 'premium';
 const premiumEmail = 'premium@gmail.com';
 
-describe('GET /complete-solo-streak-tasks', () => {
+describe('POST /stripe-subscription', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let premiumId: string;
@@ -45,13 +45,14 @@ describe('GET /complete-solo-streak-tasks', () => {
     });
 
     test('takes users payment of 0 and subscribes them for a trial', async () => {
-        expect.assertions(38);
+        expect.assertions(40);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
         });
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
+        expect(user.badges).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);
@@ -66,6 +67,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
+                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -89,6 +91,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             'pastMemberships',
         ]);
         expect(databaseUser.friends).toEqual([]);
+        expect(databaseUser.badges).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
         expect(databaseUser.email).toEqual(email);
@@ -123,6 +126,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'stripe',
                 'userType',
                 'friends',
+                'badges',
                 'membershipInformation',
                 '_id',
                 'username',
@@ -130,7 +134,6 @@ describe('GET /complete-solo-streak-tasks', () => {
                 'timezone',
                 'profileImages',
                 'notifications',
-                'badges',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
