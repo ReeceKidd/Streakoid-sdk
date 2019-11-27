@@ -4,9 +4,10 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import CurrentUser from './models/CurrentUser';
 import Notifications from './models/Notifications';
+import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 
 const user = (streakoidClient: AxiosInstance) => {
-    const getCurrentUser = async (): Promise<CurrentUser> => {
+    const getCurrentUser = async (): Promise<PopulatedCurrentUser> => {
         try {
             const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.user}`);
             return data;
