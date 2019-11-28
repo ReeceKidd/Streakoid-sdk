@@ -78,6 +78,7 @@ describe('PATCH /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
+                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',

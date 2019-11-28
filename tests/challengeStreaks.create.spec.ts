@@ -43,7 +43,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
-        expect.assertions(38);
+        expect.assertions(39);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -54,6 +54,7 @@ describe('POST /challenge-streaks', () => {
         expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.userId).toBeDefined();
         expect(challengeStreak.challengeId).toBeDefined();
+        expect(challengeStreak.badgeId).toBeDefined();
         expect(Object.keys(challengeStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
         expect(challengeStreak.completedToday).toEqual(false);
@@ -71,6 +72,7 @@ describe('POST /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
+                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',

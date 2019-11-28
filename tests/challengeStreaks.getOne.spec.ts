@@ -72,6 +72,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
                 'pastStreaks',
                 'userId',
                 'challengeId',
+                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
