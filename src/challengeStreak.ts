@@ -53,7 +53,7 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const getOne = async (challengeStreakId: string): Promise<ChallengeStreak> => {
+    const getOne = async ({ challengeStreakId }: { challengeStreakId: string }): Promise<ChallengeStreak> => {
         try {
             const { data } = await streakoidClient.get(
                 `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,

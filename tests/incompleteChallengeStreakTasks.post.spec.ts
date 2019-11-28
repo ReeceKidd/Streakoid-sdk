@@ -73,7 +73,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakId);
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
@@ -98,6 +98,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
+                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -163,7 +164,9 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(multipleDayChallengeStreak._id);
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({
+                challengeStreakId: multipleDayChallengeStreak._id,
+            });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
@@ -188,6 +191,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
+                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',

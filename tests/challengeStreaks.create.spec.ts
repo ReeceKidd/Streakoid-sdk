@@ -80,7 +80,7 @@ describe('POST /challenge-streaks', () => {
             ].sort(),
         );
 
-        const updatedChallenge = await streakoid.challenges.getOne(challengeId);
+        const updatedChallenge = await streakoid.challenges.getOne({ challengeId });
 
         expect(updatedChallenge._id).toEqual(expect.any(String));
         expect(updatedChallenge.name).toEqual(name);

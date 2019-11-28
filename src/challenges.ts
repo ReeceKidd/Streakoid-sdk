@@ -22,7 +22,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const getOne = async (challengeId: string): Promise<PopulatedChallenge> => {
+    const getOne = async ({ challengeId }: { challengeId: string }): Promise<PopulatedChallenge> => {
         try {
             const { data } = await streakoidClient.get(
                 `/${ApiVersions.v1}/${RouterCategories.challenges}/${challengeId}`,

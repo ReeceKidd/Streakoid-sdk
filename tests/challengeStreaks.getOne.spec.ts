@@ -48,7 +48,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
     test(`challenge streak can be retreived`, async () => {
         expect.assertions(13);
 
-        const challengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakId);
+        const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
 
         expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.userId).toBeDefined();
@@ -85,7 +85,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
         expect.assertions(5);
 
         try {
-            await streakoid.challengeStreaks.getOne('5d54487483233622e43270f9');
+            await streakoid.challengeStreaks.getOne({ challengeStreakId: '5d54487483233622e43270f9' });
         } catch (err) {
             const { data } = err.response;
             const { code, message, httpStatusCode } = data;

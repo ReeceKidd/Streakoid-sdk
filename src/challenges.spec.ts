@@ -39,7 +39,7 @@ describe('SDK challenges', () => {
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.challenges.getOne('challengeId');
+            await streakoid.challenges.getOne({ challengeId: 'challengeId' });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenges/challengeId`);
         });

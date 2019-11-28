@@ -29,7 +29,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
 
     describe('POST /v1/complete-challenge-streak-tasks', () => {
         test('user can complete a challenge streak task with a new current streak', async () => {
-            expect.assertions(21);
+            expect.assertions(22);
 
             const color = 'blue';
             const levels = [{ level: 0, criteria: 'criteria' }];
@@ -66,11 +66,12 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakId);
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
             expect(updatedChallengeStreak.challengeId).toBeDefined();
+            expect(updatedChallengeStreak.badgeId).toBeDefined();
             expect(updatedChallengeStreak._id).toBeDefined();
             expect(Object.keys(updatedChallengeStreak.currentStreak).sort()).toEqual(
                 ['numberOfDaysInARow', 'startDate'].sort(),
@@ -92,6 +93,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
+                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -154,9 +156,9 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(
-                challengeStreakWithExistingCurrentStreak._id,
-            );
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({
+                challengeStreakId: challengeStreakWithExistingCurrentStreak._id,
+            });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
@@ -180,6 +182,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     'pastStreaks',
                     '_id',
                     'userId',
+                    'badgeId',
                     'challengeId',
                     'timezone',
                     'createdAt',
@@ -240,7 +243,9 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakForRecompletion._id);
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({
+                challengeStreakId: challengeStreakForRecompletion._id,
+            });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
@@ -265,6 +270,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
+                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -337,7 +343,9 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne(challengeStreakForRecompletion._id);
+            const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({
+                challengeStreakId: challengeStreakForRecompletion._id,
+            });
 
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
@@ -363,6 +371,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
+                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
