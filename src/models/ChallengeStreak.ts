@@ -5,6 +5,7 @@ import PastStreak from './PastStreak';
 interface ChallengeStreak {
     _id: string;
     challengeId: string;
+    badgeId: string;
     userId: string;
     status: StreakStatus;
     completedToday: boolean;
