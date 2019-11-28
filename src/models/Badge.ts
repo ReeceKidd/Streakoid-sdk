@@ -8,6 +8,7 @@ interface Badge {
     icon: string;
     createdAt: string;
     updatedAt: string;
+    challengeId?: string;
 }
 
 export default Badge;
