@@ -35,7 +35,6 @@ import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 import IncompleteChallengeStreakTask from './models/IncompleteChallengeStreakTask';
 import ChallengeMember from './models/ChallengeMember';
 import PopulatedChallenge from './models/PopulatedChallenge';
-import PopulatedUser from './models/PopulatedUser';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -72,7 +71,6 @@ export {
     User,
     FormattedUser,
     PopulatedCurrentUser,
-    PopulatedUser,
     TeamStreak,
     PopulatedTeamStreak,
     StreakRecommendation,
