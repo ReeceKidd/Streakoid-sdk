@@ -1,19 +1,20 @@
 import UserTypes from '../userTypes';
 import Friend from './Friend';
 import ProfileImages from './ProfileImages';
+import { Badge } from '..';
 
-interface FormattedUser {
+interface PopulatedUser {
     _id: string;
     username: string;
     isPayingMember: boolean;
     userType: UserTypes;
     timezone: string;
     friends: Friend[];
-    badges: string[];
+    badges: Badge[];
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
     pushNotificationToken: string;
 }
 
-export default FormattedUser;
+export default PopulatedUser;

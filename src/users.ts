@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { friends } from './friends';
-import { FormattedUser, PopulatedCurrentUser } from '.';
+import { FormattedUser, PopulatedCurrentUser, PopulatedUser } from '.';
 
 const users = (streakoidClient: AxiosInstance) => {
     const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {
@@ -43,7 +43,7 @@ const users = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const getOne = async (userId: string): Promise<FormattedUser> => {
+    const getOne = async (userId: string): Promise<PopulatedUser> => {
         try {
             const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.users}/${userId}`);
             return data;

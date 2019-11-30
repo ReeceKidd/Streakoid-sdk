@@ -20,6 +20,7 @@ import StreakTrackingEvent from './models/StreakTrackingEvent';
 import User from './models/User';
 import FormattedUser from './models/FormattedUser';
 import PopulatedCurrentUser from './models/PopulatedCurrentUser';
+import PopulatedUser from './models/PopulatedUser';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
@@ -71,6 +72,7 @@ export {
     User,
     FormattedUser,
     PopulatedCurrentUser,
+    PopulatedUser,
     TeamStreak,
     PopulatedTeamStreak,
     StreakRecommendation,
