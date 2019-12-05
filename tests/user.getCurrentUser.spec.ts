@@ -30,7 +30,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(26);
+        expect.assertions(29);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -46,7 +46,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates'].sort(),
+            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -63,6 +63,9 @@ describe('GET /user', () => {
         ]);
         expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(false);
         expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(false);
+        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
+        expect(user.notifications.badgeUpdates.emailNotification).toEqual(false);
+        expect(user.notifications.badgeUpdates.pushNotification).toEqual(false);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -89,7 +92,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user has a badge on their profile it returns a populated badge`, async () => {
-        expect.assertions(34);
+        expect.assertions(37);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -136,7 +139,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates'].sort(),
+            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -153,6 +156,9 @@ describe('GET /user', () => {
         ]);
         expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(false);
         expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(false);
+        expect(user.notifications.badgeUpdates.emailNotification).toEqual(false);
+        expect(user.notifications.badgeUpdates.pushNotification).toEqual(false);
+        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

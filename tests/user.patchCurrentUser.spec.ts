@@ -31,7 +31,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(26);
+        expect.assertions(29);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
@@ -45,6 +45,10 @@ describe('PATCH /user', () => {
                 pushNotification: true,
             },
             teamStreakUpdates: {
+                emailNotification: true,
+                pushNotification: true,
+            },
+            badgeUpdates: {
                 emailNotification: true,
                 pushNotification: true,
             },
@@ -74,7 +78,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates'].sort(),
+            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -94,6 +98,12 @@ describe('PATCH /user', () => {
         ]);
         expect(updatedUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
         expect(updatedUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
+        expect(Object.keys(updatedUser.notifications.badgeUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(updatedUser.notifications.badgeUpdates.emailNotification).toEqual(true);
+        expect(updatedUser.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -120,7 +130,7 @@ describe('PATCH /user', () => {
     });
 
     test(`when user has a badge on profile it gets populated after being patched.`, async () => {
-        expect.assertions(34);
+        expect.assertions(37);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -153,6 +163,10 @@ describe('PATCH /user', () => {
                 pushNotification: true,
             },
             teamStreakUpdates: {
+                emailNotification: true,
+                pushNotification: true,
+            },
+            badgeUpdates: {
                 emailNotification: true,
                 pushNotification: true,
             },
@@ -195,7 +209,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates'].sort(),
+            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -215,6 +229,12 @@ describe('PATCH /user', () => {
         ]);
         expect(updatedUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
         expect(updatedUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
+        expect(Object.keys(updatedUser.notifications.badgeUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(updatedUser.notifications.badgeUpdates.emailNotification).toEqual(true);
+        expect(updatedUser.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
