@@ -12,6 +12,10 @@ interface Notifications {
         emailNotification: boolean;
         pushNotification: boolean;
     };
+    badgeUpdates: {
+        emailNotification: boolean;
+        pushNotification: boolean;
+    };
 }
 
 export default Notifications;
