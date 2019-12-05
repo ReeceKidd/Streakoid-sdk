@@ -41,6 +41,10 @@ describe('SDK users', () => {
                         emailNotification: true,
                         pushNotification: true,
                     },
+                    badgeUpdates: {
+                        emailNotification: true,
+                        pushNotification: true,
+                    },
                 },
                 timezone: 'Europe/London',
                 pushNotification: 'push-notification',
