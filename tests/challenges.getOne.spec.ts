@@ -43,7 +43,7 @@ describe('GET /challenges/:challengeId', () => {
     test(`gets a challenge using challengeId`, async () => {
         expect.assertions(14);
 
-        const challenge = await streakoid.challenges.getOne(challengeId);
+        const challenge = await streakoid.challenges.getOne({ challengeId });
 
         expect(challenge._id).toEqual(expect.any(String));
         expect(challenge.name).toEqual(name);

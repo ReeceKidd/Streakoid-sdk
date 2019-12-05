@@ -163,7 +163,6 @@ describe('GET /challenge-streaks', () => {
 
     test('completed challenge streaks can be retreived', async () => {
         expect.assertions(14);
-
         const name = 'Duolingo';
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];

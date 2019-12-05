@@ -120,7 +120,7 @@ describe('POST /challenge-streaks', () => {
         expect(updatedUser.username).toEqual(expect.any(String));
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(updatedUser.friends).toEqual([]);
-        expect(updatedUser.badges).toEqual([expect.any(String)]);
+        expect(updatedUser.badges).toEqual([expect.any(Object)]);
         expect(updatedUser.timezone).toEqual(expect.any(String));
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

@@ -45,7 +45,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('takes users payment of 0 and subscribes them for a trial', async () => {
-        expect.assertions(40);
+        expect.assertions(43);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -117,6 +117,12 @@ describe('POST /stripe-subscription', () => {
         ]);
         expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(false);
         expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(false);
+        expect(Object.keys(databaseUser.notifications.badgeUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(databaseUser.notifications.badgeUpdates.emailNotification).toEqual(false);
+        expect(databaseUser.notifications.badgeUpdates.pushNotification).toEqual(false);
         expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.createdAt).toBeDefined();
