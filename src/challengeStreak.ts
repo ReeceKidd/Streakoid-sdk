@@ -11,6 +11,7 @@ import { PastStreak } from '.';
 const challengeStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
+        challengeId,
         completedToday,
         timezone,
         active,
@@ -28,6 +29,10 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
 
             if (userId) {
                 getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}userId=${userId}&`;
+            }
+
+            if (challengeId) {
+                getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}challengeId=${challengeId}&`;
             }
 
             if (timezone) {

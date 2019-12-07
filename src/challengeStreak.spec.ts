@@ -29,6 +29,17 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?userId=${userId}&`);
         });
 
+        test('calls GET with correct URL when challengeId query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const challengeId = 'challengeId';
+
+            await streakoid.challengeStreaks.getAll({ challengeId });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?challengeId=${challengeId}&`);
+        });
+
         test('calls GET with correct URL when completedToday query paramater is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
