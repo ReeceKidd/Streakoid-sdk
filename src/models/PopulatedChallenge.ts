@@ -11,6 +11,7 @@ interface PopulatedChallenge {
     members: ChallengeMember[];
     createdAt: string;
     updatedAt: string;
+    longestStreakForChallenge: number;
     numberOfMinutes?: number;
 }
 
