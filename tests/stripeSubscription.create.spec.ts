@@ -102,27 +102,27 @@ describe('POST /stripe-subscription', () => {
         expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(false);
-        expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(databaseUser.notifications.friendRequest).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.friendRequest.emailNotification).toEqual(false);
-        expect(databaseUser.notifications.friendRequest.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.friendRequest.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.friendRequest.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(false);
-        expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.badgeUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.badgeUpdates.emailNotification).toEqual(false);
-        expect(databaseUser.notifications.badgeUpdates.pushNotification).toEqual(false);
+        expect(databaseUser.notifications.badgeUpdates.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.createdAt).toBeDefined();

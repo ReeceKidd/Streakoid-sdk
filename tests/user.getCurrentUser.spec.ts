@@ -51,21 +51,21 @@ describe('GET /user', () => {
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(false);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(false);
+        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
+        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(false);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(false);
+        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
+        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(false);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(false);
+        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(false);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(false);
+        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -144,20 +144,20 @@ describe('GET /user', () => {
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
         );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(false);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(false);
+        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
+        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
         expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(false);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(false);
+        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
+        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(false);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(false);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(false);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(false);
+        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
+        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
