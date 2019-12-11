@@ -25,7 +25,6 @@ import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
-import StreakRecommendation from './models/StreakRecoomendation';
 import Badge from './models/Badge';
 import DailyJob from './models/DailyJob';
 import Email from './models/Email';
@@ -75,7 +74,6 @@ export {
     PopulatedUser,
     TeamStreak,
     PopulatedTeamStreak,
-    StreakRecommendation,
     Badge,
     Challenge,
     ChallengeStreak,

@@ -2,11 +2,11 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import StreakRecommendation from './models/StreakRecoomendation';
+import Challenge from './models/Challenge';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const streakRecommendations = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ random, limit }: { random: boolean; limit: number }): Promise<StreakRecommendation[]> => {
+    const getAll = async ({ random, limit }: { random: boolean; limit: number }): Promise<Challenge[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}?`;
 
@@ -28,19 +28,16 @@ const streakRecommendations = (streakoidClient: AxiosInstance) => {
     const create = async ({
         streakName,
         streakDescription,
-        numberOfMinutes,
     }: {
         streakName: string;
         streakDescription?: string;
-        numberOfMinutes?: number;
-    }): Promise<StreakRecommendation> => {
+    }): Promise<Challenge> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}`,
                 {
                     streakName,
                     streakDescription,
-                    numberOfMinutes,
                 },
             );
             return data;
