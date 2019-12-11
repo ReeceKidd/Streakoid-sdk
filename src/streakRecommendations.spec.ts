@@ -34,18 +34,15 @@ describe('SDK streakRecommendations', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const streakName = 'streakName';
             const streakDescription = 'streakDescription';
-            const numberOfMinutes = 30;
 
             await streakoid.streakRecommendations.create({
                 streakName,
                 streakDescription,
-                numberOfMinutes,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/streak-recommendations`, {
                 streakName,
                 streakDescription,
-                numberOfMinutes,
             });
         });
     });
