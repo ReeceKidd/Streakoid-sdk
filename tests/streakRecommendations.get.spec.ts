@@ -21,7 +21,6 @@ describe('GET /streak-recommendations', () => {
             await streakoid.streakRecommendations.create({
                 streakName,
                 streakDescription,
-                numberOfMinutes,
             });
         }
     });
