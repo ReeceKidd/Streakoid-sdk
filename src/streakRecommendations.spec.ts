@@ -26,24 +26,4 @@ describe('SDK streakRecommendations', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-recommendations?limit=5&`);
         });
     });
-
-    describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
-            expect.assertions(1);
-
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const streakName = 'streakName';
-            const streakDescription = 'streakDescription';
-
-            await streakoid.streakRecommendations.create({
-                streakName,
-                streakDescription,
-            });
-
-            expect(streakoidClient.post).toBeCalledWith(`/v1/streak-recommendations`, {
-                streakName,
-                streakDescription,
-            });
-        });
-    });
 });

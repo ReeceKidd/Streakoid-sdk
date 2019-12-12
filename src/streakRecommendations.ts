@@ -25,30 +25,8 @@ const streakRecommendations = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const create = async ({
-        streakName,
-        streakDescription,
-    }: {
-        streakName: string;
-        streakDescription?: string;
-    }): Promise<Challenge> => {
-        try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}`,
-                {
-                    streakName,
-                    streakDescription,
-                },
-            );
-            return data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     return {
         getAll,
-        create,
     };
 };
 
