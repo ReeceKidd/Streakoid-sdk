@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-import { CurrentUser } from '../../src';
+import { PopulatedCurrentUser } from '../../src';
 import { streakoid } from '../../src/streakoid';
 
 export const friendUsername = 'friend';
 export const friendEmail = 'friend@gmail.com';
 
-const getFriend = async (): Promise<CurrentUser> => {
+const getFriend = async (): Promise<PopulatedCurrentUser> => {
     await streakoid.users.create({ username: friendUsername, email: friendEmail });
     const user = await mongoose.connection.db.collection('Users').findOne({ username: friendUsername });
     const updatedUser = await mongoose.connection.db.collection('Users').findOneAndUpdate(
