@@ -9,18 +9,23 @@ jest.setTimeout(120000);
 
 describe('GET /streak-recommendations', () => {
     let streakoid: StreakoidFactory;
-    const streakName = 'Daily Spanish';
-    const streakDescription = 'Everyday I must do Spanish';
-    const numberOfMinutes = 30;
+    const name = 'Duolingo';
+    const description = 'Everyday I must complete a duolingo lesson';
+    const icon = 'duolingo';
+    const color = 'blue';
+    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             await getPayingUser();
             streakoid = await streakoidTest();
-            await streakoid.streakRecommendations.create({
-                streakName,
-                streakDescription,
+            await streakoid.challenges.create({
+                name,
+                description,
+                icon,
+                color,
+                levels,
             });
         }
     });
@@ -32,38 +37,78 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`random streak recommendations can be retreived`, async () => {
-        expect.assertions(7);
+        expect.assertions(14);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
 
         const streakRecommendation = streakRecommendations[0];
 
         expect(streakRecommendation._id).toEqual(expect.any(String));
-        expect(streakRecommendation.streakName).toEqual(streakName);
-        expect(streakRecommendation.streakDescription).toEqual(streakDescription);
-        expect(streakRecommendation.numberOfMinutes).toEqual(numberOfMinutes);
+        expect(streakRecommendation.name).toEqual(name);
+        expect(streakRecommendation.description).toEqual(description);
+        expect(streakRecommendation.icon).toEqual(icon);
+        expect(streakRecommendation.color).toEqual(color);
+        expect(streakRecommendation.badgeId).toBeDefined();
+        expect(streakRecommendation.members).toEqual([]);
+        expect(streakRecommendation.levels.length).toEqual(1);
+        const level = streakRecommendation.levels[0];
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
+        expect(level.level).toEqual(0);
+        expect(level.criteria).toEqual('criteria');
         expect(streakRecommendation.createdAt).toEqual(expect.any(String));
         expect(streakRecommendation.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakRecommendation).sort()).toEqual(
-            ['_id', 'streakName', 'numberOfMinutes', 'streakDescription', 'createdAt', 'updatedAt', '__v'].sort(),
+            [
+                '_id',
+                'name',
+                'description',
+                'icon',
+                'color',
+                'badgeId',
+                'levels',
+                'members',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
         );
     });
 
     test(`non random streak recommendations can be retreived`, async () => {
-        expect.assertions(7);
+        expect.assertions(14);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: false, limit: 5 });
 
         const streakRecommendation = streakRecommendations[0];
 
         expect(streakRecommendation._id).toEqual(expect.any(String));
-        expect(streakRecommendation.streakName).toEqual(streakName);
-        expect(streakRecommendation.streakDescription).toEqual(streakDescription);
-        expect(streakRecommendation.numberOfMinutes).toEqual(numberOfMinutes);
+        expect(streakRecommendation.name).toEqual(name);
+        expect(streakRecommendation.description).toEqual(description);
+        expect(streakRecommendation.icon).toEqual(icon);
+        expect(streakRecommendation.color).toEqual(color);
+        expect(streakRecommendation.badgeId).toBeDefined();
+        expect(streakRecommendation.members).toEqual([]);
+        expect(streakRecommendation.levels.length).toEqual(1);
+        const level = streakRecommendation.levels[0];
+        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
+        expect(level.level).toEqual(0);
+        expect(level.criteria).toEqual('criteria');
         expect(streakRecommendation.createdAt).toEqual(expect.any(String));
         expect(streakRecommendation.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakRecommendation).sort()).toEqual(
-            ['_id', 'streakName', 'numberOfMinutes', 'streakDescription', 'createdAt', 'updatedAt', '__v'].sort(),
+            [
+                '_id',
+                'name',
+                'description',
+                'icon',
+                'color',
+                'badgeId',
+                'levels',
+                'members',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
         );
     });
 });
