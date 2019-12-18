@@ -24,6 +24,14 @@ const badges = (streakoidClient: AxiosInstance) => {
             return Promise.reject(err);
         }
     };
+    const getOne = async ({ badgeId }: { badgeId: string }): Promise<Badge> => {
+        try {
+            const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.badges}/${badgeId}`);
+            return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
     const create = async ({
         name,
         description,
@@ -50,6 +58,7 @@ const badges = (streakoidClient: AxiosInstance) => {
 
     return {
         getAll,
+        getOne,
         create,
     };
 };

@@ -34,6 +34,18 @@ describe('SDK badges', () => {
         });
     });
 
+    describe('getOne', () => {
+        test('calls GET with correct URL', async () => {
+            expect.assertions(1);
+
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.badges.getOne({ badgeId: 'badgeId' });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/badges/badgeId`);
+        });
+    });
+
     describe('create', () => {
         test('calls POST with correct URL and  parmaters', async () => {
             expect.assertions(1);
