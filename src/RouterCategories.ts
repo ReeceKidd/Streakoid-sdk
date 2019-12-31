@@ -26,6 +26,7 @@ enum RouterCategories {
     badges = 'badges',
     challenges = 'challenges',
     challengeStreaks = 'challenge-streaks',
+    notes = 'notes',
 }
 
 export default RouterCategories;
