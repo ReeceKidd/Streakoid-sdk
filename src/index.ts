@@ -35,6 +35,7 @@ import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 import IncompleteChallengeStreakTask from './models/IncompleteChallengeStreakTask';
 import ChallengeMember from './models/ChallengeMember';
 import PopulatedChallenge from './models/PopulatedChallenge';
+import Note from './models/Note';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -90,4 +91,5 @@ export {
     DailyJob,
     StreakStatus,
     RouterCategories,
+    Note,
 };
