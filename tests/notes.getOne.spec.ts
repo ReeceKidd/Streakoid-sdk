@@ -7,11 +7,7 @@ import { tearDownDatabase } from './setup/tearDownDatabase';
 
 jest.setTimeout(120000);
 
-const streakName = 'Daily Spanish';
-const streakDescription = 'I must do 30 minutes of Spanish everyday';
-const numberOfMinutes = 30;
-
-describe('POST /notes', () => {
+describe('GET /notes/:noteId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
@@ -30,23 +26,13 @@ describe('POST /notes', () => {
         }
     });
 
-    test(`creates a note for a solo streak`, async () => {
+    test(`get note with noteId`, async () => {
         expect.assertions(6);
 
-        const soloStreak = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-            numberOfMinutes,
-        });
-
-        const noteText = 'Finished reading book';
-
-        const note = await streakoid.notes.create({ userId, streakId: soloStreak._id, note: noteText });
-
+        const note = await streakoid.notes.create({ userId, streakId: 'streakId', note: 'Worked on Johnny Cash Hurt' });
         expect(note.userId).toBeDefined();
-        expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.note).toEqual(noteText);
+        expect(note.streakId).toEqual(expect.any(String));
+        expect(note.note).toEqual(expect.any(String));
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
