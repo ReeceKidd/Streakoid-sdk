@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
+import { PaymentPlans } from '.';
 
 describe('SDK stripe', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -16,12 +17,14 @@ describe('SDK stripe', () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const token: any = 'token';
             const userId = 'id';
+            const paymentPlan = PaymentPlans.Annually;
 
-            await streakoid.stripe.createSubscription({ token, userId });
+            await streakoid.stripe.createSubscription({ token, userId, paymentPlan });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/stripe/subscriptions`, {
                 token,
                 userId,
+                paymentPlan,
             });
         });
     });

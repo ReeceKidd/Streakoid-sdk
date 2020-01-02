@@ -4,6 +4,7 @@ import { Token } from 'react-stripe-checkout';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import FormattedUser from './models/FormattedUser';
+import { PaymentPlans } from '.';
 
 export enum stripeRouterPaths {
     subscriptions = 'subscriptions',
@@ -11,11 +12,19 @@ export enum stripeRouterPaths {
 }
 
 const stripe = (streakoidClient: AxiosInstance) => {
-    const createSubscription = async ({ token, userId }: { token: Token; userId: string }): Promise<FormattedUser> => {
+    const createSubscription = async ({
+        token,
+        userId,
+        paymentPlan,
+    }: {
+        token: Token;
+        userId: string;
+        paymentPlan: PaymentPlans;
+    }): Promise<FormattedUser> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.subscriptions}`,
-                { token, userId },
+                { token, userId, paymentPlan },
             );
             return data;
         } catch (err) {
