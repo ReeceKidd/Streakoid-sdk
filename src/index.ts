@@ -45,6 +45,7 @@ import AgendaJobNames from './AgendaJobNames';
 import BadgeTypes from './BadgeTypes';
 import StreakStatus from './StreakStatus';
 import RouterCategories from './RouterCategories';
+import PaymentPlans from './PaymentPlans';
 
 export {
     streakoidClientFactory,
@@ -92,4 +93,5 @@ export {
     StreakStatus,
     RouterCategories,
     Note,
+    PaymentPlans,
 };
