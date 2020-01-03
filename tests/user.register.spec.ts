@@ -84,6 +84,7 @@ describe('POST /users', () => {
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
                 'userType',
