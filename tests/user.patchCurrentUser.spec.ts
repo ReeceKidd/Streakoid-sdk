@@ -31,7 +31,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(29);
+        expect.assertions(30);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
@@ -55,11 +55,13 @@ describe('PATCH /user', () => {
         };
         const updatedTimezone = 'Europe/Paris';
         const updatedPushNotificationToken = 'push-notification-token';
+        const updatedHasCompletedIntroduction = true;
         const updateData = {
             email: updatedEmail,
             notifications: updatedNotifications,
             timezone: updatedTimezone,
             pushNotificationToken: updatedPushNotificationToken,
+            hasCompletedIntroduction: updatedHasCompletedIntroduction,
         };
 
         const updatedUser = await streakoid.user.updateCurrentUser({
@@ -109,6 +111,7 @@ describe('PATCH /user', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(updatedUser.pushNotificationToken).toEqual(updatedPushNotificationToken);
+        expect(updatedUser.hasCompletedIntroduction).toEqual(updatedHasCompletedIntroduction);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
@@ -121,6 +124,7 @@ describe('PATCH /user', () => {
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
                 'userType',
@@ -130,7 +134,7 @@ describe('PATCH /user', () => {
     });
 
     test(`when user has a badge on profile it gets populated after being patched.`, async () => {
-        expect.assertions(37);
+        expect.assertions(38);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -179,6 +183,7 @@ describe('PATCH /user', () => {
             timezone: updatedTimezone,
             pushNotificationToken: updatedPushNotificationToken,
         };
+        const updatedHasCompletedIntroduction = true;
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -240,6 +245,7 @@ describe('PATCH /user', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(updatedUser.pushNotificationToken).toEqual(updatedPushNotificationToken);
+        expect(updatedUser.hasCompletedIntroduction).toEqual(updatedHasCompletedIntroduction);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedUser).sort()).toEqual(
@@ -252,6 +258,7 @@ describe('PATCH /user', () => {
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
                 'userType',

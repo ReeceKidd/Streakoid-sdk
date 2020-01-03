@@ -30,7 +30,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(29);
+        expect.assertions(30);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -71,6 +71,7 @@ describe('GET /user', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -83,6 +84,7 @@ describe('GET /user', () => {
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
                 'userType',
@@ -92,7 +94,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user has a badge on their profile it returns a populated badge`, async () => {
-        expect.assertions(37);
+        expect.assertions(38);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -164,6 +166,7 @@ describe('GET /user', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -176,6 +179,7 @@ describe('GET /user', () => {
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
                 'userType',

@@ -19,6 +19,7 @@ interface PopulatedCurrentUser {
     notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;
+    hasCompletedIntroduction: boolean;
     createdAt: string;
     updatedAt: string;
 }

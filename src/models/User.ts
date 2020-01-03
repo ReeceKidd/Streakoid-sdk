@@ -24,6 +24,7 @@ interface User {
     };
     profileImages: ProfileImages;
     pushNotificationToken: string;
+    hasCompletedIntroduction: boolean;
     createdAt: string;
     updatedAt: string;
 }
