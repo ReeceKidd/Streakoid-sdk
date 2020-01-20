@@ -42,14 +42,14 @@ describe('GET /notes', () => {
 
         const noteText = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, note: noteText });
+        await streakoid.notes.create({ userId, streakId: soloStreak._id, text: noteText });
 
         const notes = await streakoid.notes.getAll({});
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.note).toEqual(noteText);
+        expect(note.text).toEqual(noteText);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
@@ -67,16 +67,16 @@ describe('GET /notes', () => {
             numberOfMinutes,
         });
 
-        const noteText = 'Finished reading book';
+        const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, note: noteText });
+        await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
 
         const notes = await streakoid.notes.getAll({ userId });
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.note).toEqual(noteText);
+        expect(note.text).toEqual(text);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
@@ -94,16 +94,16 @@ describe('GET /notes', () => {
             numberOfMinutes,
         });
 
-        const noteText = 'Finished reading book';
+        const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, note: noteText });
+        await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
 
         const notes = await streakoid.notes.getAll({ streakId: soloStreak._id });
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.note).toEqual(noteText);
+        expect(note.text).toEqual(text);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(

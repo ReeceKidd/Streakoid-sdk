@@ -2,7 +2,7 @@ interface Note {
     _id: string;
     userId: string;
     streakId: string;
-    note: string;
+    text: string;
     updatedAt: string;
     createdAt: string;
 }

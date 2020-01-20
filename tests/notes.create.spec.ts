@@ -40,13 +40,13 @@ describe('POST /notes', () => {
             numberOfMinutes,
         });
 
-        const noteText = 'Finished reading book';
+        const text = 'Finished reading book';
 
-        const note = await streakoid.notes.create({ userId, streakId: soloStreak._id, note: noteText });
+        const note = await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
 
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.note).toEqual(noteText);
+        expect(note.text).toEqual(text);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(

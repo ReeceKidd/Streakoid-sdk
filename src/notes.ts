@@ -37,17 +37,17 @@ const notes = (streakoidClient: AxiosInstance) => {
     const create = async ({
         userId,
         streakId,
-        note,
+        text,
     }: {
         userId: string;
         streakId: string;
-        note: string;
+        text: string;
     }): Promise<Note> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.notes}`, {
                 userId,
                 streakId,
-                note,
+                text,
             });
             return data;
         } catch (err) {

@@ -71,18 +71,18 @@ describe('SDK notes', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const streakId = 'streakId';
-            const note = 'Finished reading 4 hour work week';
+            const text = 'Finished reading 4 hour work week';
 
             await streakoid.notes.create({
                 userId,
                 streakId,
-                note,
+                text,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/notes`, {
                 userId,
                 streakId,
-                note,
+                text,
             });
         });
     });

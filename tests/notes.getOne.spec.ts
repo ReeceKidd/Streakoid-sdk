@@ -29,10 +29,10 @@ describe('GET /notes/:noteId', () => {
     test(`get note with noteId`, async () => {
         expect.assertions(6);
 
-        const note = await streakoid.notes.create({ userId, streakId: 'streakId', note: 'Worked on Johnny Cash Hurt' });
+        const note = await streakoid.notes.create({ userId, streakId: 'streakId', text: 'Worked on Johnny Cash Hurt' });
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(expect.any(String));
-        expect(note.note).toEqual(expect.any(String));
+        expect(note.text).toEqual(expect.any(String));
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(

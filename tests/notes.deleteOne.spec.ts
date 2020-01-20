@@ -29,7 +29,7 @@ describe('DELETE /notes', () => {
     test(`deletes note`, async () => {
         expect.assertions(3);
 
-        const note = await streakoid.notes.create({ userId, streakId: 'streakId', note: 'Worked on Johnny Cash Hurt' });
+        const note = await streakoid.notes.create({ userId, streakId: 'streakId', text: 'Worked on Johnny Cash Hurt' });
 
         const { status } = await streakoid.notes.deleteOne({ noteId: note._id });
 
