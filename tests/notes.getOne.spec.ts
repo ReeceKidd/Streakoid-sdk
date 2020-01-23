@@ -36,7 +36,7 @@ describe('GET /notes/:noteId', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'note', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });
