@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -29,7 +30,12 @@ describe('DELETE /notes', () => {
     test(`deletes note`, async () => {
         expect.assertions(3);
 
-        const note = await streakoid.notes.create({ userId, streakId: 'streakId', text: 'Worked on Johnny Cash Hurt' });
+        const note = await streakoid.notes.create({
+            userId,
+            streakId: 'streakId',
+            text: 'Worked on Johnny Cash Hurt',
+            streakType: StreakTypes.solo,
+        });
 
         const { status } = await streakoid.notes.deleteOne({ noteId: note._id });
 

@@ -28,7 +28,7 @@ describe('GET /notes/:noteId', () => {
     });
 
     test(`get note with noteId`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const note = await streakoid.notes.create({
             userId,
@@ -43,7 +43,7 @@ describe('GET /notes/:noteId', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

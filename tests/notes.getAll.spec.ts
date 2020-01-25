@@ -32,7 +32,7 @@ describe('GET /notes', () => {
     });
 
     test(`gets all created notes with no query paramaters.`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -66,7 +66,7 @@ describe('GET /notes', () => {
     });
 
     test(`gets all created notes with user query paramater.`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -94,7 +94,7 @@ describe('GET /notes', () => {
     });
 
     test(`gets all created notes with user query paramater.`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
