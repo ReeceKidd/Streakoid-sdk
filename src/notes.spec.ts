@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
+import StreakTypes from './StreakTypes';
 
 describe('SDK notes', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -72,17 +73,20 @@ describe('SDK notes', () => {
             const userId = 'userId';
             const streakId = 'streakId';
             const text = 'Finished reading 4 hour work week';
+            const streakType = StreakTypes.team;
 
             await streakoid.notes.create({
                 userId,
                 streakId,
                 text,
+                streakType,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/notes`, {
                 userId,
                 streakId,
                 text,
+                streakType,
             });
         });
     });

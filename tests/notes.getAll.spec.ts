@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -42,7 +43,12 @@ describe('GET /notes', () => {
 
         const noteText = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, text: noteText });
+        await streakoid.notes.create({
+            userId,
+            streakId: soloStreak._id,
+            text: noteText,
+            streakType: StreakTypes.solo,
+        });
 
         const notes = await streakoid.notes.getAll({});
 
@@ -51,10 +57,11 @@ describe('GET /notes', () => {
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
         expect(note.text).toEqual(noteText);
+        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -70,7 +77,7 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
+        await streakoid.notes.create({ userId, streakId: soloStreak._id, text, streakType: StreakTypes.solo });
 
         const notes = await streakoid.notes.getAll({ userId });
         const note = notes[0];
@@ -78,10 +85,11 @@ describe('GET /notes', () => {
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
         expect(note.text).toEqual(text);
+        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'text', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -97,7 +105,7 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
+        await streakoid.notes.create({ userId, streakId: soloStreak._id, streakType: StreakTypes.solo, text });
 
         const notes = await streakoid.notes.getAll({ streakId: soloStreak._id });
         const note = notes[0];
@@ -105,10 +113,11 @@ describe('GET /notes', () => {
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(soloStreak._id);
         expect(note.text).toEqual(text);
+        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

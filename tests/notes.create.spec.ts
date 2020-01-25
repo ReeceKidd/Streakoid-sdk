@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -31,26 +32,36 @@ describe('POST /notes', () => {
     });
 
     test(`creates a note for a solo streak`, async () => {
-        expect.assertions(6);
+        try {
+            expect.assertions(7);
 
-        const soloStreak = await streakoid.soloStreaks.create({
-            userId,
-            streakName,
-            streakDescription,
-            numberOfMinutes,
-        });
+            const soloStreak = await streakoid.soloStreaks.create({
+                userId,
+                streakName,
+                streakDescription,
+                numberOfMinutes,
+            });
 
-        const text = 'Finished reading book';
+            const text = 'Finished reading book';
 
-        const note = await streakoid.notes.create({ userId, streakId: soloStreak._id, text });
+            const note = await streakoid.notes.create({
+                userId,
+                streakId: soloStreak._id,
+                text,
+                streakType: StreakTypes.team,
+            });
 
-        expect(note.userId).toBeDefined();
-        expect(note.streakId).toEqual(soloStreak._id);
-        expect(note.text).toEqual(text);
-        expect(note.createdAt).toEqual(expect.any(String));
-        expect(note.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
+            expect(note.userId).toBeDefined();
+            expect(note.streakId).toEqual(soloStreak._id);
+            expect(note.text).toEqual(text);
+            expect(note.streakType).toEqual(StreakTypes.team);
+            expect(note.createdAt).toEqual(expect.any(String));
+            expect(note.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(note).sort()).toEqual(
+                ['_id', 'userId', 'streakId', 'text', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            );
+        } catch (err) {
+            console.log(err);
+        }
     });
 });

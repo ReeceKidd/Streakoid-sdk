@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -29,10 +30,16 @@ describe('GET /notes/:noteId', () => {
     test(`get note with noteId`, async () => {
         expect.assertions(6);
 
-        const note = await streakoid.notes.create({ userId, streakId: 'streakId', text: 'Worked on Johnny Cash Hurt' });
+        const note = await streakoid.notes.create({
+            userId,
+            streakId: 'streakId',
+            text: 'Worked on Johnny Cash Hurt',
+            streakType: StreakTypes.solo,
+        });
         expect(note.userId).toBeDefined();
         expect(note.streakId).toEqual(expect.any(String));
         expect(note.text).toEqual(expect.any(String));
+        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
