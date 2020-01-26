@@ -2,7 +2,7 @@ import ActivityTypes from '../ActivityTypes';
 
 interface Activity {
     _id: string;
-    type: ActivityTypes;
+    activityType: ActivityTypes;
     createdAt: string;
     updatedAt: string;
     userId?: string;
