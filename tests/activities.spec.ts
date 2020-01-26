@@ -4,7 +4,6 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getPayingUser } from './setup/getPayingUser';
-import { BadgeTypes } from '../src';
 import ActivityTypes from '../src/ActivityTypes';
 
 jest.setTimeout(120000);
