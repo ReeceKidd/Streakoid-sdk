@@ -28,23 +28,24 @@ describe('GET /activities', () => {
     });
 
     test(`gets a create solo streak activity using the userId query paramater`, async () => {
-        expect.assertions(8);
+        expect.assertions(7);
 
         const streakName = 'Daily Spanish';
         const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
-        const soloStreak = await streakoid.soloStreaks.create({
+        // When a solo streak is created a createdSoloStreak activity is created.
+        await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
         });
 
-        const activities = await streakoid.activities.getAll({ userId, streakId: soloStreak._id });
+        const activities = await streakoid.activities.getAll({});
         const activity = activities[0];
 
         expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(userId);
-        expect(activity.streakId).toEqual(soloStreak._id);
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
         expect(activity.activityType).toEqual(ActivityTypes.createdSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
