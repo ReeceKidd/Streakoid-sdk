@@ -4,11 +4,11 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getPayingUser } from './setup/getPayingUser';
-import ActivityTypes from '../src/ActivityTypes';
+import ActivityFeedItemTypes from '../src/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 
-describe('GET /activities', () => {
+describe('GET /activityFeedItems', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
@@ -40,13 +40,13 @@ describe('GET /activities', () => {
             streakDescription,
         });
 
-        const activities = await streakoid.activities.getAll({});
-        const activity = activities[0];
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({});
+        const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
         expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityType).toEqual(ActivityTypes.createdSoloStreak);
+        expect(activity.activityType).toEqual(ActivityFeedItemTypes.createdSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(

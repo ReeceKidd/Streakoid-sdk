@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 
-describe('SDK activities', () => {
+describe('SDK activityFeedItems', () => {
     const streakoid = streakoidFactory(streakoidClient);
 
     afterEach(() => {
@@ -20,18 +20,18 @@ describe('SDK activities', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.activities.getAll({});
+            await streakoid.activityFeedItems.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activities?`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?`);
         });
 
         test('calls GET with correct URL when all query paramters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.activities.getAll(query);
+            await streakoid.activityFeedItems.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activities?userId=${userId}&streakId=${streakId}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?userId=${userId}&streakId=${streakId}&`);
         });
     });
 });

@@ -1,12 +1,12 @@
-import ActivityTypes from '../ActivityTypes';
+import ActivityFeedItemTypes from '../ActivityFeedItemTypes';
 
-interface Activity {
+interface ActivityFeedItem {
     _id: string;
-    activityType: ActivityTypes;
+    activityType: ActivityFeedItemTypes;
     createdAt: string;
     updatedAt: string;
     userId?: string;
     streakId?: string;
 }
 
-export default Activity;
+export default ActivityFeedItem;
