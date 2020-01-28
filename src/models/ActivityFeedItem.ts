@@ -7,6 +7,7 @@ interface ActivityFeedItem {
     updatedAt: string;
     userId?: string;
     streakId?: string;
+    challengeId?: string;
 }
 
 export default ActivityFeedItem;
