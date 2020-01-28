@@ -47,6 +47,7 @@ import BadgeTypes from './BadgeTypes';
 import StreakStatus from './StreakStatus';
 import RouterCategories from './RouterCategories';
 import PaymentPlans from './PaymentPlans';
+import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 
 export {
     streakoidClientFactory,
@@ -96,4 +97,5 @@ export {
     Note,
     PaymentPlans,
     ActivityFeedItem,
+    ActivityFeedItemTypes,
 };
