@@ -12,7 +12,7 @@ describe('GET /activityFeedItems', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             streakoid = await streakoidTest();
@@ -21,13 +21,13 @@ describe('GET /activityFeedItems', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
-    test(`gets a create solo streak activity using the userId query paramater`, async () => {
+    test(`gets a ${ActivityFeedItemTypes.createdSoloStreak} activity`, async () => {
         expect.assertions(7);
 
         const streakName = 'Daily Spanish';
@@ -46,11 +46,11 @@ describe('GET /activityFeedItems', () => {
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
         expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityType).toEqual(ActivityFeedItemTypes.createdSoloStreak);
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

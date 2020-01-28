@@ -2,7 +2,7 @@ import ActivityFeedItemTypes from '../ActivityFeedItemTypes';
 
 interface ActivityFeedItem {
     _id: string;
-    activityType: ActivityFeedItemTypes;
+    activityFeedItemType: ActivityFeedItemTypes;
     createdAt: string;
     updatedAt: string;
     userId?: string;
