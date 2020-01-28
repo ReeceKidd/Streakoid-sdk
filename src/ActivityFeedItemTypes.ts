@@ -10,7 +10,7 @@ export enum ActivityFeedItemTypes {
     incompletedChallengeStreak = 'incompletedChallengeStreak',
     completedTeamMemberStreak = 'completedTeamMemberStreak',
     incompletedTeamMemberStreak = 'incompletedTeamMemberStreak',
-    joinedChallengeStreak = 'joinedChallengeStreak',
+    joinedChallenge = 'joinedChallenge',
     lostTeamStreak = 'lostTeamStreak',
     archivedTeamStreak = 'archivedTeamStreak',
     restoredTeamStreak = 'restoredTeamStreak',
