@@ -3,12 +3,23 @@ export enum ActivityFeedItemTypes {
     createdTeamStreak = 'createdTeamStreak',
     joinedTeamStreak = 'joinedTeamStreak',
     archivedSoloStreak = 'archivedSoloStreak',
+    restoredSoloStreak = 'restoredSoloStreak',
     completedSoloStreak = 'completedSoloStreak',
     incompletedSoloStreak = 'incompletedSoloStreak',
     completedChallengeStreak = 'completedChallengeStreak',
     incompletedChallengeStreak = 'incompletedChallengeStreak',
     completedTeamMemberStreak = 'completedTeamMemberStreak',
     incompletedTeamMemberStreak = 'incompletedTeamMemberStreak',
+    joinedChallengeStreak = 'joinedChallengeStreak',
+    lostTeamStreak = 'lostTeamStreak',
+    archivedTeamStreak = 'archivedTeamStreak',
+    restoredTeamStreak = 'restoredTeamStreak',
+    editedSoloStreakName = 'editedSoloStreakName',
+    editedSoloStreakDescription = 'editedSoloStreakDescription',
+    editedTeamStreakName = 'editedTeamStreakName',
+    editedTeamStreakDescription = 'editedTeamStreakDescription',
+    unlockedNewBadge = 'unlockedNewBadge',
+    addedNewFriend = 'addedNewFriend',
 }
 
 export default ActivityFeedItemTypes;
