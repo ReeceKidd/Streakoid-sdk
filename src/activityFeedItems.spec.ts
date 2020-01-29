@@ -1,4 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
+import { ActivityFeedItemTypes } from '.';
 
 describe('SDK activityFeedItems', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -10,10 +11,14 @@ describe('SDK activityFeedItems', () => {
     describe('getAll', () => {
         const userId = 'userId';
         const streakId = 'streakId';
+        const challengeId = 'challengeId';
+        const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
 
         const query = {
             userId,
             streakId,
+            challengeId,
+            activityFeedItemType,
         };
 
         test('calls GET with correct URL when no query paramters are passed', async () => {
@@ -31,7 +36,9 @@ describe('SDK activityFeedItems', () => {
 
             await streakoid.activityFeedItems.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?userId=${userId}&streakId=${streakId}&`);
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/activityFeedItems?userId=${userId}&streakId=${streakId}&challengeId=${challengeId}&activityFeedItemType=${activityFeedItemType}&`,
+            );
         });
     });
 });

@@ -2,15 +2,20 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
 import { ActivityFeedItem } from '.';
+import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
         streakId,
+        challengeId,
+        activityFeedItemType,
     }: {
         userId?: string;
         streakId?: string;
+        challengeId?: string;
+        activityFeedItemType?: ActivityFeedItemTypes;
     }): Promise<ActivityFeedItem[]> => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?`;
@@ -21,6 +26,14 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
 
             if (streakId) {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}streakId=${streakId}&`;
+            }
+
+            if (challengeId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeId=${challengeId}&`;
+            }
+
+            if (activityFeedItemType) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
             const { data } = await streakoidClient.get(getAllactivityFeedItemsURL);
