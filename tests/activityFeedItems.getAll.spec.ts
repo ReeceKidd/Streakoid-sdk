@@ -413,4 +413,157 @@ describe('GET /activityFeedItems', () => {
             ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
+
+    test(`gets a ${ActivityFeedItemTypes.completedChallengeStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const challengeId = challenge._id;
+        const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
+        const challengeStreakId = challengeStreak._id;
+
+        await streakoid.completeChallengeStreakTasks.create({
+            userId,
+            challengeStreakId,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: challengeStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedChallengeStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.incompletedChallengeStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const challengeId = challenge._id;
+        const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
+        const challengeStreakId = challengeStreak._id;
+
+        await streakoid.completeChallengeStreakTasks.create({
+            userId,
+            challengeStreakId,
+        });
+
+        await streakoid.incompleteChallengeStreakTasks.create({
+            userId,
+            challengeStreakId,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: challengeStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedChallengeStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.archivedChallengeStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const challengeId = challenge._id;
+        const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
+        const challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: { status: StreakStatus.archived },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: challengeStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.archivedChallengeStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedChallengeStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test.only(`gets a ${ActivityFeedItemTypes.restoredChallengeStreak} activity`, async () => {
+        expect.assertions(7);
+
+        try {
+            const color = 'blue';
+            const levels = [{ level: 0, criteria: 'criteria' }];
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const icon = 'duolingo';
+            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const challengeId = challenge._id;
+            const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
+            const challengeStreakId = challengeStreak._id;
+
+            await streakoid.challengeStreaks.update({
+                challengeStreakId,
+                updateData: { status: StreakStatus.live },
+            });
+
+            const activityFeedItems = await streakoid.activityFeedItems.getAll({
+                userId,
+                streakId: challengeStreak._id,
+                activityFeedItemType: ActivityFeedItemTypes.restoredChallengeStreak,
+            });
+            const activity = activityFeedItems[0];
+
+            expect(activity._id).toEqual(expect.any(String));
+            expect(activity.userId).toEqual(expect.any(String));
+            expect(activity.streakId).toEqual(expect.any(String));
+            expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredChallengeStreak);
+            expect(activity.createdAt).toEqual(expect.any(String));
+            expect(activity.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(activity).sort()).toEqual(
+                ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    });
 });
