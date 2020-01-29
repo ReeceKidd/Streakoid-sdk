@@ -13,7 +13,7 @@ export enum ActivityFeedItemTypes {
     incompletedChallengeStreak = 'incompletedChallengeStreak',
     joinedChallenge = 'joinedChallenge',
     archivedChallengeStreak = 'archivedChallengeStreak',
-    restoredChallengeStreak = 'restoreChallengeStreak',
+    restoredChallengeStreak = 'restoredChallengeStreak',
     deletedChallengeStreak = 'deletedChallengeStreak',
     unlockedNewBadge = 'unlockedNewBadge',
     //Team Streak
