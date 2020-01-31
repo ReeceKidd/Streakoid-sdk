@@ -15,7 +15,6 @@ export enum ActivityFeedItemTypes {
     archivedChallengeStreak = 'archivedChallengeStreak',
     restoredChallengeStreak = 'restoredChallengeStreak',
     deletedChallengeStreak = 'deletedChallengeStreak',
-    unlockedNewBadge = 'unlockedNewBadge',
     //Team Streak
     createdTeamStreak = 'createdTeamStreak',
     archivedTeamStreak = 'archivedTeamStreak',
@@ -27,8 +26,6 @@ export enum ActivityFeedItemTypes {
     joinedTeamStreak = 'joinedTeamStreak',
     editedTeamStreakName = 'editedTeamStreakName',
     editedTeamStreakDescription = 'editedTeamStreakDescription',
-    //General
-    addedNewFriend = 'addedNewFriend',
 }
 
 export default ActivityFeedItemTypes;

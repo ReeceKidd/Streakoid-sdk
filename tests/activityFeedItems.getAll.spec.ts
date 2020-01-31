@@ -130,194 +130,6 @@ describe('GET /activityFeedItems', () => {
         );
     });
 
-    test(`gets a ${ActivityFeedItemTypes.createdTeamStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const streakName = 'Daily Spanish';
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdTeamStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.joinedTeamStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const streakName = 'Daily Spanish';
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-
-        await streakoid.teamStreaks.teamMembers.create({
-            friendId,
-            teamStreakId: teamStreak._id,
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedTeamStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.completedTeamMemberStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const creatorId = userId;
-        const members = [{ memberId: userId }];
-        const teamStreak = await streakoid.teamStreaks.create({ creatorId, streakName: 'Daily Spanish', members });
-        const teamStreakId = teamStreak._id;
-
-        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId,
-            teamStreakId,
-        });
-        const teamMemberStreak = teamMemberStreaks[0];
-        const teamMemberStreakId = teamMemberStreak._id;
-
-        await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedTeamMemberStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.incompletedTeamMemberStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const creatorId = userId;
-        const members = [{ memberId: userId }];
-        const teamStreak = await streakoid.teamStreaks.create({ creatorId, streakName: 'Daily Spanish', members });
-        const teamStreakId = teamStreak._id;
-
-        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId,
-            teamStreakId,
-        });
-        const teamMemberStreak = teamMemberStreaks[0];
-        const teamMemberStreakId = teamMemberStreak._id;
-
-        await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
-
-        await streakoid.incompleteTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedTeamMemberStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.joinedChallenge} activity`, async () => {
-        expect.assertions(8);
-
-        const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
-        const description = 'Everyday I must complete a duolingo lesson';
-        const icon = 'duolingo';
-        const { challenge } = await streakoid.challenges.create({
-            name,
-            description,
-            icon,
-            color,
-            levels,
-        });
-        const challengeStreak = await streakoid.challengeStreaks.create({
-            userId,
-            challengeId: challenge._id,
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: challengeStreak._id,
-            challengeId: challenge._id,
-            activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.challengeId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedChallenge);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            [
-                '_id',
-                'userId',
-                'streakId',
-                'challengeId',
-                'activityFeedItemType',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
-        );
-    });
-
     test(`gets a ${ActivityFeedItemTypes.archivedSoloStreak} activity`, async () => {
         expect.assertions(7);
 
@@ -475,6 +287,364 @@ describe('GET /activityFeedItems', () => {
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.createdTeamStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const streakName = 'Daily Spanish';
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdTeamStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.joinedTeamStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const streakName = 'Daily Spanish';
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        await streakoid.teamStreaks.teamMembers.create({
+            friendId,
+            teamStreakId: teamStreak._id,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedTeamStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.completedTeamMemberStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const creatorId = userId;
+        const members = [{ memberId: userId }];
+        const teamStreak = await streakoid.teamStreaks.create({ creatorId, streakName: 'Daily Spanish', members });
+        const teamStreakId = teamStreak._id;
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+        const teamMemberStreakId = teamMemberStreak._id;
+
+        await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedTeamMemberStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.incompletedTeamMemberStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const creatorId = userId;
+        const members = [{ memberId: userId }];
+        const teamStreak = await streakoid.teamStreaks.create({ creatorId, streakName: 'Daily Spanish', members });
+        const teamStreakId = teamStreak._id;
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+        const teamMemberStreakId = teamMemberStreak._id;
+
+        await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
+
+        await streakoid.incompleteTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedTeamMemberStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.archivedTeamStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: { status: StreakStatus.archived },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedTeamStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.restoredTeamStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: { status: StreakStatus.live },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredTeamStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.deletedTeamStreak} activity`, async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: { status: StreakStatus.deleted },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedTeamStreak);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.editedTeamStreakName} activity`, async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: { streakName: 'New name' },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakName);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.editedTeamStreakDescription} activity`, async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: { streakDescription: 'New description' },
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakDescription);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test(`gets a ${ActivityFeedItemTypes.joinedChallenge} activity`, async () => {
+        expect.assertions(8);
+
+        const name = 'Duolingo';
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userId,
+            streakId: challengeStreak._id,
+            challengeId: challenge._id,
+            activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
+        });
+        const activity = activityFeedItems[0];
+
+        expect(activity._id).toEqual(expect.any(String));
+        expect(activity.userId).toEqual(expect.any(String));
+        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.challengeId).toEqual(expect.any(String));
+        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedChallenge);
+        expect(activity.createdAt).toEqual(expect.any(String));
+        expect(activity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(activity).sort()).toEqual(
+            [
+                '_id',
+                'userId',
+                'streakId',
+                'challengeId',
+                'activityFeedItemType',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
         );
     });
 
@@ -656,176 +826,6 @@ describe('GET /activityFeedItems', () => {
         expect(activity.userId).toEqual(expect.any(String));
         expect(activity.streakId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedChallengeStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.archivedTeamStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName: 'Daily Spanish',
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: { status: StreakStatus.archived },
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedTeamStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.restoredTeamStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName: 'Daily Spanish',
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: { status: StreakStatus.live },
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredTeamStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.deletedTeamStreak} activity`, async () => {
-        expect.assertions(7);
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName: 'Daily Spanish',
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: { status: StreakStatus.deleted },
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedTeamStreak);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.editedTeamStreakName} activity`, async () => {
-        expect.assertions(7);
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName: 'Daily Spanish',
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: { streakName: 'New name' },
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakName);
-        expect(activity.createdAt).toEqual(expect.any(String));
-        expect(activity.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-    });
-
-    test(`gets a ${ActivityFeedItemTypes.editedTeamStreakDescription} activity`, async () => {
-        expect.assertions(7);
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName: 'Daily Spanish',
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: { streakDescription: 'New description' },
-        });
-
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
-            streakId: teamStreak._id,
-            activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
-        });
-        const activity = activityFeedItems[0];
-
-        expect(activity._id).toEqual(expect.any(String));
-        expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakDescription);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
