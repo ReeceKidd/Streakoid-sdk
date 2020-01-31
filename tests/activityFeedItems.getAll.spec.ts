@@ -17,7 +17,7 @@ describe('GET /activityFeedItems', () => {
     let userId: string;
     let friendId: string;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             streakoid = await streakoidTest();
@@ -28,7 +28,7 @@ describe('GET /activityFeedItems', () => {
         }
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -600,7 +600,7 @@ describe('GET /activityFeedItems', () => {
     });
 
     test(`gets a ${ActivityFeedItemTypes.joinedChallenge} activity`, async () => {
-        expect.assertions(8);
+        expect.assertions(7);
 
         const name = 'Duolingo';
         const color = 'blue';
@@ -614,14 +614,14 @@ describe('GET /activityFeedItems', () => {
             color,
             levels,
         });
-        await streakoid.challengeStreaks.create({
+        const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            subjectId: challenge._id,
+            subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
         });
         const activity = activityFeedItems[0];
@@ -633,16 +633,7 @@ describe('GET /activityFeedItems', () => {
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            [
-                '_id',
-                'userId',
-                'subjectId',
-                'challengeId',
-                'activityFeedItemType',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -666,7 +657,7 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            subjectId: challenge._id,
+            subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
         });
         const activity = activityFeedItems[0];
@@ -707,7 +698,7 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            subjectId: challenge._id,
+            subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
         });
         const activity = activityFeedItems[0];
