@@ -10,14 +10,12 @@ describe('SDK activityFeedItems', () => {
 
     describe('getAll', () => {
         const userId = 'userId';
-        const streakId = 'streakId';
-        const challengeId = 'challengeId';
+        const subjectId = 'subjectId';
         const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
 
         const query = {
             userId,
-            streakId,
-            challengeId,
+            subjectId,
             activityFeedItemType,
         };
 
@@ -37,7 +35,7 @@ describe('SDK activityFeedItems', () => {
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?userId=${userId}&streakId=${streakId}&challengeId=${challengeId}&activityFeedItemType=${activityFeedItemType}&`,
+                `/v1/activityFeedItems?userId=${userId}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
         });
     });

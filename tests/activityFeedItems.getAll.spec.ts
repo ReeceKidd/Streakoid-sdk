@@ -55,12 +55,12 @@ describe('GET /activityFeedItems', () => {
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -80,19 +80,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedSoloStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -114,19 +114,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedSoloStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -146,19 +146,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedSoloStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -178,19 +178,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedSoloStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -210,19 +210,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredSoloStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredSoloStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -242,19 +242,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakName,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedSoloStreakName);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -274,19 +274,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakDescription,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedSoloStreakDescription);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -305,19 +305,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdTeamStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -341,19 +341,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedTeamStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -376,19 +376,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedTeamMemberStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -413,19 +413,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedTeamMemberStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -447,19 +447,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedTeamStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -481,19 +481,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredTeamStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -515,19 +515,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedTeamStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -549,19 +549,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakName);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -583,19 +583,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: teamStreak._id,
+            subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.editedTeamStreakDescription);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -614,23 +614,21 @@ describe('GET /activityFeedItems', () => {
             color,
             levels,
         });
-        const challengeStreak = await streakoid.challengeStreaks.create({
+        await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
-            challengeId: challenge._id,
+            subjectId: challenge._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
-        expect(activity.challengeId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.joinedChallenge);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
@@ -638,7 +636,7 @@ describe('GET /activityFeedItems', () => {
             [
                 '_id',
                 'userId',
-                'streakId',
+                'subjectId',
                 'challengeId',
                 'activityFeedItemType',
                 'createdAt',
@@ -668,19 +666,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
+            subjectId: challenge._id,
             activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.completedChallengeStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -709,19 +707,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
+            subjectId: challenge._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.incompletedChallengeStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -745,19 +743,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
+            subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedChallengeStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.archivedChallengeStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -781,19 +779,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
+            subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredChallengeStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.restoredChallengeStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -817,19 +815,19 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userId,
-            streakId: challengeStreak._id,
+            subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedChallengeStreak,
         });
         const activity = activityFeedItems[0];
 
         expect(activity._id).toEqual(expect.any(String));
         expect(activity.userId).toEqual(expect.any(String));
-        expect(activity.streakId).toEqual(expect.any(String));
+        expect(activity.subjectId).toEqual(expect.any(String));
         expect(activity.activityFeedItemType).toEqual(ActivityFeedItemTypes.deletedChallengeStreak);
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

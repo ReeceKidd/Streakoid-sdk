@@ -8,13 +8,11 @@ import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         userId,
-        streakId,
-        challengeId,
+        subjectId,
         activityFeedItemType,
     }: {
         userId?: string;
-        streakId?: string;
-        challengeId?: string;
+        subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
     }): Promise<ActivityFeedItem[]> => {
         try {
@@ -24,12 +22,8 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userId=${userId}&`;
             }
 
-            if (streakId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}streakId=${streakId}&`;
-            }
-
-            if (challengeId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeId=${challengeId}&`;
+            if (subjectId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}subjectId=${subjectId}&`;
             }
 
             if (activityFeedItemType) {
