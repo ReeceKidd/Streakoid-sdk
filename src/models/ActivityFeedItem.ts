@@ -5,9 +5,8 @@ interface ActivityFeedItem {
     activityFeedItemType: ActivityFeedItemTypes;
     createdAt: string;
     updatedAt: string;
-    userId?: string;
-    streakId?: string;
-    challengeId?: string;
+    userId: string;
+    subjectId: string;
 }
 
 export default ActivityFeedItem;
