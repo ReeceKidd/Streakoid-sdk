@@ -7,19 +7,21 @@ import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
-        userId,
+        userIds,
         subjectId,
         activityFeedItemType,
     }: {
-        userId?: string;
+        userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
     }): Promise<ActivityFeedItem[]> => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?`;
 
-            if (userId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userId=${userId}&`;
+            if (userIds) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userIds=${encodeURIComponent(
+                    JSON.stringify(userIds),
+                )}&`;
             }
 
             if (subjectId) {

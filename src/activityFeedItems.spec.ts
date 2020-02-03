@@ -9,12 +9,12 @@ describe('SDK activityFeedItems', () => {
     });
 
     describe('getAll', () => {
-        const userId = 'userId';
+        const userIds = ['userId', 'friendId'];
         const subjectId = 'subjectId';
         const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
 
         const query = {
-            userId,
+            userIds,
             subjectId,
             activityFeedItemType,
         };
@@ -35,7 +35,9 @@ describe('SDK activityFeedItems', () => {
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?userId=${userId}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
+                `/v1/activityFeedItems?userIds=${encodeURIComponent(
+                    JSON.stringify(userIds),
+                )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
         });
     });

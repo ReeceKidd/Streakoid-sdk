@@ -48,7 +48,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             activityFeedItemType: ActivityFeedItemTypes.createdSoloStreak,
         });
         const activity = activityFeedItems[0];
@@ -79,7 +79,7 @@ describe('GET /activityFeedItems', () => {
         await streakoid.completeSoloStreakTasks.create({ userId, soloStreakId: soloStreak._id });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId, 'friendId'],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedSoloStreak,
         });
@@ -113,7 +113,7 @@ describe('GET /activityFeedItems', () => {
         await streakoid.incompleteSoloStreakTasks.create({ userId, soloStreakId: soloStreak._id });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedSoloStreak,
         });
@@ -145,7 +145,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedSoloStreak,
         });
@@ -177,7 +177,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedSoloStreak,
         });
@@ -209,7 +209,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredSoloStreak,
         });
@@ -241,7 +241,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakName,
         });
@@ -273,7 +273,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakDescription,
         });
@@ -304,7 +304,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
         });
@@ -340,7 +340,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
         });
@@ -375,7 +375,7 @@ describe('GET /activityFeedItems', () => {
         await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
         });
@@ -412,7 +412,7 @@ describe('GET /activityFeedItems', () => {
         await streakoid.incompleteTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
         });
@@ -446,7 +446,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
         });
@@ -480,7 +480,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
         });
@@ -514,7 +514,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
         });
@@ -548,7 +548,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
         });
@@ -582,7 +582,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
         });
@@ -620,7 +620,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
         });
@@ -656,7 +656,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
         });
@@ -697,7 +697,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
         });
@@ -733,7 +733,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedChallengeStreak,
         });
@@ -769,7 +769,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredChallengeStreak,
         });
@@ -805,7 +805,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
-            userId,
+            userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedChallengeStreak,
         });
@@ -818,6 +818,77 @@ describe('GET /activityFeedItems', () => {
         expect(activity.createdAt).toEqual(expect.any(String));
         expect(activity.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(activity).sort()).toEqual(
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
+
+    test('if one of two team members has not completed their task the new team streak does not get completed for the day', async () => {
+        expect.assertions(14);
+
+        const members = [{ memberId: userId }, { memberId: friendId }];
+
+        const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        let teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+        });
+        const userTeamMemberStreak = teamMemberStreaks[0];
+        const userTeamMemberStreakId = userTeamMemberStreak._id;
+
+        teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId: friendId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+        });
+
+        const friendTeamMemberStreak = teamMemberStreaks[0];
+        const friendTeamMemberStreakId = friendTeamMemberStreak._id;
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+            teamMemberStreakId: userTeamMemberStreakId,
+        });
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId: friendId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+            teamMemberStreakId: friendTeamMemberStreakId,
+        });
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            userIds: [userId, friendId],
+            subjectId: teamStreakWithTwoMembers._id,
+        });
+
+        const userActivity = activityFeedItems.find(item => item.userId == userId);
+        const friendActivity = activityFeedItems.find(item => item.userId == friendId);
+
+        if (!userActivity || !friendActivity) {
+            throw new Error('User activity or friendActivity is not defined');
+        }
+
+        expect(userActivity._id).toEqual(expect.any(String));
+        expect(userActivity.userId).toEqual(expect.any(String));
+        expect(userActivity.subjectId).toEqual(expect.any(String));
+        expect(userActivity.activityFeedItemType).toEqual(expect.any(String));
+        expect(userActivity.createdAt).toEqual(expect.any(String));
+        expect(userActivity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(userActivity).sort()).toEqual(
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+
+        expect(friendActivity._id).toEqual(expect.any(String));
+        expect(friendActivity.userId).toEqual(expect.any(String));
+        expect(friendActivity.subjectId).toEqual(expect.any(String));
+        expect(friendActivity.activityFeedItemType).toEqual(expect.any(String));
+        expect(friendActivity.createdAt).toEqual(expect.any(String));
+        expect(friendActivity.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(userActivity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
