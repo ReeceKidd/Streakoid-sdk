@@ -37,11 +37,11 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
             }
 
             if (limit) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}limit=${limit}&`;
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}limit=${Number(limit)}&`;
             }
 
             if (skip) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}skip=${skip}&`;
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}skip=${Number(skip)}&`;
             }
 
             const { data } = await streakoidClient.get(getAllactivityFeedItemsURL);
