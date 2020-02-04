@@ -27,9 +27,9 @@ describe('SDK activityFeedItems', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.activityFeedItems.getAll({});
+            await streakoid.activityFeedItems.getAll({ limit, skip });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?limit=${limit}&skip=${skip}&`);
         });
 
         test('calls GET with correct URL when all query paramters are passed', async () => {
@@ -39,9 +39,9 @@ describe('SDK activityFeedItems', () => {
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?userIds=${encodeURIComponent(
+                `/v1/activityFeedItems?limit=${limit}&skip=${skip}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
-                )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&limit=${limit}&skip=${skip}&`,
+                )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
         });
     });

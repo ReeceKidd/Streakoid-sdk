@@ -7,20 +7,20 @@ import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
+        limit,
+        skip,
         userIds,
         subjectId,
         activityFeedItemType,
-        limit,
-        skip,
     }: {
+        limit: number;
+        skip: number;
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
-        limit?: number;
-        skip?: number;
     }): Promise<ActivityFeedItem[]> => {
         try {
-            let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?`;
+            let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${limit}&skip=${skip}&`;
 
             if (userIds) {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userIds=${encodeURIComponent(
@@ -34,14 +34,6 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
 
             if (activityFeedItemType) {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
-            }
-
-            if (limit) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}limit=${Number(limit)}&`;
-            }
-
-            if (skip) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}skip=${Number(skip)}&`;
             }
 
             const { data } = await streakoidClient.get(getAllactivityFeedItemsURL);

@@ -41,7 +41,7 @@ describe('GET /activityFeedItems', () => {
         const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
         // When a solo streak is created a createdSoloStreak activity is created.
-        await streakoid.soloStreaks.create({
+        const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
             streakDescription,
@@ -49,7 +49,10 @@ describe('GET /activityFeedItems', () => {
 
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
+            subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -82,6 +85,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId, 'friendId'],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -116,6 +121,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -148,6 +155,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -180,6 +189,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -212,6 +223,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredSoloStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -244,6 +257,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakName,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -276,6 +291,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakDescription,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -307,6 +324,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -343,6 +362,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -378,6 +399,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -415,6 +438,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -449,6 +474,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -483,6 +510,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -517,6 +546,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -551,6 +582,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -585,6 +618,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -623,6 +658,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -659,6 +696,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -700,6 +739,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -736,6 +777,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedChallengeStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -772,6 +815,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredChallengeStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -808,6 +853,8 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedChallengeStreak,
+            limit: 10,
+            skip: 0,
         });
         const activity = activityFeedItems[0];
 
@@ -863,6 +910,8 @@ describe('GET /activityFeedItems', () => {
         const activityFeedItems = await streakoid.activityFeedItems.getAll({
             userIds: [userId, friendId],
             subjectId: teamStreakWithTwoMembers._id,
+            limit: 10,
+            skip: 0,
         });
 
         const userActivity = activityFeedItems.find(item => item.userId == userId);
