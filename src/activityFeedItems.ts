@@ -10,10 +10,14 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         userIds,
         subjectId,
         activityFeedItemType,
+        limit,
+        skip,
     }: {
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
+        limit?: number;
+        skip?: number;
     }): Promise<ActivityFeedItem[]> => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?`;
@@ -30,6 +34,14 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
 
             if (activityFeedItemType) {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
+            }
+
+            if (limit) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}limit=${limit}&`;
+            }
+
+            if (skip) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}skip=${skip}&`;
             }
 
             const { data } = await streakoidClient.get(getAllactivityFeedItemsURL);
