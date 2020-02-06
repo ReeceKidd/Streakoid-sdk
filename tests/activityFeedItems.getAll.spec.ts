@@ -35,7 +35,7 @@ describe('GET /activityFeedItems', () => {
     });
 
     test(`gets a ${ActivityFeedItemTypes.createdSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const streakName = 'Daily Spanish';
         const streakDescription = 'Everyday I must do 30 minutes of Spanish';
@@ -47,7 +47,7 @@ describe('GET /activityFeedItems', () => {
             streakDescription,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdSoloStreak,
@@ -65,10 +65,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.completedSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const streakName = 'Daily Spanish';
         const streakDescription = 'Everyday I must do 30 minutes of Spanish';
@@ -81,7 +83,7 @@ describe('GET /activityFeedItems', () => {
 
         await streakoid.completeSoloStreakTasks.create({ userId, soloStreakId: soloStreak._id });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId, 'friendId'],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedSoloStreak,
@@ -99,10 +101,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.incompletedSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const streakName = 'Daily Spanish';
         const streakDescription = 'Everyday I must do 30 minutes of Spanish';
@@ -117,7 +121,7 @@ describe('GET /activityFeedItems', () => {
 
         await streakoid.incompleteSoloStreakTasks.create({ userId, soloStreakId: soloStreak._id });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedSoloStreak,
@@ -135,10 +139,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.archivedSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -151,7 +157,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.archived },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedSoloStreak,
@@ -169,10 +175,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.deletedSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -185,7 +193,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.deleted },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedSoloStreak,
@@ -203,10 +211,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.restoredSoloStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -219,7 +229,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.live },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredSoloStreak,
@@ -237,10 +247,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.editedSoloStreakName} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -253,7 +265,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { streakName: 'New name' },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakName,
@@ -271,10 +283,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.editedSoloStreakDescription} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -287,7 +301,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { streakDescription: 'New description' },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedSoloStreakDescription,
@@ -305,10 +319,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.createdTeamStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const streakName = 'Daily Spanish';
 
@@ -320,7 +336,7 @@ describe('GET /activityFeedItems', () => {
             members,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
@@ -338,10 +354,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.joinedTeamStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const streakName = 'Daily Spanish';
 
@@ -358,7 +376,7 @@ describe('GET /activityFeedItems', () => {
             teamStreakId: teamStreak._id,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedTeamStreak,
@@ -376,10 +394,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.completedTeamMemberStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const creatorId = userId;
         const members = [{ memberId: userId }];
@@ -395,7 +415,7 @@ describe('GET /activityFeedItems', () => {
 
         await streakoid.completeTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedTeamMemberStreak,
@@ -413,10 +433,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.incompletedTeamMemberStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const creatorId = userId;
         const members = [{ memberId: userId }];
@@ -434,7 +456,7 @@ describe('GET /activityFeedItems', () => {
 
         await streakoid.incompleteTeamMemberStreakTasks.create({ userId, teamMemberStreakId, teamStreakId });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.incompletedTeamMemberStreak,
@@ -452,10 +474,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.archivedTeamStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const members = [{ memberId: userId }];
 
@@ -470,7 +494,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.archived },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedTeamStreak,
@@ -488,10 +512,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.restoredTeamStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const members = [{ memberId: userId }];
 
@@ -506,7 +532,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.live },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredTeamStreak,
@@ -524,10 +550,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.deletedTeamStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const members = [{ memberId: userId }];
 
@@ -542,7 +570,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.deleted },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedTeamStreak,
@@ -560,10 +588,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.editedTeamStreakName} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const members = [{ memberId: userId }];
 
@@ -578,7 +608,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { streakName: 'New name' },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakName,
@@ -596,10 +626,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.editedTeamStreakDescription} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const members = [{ memberId: userId }];
 
@@ -614,7 +646,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { streakDescription: 'New description' },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: teamStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.editedTeamStreakDescription,
@@ -632,10 +664,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.joinedChallenge} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const name = 'Duolingo';
         const color = 'blue';
@@ -654,7 +688,7 @@ describe('GET /activityFeedItems', () => {
             challengeId: challenge._id,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
@@ -672,10 +706,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.completedChallengeStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -692,7 +728,7 @@ describe('GET /activityFeedItems', () => {
             challengeStreakId,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
@@ -710,10 +746,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.incompletedChallengeStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -735,7 +773,7 @@ describe('GET /activityFeedItems', () => {
             challengeStreakId,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreakId,
             activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
@@ -753,10 +791,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.archivedChallengeStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -773,7 +813,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.archived },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.archivedChallengeStreak,
@@ -791,10 +831,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.restoredChallengeStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -811,7 +853,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.live },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.restoredChallengeStreak,
@@ -829,10 +871,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test(`gets a ${ActivityFeedItemTypes.deletedChallengeStreak} activity`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -849,7 +893,7 @@ describe('GET /activityFeedItems', () => {
             updateData: { status: StreakStatus.deleted },
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId],
             subjectId: challengeStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.deletedChallengeStreak,
@@ -867,10 +911,12 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(activity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
     test('if one of two team members has not completed their task the new team streak does not get completed for the day', async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const members = [{ memberId: userId }, { memberId: friendId }];
 
@@ -907,7 +953,7 @@ describe('GET /activityFeedItems', () => {
             teamMemberStreakId: friendTeamMemberStreakId,
         });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+        const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
             userIds: [userId, friendId],
             subjectId: teamStreakWithTwoMembers._id,
             limit: 10,
@@ -940,5 +986,7 @@ describe('GET /activityFeedItems', () => {
         expect(Object.keys(userActivity).sort()).toEqual(
             ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
+
+        expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 });

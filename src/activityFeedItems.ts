@@ -23,7 +23,7 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
-    }): Promise<GetAllActivityFeedItemsResponse[]> => {
+    }): Promise<GetAllActivityFeedItemsResponse> => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${Number(
                 limit,
