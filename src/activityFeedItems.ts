@@ -13,13 +13,13 @@ export interface GetAllActivityFeedItemsResponse {
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         limit,
-        skip,
+        lastActivityFeedItemId,
         userIds,
         subjectId,
         activityFeedItemType,
     }: {
         limit: number;
-        skip: number;
+        lastActivityFeedItemId?: string;
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
@@ -27,7 +27,11 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${Number(
                 limit,
-            )}&skip=${Number(skip)}&`;
+            )}&`;
+
+            if (lastActivityFeedItemId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}lastActivityFeedItemId=${lastActivityFeedItemId}&`;
+            }
 
             if (userIds) {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userIds=${encodeURIComponent(
