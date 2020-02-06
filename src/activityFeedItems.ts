@@ -6,7 +6,7 @@ import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 
 export interface GetAllActivityFeedItemsResponse {
     activityFeedItems: ActivityFeedItem[];
-    totalActivityFeedItems: number;
+    totalCountOfActivityFeedItems: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
