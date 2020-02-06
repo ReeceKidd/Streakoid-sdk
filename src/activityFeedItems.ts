@@ -4,6 +4,11 @@ import { AxiosInstance } from 'axios';
 import { ActivityFeedItem } from '.';
 import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 
+export interface GetAllActivityFeedItemsResponse {
+    activityFeedItems: ActivityFeedItem[];
+    totalActivityFeedItems: number;
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
@@ -18,7 +23,7 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
-    }): Promise<ActivityFeedItem[]> => {
+    }): Promise<GetAllActivityFeedItemsResponse[]> => {
         try {
             let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${Number(
                 limit,
