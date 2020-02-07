@@ -13,14 +13,14 @@ describe('SDK activityFeedItems', () => {
         const subjectId = 'subjectId';
         const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
         const limit = 10;
-        const lastActivityFeedItemId = 'lastActivityFeedItemId';
+        const createdOnBefore = new Date();
 
         const query = {
             userIds,
             subjectId,
             activityFeedItemType,
             limit,
-            lastActivityFeedItemId,
+            createdOnBefore,
         };
 
         test('calls GET with correct URL when no query paramters are passed', async () => {
@@ -39,7 +39,7 @@ describe('SDK activityFeedItems', () => {
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?limit=${limit}&lastActivityFeedItemId=${lastActivityFeedItemId}&userIds=${encodeURIComponent(
+                `/v1/activityFeedItems?limit=${limit}&createdOnBefore=${createdOnBefore}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
