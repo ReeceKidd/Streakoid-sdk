@@ -1,5 +1,4 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import StreakTypes from './StreakTypes';
 
 describe('SDK notes', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -29,15 +28,15 @@ describe('SDK notes', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when streakId query paramater is passed', async () => {
+        test('calls GET with correct URL when subjectId query paramater is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            const streakId = 'streakId';
+            const subjectId = 'subjectId';
 
-            await streakoid.notes.getAll({ streakId });
+            await streakoid.notes.getAll({ subjectId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?streakId=streakId&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?subjectId=subjectId&`);
         });
 
         test('calls GET with correct URL when all available paramaters are passed', async () => {
@@ -45,11 +44,11 @@ describe('SDK notes', () => {
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const userId = 'userId';
-            const streakId = 'streakId';
+            const subjectId = 'subjectId';
 
-            await streakoid.notes.getAll({ userId, streakId });
+            await streakoid.notes.getAll({ userId, subjectId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&streakId=${streakId}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&subjectId=${subjectId}&`);
         });
     });
 
@@ -71,22 +70,19 @@ describe('SDK notes', () => {
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
-            const streakId = 'streakId';
+            const subjectId = 'subjectId';
             const text = 'Finished reading 4 hour work week';
-            const streakType = StreakTypes.team;
 
             await streakoid.notes.create({
                 userId,
-                streakId,
+                subjectId,
                 text,
-                streakType,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/notes`, {
                 userId,
-                streakId,
+                subjectId,
                 text,
-                streakType,
             });
         });
     });

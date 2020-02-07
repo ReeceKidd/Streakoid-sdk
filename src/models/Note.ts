@@ -1,10 +1,7 @@
-import { StreakTypes } from '..';
-
 interface Note {
     _id: string;
     userId: string;
-    streakId: string;
-    streakType: StreakTypes;
+    subjectId: string;
     text: string;
     updatedAt: string;
     createdAt: string;

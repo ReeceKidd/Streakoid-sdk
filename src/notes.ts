@@ -3,11 +3,10 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import Note from './models/Note';
-import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const notes = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ userId, streakId }: { userId?: string; streakId?: string }): Promise<Note[]> => {
+    const getAll = async ({ userId, subjectId }: { userId?: string; subjectId?: string }): Promise<Note[]> => {
         try {
             let getAllNotesURL = `/${ApiVersions.v1}/${RouterCategories.notes}?`;
 
@@ -15,8 +14,8 @@ const notes = (streakoidClient: AxiosInstance) => {
                 getAllNotesURL = `${getAllNotesURL}userId=${userId}&`;
             }
 
-            if (streakId) {
-                getAllNotesURL = `${getAllNotesURL}streakId=${streakId}&`;
+            if (subjectId) {
+                getAllNotesURL = `${getAllNotesURL}subjectId=${subjectId}&`;
             }
 
             const { data } = await streakoidClient.get(getAllNotesURL);
@@ -37,21 +36,18 @@ const notes = (streakoidClient: AxiosInstance) => {
 
     const create = async ({
         userId,
-        streakId,
+        subjectId,
         text,
-        streakType,
     }: {
         userId: string;
-        streakId: string;
+        subjectId: string;
         text: string;
-        streakType: StreakTypes;
     }): Promise<Note> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.notes}`, {
                 userId,
-                streakId,
+                subjectId,
                 text,
-                streakType,
             });
             return data;
         } catch (err) {

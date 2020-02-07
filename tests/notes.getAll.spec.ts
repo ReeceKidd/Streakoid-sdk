@@ -4,7 +4,6 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -32,7 +31,7 @@ describe('GET /notes', () => {
     });
 
     test(`gets all created notes with no query paramaters.`, async () => {
-        expect.assertions(7);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -45,9 +44,8 @@ describe('GET /notes', () => {
 
         await streakoid.notes.create({
             userId,
-            streakId: soloStreak._id,
+            subjectId: soloStreak._id,
             text: noteText,
-            streakType: StreakTypes.solo,
         });
 
         const notes = await streakoid.notes.getAll({});
@@ -55,18 +53,17 @@ describe('GET /notes', () => {
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
-        expect(note.streakId).toEqual(soloStreak._id);
+        expect(note.subjectId).toEqual(soloStreak._id);
         expect(note.text).toEqual(noteText);
-        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
     test(`gets all created notes with user query paramater.`, async () => {
-        expect.assertions(7);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -77,19 +74,18 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, text, streakType: StreakTypes.solo });
+        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text });
 
         const notes = await streakoid.notes.getAll({ userId });
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
-        expect(note.streakId).toEqual(soloStreak._id);
+        expect(note.subjectId).toEqual(soloStreak._id);
         expect(note.text).toEqual(text);
-        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'text', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'text', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -105,19 +101,18 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, streakId: soloStreak._id, streakType: StreakTypes.solo, text });
+        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text });
 
-        const notes = await streakoid.notes.getAll({ streakId: soloStreak._id });
+        const notes = await streakoid.notes.getAll({ subjectId: soloStreak._id });
         const note = notes[0];
 
         expect(note.userId).toBeDefined();
-        expect(note.streakId).toEqual(soloStreak._id);
+        expect(note.subjectId).toEqual(soloStreak._id);
         expect(note.text).toEqual(text);
-        expect(note.streakType).toEqual(StreakTypes.solo);
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'streakId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });
