@@ -965,4 +965,70 @@ describe('GET /activityFeedItems', () => {
 
         expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
+
+    test('that activities are returned if createdOnBefore is used', async () => {
+        expect.assertions(7);
+
+        const members = [{ memberId: userId }, { memberId: friendId }];
+
+        const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        let teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+        });
+        const userTeamMemberStreak = teamMemberStreaks[0];
+        const userTeamMemberStreakId = userTeamMemberStreak._id;
+
+        teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId: friendId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+        });
+
+        const friendTeamMemberStreak = teamMemberStreaks[0];
+        const friendTeamMemberStreakId = friendTeamMemberStreak._id;
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+            teamMemberStreakId: userTeamMemberStreakId,
+        });
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId: friendId,
+            teamStreakId: teamStreakWithTwoMembers._id,
+            teamMemberStreakId: friendTeamMemberStreakId,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            userIds: [userId, friendId],
+            subjectId: teamStreakWithTwoMembers._id,
+            limit: 10,
+        });
+
+        const firstActivityFeedItem = activityFeedItems[0];
+
+        const paginatedActivityFeedItems = await streakoid.activityFeedItems.getAll({
+            userIds: [userId, friendId],
+            subjectId: teamStreakWithTwoMembers._id,
+            limit: 10,
+            createdOnBefore: new Date(firstActivityFeedItem.createdAt),
+        });
+
+        const paginatedActivityFeedItem = paginatedActivityFeedItems.activityFeedItems[0];
+
+        expect(paginatedActivityFeedItem._id).toEqual(expect.any(String));
+        expect(paginatedActivityFeedItem.userId).toEqual(expect.any(String));
+        expect(paginatedActivityFeedItem.subjectId).toEqual(expect.any(String));
+        expect(paginatedActivityFeedItem.activityFeedItemType).toEqual(expect.any(String));
+        expect(paginatedActivityFeedItem.createdAt).toEqual(expect.any(String));
+        expect(paginatedActivityFeedItem.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(paginatedActivityFeedItem).sort()).toEqual(
+            ['_id', 'userId', 'subjectId', 'activityFeedItemType', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+    });
 });

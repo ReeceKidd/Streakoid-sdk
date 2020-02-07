@@ -30,7 +30,7 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
             )}&`;
 
             if (createdOnBefore) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}createdOnBefore=${createdOnBefore.toString()}&`;
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}createdOnBefore=${createdOnBefore}&`;
             }
 
             if (userIds) {
