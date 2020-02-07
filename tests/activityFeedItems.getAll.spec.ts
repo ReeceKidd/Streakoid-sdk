@@ -966,7 +966,7 @@ describe('GET /activityFeedItems', () => {
         expect(totalCountOfActivityFeedItems).toEqual(expect.any(Number));
     });
 
-    test('that activities are returned if createdOnBefore is used', async () => {
+    test('that activities are returned if createdAtBefore is used', async () => {
         expect.assertions(7);
 
         const members = [{ memberId: userId }, { memberId: friendId }];
@@ -1016,7 +1016,7 @@ describe('GET /activityFeedItems', () => {
             userIds: [userId, friendId],
             subjectId: teamStreakWithTwoMembers._id,
             limit: 10,
-            createdOnBefore: new Date(firstActivityFeedItem.createdAt),
+            createdAtBefore: new Date(firstActivityFeedItem.createdAt),
         });
 
         const paginatedActivityFeedItem = paginatedActivityFeedItems.activityFeedItems[0];

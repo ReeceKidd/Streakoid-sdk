@@ -13,13 +13,13 @@ export interface GetAllActivityFeedItemsResponse {
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         limit,
-        createdOnBefore,
+        createdAtBefore,
         userIds,
         subjectId,
         activityFeedItemType,
     }: {
         limit: number;
-        createdOnBefore?: Date;
+        createdAtBefore?: Date;
         userIds?: string[];
         subjectId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
@@ -29,8 +29,8 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
                 limit,
             )}&`;
 
-            if (createdOnBefore) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}createdOnBefore=${createdOnBefore}&`;
+            if (createdAtBefore) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}createdAtBefore=${createdAtBefore.toISOString()}&`;
             }
 
             if (userIds) {
