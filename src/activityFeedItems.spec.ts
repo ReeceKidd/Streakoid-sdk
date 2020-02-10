@@ -39,7 +39,7 @@ describe('SDK activityFeedItems', () => {
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?limit=${limit}&createdAtBefore=${createdAtBefore}&userIds=${encodeURIComponent(
+                `/v1/activityFeedItems?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
