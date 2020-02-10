@@ -31,7 +31,7 @@ describe('DELETE /notes', () => {
 
         const note = await streakoid.notes.create({
             userId,
-            subjectId: 'streakId',
+            subjectId: '5d0fc0de86821005b0e9de5b',
             text: 'Worked on Johnny Cash Hurt',
         });
 

@@ -58,7 +58,7 @@ describe('GET /notes', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'subjectId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
@@ -85,12 +85,12 @@ describe('GET /notes', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'subjectId', 'text', 'streakType', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 
     test(`gets all created notes with user query paramater.`, async () => {
-        expect.assertions(7);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -112,7 +112,7 @@ describe('GET /notes', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'subjectId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

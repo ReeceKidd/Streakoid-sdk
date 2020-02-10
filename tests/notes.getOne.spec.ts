@@ -31,7 +31,7 @@ describe('GET /notes/:noteId', () => {
 
         const note = await streakoid.notes.create({
             userId,
-            subjectId: 'subjectId',
+            subjectId: '5d0fc0de86821005b0e9de5b',
             text: 'Worked on Johnny Cash Hurt',
         });
         expect(note.userId).toBeDefined();
@@ -40,7 +40,7 @@ describe('GET /notes/:noteId', () => {
         expect(note.createdAt).toEqual(expect.any(String));
         expect(note.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(note).sort()).toEqual(
-            ['_id', 'userId', 'subjectId', 'streakType', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
+            ['_id', 'userId', 'subjectId', 'text', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });
