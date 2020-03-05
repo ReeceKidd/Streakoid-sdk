@@ -13,7 +13,6 @@ interface PopulatedChallenge {
     updatedAt: string;
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
-    challengeMemberWithLongestStreakForChallenge: ChallengeMember;
     numberOfMinutes?: number;
 }
 
