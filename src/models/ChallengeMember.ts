@@ -7,6 +7,7 @@ interface ChallengeMember {
     challengeStreakId: string;
     currentStreak: CurrentStreak;
     longestStreak: number;
+    joinedChallenge: Date;
 }
 
 export default ChallengeMember;
