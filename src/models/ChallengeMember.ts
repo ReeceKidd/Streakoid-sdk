@@ -5,7 +5,7 @@ interface ChallengeMember {
     userId: string;
     profileImage: string;
     currentStreak: CurrentStreak;
-    longestPastStreak: number;
+    longestStreak: number;
 }
 
 export default ChallengeMember;
