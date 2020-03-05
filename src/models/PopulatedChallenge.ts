@@ -13,11 +13,7 @@ interface PopulatedChallenge {
     updatedAt: string;
     longestCurrentStreakForChallenge: number;
     longestEverStreakForChallenge: number;
-    challengeMemberWithLongestStreakForChallenge: {
-        userId: string;
-        username: string;
-        profileImage: string;
-    };
+    challengeMemberWithLongestStreakForChallenge: ChallengeMember;
     numberOfMinutes?: number;
 }
 
