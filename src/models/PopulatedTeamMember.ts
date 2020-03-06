@@ -1,13 +1,11 @@
-import { CurrentStreak } from '..';
+import TeamMemberStreak from './TeamMemberStreak';
 
 interface PopulatedTeamMember {
     _id: string;
     teamMemberStreakId: string;
     username: string;
     profileImage: string;
-    currentStreak: CurrentStreak;
-    longestStreak: number;
-    joinedStreak: Date;
+    teamMemberStreak: TeamMemberStreak;
 }
 
 export default PopulatedTeamMember;
