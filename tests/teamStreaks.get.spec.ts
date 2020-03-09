@@ -6,6 +6,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 import { username, originalImageUrl } from './setup/environment';
+import { GetAllTeamStreaksSortFields } from '../src/teamStreaks';
 
 jest.setTimeout(120000);
 
@@ -197,6 +198,72 @@ describe('GET /complete-solo-streak-tasks', () => {
     test(`team streaks can be retreieved with timezone query parameter`, async () => {
         expect.assertions(18);
         const teamStreaks = await streakoid.teamStreaks.getAll({ timezone: londonTimezone });
+
+        expect(teamStreaks.length).toBeGreaterThanOrEqual(1);
+
+        const teamStreak = teamStreaks[0];
+        expect(teamStreak.streakName).toEqual(expect.any(String));
+        expect(teamStreak.status).toEqual(expect.any(String));
+        expect(teamStreak.creatorId).toEqual(expect.any(String));
+        expect(teamStreak.timezone).toEqual(expect.any(String));
+        expect(teamStreak.active).toEqual(false);
+        expect(teamStreak.completedToday).toEqual(false);
+        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamStreak.pastStreaks.length).toEqual(0);
+        expect(Object.keys(teamStreak).sort()).toEqual(
+            [
+                '_id',
+                'members',
+                'status',
+                'creatorId',
+                'streakName',
+                'timezone',
+                'active',
+                'completedToday',
+                'currentStreak',
+                'pastStreaks',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const { members } = teamStreak;
+        expect(members.length).toEqual(1);
+
+        const member = members[0];
+        expect(member._id).toBeDefined();
+        expect(member.username).toEqual(expect.any(String));
+        expect(member.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
+
+        const { teamMemberStreak } = member;
+        expect(Object.keys(teamMemberStreak).sort()).toEqual(
+            [
+                '_id',
+                'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                'userId',
+                'teamStreakId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const { currentStreak } = teamMemberStreak;
+        expect(Object.keys(currentStreak)).toEqual(['numberOfDaysInARow']);
+    });
+
+    test(`team streaks can be retreieved using sortField query parameter`, async () => {
+        expect.assertions(18);
+        const teamStreaks = await streakoid.teamStreaks.getAll({
+            sortField: GetAllTeamStreaksSortFields.currentStreak,
+        });
 
         expect(teamStreaks.length).toBeGreaterThanOrEqual(1);
 
