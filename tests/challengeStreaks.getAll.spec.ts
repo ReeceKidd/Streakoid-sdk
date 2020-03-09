@@ -5,6 +5,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 import { getPayingUser } from './setup/getPayingUser';
+import { GetAllChallengeStreaksSortFields } from '../src/challengeStreak';
 
 jest.setTimeout(120000);
 
@@ -338,6 +339,61 @@ describe('GET /challenge-streaks', () => {
             [
                 'status',
                 'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                '_id',
+                'userId',
+                'challengeId',
+                'badgeId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+    });
+
+    test('challenge streaks can be retreived with a sort field', async () => {
+        expect.assertions(14);
+
+        const name = 'Duolingo';
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        challengeId = challenge._id;
+
+        const challengeStreaks = await streakoid.challengeStreaks.getAll({
+            sortField: GetAllChallengeStreaksSortFields.currentStreak,
+        });
+        expect(challengeStreaks.length).toBeGreaterThanOrEqual(1);
+
+        const challengeStreak = challengeStreaks[0];
+
+        expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
+        expect(challengeStreak.currentStreak.startDate).toEqual(expect.any(String));
+        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
+        expect(challengeStreak.status).toEqual(StreakStatus.live);
+        expect(challengeStreak.completedToday).toEqual(false);
+        expect(challengeStreak.active).toEqual(true);
+        expect(challengeStreak.pastStreaks).toEqual([]);
+        expect(challengeStreak._id).toEqual(expect.any(String));
+        expect(challengeStreak.userId).toEqual(expect.any(String));
+        expect(challengeStreak.timezone).toEqual(expect.any(String));
+        expect(challengeStreak.createdAt).toEqual(expect.any(String));
+        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(challengeStreak).sort()).toEqual(
+            [
+                'currentStreak',
+                'status',
                 'completedToday',
                 'active',
                 'pastStreaks',
