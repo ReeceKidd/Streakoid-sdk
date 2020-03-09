@@ -5,6 +5,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
 import { getPayingUser } from './setup/getPayingUser';
+import { GetAllSoloStreaksSortFields } from '../src/soloStreaks';
 
 jest.setTimeout(120000);
 
@@ -294,6 +295,35 @@ describe('GET /solo-streaks', () => {
         expect(soloStreak.timezone).toEqual(expect.any(String));
         expect(soloStreak.createdAt).toEqual(expect.any(String));
         expect(soloStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(soloStreak).sort()).toEqual(
+            [
+                'status',
+                'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                '_id',
+                'streakName',
+                'streakDescription',
+                'userId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+    });
+
+    test(`solo streaks can be retreived using sortField query parameter`, async () => {
+        expect.assertions(2);
+
+        const soloStreaks = await streakoid.soloStreaks.getAll({
+            sortField: GetAllSoloStreaksSortFields.currentStreak,
+        });
+        expect(soloStreaks.length).toBeGreaterThanOrEqual(1);
+
+        const soloStreak = soloStreaks[0];
+
         expect(Object.keys(soloStreak).sort()).toEqual(
             [
                 'status',
