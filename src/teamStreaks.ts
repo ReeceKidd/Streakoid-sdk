@@ -8,6 +8,10 @@ import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
 import { CurrentStreak, PastStreak } from '.';
 
+export enum GetAllTeamStreaksSortFields {
+    currentStreak = 'currentStreak',
+}
+
 export interface TeamStreaks {
     getAll: ({
         creatorId,
@@ -16,6 +20,7 @@ export interface TeamStreaks {
         status,
         completedToday,
         active,
+        sortField,
     }: {
         creatorId?: string;
         memberId?: string;
@@ -23,6 +28,7 @@ export interface TeamStreaks {
         status?: StreakStatus;
         completedToday?: boolean;
         active?: boolean;
+        sortField?: GetAllTeamStreaksSortFields;
     }) => Promise<PopulatedTeamStreak[]>;
     getOne: (teamStreakId: string) => Promise<PopulatedTeamStreak>;
     create: ({
@@ -67,6 +73,7 @@ const teamStreaks = (streakoidClient: AxiosInstance): TeamStreaks => {
         status,
         completedToday,
         active,
+        sortField,
     }: {
         creatorId?: string;
         memberId?: string;
@@ -74,6 +81,7 @@ const teamStreaks = (streakoidClient: AxiosInstance): TeamStreaks => {
         status?: StreakStatus;
         completedToday?: boolean;
         active?: boolean;
+        sortField?: GetAllTeamStreaksSortFields;
     }): Promise<PopulatedTeamStreak[]> => {
         try {
             let getAllteamStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamStreaks}?`;
@@ -94,6 +102,9 @@ const teamStreaks = (streakoidClient: AxiosInstance): TeamStreaks => {
             }
             if (active !== undefined) {
                 getAllteamStreaksURL = `${getAllteamStreaksURL}active=${Boolean(active)}&`;
+            }
+            if (sortField) {
+                getAllteamStreaksURL = `${getAllteamStreaksURL}sortField=${sortField}&`;
             }
             const { data } = await streakoidClient.get(getAllteamStreaksURL);
             return data;
