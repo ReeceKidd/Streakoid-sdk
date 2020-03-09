@@ -7,6 +7,10 @@ import StreakStatus from './StreakStatus';
 import CurrentStreak from './models/CurrentStreak';
 import { PastStreak } from '.';
 
+export enum GetAllChallengeStreaksSortFields {
+    currentStreak = 'currentStreak',
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challengeStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
@@ -16,6 +20,7 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         timezone,
         active,
         status,
+        sortField,
     }: {
         userId?: string;
         challengeId?: string;
@@ -23,6 +28,7 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         status?: StreakStatus;
         active?: boolean;
         completedToday?: boolean;
+        sortField?: GetAllChallengeStreaksSortFields;
     }): Promise<ChallengeStreak[]> => {
         try {
             let getAllChallengeStreaksURL = `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}?`;
@@ -49,6 +55,10 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
 
             if (active !== undefined) {
                 getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}active=${Boolean(active)}&`;
+            }
+
+            if (sortField) {
+                getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}sortField=${sortField}&`;
             }
 
             const { data } = await streakoidClient.get(getAllChallengeStreaksURL);

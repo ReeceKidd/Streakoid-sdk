@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import StreakStatus from './StreakStatus';
+import { GetAllChallengeStreaksSortFields } from './challengeStreak';
 
 describe('SDK challengeStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -82,6 +83,17 @@ describe('SDK challengeStreaks', () => {
             await streakoid.challengeStreaks.getAll({ status });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?status=${status}&`);
+        });
+
+        test('calls GET with correct URL when sortField query paramater is passed', async () => {
+            expect.assertions(1);
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const sortField = GetAllChallengeStreaksSortFields.currentStreak;
+
+            await streakoid.challengeStreaks.getAll({ sortField });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?sortField=${sortField}&`);
         });
     });
 
