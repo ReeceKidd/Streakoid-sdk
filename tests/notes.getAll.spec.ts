@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -46,6 +47,7 @@ describe('GET /notes', () => {
             userId,
             subjectId: soloStreak._id,
             text: noteText,
+            streakType: StreakTypes.solo,
         });
 
         const notes = await streakoid.notes.getAll({});
@@ -74,7 +76,7 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text });
+        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text, streakType: StreakTypes.solo });
 
         const notes = await streakoid.notes.getAll({ userId });
         const note = notes[0];
@@ -101,7 +103,7 @@ describe('GET /notes', () => {
 
         const text = 'Finished reading book';
 
-        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text });
+        await streakoid.notes.create({ userId, subjectId: soloStreak._id, text, streakType: StreakTypes.solo });
 
         const notes = await streakoid.notes.getAll({ subjectId: soloStreak._id });
         const note = notes[0];

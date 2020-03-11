@@ -3,6 +3,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import Note from './models/Note';
+import StreakTypes from './StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const notes = (streakoidClient: AxiosInstance) => {
@@ -38,16 +39,19 @@ const notes = (streakoidClient: AxiosInstance) => {
         userId,
         subjectId,
         text,
+        streakType,
     }: {
         userId: string;
         subjectId: string;
         text: string;
+        streakType: StreakTypes;
     }): Promise<Note> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.notes}`, {
                 userId,
                 subjectId,
                 text,
+                streakType,
             });
             return data;
         } catch (err) {

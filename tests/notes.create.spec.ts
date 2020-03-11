@@ -5,6 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend } from './setup/getFriend';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -50,6 +51,7 @@ describe('POST /notes', () => {
             userId,
             subjectId: soloStreak._id,
             text,
+            streakType: StreakTypes.solo,
         });
 
         expect(note.userId).toBeDefined();
@@ -79,6 +81,7 @@ describe('POST /notes', () => {
             userId,
             subjectId: teamStreak._id,
             text,
+            streakType: StreakTypes.team,
         });
 
         expect(note.userId).toBeDefined();
@@ -113,6 +116,7 @@ describe('POST /notes', () => {
             userId,
             subjectId: teamStreak._id,
             text,
+            streakType: StreakTypes.team,
         });
 
         expect(note.userId).toBeDefined();

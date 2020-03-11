@@ -4,6 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { StreakTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -33,6 +34,7 @@ describe('DELETE /notes', () => {
             userId,
             subjectId: '5d0fc0de86821005b0e9de5b',
             text: 'Worked on Johnny Cash Hurt',
+            streakType: StreakTypes.solo,
         });
 
         const { status } = await streakoid.notes.deleteOne({ noteId: note._id });
