@@ -14,6 +14,9 @@ describe('PATCH /challenge-streaks', () => {
     let challengeStreakId: string;
     const color = 'blue';
     const levels = [{ level: 0, criteria: 'criteria' }];
+    const name = 'Duolingo';
+    const description = 'Everyday I must complete a duolingo lesson';
+    const icon = 'duolingo';
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -21,21 +24,6 @@ describe('PATCH /challenge-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const name = 'Duolingo';
-            const description = 'Everyday I must complete a duolingo lesson';
-            const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({
-                name,
-                description,
-                icon,
-                color,
-                levels,
-            });
-            const challengeStreak = await streakoid.challengeStreaks.create({
-                userId,
-                challengeId: challenge._id,
-            });
-            challengeStreakId = challengeStreak._id;
         }
     });
 
@@ -47,6 +35,19 @@ describe('PATCH /challenge-streaks', () => {
 
     test(`that request passes when challenge streak is patched with correct keys`, async () => {
         expect.assertions(12);
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
 
         const updatedTimezone = 'Europe/Paris';
 
@@ -85,5 +86,62 @@ describe('PATCH /challenge-streaks', () => {
                 '__v',
             ].sort(),
         );
+    });
+
+    test(`that when status is set to deleted the user is removed from the challenge the streak belongs too`, async () => {
+        expect.assertions(13);
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
+
+        const updatedChallengeStreak = await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.deleted,
+            },
+        });
+
+        expect(updatedChallengeStreak.status).toEqual(StreakStatus.deleted);
+        expect(updatedChallengeStreak.userId).toBeDefined();
+        expect(updatedChallengeStreak.completedToday).toEqual(false);
+        expect(updatedChallengeStreak.active).toEqual(false);
+        expect(updatedChallengeStreak.pastStreaks).toEqual([]);
+        expect(updatedChallengeStreak.timezone).toEqual(expect.any(String));
+        expect(updatedChallengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(updatedChallengeStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
+        expect(updatedChallengeStreak._id).toEqual(expect.any(String));
+        expect(updatedChallengeStreak.createdAt).toEqual(expect.any(String));
+        expect(updatedChallengeStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
+            [
+                'currentStreak',
+                'status',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                '_id',
+                'userId',
+                'challengeId',
+                'badgeId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const updatedChallenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
+
+        expect(updatedChallenge.members.length).toEqual(0);
     });
 });
