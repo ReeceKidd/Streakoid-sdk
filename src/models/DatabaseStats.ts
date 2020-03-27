@@ -1,6 +1,8 @@
 interface DatabaseStats {
     totalUsers: number;
-    liveStreaks: number;
+    totalLiveSoloStreaks: number;
+    totalLiveChallengeStreaks: number;
+    totalLiveTeamStreaks: number;
     totalStreaks: number;
 }
 
