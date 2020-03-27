@@ -12,9 +12,9 @@ describe('SDK stats', () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.stats.get();
+            await streakoid.databaseStats.get();
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/stats`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/database-stats`);
         });
     });
 });
