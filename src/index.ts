@@ -37,6 +37,7 @@ import ChallengeMember from './models/ChallengeMember';
 import PopulatedChallenge from './models/PopulatedChallenge';
 import Note from './models/Note';
 import ActivityFeedItem from './models/ActivityFeedItem';
+import Stats from './models/Stats';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import FriendRequestStatus from './FriendRequestStatus';
@@ -97,5 +98,6 @@ export {
     Note,
     PaymentPlans,
     ActivityFeedItem,
+    Stats,
     ActivityFeedItemTypes,
 };

@@ -28,6 +28,7 @@ enum RouterCategories {
     challengeStreaks = 'challenge-streaks',
     notes = 'notes',
     activityFeedItems = 'activityFeedItems',
+    stats = 'stats',
 }
 
 export default RouterCategories;
