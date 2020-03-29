@@ -37,7 +37,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge using the name query paramater`, async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];
@@ -49,6 +49,7 @@ describe('GET /challenges', () => {
         expect(challenge.color).toEqual(color);
         expect(challenge.badgeId).toBeDefined();
         expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         const level = challenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -66,6 +67,7 @@ describe('GET /challenges', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',
@@ -74,7 +76,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge without the query paramater`, async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];
@@ -86,6 +88,7 @@ describe('GET /challenges', () => {
         expect(challenge.color).toEqual(color);
         expect(challenge.badgeId).toBeDefined();
         expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         const level = challenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -103,6 +106,7 @@ describe('GET /challenges', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',

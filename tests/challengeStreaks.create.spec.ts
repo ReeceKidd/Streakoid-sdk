@@ -43,7 +43,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
-        expect.assertions(39);
+        expect.assertions(40);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -91,6 +91,7 @@ describe('POST /challenge-streaks', () => {
         expect(updatedChallenge.members.length).toEqual(1);
         const challengeMember = updatedChallenge.members[0];
         expect(Object.keys(challengeMember).sort()).toEqual(['profileImage', 'userId', 'username'].sort());
+        expect(updatedChallenge.numberOfMembers).toEqual(1);
         expect(updatedChallenge.levels.length).toEqual(1);
         const level = updatedChallenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -108,6 +109,7 @@ describe('POST /challenge-streaks', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',
@@ -138,6 +140,7 @@ describe('POST /challenge-streaks', () => {
                 'username',
                 'timezone',
                 'profileImages',
+                'hasCompletedIntroduction',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',

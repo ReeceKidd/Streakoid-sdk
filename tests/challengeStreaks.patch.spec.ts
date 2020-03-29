@@ -88,8 +88,8 @@ describe('PATCH /challenge-streaks', () => {
         );
     });
 
-    test(`that when status is set to deleted the user is removed from the challenge the streak belongs too`, async () => {
-        expect.assertions(13);
+    test(`that when status is set to deleted the user is removed from the challenge and the number of members in the challenge is decreased by one`, async () => {
+        expect.assertions(14);
 
         const { challenge } = await streakoid.challenges.create({
             name,
@@ -143,5 +143,6 @@ describe('PATCH /challenge-streaks', () => {
         const updatedChallenge = await streakoid.challenges.getOne({ challengeId: updatedChallengeStreak.challengeId });
 
         expect(updatedChallenge.members.length).toEqual(0);
+        expect(updatedChallenge.numberOfMembers).toEqual(0);
     });
 });

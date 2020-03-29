@@ -26,7 +26,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with a badge with minimum paramaters`, async () => {
-        expect.assertions(21);
+        expect.assertions(22);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -48,6 +48,7 @@ describe('POST /challenges', () => {
         expect(challenge.icon).toEqual(icon);
         expect(challenge.color).toEqual(color);
         expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         const level = challenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -65,6 +66,7 @@ describe('POST /challenges', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',
@@ -84,7 +86,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge and badge with maximum paramaters`, async () => {
-        expect.assertions(22);
+        expect.assertions(23);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -108,6 +110,7 @@ describe('POST /challenges', () => {
         expect(challenge.icon).toEqual(icon);
         expect(challenge.color).toEqual(color);
         expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         expect(challenge.numberOfMinutes).toEqual(30);
         const level = challenge.levels[0];
@@ -127,6 +130,7 @@ describe('POST /challenges', () => {
                 'levels',
                 'numberOfMinutes',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',

@@ -41,7 +41,7 @@ describe('GET /challenges/:challengeId', () => {
     });
 
     test(`gets a challenge using challengeId`, async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const challenge = await streakoid.challenges.getOne({ challengeId });
 
@@ -52,6 +52,7 @@ describe('GET /challenges/:challengeId', () => {
         expect(challenge.color).toEqual(color);
         expect(challenge.badgeId).toBeDefined();
         expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         const level = challenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -69,6 +70,7 @@ describe('GET /challenges/:challengeId', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',

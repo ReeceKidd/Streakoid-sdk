@@ -9,6 +9,7 @@ interface PopulatedChallenge {
     badgeId: string;
     levels: { _id: string; level: number; badgeId: string; criteria: string }[];
     members: ChallengeMember[];
+    numberOfMembers: number;
     createdAt: string;
     updatedAt: string;
     numberOfMinutes?: number;
