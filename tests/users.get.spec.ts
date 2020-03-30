@@ -1,6 +1,7 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { getPayingUser } from './setup/getPayingUser';
+import { getFriend } from './setup/getFriend';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
@@ -12,7 +13,7 @@ jest.setTimeout(120000);
 describe('GET /users', () => {
     let streakoid: StreakoidFactory;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             await getPayingUser();
@@ -20,7 +21,7 @@ describe('GET /users', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -58,6 +59,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -95,6 +97,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -132,6 +135,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -169,6 +173,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -179,7 +184,7 @@ describe('GET /users', () => {
         expect.assertions(13);
 
         const users = await streakoid.users.getAll({ email });
-        expect(users.length).toBeGreaterThanOrEqual(1);
+        expect(users.length).toEqual(1);
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
@@ -206,6 +211,89 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
+                'createdAt',
+                'updatedAt',
+            ].sort(),
+        );
+    });
+
+    test(`limits to one user when two are available`, async () => {
+        expect.assertions(13);
+
+        await getFriend();
+
+        const users = await streakoid.users.getAll({ limit: 1 });
+        expect(users.length).toBeGreaterThanOrEqual(1);
+
+        const user = users[0];
+
+        expect(user.userType).toEqual(UserTypes.basic);
+        expect(user.isPayingMember).toEqual(true);
+        expect(user.friends).toEqual(expect.any(Array));
+        expect(user.badges).toEqual(expect.any(Array));
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(expect.any(String));
+        expect(user.timezone).toEqual(expect.any(String));
+        expect(user.profileImages).toEqual({
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
+        expect(user.pushNotificationToken).toBeNull();
+        expect(user.createdAt).toEqual(expect.any(String));
+        expect(user.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                'userType',
+                'isPayingMember',
+                'friends',
+                'badges',
+                '_id',
+                'username',
+                'timezone',
+                'profileImages',
+                'pushNotificationToken',
+                'hasCompletedIntroduction',
+                'createdAt',
+                'updatedAt',
+            ].sort(),
+        );
+    });
+
+    test(`skips to second user when two are available`, async () => {
+        expect.assertions(13);
+
+        await getFriend();
+
+        const users = await streakoid.users.getAll({ skip: 1 });
+        expect(users.length).toEqual(1);
+
+        const user = users[0];
+
+        expect(user.userType).toEqual(UserTypes.basic);
+        expect(user.isPayingMember).toEqual(true);
+        expect(user.friends).toEqual(expect.any(Array));
+        expect(user.badges).toEqual(expect.any(Array));
+        expect(user._id).toEqual(expect.any(String));
+        expect(user.username).toEqual(expect.any(String));
+        expect(user.timezone).toEqual(expect.any(String));
+        expect(user.profileImages).toEqual({
+            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
+        });
+        expect(user.pushNotificationToken).toBeDefined();
+        expect(user.createdAt).toEqual(expect.any(String));
+        expect(user.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                'userType',
+                'isPayingMember',
+                'friends',
+                'badges',
+                '_id',
+                'username',
+                'timezone',
+                'profileImages',
+                'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),

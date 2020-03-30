@@ -26,6 +26,24 @@ describe('SDK users', () => {
     });
 
     describe('getAll', () => {
+        test('calls GET with correct URL and skip paramater', async () => {
+            expect.assertions(1);
+
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.users.getAll({ skip: 10 });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/users?skip=10&`);
+        });
+        test('calls GET with correct URL and limit paramater', async () => {
+            expect.assertions(1);
+
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            await streakoid.users.getAll({ limit: 10 });
+
+            expect(streakoidClient.get).toBeCalledWith(`/v1/users?limit=10&`);
+        });
         test('calls GET with correct URL and searchQuery paramater', async () => {
             expect.assertions(1);
 

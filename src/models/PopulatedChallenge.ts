@@ -13,6 +13,7 @@ interface PopulatedChallenge {
     createdAt: string;
     updatedAt: string;
     numberOfMinutes?: number;
+    communicationGroupLink?: string;
 }
 
 export default PopulatedChallenge;
