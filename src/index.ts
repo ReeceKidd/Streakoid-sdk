@@ -23,7 +23,6 @@ import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 import PopulatedUser from './models/PopulatedUser';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
-import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 import Badge from './models/Badge';
 import DailyJob from './models/DailyJob';
 import Email from './models/Email';
@@ -83,7 +82,6 @@ export {
     ChallengeMember,
     PopulatedChallenge,
     SupportedRequestHeaders,
-    PopulatedFriendRequest,
     StreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
