@@ -27,7 +27,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully', async () => {
-        expect.assertions(30);
+        expect.assertions(31);
 
         const user = await streakoid.users.create({
             username,
@@ -42,6 +42,7 @@ describe('POST /users', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(user.badges).toEqual([]);
+        expect(user.friends).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -81,6 +82,7 @@ describe('POST /users', () => {
                 'email',
                 'membershipInformation',
                 'badges',
+                'friends',
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',

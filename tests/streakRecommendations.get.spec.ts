@@ -37,7 +37,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`random streak recommendations can be retreived`, async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
 
@@ -50,6 +50,7 @@ describe('GET /streak-recommendations', () => {
         expect(streakRecommendation.color).toEqual(color);
         expect(streakRecommendation.badgeId).toBeDefined();
         expect(streakRecommendation.members).toEqual([]);
+        expect(streakRecommendation.numberOfMembers).toEqual(0);
         expect(streakRecommendation.levels.length).toEqual(1);
         const level = streakRecommendation.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -67,6 +68,7 @@ describe('GET /streak-recommendations', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',
@@ -75,7 +77,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`non random streak recommendations can be retreived`, async () => {
-        expect.assertions(14);
+        expect.assertions(15);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: false, limit: 5 });
 
@@ -88,6 +90,7 @@ describe('GET /streak-recommendations', () => {
         expect(streakRecommendation.color).toEqual(color);
         expect(streakRecommendation.badgeId).toBeDefined();
         expect(streakRecommendation.members).toEqual([]);
+        expect(streakRecommendation.numberOfMembers).toEqual(0);
         expect(streakRecommendation.levels.length).toEqual(1);
         const level = streakRecommendation.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
@@ -105,6 +108,7 @@ describe('GET /streak-recommendations', () => {
                 'badgeId',
                 'levels',
                 'members',
+                'numberOfMembers',
                 'createdAt',
                 'updatedAt',
                 '__v',

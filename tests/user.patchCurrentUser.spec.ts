@@ -31,7 +31,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(30);
+        expect.assertions(31);
 
         const updatedEmail = 'email@gmail.com';
         const updatedNotifications: Notifications = {
@@ -76,6 +76,7 @@ describe('PATCH /user', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(updatedUser.badges).toEqual([]);
+        expect(updatedUser.friends).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -123,6 +124,7 @@ describe('PATCH /user', () => {
                 'membershipInformation',
                 'notifications',
                 'profileImages',
+                'friends',
                 'pushNotificationToken',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -134,7 +136,7 @@ describe('PATCH /user', () => {
     });
 
     test(`when user has a badge on profile it gets populated after being patched.`, async () => {
-        expect.assertions(38);
+        expect.assertions(39);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -196,6 +198,7 @@ describe('PATCH /user', () => {
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
+        expect(updatedUser.friends).toEqual([]);
         expect(updatedUser.badges.length).toEqual(1);
         const badge = updatedUser.badges[0];
 
@@ -260,6 +263,7 @@ describe('PATCH /user', () => {
                 'pushNotificationToken',
                 'hasCompletedIntroduction',
                 'timezone',
+                'friends',
                 'updatedAt',
                 'userType',
                 'username',
