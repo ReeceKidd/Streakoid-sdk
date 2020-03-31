@@ -3,6 +3,7 @@ import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Notifications from './Notifications';
+import Friend from './Friend';
 
 interface User {
     _id: string;
@@ -17,6 +18,7 @@ interface User {
     timezone: string;
     followers: Follower[];
     following: Follower[];
+    friends: Friend[];
     notifications: Notifications;
     badges: string[];
     stripe: {

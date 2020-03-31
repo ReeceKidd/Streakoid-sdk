@@ -1,6 +1,7 @@
 import UserTypes from '../userTypes';
 import Follower from './Follower';
 import ProfileImages from './ProfileImages';
+import Friend from './Friend';
 
 interface FormattedUser {
     _id: string;
@@ -10,6 +11,7 @@ interface FormattedUser {
     timezone: string;
     followers: Follower[];
     following: Follower[];
+    friends: Friend[];
     badges: string[];
     createdAt: string;
     updatedAt: string;
