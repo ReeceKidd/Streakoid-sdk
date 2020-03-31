@@ -56,6 +56,7 @@ describe('GET /users/:userId', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),

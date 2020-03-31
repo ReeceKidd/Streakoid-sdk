@@ -5,11 +5,6 @@ import RouterCategories from './RouterCategories';
 import { friends } from './friends';
 import { FormattedUser, PopulatedCurrentUser, PopulatedUser } from '.';
 
-export interface GetAllUsersResponse {
-    users: FormattedUser[];
-    totalUserCount: number;
-}
-
 const users = (streakoidClient: AxiosInstance) => {
     const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {
         try {
@@ -35,7 +30,7 @@ const users = (streakoidClient: AxiosInstance) => {
         searchQuery?: string;
         username?: string;
         email?: string;
-    }): Promise<GetAllUsersResponse> => {
+    }): Promise<FormattedUser[]> => {
         try {
             let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
             if (limit) {

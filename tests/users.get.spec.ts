@@ -28,13 +28,12 @@ describe('GET /users', () => {
     });
 
     test(`returns all users when no searchTerm is used`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
-        const getAllUsersResponse = await streakoid.users.getAll({});
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(1);
+        const users = await streakoid.users.getAll({});
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
@@ -68,13 +67,12 @@ describe('GET /users', () => {
     });
 
     test(`returns user when full searchTerm is used`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
-        const getAllUsersResponse = await streakoid.users.getAll({});
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(1);
+        const users = await streakoid.users.getAll({ searchQuery: username });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
@@ -108,13 +106,12 @@ describe('GET /users', () => {
     });
 
     test('returns user when partial searchTerm is used', async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
-        const getAllUsersResponse = await streakoid.users.getAll({});
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(1);
+        const users = await streakoid.users.getAll({ searchQuery: username.slice(0, 1) });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
@@ -147,13 +144,13 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when username query paramater is used', async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
-        const getAllUsersResponse = await streakoid.users.getAll({ username });
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(1);
+        const users = await streakoid.users.getAll({ username });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
+
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
@@ -186,13 +183,12 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when email query paramater is used', async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
-        const getAllUsersResponse = await streakoid.users.getAll({ email });
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(1);
+        const users = await streakoid.users.getAll({ email });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
@@ -225,15 +221,14 @@ describe('GET /users', () => {
     });
 
     test(`limits to one user when two are available`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         await getFriend();
 
-        const getAllUsersResponse = await streakoid.users.getAll({ limit: 1 });
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(2);
+        const users = await streakoid.users.getAll({ limit: 1 });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
@@ -267,15 +262,14 @@ describe('GET /users', () => {
     });
 
     test(`skips to second user when two are available`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         await getFriend();
 
-        const getAllUsersResponse = await streakoid.users.getAll({ skip: 1 });
-        expect(getAllUsersResponse.users.length).toEqual(1);
-        expect(getAllUsersResponse.totalUserCount).toEqual(2);
+        const users = await streakoid.users.getAll({ skip: 1 });
+        expect(users.length).toEqual(1);
 
-        const user = getAllUsersResponse.users[0];
+        const user = users[0];
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
