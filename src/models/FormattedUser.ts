@@ -1,5 +1,5 @@
 import UserTypes from '../userTypes';
-import Follower from './Follower';
+import BasicUser from './BasicUser';
 import ProfileImages from './ProfileImages';
 import Friend from './Friend';
 
@@ -9,8 +9,8 @@ interface FormattedUser {
     isPayingMember: boolean;
     userType: UserTypes;
     timezone: string;
-    followers: Follower[];
-    following: Follower[];
+    followers: BasicUser[];
+    following: BasicUser[];
     friends: Friend[];
     badges: string[];
     createdAt: string;

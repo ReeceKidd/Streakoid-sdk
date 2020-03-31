@@ -3,8 +3,8 @@ import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Notifications from './Notifications';
 import Badge from './Badge';
-import { Follower } from '..';
 import Friend from './Friend';
+import BasicUser from './BasicUser';
 
 interface PopulatedCurrentUser {
     _id: string;
@@ -18,8 +18,8 @@ interface PopulatedCurrentUser {
     userType: UserTypes;
     timezone: string;
     badges: Badge[];
-    following: Follower[];
-    followers: Follower[];
+    following: BasicUser[];
+    followers: BasicUser[];
     friends: Friend;
     notifications: Notifications;
     profileImages: ProfileImages;

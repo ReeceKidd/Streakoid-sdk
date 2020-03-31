@@ -1,7 +1,7 @@
-interface Follower {
+interface BasicUser {
     username: string;
     userId: string;
     profileImage: string;
 }
 
-export default Follower;
+export default BasicUser;

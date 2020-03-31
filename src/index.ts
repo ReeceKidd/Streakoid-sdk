@@ -10,7 +10,7 @@ import CompleteTeamStreak from './models/CompleteTeamStreak';
 import IncompleteTeamStreak from './models/IncompleteTeamStreak';
 import CurrentStreak from './models/CurrentStreak';
 import Feedback from './models/Feedback';
-import Follower from './models/Follower';
+import Follower from './models/BasicUser';
 import TeamMember from './models/TeamMember';
 import TeamMemberStreak from './models/TeamMemberStreak';
 import PastStreak from './models/PastStreak';
