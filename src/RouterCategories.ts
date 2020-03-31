@@ -16,7 +16,7 @@ enum RouterCategories {
     incompleteChallengeStreakTasks = 'incomplete-challenge-streak-tasks',
     test = 'test',
     stripe = 'stripe',
-    friends = 'friends',
+    followers = 'followers',
     streakTrackingEvents = 'streak-tracking-events',
     teamMemberStreaks = 'team-member-streaks',
     friendRequests = 'friend-requests',

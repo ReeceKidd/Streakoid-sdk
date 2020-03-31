@@ -3,7 +3,7 @@ import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Notifications from './Notifications';
 import Badge from './Badge';
-import { Friend } from '..';
+import { Follower } from '..';
 
 interface PopulatedCurrentUser {
     _id: string;
@@ -17,7 +17,8 @@ interface PopulatedCurrentUser {
     userType: UserTypes;
     timezone: string;
     badges: Badge[];
-    friends: Friend[];
+    following: Follower[];
+    followers: Follower[];
     notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;

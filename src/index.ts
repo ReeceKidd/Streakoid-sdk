@@ -10,7 +10,7 @@ import CompleteTeamStreak from './models/CompleteTeamStreak';
 import IncompleteTeamStreak from './models/IncompleteTeamStreak';
 import CurrentStreak from './models/CurrentStreak';
 import Feedback from './models/Feedback';
-import Friend from './models/Friend';
+import Follower from './models/Follower';
 import TeamMember from './models/TeamMember';
 import TeamMemberStreak from './models/TeamMemberStreak';
 import PastStreak from './models/PastStreak';
@@ -23,7 +23,6 @@ import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 import PopulatedUser from './models/PopulatedUser';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
-import FriendRequest from './models/FriendRequest';
 import PopulatedFriendRequest from './models/PopulatedFriendRequest';
 import Badge from './models/Badge';
 import DailyJob from './models/DailyJob';
@@ -40,7 +39,6 @@ import ActivityFeedItem from './models/ActivityFeedItem';
 import DatabaseStats from './models/DatabaseStats';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
-import FriendRequestStatus from './FriendRequestStatus';
 import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
@@ -66,7 +64,7 @@ export {
     ProfileImages,
     CurrentStreak,
     Feedback,
-    Friend,
+    Follower,
     TeamMember,
     TeamMemberStreak,
     PastStreak,
@@ -85,8 +83,6 @@ export {
     ChallengeMember,
     PopulatedChallenge,
     SupportedRequestHeaders,
-    FriendRequest,
-    FriendRequestStatus,
     PopulatedFriendRequest,
     StreakTypes,
     StreakTrackingEventTypes,

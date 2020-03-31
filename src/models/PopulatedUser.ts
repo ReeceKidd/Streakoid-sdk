@@ -1,5 +1,5 @@
 import UserTypes from '../userTypes';
-import Friend from './Friend';
+import Follower from './Follower';
 import ProfileImages from './ProfileImages';
 import { Badge } from '..';
 
@@ -9,7 +9,8 @@ interface PopulatedUser {
     isPayingMember: boolean;
     userType: UserTypes;
     timezone: string;
-    friends: Friend[];
+    followers: Follower[];
+    following: Follower[];
     badges: Badge[];
     createdAt: string;
     updatedAt: string;

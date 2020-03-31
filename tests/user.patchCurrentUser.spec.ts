@@ -76,7 +76,7 @@ describe('PATCH /user', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(updatedUser.badges).toEqual([]);
-        expect(updatedUser.friends).toEqual([]);
+        expect(updatedUser.followers).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -124,7 +124,7 @@ describe('PATCH /user', () => {
                 'membershipInformation',
                 'notifications',
                 'profileImages',
-                'friends',
+                'followers',
                 'pushNotificationToken',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -198,7 +198,7 @@ describe('PATCH /user', () => {
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
-        expect(updatedUser.friends).toEqual([]);
+        expect(updatedUser.followers).toEqual([]);
         expect(updatedUser.badges.length).toEqual(1);
         const badge = updatedUser.badges[0];
 
@@ -263,7 +263,7 @@ describe('PATCH /user', () => {
                 'pushNotificationToken',
                 'hasCompletedIntroduction',
                 'timezone',
-                'friends',
+                'followers',
                 'updatedAt',
                 'userType',
                 'username',

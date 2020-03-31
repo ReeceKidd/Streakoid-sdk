@@ -36,7 +36,7 @@ describe('GET /users/:userId', () => {
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.friends).toEqual([]);
+        expect(user.followers).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
@@ -49,7 +49,7 @@ describe('GET /users/:userId', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
+                'followers',
                 'badges',
                 '_id',
                 'username',

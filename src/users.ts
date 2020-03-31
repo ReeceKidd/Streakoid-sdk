@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import { friends } from './friends';
 import { FormattedUser, PopulatedCurrentUser, PopulatedUser } from '.';
 
 const users = (streakoidClient: AxiosInstance) => {
@@ -66,7 +65,6 @@ const users = (streakoidClient: AxiosInstance) => {
         create,
         getAll,
         getOne,
-        friends: friends(streakoidClient),
     };
 };
 

@@ -41,7 +41,7 @@ describe('GET /user', () => {
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
-        expect(user.friends).toEqual([]);
+        expect(user.followers).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
@@ -81,7 +81,7 @@ describe('GET /user', () => {
                 'createdAt',
                 'email',
                 'badges',
-                'friends',
+                'followers',
                 'membershipInformation',
                 'notifications',
                 'profileImages',
@@ -126,7 +126,7 @@ describe('GET /user', () => {
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
-        expect(user.friends).toEqual([]);
+        expect(user.followers).toEqual([]);
         expect(user.badges.length).toEqual(1);
         const badge = user.badges[0];
 
@@ -178,7 +178,7 @@ describe('GET /user', () => {
                 'createdAt',
                 'email',
                 'badges',
-                'friends',
+                'followers',
                 'membershipInformation',
                 'notifications',
                 'profileImages',

@@ -1,4 +1,4 @@
-import Friend from './Friend';
+import Follower from './Follower';
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
@@ -15,7 +15,7 @@ interface User {
     email: string;
     userType: UserTypes;
     timezone: string;
-    friends: Friend[];
+    followers: Follower[];
     notifications: Notifications;
     badges: string[];
     stripe: {

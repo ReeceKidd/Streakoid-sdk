@@ -42,7 +42,7 @@ describe('POST /users', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(user.badges).toEqual([]);
-        expect(user.friends).toEqual([]);
+        expect(user.followers).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -82,7 +82,7 @@ describe('POST /users', () => {
                 'email',
                 'membershipInformation',
                 'badges',
-                'friends',
+                'followers',
                 'notifications',
                 'profileImages',
                 'pushNotificationToken',
