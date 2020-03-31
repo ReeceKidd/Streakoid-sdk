@@ -1,4 +1,3 @@
-import BasicUser from './BasicUser';
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
@@ -16,8 +15,8 @@ interface User {
     email: string;
     userType: UserTypes;
     timezone: string;
-    followers: BasicUser[];
-    following: BasicUser[];
+    followers: string[];
+    following: string[];
     friends: Friend[];
     notifications: Notifications;
     badges: string[];
