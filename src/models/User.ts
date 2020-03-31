@@ -16,6 +16,7 @@ interface User {
     userType: UserTypes;
     timezone: string;
     followers: Follower[];
+    following: Follower[];
     notifications: Notifications;
     badges: string[];
     stripe: {
