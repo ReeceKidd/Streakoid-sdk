@@ -5,7 +5,6 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
-import UserTypes from '../src/userTypes';
 
 jest.setTimeout(120000);
 
@@ -43,7 +42,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
-        expect.assertions(40);
+        expect.assertions(30);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -118,33 +117,6 @@ describe('POST /challenge-streaks', () => {
 
         const updatedUser = await streakoid.users.getOne(userId);
 
-        expect(updatedUser._id).toEqual(expect.any(String));
-        expect(updatedUser.username).toEqual(expect.any(String));
-        expect(updatedUser.userType).toEqual(UserTypes.basic);
-        expect(updatedUser.friends).toEqual([]);
         expect(updatedUser.badges).toEqual([expect.any(Object)]);
-        expect(updatedUser.timezone).toEqual(expect.any(String));
-        expect(updatedUser.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(updatedUser.pushNotificationToken).toBeNull();
-        expect(updatedUser.createdAt).toEqual(expect.any(String));
-        expect(updatedUser.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(updatedUser).sort()).toEqual(
-            [
-                'userType',
-                'isPayingMember',
-                'friends',
-                'badges',
-                '_id',
-                'username',
-                'timezone',
-                'profileImages',
-                'hasCompletedIntroduction',
-                'pushNotificationToken',
-                'createdAt',
-                'updatedAt',
-            ].sort(),
-        );
     });
 });

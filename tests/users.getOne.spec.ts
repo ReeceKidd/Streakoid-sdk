@@ -29,7 +29,7 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retreives user`, async () => {
-        expect.assertions(11);
+        expect.assertions(13);
 
         const user = await streakoid.users.getOne(userId);
 
@@ -39,6 +39,8 @@ describe('GET /users/:userId', () => {
         expect(user.badges).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.friends).toEqual([]);
+        expect(user.followers).toEqual([]);
+        expect(user.following).toEqual([]);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
@@ -54,9 +56,10 @@ describe('GET /users/:userId', () => {
                 'username',
                 'timezone',
                 'friends',
+                'followers',
+                'following',
                 'profileImages',
                 'pushNotificationToken',
-                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
