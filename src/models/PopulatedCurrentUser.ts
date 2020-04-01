@@ -20,7 +20,7 @@ interface PopulatedCurrentUser {
     badges: Badge[];
     following: BasicUser[];
     followers: BasicUser[];
-    friends: Friend;
+    friends: Friend[];
     notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;
