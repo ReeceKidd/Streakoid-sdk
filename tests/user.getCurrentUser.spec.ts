@@ -30,7 +30,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(31);
+        expect.assertions(33);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -42,6 +42,8 @@ describe('GET /user', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(user.followers).toEqual([]);
+        expect(user.following).toEqual([]);
+        expect(user.friends).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
@@ -82,6 +84,8 @@ describe('GET /user', () => {
                 'email',
                 'badges',
                 'followers',
+                'following',
+                'friends',
                 'membershipInformation',
                 'notifications',
                 'profileImages',
@@ -96,7 +100,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user has a badge on their profile it returns a populated badge`, async () => {
-        expect.assertions(39);
+        expect.assertions(41);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -127,6 +131,8 @@ describe('GET /user', () => {
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
         expect(user.followers).toEqual([]);
+        expect(user.following).toEqual([]);
+        expect(user.friends).toEqual([]);
         expect(user.badges.length).toEqual(1);
         const badge = user.badges[0];
 
@@ -179,6 +185,8 @@ describe('GET /user', () => {
                 'email',
                 'badges',
                 'followers',
+                'friends',
+                'following',
                 'membershipInformation',
                 'notifications',
                 'profileImages',

@@ -29,6 +29,7 @@ enum RouterCategories {
     notes = 'notes',
     activityFeedItems = 'activityFeedItems',
     databaseStats = 'database-stats',
+    following = 'following',
 }
 
 export default RouterCategories;

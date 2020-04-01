@@ -3,6 +3,8 @@ import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { FormattedUser, PopulatedCurrentUser, PopulatedUser } from '.';
+import { followers } from './followers';
+import { following } from './following';
 
 const users = (streakoidClient: AxiosInstance) => {
     const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {
@@ -65,6 +67,8 @@ const users = (streakoidClient: AxiosInstance) => {
         create,
         getAll,
         getOne,
+        followers: followers(streakoidClient),
+        following: following(streakoidClient),
     };
 };
 

@@ -121,7 +121,7 @@ describe('POST /challenge-streaks', () => {
         expect(updatedUser._id).toEqual(expect.any(String));
         expect(updatedUser.username).toEqual(expect.any(String));
         expect(updatedUser.userType).toEqual(UserTypes.basic);
-        expect(updatedUser.followers).toEqual([]);
+        expect(updatedUser.friends).toEqual([]);
         expect(updatedUser.badges).toEqual([expect.any(Object)]);
         expect(updatedUser.timezone).toEqual(expect.any(String));
         expect(updatedUser.profileImages).toEqual({
@@ -134,7 +134,7 @@ describe('POST /challenge-streaks', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',

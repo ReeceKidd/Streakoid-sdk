@@ -53,7 +53,7 @@ describe('POST /stripe-subscription', () => {
             paymentPlan: PaymentPlans.Monthly,
         });
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.followers).toEqual([]);
+        expect(user.friends).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -69,7 +69,7 @@ describe('POST /stripe-subscription', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -136,6 +136,8 @@ describe('POST /stripe-subscription', () => {
             [
                 'stripe',
                 'userType',
+                'friends',
+                'following',
                 'followers',
                 'badges',
                 'membershipInformation',
@@ -162,7 +164,7 @@ describe('POST /stripe-subscription', () => {
             paymentPlan: PaymentPlans.Annually,
         });
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.followers).toEqual([]);
+        expect(user.friends).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
@@ -178,7 +180,7 @@ describe('POST /stripe-subscription', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -246,6 +248,8 @@ describe('POST /stripe-subscription', () => {
                 'stripe',
                 'userType',
                 'followers',
+                'following',
+                'friends',
                 'badges',
                 'membershipInformation',
                 '_id',

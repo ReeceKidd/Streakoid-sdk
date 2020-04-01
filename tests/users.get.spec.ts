@@ -37,7 +37,7 @@ describe('GET /users', () => {
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -52,7 +52,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -76,7 +76,7 @@ describe('GET /users', () => {
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -91,7 +91,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -114,7 +114,7 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -129,7 +129,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -153,7 +153,7 @@ describe('GET /users', () => {
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -168,7 +168,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -191,7 +191,7 @@ describe('GET /users', () => {
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -206,7 +206,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -232,7 +232,7 @@ describe('GET /users', () => {
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -247,7 +247,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',
@@ -273,7 +273,7 @@ describe('GET /users', () => {
 
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
-        expect(user.followers).toEqual(expect.any(Array));
+        expect(user.friends).toEqual(expect.any(Array));
         expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -288,7 +288,7 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
+                'friends',
                 'badges',
                 '_id',
                 'username',

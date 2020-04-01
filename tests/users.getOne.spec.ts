@@ -36,9 +36,9 @@ describe('GET /users/:userId', () => {
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.followers).toEqual([]);
         expect(user.badges).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
+        expect(user.friends).toEqual([]);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
@@ -49,11 +49,11 @@ describe('GET /users/:userId', () => {
             [
                 'userType',
                 'isPayingMember',
-                'followers',
                 'badges',
                 '_id',
                 'username',
                 'timezone',
+                'friends',
                 'profileImages',
                 'pushNotificationToken',
                 'hasCompletedIntroduction',
