@@ -13,16 +13,16 @@ describe('SDK teamMembers', () => {
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
 
-            const friendId = 'friendId';
+            const followerId = 'followerId';
             const teamStreakId = 'teamStreakId';
 
             await streakoid.teamStreaks.teamMembers.create({
-                friendId,
+                followerId,
                 teamStreakId,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/team-streaks/teamStreakId/members`, {
-                friendId,
+                followerId,
             });
         });
     });

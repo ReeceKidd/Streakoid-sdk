@@ -7,22 +7,22 @@ import TeamMember from './models/TeamMember';
 import TeamStreakRouterCategories from './TeamStreakRouterCategories';
 
 export interface TeamMembers {
-    create: ({ friendId, teamStreakId }: { friendId: string; teamStreakId: string }) => Promise<TeamMember[]>;
+    create: ({ followerId, teamStreakId }: { followerId: string; teamStreakId: string }) => Promise<TeamMember[]>;
     deleteOne: ({ teamStreakId, memberId }: { teamStreakId: string; memberId: string }) => Promise<AxiosResponse>;
 }
 
 const teamMembers = (streakoidClient: AxiosInstance): TeamMembers => {
     const create = async ({
-        friendId,
+        followerId,
         teamStreakId,
     }: {
-        friendId: string;
+        followerId: string;
         teamStreakId: string;
     }): Promise<TeamMember[]> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}`,
-                { friendId },
+                { followerId },
             );
             return data;
         } catch (err) {

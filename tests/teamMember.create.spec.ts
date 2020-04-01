@@ -5,7 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { StreakStatus } from '../src';
-import { getFriend, friendUsername } from './setup/getFriend';
+import { getFriend } from './setup/getFriend';
 import { username, originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
@@ -13,7 +13,7 @@ jest.setTimeout(120000);
 describe('POST /team-members', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -22,8 +22,8 @@ describe('POST /team-members', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -33,7 +33,7 @@ describe('POST /team-members', () => {
         }
     });
 
-    test(`adds friend to team streak`, async () => {
+    test(`adds follower to team streak`, async () => {
         expect.assertions(49);
 
         const members = [{ memberId: userId }];
@@ -45,7 +45,7 @@ describe('POST /team-members', () => {
         });
 
         const teamMembers = await streakoid.teamStreaks.teamMembers.create({
-            friendId,
+            followerId,
             teamStreakId: originalTeamStreak._id,
         });
 
@@ -56,9 +56,9 @@ describe('POST /team-members', () => {
         expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
         expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
-        const friend = teamMembers[1];
-        expect(friend.memberId).toBeDefined();
-        expect(friend.teamMemberStreakId).toEqual(expect.any(String));
+        const follower = teamMembers[1];
+        expect(follower.memberId).toBeDefined();
+        expect(follower.teamMemberStreakId).toEqual(expect.any(String));
         expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
         const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
@@ -129,24 +129,24 @@ describe('POST /team-members', () => {
             ].sort(),
         );
 
-        const friendMember = teamStreak.members[1];
-        expect(friendMember._id).toBeDefined();
-        expect(friendMember.username).toEqual(friendUsername);
-        expect(friendMember.profileImage).toEqual(originalImageUrl);
-        expect(Object.keys(friendMember).sort()).toEqual(
+        const followerMember = teamStreak.members[1];
+        expect(followerMember._id).toBeDefined();
+        expect(followerMember.username).toEqual(expect.any(String));
+        expect(followerMember.profileImage).toEqual(originalImageUrl);
+        expect(Object.keys(followerMember).sort()).toEqual(
             ['_id', 'username', 'profileImage', 'teamMemberStreak'].sort(),
         );
 
-        expect(friendMember.teamMemberStreak._id).toEqual(expect.any(String));
-        expect(friendMember.teamMemberStreak.completedToday).toEqual(false);
-        expect(friendMember.teamMemberStreak.active).toEqual(false);
-        expect(friendMember.teamMemberStreak.pastStreaks).toEqual([]);
-        expect(friendMember.teamMemberStreak.userId).toBeDefined();
-        expect(friendMember.teamMemberStreak.teamStreakId).toEqual(teamStreak._id);
-        expect(friendMember.teamMemberStreak.timezone).toEqual(londonTimezone);
-        expect(friendMember.teamMemberStreak.createdAt).toEqual(expect.any(String));
-        expect(friendMember.teamMemberStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(friendMember.teamMemberStreak).sort()).toEqual(
+        expect(followerMember.teamMemberStreak._id).toEqual(expect.any(String));
+        expect(followerMember.teamMemberStreak.completedToday).toEqual(false);
+        expect(followerMember.teamMemberStreak.active).toEqual(false);
+        expect(followerMember.teamMemberStreak.pastStreaks).toEqual([]);
+        expect(followerMember.teamMemberStreak.userId).toBeDefined();
+        expect(followerMember.teamMemberStreak.teamStreakId).toEqual(teamStreak._id);
+        expect(followerMember.teamMemberStreak.timezone).toEqual(londonTimezone);
+        expect(followerMember.teamMemberStreak.createdAt).toEqual(expect.any(String));
+        expect(followerMember.teamMemberStreak.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(followerMember.teamMemberStreak).sort()).toEqual(
             [
                 '_id',
                 'currentStreak',
