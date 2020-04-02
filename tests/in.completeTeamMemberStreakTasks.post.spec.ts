@@ -13,7 +13,7 @@ jest.setTimeout(120000);
 describe('GET /incomplete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -22,8 +22,8 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -407,7 +407,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for a new streak and one team member incompletes their own streak the team streak and that users streak gets reset.', async () => {
         expect.assertions(50);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -430,7 +430,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId,
             teamMemberStreakId: friendTeamMemberStreak._id,
         });
@@ -578,7 +578,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for an existing streak and one team member incompletes their own streak the team streaks number of days in a row drops and it is set to incomplete.', async () => {
         expect.assertions(50);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -626,7 +626,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: multipleDayStreak._id,
             teamMemberStreakId: multipleDayFriendTeamMemberStreak._id,
         });
@@ -774,7 +774,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for a new streak and both team members incomplete their own streaks and the team streak should be reset.', async () => {
         expect.assertions(72);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -854,7 +854,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         );
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId,
             teamMemberStreakId: friendTeamMemberStreak._id,
         });
@@ -1005,7 +1005,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for an existing streak and both team members incomplete their own streaks and the team streak should be reset.', async () => {
         expect.assertions(85);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -1053,7 +1053,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         });
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: multipleDayStreak._id,
             teamMemberStreakId: multipleDayFriendTeamMemberStreak._id,
         });

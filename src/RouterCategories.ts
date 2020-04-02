@@ -19,7 +19,7 @@ enum RouterCategories {
     followers = 'followers',
     streakTrackingEvents = 'streak-tracking-events',
     teamMemberStreaks = 'team-member-streaks',
-    friendRequests = 'friend-requests',
+    friendRequests = 'follower-requests',
     dailyJobs = 'daily-jobs',
     emails = 'emails',
     profileImages = 'profile-images',

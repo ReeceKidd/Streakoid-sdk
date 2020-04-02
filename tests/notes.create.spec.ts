@@ -16,7 +16,7 @@ const numberOfMinutes = 30;
 describe('POST /notes', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
@@ -24,8 +24,8 @@ describe('POST /notes', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -106,7 +106,7 @@ describe('POST /notes', () => {
         });
 
         await streakoid.teamStreaks.teamMembers.create({
-            friendId,
+            followerId,
             teamStreakId: teamStreak._id,
         });
 

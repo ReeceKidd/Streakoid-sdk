@@ -13,7 +13,7 @@ jest.setTimeout(120000);
 describe('DELETE /team-members', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -22,8 +22,8 @@ describe('DELETE /team-members', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -45,13 +45,13 @@ describe('DELETE /team-members', () => {
         });
 
         await streakoid.teamStreaks.teamMembers.create({
-            friendId,
+            followerId,
             teamStreakId: originalTeamStreak._id,
         });
 
         const { status } = await streakoid.teamStreaks.teamMembers.deleteOne({
             teamStreakId: originalTeamStreak._id,
-            memberId: friendId,
+            memberId: followerId,
         });
 
         expect(status).toEqual(204);

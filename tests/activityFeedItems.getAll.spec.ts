@@ -15,7 +15,7 @@ jest.setTimeout(120000);
 describe('GET /activityFeedItems', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -23,8 +23,8 @@ describe('GET /activityFeedItems', () => {
             streakoid = await streakoidTest();
             const user = await getPayingUser();
             userId = user._id;
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -83,7 +83,7 @@ describe('GET /activityFeedItems', () => {
         await streakoid.completeSoloStreakTasks.create({ userId, soloStreakId: soloStreak._id });
 
         const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
-            userIds: [userId, 'friendId'],
+            userIds: [userId, 'followerId'],
             subjectId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.completedSoloStreak,
             limit: 10,
@@ -363,7 +363,7 @@ describe('GET /activityFeedItems', () => {
         });
 
         await streakoid.teamStreaks.teamMembers.create({
-            friendId,
+            followerId,
             teamStreakId: teamStreak._id,
         });
 
@@ -895,7 +895,7 @@ describe('GET /activityFeedItems', () => {
     test('if one of two team members has not completed their task the new team streak does not get completed for the day', async () => {
         expect.assertions(15);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -911,7 +911,7 @@ describe('GET /activityFeedItems', () => {
         const userTeamMemberStreakId = userTeamMemberStreak._id;
 
         teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithTwoMembers._id,
         });
 
@@ -925,19 +925,19 @@ describe('GET /activityFeedItems', () => {
         });
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithTwoMembers._id,
             teamMemberStreakId: friendTeamMemberStreakId,
         });
 
         const { activityFeedItems, totalCountOfActivityFeedItems } = await streakoid.activityFeedItems.getAll({
-            userIds: [userId, friendId],
+            userIds: [userId, followerId],
             subjectId: teamStreakWithTwoMembers._id,
             limit: 10,
         });
 
         const userActivity = activityFeedItems.find(item => item.userId == userId);
-        const friendActivity = activityFeedItems.find(item => item.userId == friendId);
+        const friendActivity = activityFeedItems.find(item => item.userId == followerId);
 
         if (!userActivity || !friendActivity) {
             throw new Error('User activity or friendActivity is not defined');
@@ -969,7 +969,7 @@ describe('GET /activityFeedItems', () => {
     test('that activities are returned if createdAtBefore is used', async () => {
         expect.assertions(7);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -985,7 +985,7 @@ describe('GET /activityFeedItems', () => {
         const userTeamMemberStreakId = userTeamMemberStreak._id;
 
         teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithTwoMembers._id,
         });
 
@@ -999,13 +999,13 @@ describe('GET /activityFeedItems', () => {
         });
 
         await streakoid.completeTeamMemberStreakTasks.create({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithTwoMembers._id,
             teamMemberStreakId: friendTeamMemberStreakId,
         });
 
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
-            userIds: [userId, friendId],
+            userIds: [userId, followerId],
             subjectId: teamStreakWithTwoMembers._id,
             limit: 10,
         });
@@ -1013,7 +1013,7 @@ describe('GET /activityFeedItems', () => {
         const firstActivityFeedItem = activityFeedItems[0];
 
         const paginatedActivityFeedItems = await streakoid.activityFeedItems.getAll({
-            userIds: [userId, friendId],
+            userIds: [userId, followerId],
             subjectId: teamStreakWithTwoMembers._id,
             limit: 10,
             createdAtBefore: new Date(firstActivityFeedItem.createdAt),

@@ -13,7 +13,7 @@ jest.setTimeout(120000);
 describe('GET /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let friendId: string;
+    let followerId: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -22,8 +22,8 @@ describe('GET /complete-team-member-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const friend = await getFriend();
-            friendId = friend._id;
+            const follower = await getFriend();
+            followerId = follower._id;
         }
     });
 
@@ -519,7 +519,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
     test('if one of two team members has not completed their task the new team streak does not get completed for the day', async () => {
         expect.assertions(49);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -535,7 +535,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const userTeamMemberStreakId = userTeamMemberStreak._id;
 
         teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithTwoMembers._id,
         });
 
@@ -677,7 +677,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
     test('if one of two team members has not completed their task the exiting team streak does not get completed for the day', async () => {
         expect.assertions(50);
 
-        const members = [{ memberId: userId }, { memberId: friendId }];
+        const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -706,7 +706,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const userTeamMemberStreakId = userTeamMemberStreak._id;
 
         teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
-            userId: friendId,
+            userId: followerId,
             teamStreakId: teamStreakWithCurrentStreak._id,
         });
 

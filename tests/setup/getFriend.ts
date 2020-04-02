@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import { PopulatedCurrentUser } from '../../src';
 import { streakoid } from '../../src/streakoid';
 
-export const friendUsername = 'friend';
-export const friendEmail = 'friend@gmail.com';
+export const friendUsername = 'follower';
+export const friendEmail = 'follower@gmail.com';
 
 const getFriend = async (): Promise<PopulatedCurrentUser> => {
     await streakoid.users.create({ username: friendUsername, email: friendEmail });

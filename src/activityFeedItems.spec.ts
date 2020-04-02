@@ -9,7 +9,7 @@ describe('SDK activityFeedItems', () => {
     });
 
     describe('getAll', () => {
-        const userIds = ['userId', 'friendId'];
+        const userIds = ['userId', 'followerId'];
         const subjectId = 'subjectId';
         const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
         const limit = 10;
