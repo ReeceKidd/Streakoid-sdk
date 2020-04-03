@@ -14,7 +14,6 @@ interface FormattedUser {
     updatedAt: string;
     profileImages: ProfileImages;
     pushNotificationToken: string;
-    hasCompletedIntroduction: boolean;
 }
 
 export default FormattedUser;
