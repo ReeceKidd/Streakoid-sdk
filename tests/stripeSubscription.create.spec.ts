@@ -46,7 +46,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(45);
+        expect.assertions(44);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -62,7 +62,6 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
-        expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -76,7 +75,6 @@ describe('POST /stripe-subscription', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
-                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -157,7 +155,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(45);
+        expect.assertions(44);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -173,7 +171,6 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
-        expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -187,7 +184,6 @@ describe('POST /stripe-subscription', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
-                'hasCompletedIntroduction',
                 'createdAt',
                 'updatedAt',
             ].sort(),
