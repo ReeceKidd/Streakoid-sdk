@@ -6,7 +6,7 @@ import { soloStreaks } from './soloStreaks';
 import { stripe } from './stripe';
 import { users } from './users';
 import { user } from './user';
-import { teamStreaks, TeamStreaks } from './teamStreaks';
+import { teamStreaks } from './teamStreaks';
 import { streakTrackingEvents } from './streakTrackingEvents';
 import { feedbacks } from './feedbacks';
 import { dailyJobs } from './dailyJobs';
@@ -47,7 +47,7 @@ export interface StreakoidFactory {
     stripe: ReturnType<typeof stripe>;
     users: ReturnType<typeof users>;
     user: ReturnType<typeof user>;
-    teamStreaks: TeamStreaks;
+    teamStreaks: ReturnType<typeof teamStreaks>;
     streakTrackingEvents: ReturnType<typeof streakTrackingEvents>;
     feedbacks: ReturnType<typeof feedbacks>;
     teamMemberStreaks: ReturnType<typeof teamMemberStreaks>;

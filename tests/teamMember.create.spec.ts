@@ -34,7 +34,7 @@ describe('POST /team-members', () => {
     });
 
     test(`adds follower to team streak`, async () => {
-        expect.assertions(49);
+        expect.assertions(45);
 
         const members = [{ memberId: userId }];
 
@@ -44,22 +44,14 @@ describe('POST /team-members', () => {
             members,
         });
 
-        const teamMembers = await streakoid.teamStreaks.teamMembers.create({
+        const teamMember = await streakoid.teamStreaks.teamMembers.create({
             followerId,
             teamStreakId: originalTeamStreak._id,
         });
 
-        expect(teamMembers.length).toEqual(2);
-
-        const currentUser = teamMembers[0];
-        expect(currentUser.memberId).toBeDefined();
-        expect(currentUser.teamMemberStreakId).toEqual(expect.any(String));
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
-
-        const follower = teamMembers[1];
-        expect(follower.memberId).toBeDefined();
-        expect(follower.teamMemberStreakId).toEqual(expect.any(String));
-        expect(Object.keys(currentUser).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
+        expect(teamMember.memberId).toBeDefined();
+        expect(teamMember.teamMemberStreakId).toEqual(expect.any(String));
+        expect(Object.keys(teamMember).sort()).toEqual(['memberId', 'teamMemberStreakId'].sort());
 
         const teamStreak = await streakoid.teamStreaks.getOne(originalTeamStreak._id);
 

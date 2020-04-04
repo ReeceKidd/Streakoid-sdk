@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import { teamMembers, TeamMembers } from './teamMembers';
+import { teamMembers } from './teamMembers';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
 import StreakStatus from './StreakStatus';
@@ -12,60 +12,7 @@ export enum GetAllTeamStreaksSortFields {
     currentStreak = 'currentStreak',
 }
 
-export interface TeamStreaks {
-    getAll: ({
-        creatorId,
-        memberId,
-        timezone,
-        status,
-        completedToday,
-        active,
-        sortField,
-    }: {
-        creatorId?: string;
-        memberId?: string;
-        timezone?: string;
-        status?: StreakStatus;
-        completedToday?: boolean;
-        active?: boolean;
-        sortField?: GetAllTeamStreaksSortFields;
-    }) => Promise<PopulatedTeamStreak[]>;
-    getOne: (teamStreakId: string) => Promise<PopulatedTeamStreak>;
-    create: ({
-        creatorId,
-        streakName,
-        streakDescription,
-        numberOfMinutes,
-        members,
-    }: {
-        creatorId: string;
-        streakName: string;
-        members: { memberId: string; teamMemberStreakId?: string }[];
-        streakDescription?: string;
-        numberOfMinutes?: number;
-    }) => Promise<PopulatedTeamStreak>;
-    update: ({
-        teamStreakId,
-        updateData,
-    }: {
-        teamStreakId: string;
-        updateData: {
-            creatorId?: string;
-            streakName?: string;
-            streakDescription?: string;
-            numberOfMinutes?: number;
-            timezone?: string;
-            status?: StreakStatus;
-            currentStreak?: CurrentStreak;
-            pastStreaks?: PastStreak[];
-            completedToday?: boolean;
-            active?: boolean;
-        };
-    }) => Promise<TeamStreak>;
-    teamMembers: TeamMembers;
-}
-
-const teamStreaks = (streakoidClient: AxiosInstance): TeamStreaks => {
+const teamStreaks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
         creatorId,
         memberId,
