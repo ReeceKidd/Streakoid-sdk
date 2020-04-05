@@ -9,16 +9,18 @@ export interface GetAllActivityFeedItemsResponse {
     totalCountOfActivityFeedItems: number;
 }
 
+export const DEFAULT_ACTIVITY_FEED_LIMIT = 10;
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const activityFeedItems = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
-        limit,
+        limit = DEFAULT_ACTIVITY_FEED_LIMIT,
         createdAtBefore,
         userIds,
         subjectId,
         activityFeedItemType,
     }: {
-        limit: number;
+        limit?: number;
         createdAtBefore?: Date;
         userIds?: string[];
         subjectId?: string;
