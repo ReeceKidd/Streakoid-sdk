@@ -40,6 +40,8 @@ const challenges = (streakoidClient: AxiosInstance) => {
         color,
         numberOfMinutes,
         levels,
+        whatsappGroupLink,
+        discordGroupLink,
     }: {
         name: string;
         description: string;
@@ -47,6 +49,8 @@ const challenges = (streakoidClient: AxiosInstance) => {
         color: string;
         levels: { level: number; criteria: string }[];
         numberOfMinutes?: number;
+        whatsappGroupLink?: string;
+        discordGroupLink?: string;
     }): Promise<{ badge: Badge; challenge: Challenge }> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.challenges}`, {
@@ -56,6 +60,8 @@ const challenges = (streakoidClient: AxiosInstance) => {
                 color,
                 levels,
                 numberOfMinutes,
+                whatsappGroupLink,
+                discordGroupLink,
             });
             return data;
         } catch (err) {

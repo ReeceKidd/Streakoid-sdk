@@ -86,7 +86,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge and badge with maximum paramaters`, async () => {
-        expect.assertions(23);
+        expect.assertions(25);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -94,6 +94,8 @@ describe('POST /challenges', () => {
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
         const numberOfMinutes = 30;
+        const whatsappGroupLink = 'whatsapp.com/chat';
+        const discordGroupLink = ' discordGroupLink';
 
         const { challenge, badge } = await streakoid.challenges.create({
             name,
@@ -102,6 +104,8 @@ describe('POST /challenges', () => {
             color,
             levels,
             numberOfMinutes,
+            whatsappGroupLink,
+            discordGroupLink,
         });
 
         expect(challenge._id).toEqual(expect.any(String));
@@ -113,6 +117,8 @@ describe('POST /challenges', () => {
         expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.levels.length).toEqual(1);
         expect(challenge.numberOfMinutes).toEqual(30);
+        expect(challenge.whatsappGroupLink).toEqual(whatsappGroupLink);
+        expect(challenge.discordGroupLink).toEqual(discordGroupLink);
         const level = challenge.levels[0];
         expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
         expect(level.level).toEqual(0);
@@ -129,6 +135,8 @@ describe('POST /challenges', () => {
                 'badgeId',
                 'levels',
                 'numberOfMinutes',
+                'whatsappGroupLink',
+                'discordGroupLink',
                 'members',
                 'numberOfMembers',
                 'createdAt',

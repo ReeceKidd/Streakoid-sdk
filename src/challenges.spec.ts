@@ -55,6 +55,8 @@ describe('SDK challenges', () => {
             const icon = 'faCog';
             const color = 'color';
             const levels = [{ level: 1, criteria: 'criteria' }];
+            const whatsappGroupLink = 'https://whatsapp.com';
+            const discordGroupLink = 'dicord.com/chat';
 
             await streakoid.challenges.create({
                 name,
@@ -62,6 +64,8 @@ describe('SDK challenges', () => {
                 icon,
                 color,
                 levels,
+                whatsappGroupLink,
+                discordGroupLink,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/challenges`, {
@@ -70,6 +74,8 @@ describe('SDK challenges', () => {
                 icon,
                 color,
                 levels,
+                whatsappGroupLink,
+                discordGroupLink,
             });
         });
 
