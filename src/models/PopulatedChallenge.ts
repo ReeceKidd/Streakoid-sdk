@@ -13,7 +13,8 @@ interface PopulatedChallenge {
     createdAt: string;
     updatedAt: string;
     numberOfMinutes?: number;
-    communicationGroupLink?: string;
+    whatsappGroupLink?: string;
+    discordGroupLink?: string;
 }
 
 export default PopulatedChallenge;
