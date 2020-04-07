@@ -11,7 +11,8 @@ interface Challenge {
     createdAt: string;
     updatedAt: string;
     numberOfMinutes?: number;
-    communicationGroupLink?: string;
+    whatsappGroupLink?: string;
+    discordGroupLink?: string;
 }
 
 export default Challenge;
