@@ -53,7 +53,7 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
             const response = await streakoidClient.get(getAllactivityFeedItemsURL);
             return {
                 activityFeedItems: response.data,
-                totalCountOfActivityFeedItems: response.headers[`${SupportedResponseHeaders.TotalCount}`],
+                totalCountOfActivityFeedItems: response.headers[SupportedResponseHeaders.TotalCount],
             };
         } catch (err) {
             return Promise.reject(err);
