@@ -1,12 +1,6 @@
 import ActivityFeedItemTypes from '../ActivityFeedItemTypes';
 
-interface ActivityFeedItem {
-    _id: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-interface CreatedSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface CreatedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.createdSoloStreak;
     userId: string;
     username: string;
@@ -14,7 +8,7 @@ interface CreatedSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface ArchivedSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface ArchivedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedSoloStreak;
     userId: string;
     username: string;
@@ -22,7 +16,7 @@ interface ArchivedSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface RestoredSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface RestoredSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredSoloStreak;
     userId: string;
     username: string;
@@ -30,7 +24,7 @@ interface RestoredSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface DeletedSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface DeletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedSoloStreak;
     userId: string;
     username: string;
@@ -38,7 +32,7 @@ interface DeletedSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface EditedSoloStreakNameActivityFeedItem extends ActivityFeedItem {
+interface EditedSoloStreakNameActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakName;
     userId: string;
     username: string;
@@ -46,7 +40,7 @@ interface EditedSoloStreakNameActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface EditedSoloStreakDescriptionActivityFeedItem extends ActivityFeedItem {
+interface EditedSoloStreakDescriptionActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakDescription;
     userId: string;
     username: string;
@@ -54,7 +48,7 @@ interface EditedSoloStreakDescriptionActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface CompletedSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface CompletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedSoloStreak;
     userId: string;
     username: string;
@@ -62,7 +56,7 @@ interface CompletedSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface IncompletedSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface IncompletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedSoloStreak;
     userId: string;
     username: string;
@@ -70,7 +64,7 @@ interface IncompletedSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface LostSoloStreakActivityFeedItem extends ActivityFeedItem {
+interface LostSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostSoloStreak;
     userId: string;
     username: string;
@@ -78,7 +72,7 @@ interface LostSoloStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface CompletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface CompletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedChallengeStreak;
     userId: string;
     username: string;
@@ -86,7 +80,7 @@ interface CompletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface IncompletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface IncompletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedChallengeStreak;
     userId: string;
     username: string;
@@ -94,7 +88,7 @@ interface IncompletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface JoinedChallengeActivityFeedItem extends ActivityFeedItem {
+interface JoinedChallengeActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.joinedChallenge;
     userId: string;
     username: string;
@@ -102,7 +96,7 @@ interface JoinedChallengeActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface ArchivedChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface ArchivedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedChallengeStreak;
     userId: string;
     username: string;
@@ -110,7 +104,7 @@ interface ArchivedChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface RestoredChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface RestoredChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredChallengeStreak;
     userId: string;
     username: string;
@@ -118,7 +112,7 @@ interface RestoredChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface DeletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface DeletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedChallengeStreak;
     userId: string;
     username: string;
@@ -126,7 +120,7 @@ interface DeletedChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface LostChallengeStreakActivityFeedItem extends ActivityFeedItem {
+interface LostChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostChallengeStreak;
     userId: string;
     username: string;
@@ -134,7 +128,7 @@ interface LostChallengeStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface CreatedTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface CreatedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.createdTeamStreak;
     userId: string;
     username: string;
@@ -142,7 +136,7 @@ interface CreatedTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface ArchivedTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface ArchivedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedTeamStreak;
     userId: string;
     username: string;
@@ -150,7 +144,7 @@ interface ArchivedTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface RestoredTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface RestoredTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredTeamStreak;
     userId: string;
     username: string;
@@ -158,7 +152,7 @@ interface RestoredTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface DeletedTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface DeletedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedTeamStreak;
     userId: string;
     username: string;
@@ -166,7 +160,7 @@ interface DeletedTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface CompletedTeamMemberStreakActivityFeedItem extends ActivityFeedItem {
+interface CompletedTeamMemberStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedTeamMemberStreak;
     userId: string;
     username: string;
@@ -174,7 +168,7 @@ interface CompletedTeamMemberStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface IncompletedTeamMemberStreakActivityFeedItem extends ActivityFeedItem {
+interface IncompletedTeamMemberStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedTeamMemberStreak;
     userId: string;
     username: string;
@@ -182,7 +176,7 @@ interface IncompletedTeamMemberStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface JoinedTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface JoinedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.joinedTeamStreak;
     userId: string;
     username: string;
@@ -190,7 +184,7 @@ interface JoinedTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface EditedTeamStreakNameActivityFeedItem extends ActivityFeedItem {
+interface EditedTeamStreakNameActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakName;
     userId: string;
     username: string;
@@ -198,7 +192,7 @@ interface EditedTeamStreakNameActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface EditedTeamStreakDescriptionActivityFeedItem extends ActivityFeedItem {
+interface EditedTeamStreakDescriptionActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakDescription;
     userId: string;
     username: string;
@@ -206,7 +200,7 @@ interface EditedTeamStreakDescriptionActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface LostTeamStreakActivityFeedItem extends ActivityFeedItem {
+interface LostTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostTeamStreak;
     userId: string;
     username: string;
@@ -214,13 +208,13 @@ interface LostTeamStreakActivityFeedItem extends ActivityFeedItem {
     subjectName: string;
 }
 
-interface CreatedAccountActivityFeedItem extends ActivityFeedItem {
+interface CreatedAccountActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.createdAccount;
     userId: string;
     username: string;
 }
 
-interface FollowedUserActivityFeedItem extends ActivityFeedItem {
+interface FollowedUserActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.followedUser;
     userId: string;
     username: string;

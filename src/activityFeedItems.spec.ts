@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import { ActivityFeedItemTypes } from '.';
+import ActivityFeedItemType from './models/ActivityFeedItemType';
 
 describe('SDK activityFeedItems', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -50,29 +51,18 @@ describe('SDK activityFeedItems', () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const activityFeedItemType = ActivityFeedItemTypes.lostSoloStreak;
-            const userId = 'userId';
-            const subjectId = 'soloStreakId';
+            const activityFeedItem: ActivityFeedItemType = {
+                acitivityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
+                userId: 'userId',
+                username: 'username',
+                subjectId: 'soloStreakId',
+                subjectName: 'Reading',
+            };
 
-            await streakoid.activityFeedItems.create({ activityFeedItemType, userId, subjectId });
-
-            expect(streakoidClient.post).toBeCalledWith(`/v1/activity-feed-items`, {
-                activityFeedItemType,
-                userId,
-                subjectId,
-            });
-        });
-
-        test('calls POST with minimum required paramaters', async () => {
-            expect.assertions(1);
-
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const activityFeedItemType = ActivityFeedItemTypes.lostSoloStreak;
-
-            await streakoid.activityFeedItems.create({ activityFeedItemType });
+            await streakoid.activityFeedItems.create(activityFeedItem);
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/activity-feed-items`, {
-                activityFeedItemType,
+                ...activityFeedItem,
             });
         });
     });
