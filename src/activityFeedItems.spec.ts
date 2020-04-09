@@ -55,8 +55,8 @@ describe('SDK activityFeedItems', () => {
                 acitivityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
                 userId: 'userId',
                 username: 'username',
-                subjectId: 'soloStreakId',
-                subjectName: 'Rading',
+                soloStreakId: 'soloStreakId',
+                soloStreakName: 'Reading',
             };
 
             await streakoid.activityFeedItems.create(activityFeedItem);

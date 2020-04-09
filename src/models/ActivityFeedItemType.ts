@@ -226,7 +226,7 @@ interface FollowedUserActivityFeedItem {
     userId: string;
     username: string;
     userFollowedId: string;
-    userFollowedName: string;
+    userFollowedUsername: string;
 }
 
 type ActivityFeedItemType =
