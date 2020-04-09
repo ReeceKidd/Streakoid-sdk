@@ -34,7 +34,7 @@ import IncompleteChallengeStreakTask from './models/IncompleteChallengeStreakTas
 import ChallengeMember from './models/ChallengeMember';
 import PopulatedChallenge from './models/PopulatedChallenge';
 import Note from './models/Note';
-import ActivityFeedItem from './models/ActivityFeedItem';
+import ActivityFeedItemType from './models/ActivityFeedItemType';
 import DatabaseStats from './models/DatabaseStats';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
@@ -93,7 +93,7 @@ export {
     RouterCategories,
     Note,
     PaymentPlans,
-    ActivityFeedItem,
+    ActivityFeedItemType,
     DatabaseStats,
     ActivityFeedItemTypes,
 };

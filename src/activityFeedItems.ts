@@ -1,12 +1,12 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
-import { ActivityFeedItem } from '.';
-import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 import SupportedResponseHeaders from './SupportedResponseHeaders';
+import ActivityFeedItemTypes from './ActivityFeedItemTypes';
+import ActivityFeedItemType from './models/ActivityFeedItemType';
 
 export interface GetAllActivityFeedItemsResponse {
-    activityFeedItems: ActivityFeedItem[];
+    activityFeedItems: ActivityFeedItemType[];
     totalCountOfActivityFeedItems: number;
 }
 
@@ -60,21 +60,12 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const create = async ({
-        activityFeedItemType,
-        userId,
-        subjectId,
-    }: {
-        activityFeedItemType: ActivityFeedItemTypes;
-        userId?: string;
-        subjectId?: string;
-    }): Promise<ActivityFeedItem> => {
+    const create = async (activityFeedItem: ActivityFeedItemType): Promise<ActivityFeedItemType> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.activityFeedItems}`, {
-                activityFeedItemType,
-                userId,
-                subjectId,
-            });
+            const { data } = await streakoidClient.post(
+                `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}`,
+                activityFeedItem,
+            );
             return data;
         } catch (err) {
             return Promise.reject(err);
