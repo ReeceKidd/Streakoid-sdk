@@ -76,70 +76,63 @@ interface CompletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface IncompletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface JoinedChallengeActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.joinedChallenge;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface ArchivedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface RestoredChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface DeletedChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface LostChallengeStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostChallengeStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
-    parentSubjectId: string;
-    parentSubjectName: string;
+    challengeStreakId: string;
+    challengeId: string;
+    challengeName: string;
 }
 
 interface CreatedTeamStreakActivityFeedItem {
