@@ -8,6 +8,7 @@ export enum ActivityFeedItemTypes {
     editedSoloStreakDescription = 'editedSoloStreakDescription',
     completedSoloStreak = 'completedSoloStreak',
     incompletedSoloStreak = 'incompletedSoloStreak',
+    lostSoloStreak = 'lostSoloStreak',
     //Challenge Streak
     completedChallengeStreak = 'completedChallengeStreak',
     incompletedChallengeStreak = 'incompletedChallengeStreak',
@@ -15,6 +16,7 @@ export enum ActivityFeedItemTypes {
     archivedChallengeStreak = 'archivedChallengeStreak',
     restoredChallengeStreak = 'restoredChallengeStreak',
     deletedChallengeStreak = 'deletedChallengeStreak',
+    lostChallengeStreak = 'lostChallengeStreak',
     //Team Streak
     createdTeamStreak = 'createdTeamStreak',
     archivedTeamStreak = 'archivedTeamStreak',
@@ -22,10 +24,13 @@ export enum ActivityFeedItemTypes {
     deletedTeamStreak = 'deletedTeamStreak',
     completedTeamMemberStreak = 'completedTeamMemberStreak',
     incompletedTeamMemberStreak = 'incompletedTeamMemberStreak',
-    lostTeamStreak = 'lostTeamStreak',
     joinedTeamStreak = 'joinedTeamStreak',
     editedTeamStreakName = 'editedTeamStreakName',
     editedTeamStreakDescription = 'editedTeamStreakDescription',
+    lostTeamStreak = 'lostTeamStreak',
+    // Account
+    createdAccount = 'createdAccount',
+    followedAccount = 'followedAccount',
 }
 
 export default ActivityFeedItemTypes;
