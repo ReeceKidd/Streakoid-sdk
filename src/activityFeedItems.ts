@@ -3,6 +3,7 @@ import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
 import { ActivityFeedItem } from '.';
 import ActivityFeedItemTypes from './ActivityFeedItemTypes';
+import SupportedResponseHeaders from './SupportedResponseHeaders';
 
 export interface GetAllActivityFeedItemsResponse {
     activityFeedItems: ActivityFeedItem[];
@@ -49,8 +50,11 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
                 getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllactivityFeedItemsURL);
-            return data;
+            const response = await streakoidClient.get(getAllactivityFeedItemsURL);
+            return {
+                activityFeedItems: response.data,
+                totalCountOfActivityFeedItems: response.headers[`${SupportedResponseHeaders.TotalCount}`],
+            };
         } catch (err) {
             return Promise.reject(err);
         }

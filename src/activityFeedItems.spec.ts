@@ -25,21 +25,21 @@ describe('SDK activityFeedItems', () => {
 
         test('calls GET with correct URL when no query paramters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 
             await streakoid.activityFeedItems.getAll({ limit });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activityFeedItems?limit=${limit}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/activity-feed-items?limit=${limit}&`);
         });
 
         test('calls GET with correct URL when all query paramters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 
             await streakoid.activityFeedItems.getAll(query);
 
             expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activityFeedItems?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
+                `/v1/activity-feed-items?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
             );
@@ -56,7 +56,7 @@ describe('SDK activityFeedItems', () => {
 
             await streakoid.activityFeedItems.create({ activityFeedItemType, userId, subjectId });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/activityFeedItems`, {
+            expect(streakoidClient.post).toBeCalledWith(`/v1/activity-feed-items`, {
                 activityFeedItemType,
                 userId,
                 subjectId,
@@ -71,7 +71,7 @@ describe('SDK activityFeedItems', () => {
 
             await streakoid.activityFeedItems.create({ activityFeedItemType });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/activityFeedItems`, {
+            expect(streakoidClient.post).toBeCalledWith(`/v1/activity-feed-items`, {
                 activityFeedItemType,
             });
         });
