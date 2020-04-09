@@ -8,13 +8,13 @@ export const streakoidClientFactory = (
 ): AxiosInstance => {
     let headers: {
         'Content-Type'?: string;
-        [SupportedRequestHeaders.xTimezone]?: string;
+        [SupportedRequestHeaders.Timezone]?: string;
         [SupportedRequestHeaders.Authorization]?: string;
     } = {
         'Content-Type': 'application/json',
     };
     if (timezone) {
-        headers = { ...headers, [SupportedRequestHeaders.xTimezone]: timezone };
+        headers = { ...headers, [SupportedRequestHeaders.Timezone]: timezone };
     }
     if (authorisation) {
         headers = { ...headers, [SupportedRequestHeaders.Authorization]: authorisation };
