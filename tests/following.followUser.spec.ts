@@ -50,20 +50,16 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
         ]);
         expect(updatedUserWhoIsBeingFollowed.following).toEqual([]);
 
-        try {
-            const activityFeedItems = await streakoid.activityFeedItems.getAll({
-                activityFeedItemType: ActivityFeedItemTypes.followedUser,
-            });
-            const createdAccountActivityFeedItem = activityFeedItems.activityFeedItems[0];
-            expect(createdAccountActivityFeedItem.activityFeedItemType).toEqual(ActivityFeedItemTypes.followedUser);
-            expect(createdAccountActivityFeedItem.userId).toEqual(userId);
-            expect(createdAccountActivityFeedItem.subjectId).toEqual(userToFollowId);
-            expect(createdAccountActivityFeedItem._id).toEqual(expect.any(String));
-            expect(Object.keys(createdAccountActivityFeedItem).sort()).toEqual(
-                ['_id', 'createdAt', 'updatedAt', 'activityFeedItemType', 'subjectId', 'userId', '__v'].sort(),
-            );
-        } catch (err) {
-            console.log(err);
-        }
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+            activityFeedItemType: ActivityFeedItemTypes.followedUser,
+        });
+        const createdAccountActivityFeedItem = activityFeedItems.activityFeedItems[0];
+        expect(createdAccountActivityFeedItem.activityFeedItemType).toEqual(ActivityFeedItemTypes.followedUser);
+        expect(createdAccountActivityFeedItem.userId).toEqual(String(userId));
+        expect(createdAccountActivityFeedItem.subjectId).toEqual(String(userToFollowId));
+        expect(createdAccountActivityFeedItem._id).toEqual(expect.any(String));
+        expect(Object.keys(createdAccountActivityFeedItem).sort()).toEqual(
+            ['_id', 'createdAt', 'updatedAt', 'activityFeedItemType', 'subjectId', 'userId', '__v'].sort(),
+        );
     });
 });
