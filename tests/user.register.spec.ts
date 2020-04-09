@@ -4,6 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
+import { ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -26,8 +27,8 @@ describe('POST /users', () => {
         }
     });
 
-    test('user can register successfully', async () => {
-        expect.assertions(33);
+    test('user can register successfully and account create activity feed item is generated', async () => {
+        expect.assertions(39);
 
         const user = await streakoid.users.create({
             username,
@@ -96,6 +97,18 @@ describe('POST /users', () => {
                 'userType',
                 'username',
             ].sort(),
+        );
+
+        const activityFeedItems = await streakoid.activityFeedItems.getAll({});
+        expect(activityFeedItems.totalCountOfActivityFeedItems).toEqual(1);
+
+        const createdAccountActivityFeedItem = activityFeedItems.activityFeedItems[0];
+        expect(createdAccountActivityFeedItem.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdAccount);
+        expect(createdAccountActivityFeedItem.userId).toEqual(user._id);
+        expect(createdAccountActivityFeedItem.subjectId).toBeUndefined();
+        expect(createdAccountActivityFeedItem._id).toEqual(expect.any(String));
+        expect(Object.keys(createdAccountActivityFeedItem).sort()).toEqual(
+            ['_id', 'createdAt', 'updatedAt', 'activityFeedItemType', 'userId', '__v'].sort(),
         );
     });
 
