@@ -1,6 +1,6 @@
 enum SupportedRequestHeaders {
     Authorization = 'Authorization',
-    xTimezone = 'x-timezone',
+    Timezone = 'x-timezone',
 }
 
 export default SupportedRequestHeaders;

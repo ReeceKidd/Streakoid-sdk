@@ -38,6 +38,7 @@ import ActivityFeedItem from './models/ActivityFeedItem';
 import DatabaseStats from './models/DatabaseStats';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
+import SupportedResponseHeaders from './SupportedResponseHeaders';
 import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
@@ -82,6 +83,7 @@ export {
     ChallengeMember,
     PopulatedChallenge,
     SupportedRequestHeaders,
+    SupportedResponseHeaders,
     StreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
