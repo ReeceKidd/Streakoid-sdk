@@ -4,72 +4,72 @@ interface CreatedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.createdSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface ArchivedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface RestoredSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface DeletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface EditedSoloStreakNameActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakName;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface EditedSoloStreakDescriptionActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakDescription;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface CompletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface IncompletedSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface LostSoloStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostSoloStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    soloStreakId: string;
+    soloStreakName: string;
 }
 
 interface CompletedChallengeStreakActivityFeedItem {
@@ -139,80 +139,80 @@ interface CreatedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.createdTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface ArchivedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.archivedTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface RestoredTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.restoredTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface DeletedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.deletedTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface CompletedTeamMemberStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.completedTeamMemberStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface IncompletedTeamMemberStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.incompletedTeamMemberStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface JoinedTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.joinedTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface EditedTeamStreakNameActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakName;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface EditedTeamStreakDescriptionActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakDescription;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface LostTeamStreakActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.lostTeamStreak;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    teamStreakId: string;
+    teamStreakName: string;
 }
 
 interface CreatedAccountActivityFeedItem {
@@ -225,8 +225,8 @@ interface FollowedUserActivityFeedItem {
     acitivityFeedItemType: typeof ActivityFeedItemTypes.followedUser;
     userId: string;
     username: string;
-    subjectId: string;
-    subjectName: string;
+    userFollowedId: string;
+    userFollowedName: string;
 }
 
 type ActivityFeedItemType =
