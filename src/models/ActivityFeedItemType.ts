@@ -78,6 +78,8 @@ interface CompletedChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface IncompletedChallengeStreakActivityFeedItem {
@@ -86,6 +88,8 @@ interface IncompletedChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface JoinedChallengeActivityFeedItem {
@@ -94,6 +98,8 @@ interface JoinedChallengeActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface ArchivedChallengeStreakActivityFeedItem {
@@ -102,6 +108,8 @@ interface ArchivedChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface RestoredChallengeStreakActivityFeedItem {
@@ -110,6 +118,8 @@ interface RestoredChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface DeletedChallengeStreakActivityFeedItem {
@@ -118,6 +128,8 @@ interface DeletedChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface LostChallengeStreakActivityFeedItem {
@@ -126,6 +138,8 @@ interface LostChallengeStreakActivityFeedItem {
     username: string;
     subjectId: string;
     subjectName: string;
+    parentSubjectId: string;
+    parentSubjectName: string;
 }
 
 interface CreatedTeamStreakActivityFeedItem {
@@ -228,6 +242,7 @@ type ActivityFeedItemType =
     | RestoredSoloStreakActivityFeedItem
     | DeletedSoloStreakActivityFeedItem
     | EditedSoloStreakNameActivityFeedItem
+    | EditedSoloStreakDescriptionActivityFeedItem
     | CompletedSoloStreakActivityFeedItem
     | IncompletedSoloStreakActivityFeedItem
     | LostSoloStreakActivityFeedItem

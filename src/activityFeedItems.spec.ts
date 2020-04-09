@@ -56,7 +56,7 @@ describe('SDK activityFeedItems', () => {
                 userId: 'userId',
                 username: 'username',
                 subjectId: 'soloStreakId',
-                subjectName: 'Reading',
+                subjectName: 'Rading',
             };
 
             await streakoid.activityFeedItems.create(activityFeedItem);
