@@ -56,8 +56,30 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         }
     };
 
+    const create = async ({
+        activityFeedItemType,
+        userId,
+        subjectId,
+    }: {
+        activityFeedItemType: ActivityFeedItemTypes;
+        userId?: string;
+        subjectId?: string;
+    }): Promise<ActivityFeedItem> => {
+        try {
+            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.activityFeedItems}`, {
+                activityFeedItemType,
+                userId,
+                subjectId,
+            });
+            return data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     return {
         getAll,
+        create,
     };
 };
 

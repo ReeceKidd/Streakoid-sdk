@@ -45,4 +45,35 @@ describe('SDK activityFeedItems', () => {
             );
         });
     });
+    describe('create', () => {
+        test('calls POST with all available parmaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const activityFeedItemType = ActivityFeedItemTypes.lostSoloStreak;
+            const userId = 'userId';
+            const subjectId = 'soloStreakId';
+
+            await streakoid.activityFeedItems.create({ activityFeedItemType, userId, subjectId });
+
+            expect(streakoidClient.post).toBeCalledWith(`/v1/activityFeedItems`, {
+                activityFeedItemType,
+                userId,
+                subjectId,
+            });
+        });
+
+        test('calls POST with minimum required paramaters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const activityFeedItemType = ActivityFeedItemTypes.lostSoloStreak;
+
+            await streakoid.activityFeedItems.create({ activityFeedItemType });
+
+            expect(streakoidClient.post).toBeCalledWith(`/v1/activityFeedItems`, {
+                activityFeedItemType,
+            });
+        });
+    });
 });

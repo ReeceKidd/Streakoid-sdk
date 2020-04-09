@@ -27,7 +27,7 @@ enum RouterCategories {
     challenges = 'challenges',
     challengeStreaks = 'challenge-streaks',
     notes = 'notes',
-    activityFeedItems = 'activityFeedItems',
+    activityFeedItems = 'activity-feed-items',
     databaseStats = 'database-stats',
     following = 'following',
 }
