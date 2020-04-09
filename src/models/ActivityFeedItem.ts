@@ -6,7 +6,11 @@ interface ActivityFeedItem {
     createdAt: string;
     updatedAt: string;
     userId: string;
-    subjectId: string;
+    username: string;
+    subjectId?: string;
+    subjectName?: string;
+    parentSubjectId?: string;
+    parentSubjectName?: string;
 }
 
 export default ActivityFeedItem;
