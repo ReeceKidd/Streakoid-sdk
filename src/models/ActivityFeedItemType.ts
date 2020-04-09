@@ -1,7 +1,6 @@
 import ActivityFeedItemTypes from '../ActivityFeedItemTypes';
 
 interface ActivityFeedItem {
-    activityFeedItemType: ActivityFeedItemTypes;
     _id: string;
     createdAt: string;
     updatedAt: string;
