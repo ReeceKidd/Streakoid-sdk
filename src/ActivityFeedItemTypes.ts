@@ -28,9 +28,9 @@ export enum ActivityFeedItemTypes {
     editedTeamStreakName = 'editedTeamStreakName',
     editedTeamStreakDescription = 'editedTeamStreakDescription',
     lostTeamStreak = 'lostTeamStreak',
-    // Account
+    // User
     createdAccount = 'createdAccount',
-    followedAccount = 'followedAccount',
+    followedUser = 'followedAccount',
 }
 
 export default ActivityFeedItemTypes;
