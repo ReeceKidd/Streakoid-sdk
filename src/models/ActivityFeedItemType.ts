@@ -1,6 +1,6 @@
 import ActivityFeedItemTypes from '../ActivityFeedItemTypes';
 
-interface CreatedSoloStreakActivityFeedItem {
+export interface CreatedSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.createdSoloStreak;
     userId: string;
     username: string;
@@ -8,7 +8,7 @@ interface CreatedSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface ArchivedSoloStreakActivityFeedItem {
+export interface ArchivedSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.archivedSoloStreak;
     userId: string;
     username: string;
@@ -16,7 +16,7 @@ interface ArchivedSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface RestoredSoloStreakActivityFeedItem {
+export interface RestoredSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.restoredSoloStreak;
     userId: string;
     username: string;
@@ -24,7 +24,7 @@ interface RestoredSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface DeletedSoloStreakActivityFeedItem {
+export interface DeletedSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.deletedSoloStreak;
     userId: string;
     username: string;
@@ -32,7 +32,7 @@ interface DeletedSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface EditedSoloStreakNameActivityFeedItem {
+export interface EditedSoloStreakNameActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakName;
     userId: string;
     username: string;
@@ -40,7 +40,7 @@ interface EditedSoloStreakNameActivityFeedItem {
     soloStreakName: string;
 }
 
-interface EditedSoloStreakDescriptionActivityFeedItem {
+export interface EditedSoloStreakDescriptionActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.editedSoloStreakDescription;
     userId: string;
     username: string;
@@ -48,7 +48,7 @@ interface EditedSoloStreakDescriptionActivityFeedItem {
     soloStreakName: string;
 }
 
-interface CompletedSoloStreakActivityFeedItem {
+export interface CompletedSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.completedSoloStreak;
     userId: string;
     username: string;
@@ -56,7 +56,7 @@ interface CompletedSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface IncompletedSoloStreakActivityFeedItem {
+export interface IncompletedSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.incompletedSoloStreak;
     userId: string;
     username: string;
@@ -64,7 +64,7 @@ interface IncompletedSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface LostSoloStreakActivityFeedItem {
+export interface LostSoloStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.lostSoloStreak;
     userId: string;
     username: string;
@@ -72,7 +72,7 @@ interface LostSoloStreakActivityFeedItem {
     soloStreakName: string;
 }
 
-interface CompletedChallengeStreakActivityFeedItem {
+export interface CompletedChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.completedChallengeStreak;
     userId: string;
     username: string;
@@ -81,7 +81,7 @@ interface CompletedChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface IncompletedChallengeStreakActivityFeedItem {
+export interface IncompletedChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.incompletedChallengeStreak;
     userId: string;
     username: string;
@@ -90,7 +90,7 @@ interface IncompletedChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface JoinedChallengeActivityFeedItem {
+export interface JoinedChallengeActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.joinedChallenge;
     userId: string;
     username: string;
@@ -99,7 +99,7 @@ interface JoinedChallengeActivityFeedItem {
     challengeName: string;
 }
 
-interface ArchivedChallengeStreakActivityFeedItem {
+export interface ArchivedChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.archivedChallengeStreak;
     userId: string;
     username: string;
@@ -108,7 +108,7 @@ interface ArchivedChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface RestoredChallengeStreakActivityFeedItem {
+export interface RestoredChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.restoredChallengeStreak;
     userId: string;
     username: string;
@@ -117,7 +117,7 @@ interface RestoredChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface DeletedChallengeStreakActivityFeedItem {
+export interface DeletedChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.deletedChallengeStreak;
     userId: string;
     username: string;
@@ -126,7 +126,7 @@ interface DeletedChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface LostChallengeStreakActivityFeedItem {
+export interface LostChallengeStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.lostChallengeStreak;
     userId: string;
     username: string;
@@ -135,7 +135,7 @@ interface LostChallengeStreakActivityFeedItem {
     challengeName: string;
 }
 
-interface CreatedTeamStreakActivityFeedItem {
+export interface CreatedTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.createdTeamStreak;
     userId: string;
     username: string;
@@ -143,7 +143,7 @@ interface CreatedTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface ArchivedTeamStreakActivityFeedItem {
+export interface ArchivedTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.archivedTeamStreak;
     userId: string;
     username: string;
@@ -151,7 +151,7 @@ interface ArchivedTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface RestoredTeamStreakActivityFeedItem {
+export interface RestoredTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.restoredTeamStreak;
     userId: string;
     username: string;
@@ -159,7 +159,7 @@ interface RestoredTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface DeletedTeamStreakActivityFeedItem {
+export interface DeletedTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.deletedTeamStreak;
     userId: string;
     username: string;
@@ -167,7 +167,7 @@ interface DeletedTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface CompletedTeamMemberStreakActivityFeedItem {
+export interface CompletedTeamMemberStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.completedTeamMemberStreak;
     userId: string;
     username: string;
@@ -175,7 +175,7 @@ interface CompletedTeamMemberStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface IncompletedTeamMemberStreakActivityFeedItem {
+export interface IncompletedTeamMemberStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.incompletedTeamMemberStreak;
     userId: string;
     username: string;
@@ -183,7 +183,7 @@ interface IncompletedTeamMemberStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface JoinedTeamStreakActivityFeedItem {
+export interface JoinedTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.joinedTeamStreak;
     userId: string;
     username: string;
@@ -191,7 +191,7 @@ interface JoinedTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface EditedTeamStreakNameActivityFeedItem {
+export interface EditedTeamStreakNameActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakName;
     userId: string;
     username: string;
@@ -199,7 +199,7 @@ interface EditedTeamStreakNameActivityFeedItem {
     teamStreakName: string;
 }
 
-interface EditedTeamStreakDescriptionActivityFeedItem {
+export interface EditedTeamStreakDescriptionActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.editedTeamStreakDescription;
     userId: string;
     username: string;
@@ -207,7 +207,7 @@ interface EditedTeamStreakDescriptionActivityFeedItem {
     teamStreakName: string;
 }
 
-interface LostTeamStreakActivityFeedItem {
+export interface LostTeamStreakActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.lostTeamStreak;
     userId: string;
     username: string;
@@ -215,13 +215,13 @@ interface LostTeamStreakActivityFeedItem {
     teamStreakName: string;
 }
 
-interface CreatedAccountActivityFeedItem {
+export interface CreatedAccountActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.createdAccount;
     userId: string;
     username: string;
 }
 
-interface FollowedUserActivityFeedItem {
+export interface FollowedUserActivityFeedItem {
     activityFeedItemType: typeof ActivityFeedItemTypes.followedUser;
     userId: string;
     username: string;
