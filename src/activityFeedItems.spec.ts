@@ -52,7 +52,7 @@ describe('SDK activityFeedItems', () => {
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const activityFeedItem: ActivityFeedItemType = {
-                acitivityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
+                activityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
                 userId: 'userId',
                 username: 'username',
                 soloStreakId: 'soloStreakId',

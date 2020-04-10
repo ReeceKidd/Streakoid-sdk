@@ -22,11 +22,11 @@ export enum ActivityFeedItemTypes {
     archivedTeamStreak = 'archivedTeamStreak',
     restoredTeamStreak = 'restoredTeamStreak',
     deletedTeamStreak = 'deletedTeamStreak',
+    editedTeamStreakName = 'editedTeamStreakName',
+    editedTeamStreakDescription = 'editedTeamStreakDescription',
     completedTeamMemberStreak = 'completedTeamMemberStreak',
     incompletedTeamMemberStreak = 'incompletedTeamMemberStreak',
     joinedTeamStreak = 'joinedTeamStreak',
-    editedTeamStreakName = 'editedTeamStreakName',
-    editedTeamStreakDescription = 'editedTeamStreakDescription',
     lostTeamStreak = 'lostTeamStreak',
     // User
     createdAccount = 'createdAccount',
