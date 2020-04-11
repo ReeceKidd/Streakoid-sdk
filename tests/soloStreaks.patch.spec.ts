@@ -12,6 +12,7 @@ describe('PATCH /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
     const streakName = 'Daily Spanish';
     const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
@@ -21,6 +22,7 @@ describe('PATCH /solo-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -85,7 +87,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak is archived an ArchivedSoloStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -104,23 +106,22 @@ describe('PATCH /solo-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             soloStreakId: soloStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.archivedSoloStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedSoloStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedSoloStreak) {
+            expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',
@@ -132,7 +133,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak is restored an RestoredSoloStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -158,23 +159,25 @@ describe('PATCH /solo-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             soloStreakId: soloStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const restoredSoloStreakActivityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.restoredSoloStreak,
         );
         if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredSoloStreak
+            restoredSoloStreakActivityFeedItem &&
+            restoredSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredSoloStreak
         ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+            expect(restoredSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(restoredSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(restoredSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(restoredSoloStreakActivityFeedItem.username).toEqual(username);
+            expect(restoredSoloStreakActivityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(restoredSoloStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',
@@ -186,7 +189,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak is deleted an DeletedSoloStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -212,23 +215,22 @@ describe('PATCH /solo-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             soloStreakId: soloStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.deletedSoloStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedSoloStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedSoloStreak) {
+            expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(String(userProfileImage));
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',
@@ -240,7 +242,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak name is edited an EditedSoloStreakNameActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -261,23 +263,22 @@ describe('PATCH /solo-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             soloStreakId: soloStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakName,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakName
-        ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(newName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakName) {
+            expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(activityFeedItem.soloStreakName).toEqual(String(newName));
+            expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',
@@ -289,7 +290,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak description is edited an EditedSoloStreakNameActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -310,23 +311,25 @@ describe('PATCH /solo-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             soloStreakId: soloStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakDescription,
         );
         if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakDescription
+            activityFeedItem &&
+            activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedSoloStreakDescription
         ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+            expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',

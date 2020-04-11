@@ -101,7 +101,7 @@ describe('POST /users', () => {
     });
 
     test('when user registers a CreateAccountActivityFeedItem is created', async () => {
-        expect.assertions(3);
+        expect.assertions(4);
 
         const user = await streakoid.users.create({
             username: 'new-username',
@@ -111,17 +111,24 @@ describe('POST /users', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             activityFeedItemType: ActivityFeedItemTypes.createdAccount,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.createdAccount,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdAccount
-        ) {
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(user._id));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(String(user.username));
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
-                ['_id', 'activityFeedItemType', 'userId', 'username', 'createdAt', 'updatedAt', '__v'].sort(),
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdAccount) {
+            expect(activityFeedItem.userId).toEqual(String(user._id));
+            expect(activityFeedItem.username).toEqual(String(user.username));
+            expect(activityFeedItem.userProfileImage).toEqual(String(user.profileImages.originalImageUrl));
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'userProfileImage',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
             );
         }
     });

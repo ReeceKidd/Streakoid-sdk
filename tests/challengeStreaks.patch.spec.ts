@@ -12,6 +12,7 @@ describe('PATCH /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
     let challengeStreakId: string;
     const color = 'blue';
     const levels = [{ level: 0, criteria: 'criteria' }];
@@ -25,6 +26,7 @@ describe('PATCH /challenge-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -149,7 +151,7 @@ describe('PATCH /challenge-streaks', () => {
     });
 
     test(`when challenge streak status is archived an ArchivedChallengeStreakActivityFeedItem is created`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
@@ -173,25 +175,26 @@ describe('PATCH /challenge-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             challengeStreakId: challengeStreak._id,
         });
-        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.archivedChallengeStreak,
         );
         if (
-            createdChallengeStreakActivityFeedItem &&
-            createdChallengeStreakActivityFeedItem.activityFeedItemType ===
-                ActivityFeedItemTypes.archivedChallengeStreak
+            activityFeedItem &&
+            activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedChallengeStreak
         ) {
-            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
-            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
-            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+            expect(activityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(activityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(activityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(activityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'challengeStreakId',
                     'challengeName',
                     'challengeId',
@@ -204,7 +207,7 @@ describe('PATCH /challenge-streaks', () => {
     });
 
     test(`when challenge streak status is restored an RestoredChallengeStreakActivityFeedItem is created`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
@@ -235,25 +238,26 @@ describe('PATCH /challenge-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             challengeStreakId: challengeStreak._id,
         });
-        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.restoredChallengeStreak,
         );
         if (
-            createdChallengeStreakActivityFeedItem &&
-            createdChallengeStreakActivityFeedItem.activityFeedItemType ===
-                ActivityFeedItemTypes.restoredChallengeStreak
+            activityFeedItem &&
+            activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredChallengeStreak
         ) {
-            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
-            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
-            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+            expect(activityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(activityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(activityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(activityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(String(userProfileImage));
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'challengeStreakId',
                     'challengeName',
                     'challengeId',
@@ -266,7 +270,7 @@ describe('PATCH /challenge-streaks', () => {
     });
 
     test(`when challenge streak status is deleted an DeletedChallengeStreakActivityFeedItem is created`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
@@ -297,24 +301,26 @@ describe('PATCH /challenge-streaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             challengeStreakId: challengeStreak._id,
         });
-        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak,
         );
         if (
-            createdChallengeStreakActivityFeedItem &&
-            createdChallengeStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak
+            activityFeedItem &&
+            activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak
         ) {
-            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
-            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
-            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
-            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+            expect(activityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(activityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(activityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(activityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'challengeStreakId',
                     'challengeName',
                     'challengeId',

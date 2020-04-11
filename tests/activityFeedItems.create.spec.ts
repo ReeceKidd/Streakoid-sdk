@@ -55,6 +55,7 @@ describe('POST /streak-tracking-events', () => {
                 'soloStreakName',
                 'userId',
                 'username',
+                'userProfileImage',
                 'numberOfDaysLost',
                 'createdAt',
                 'updatedAt',

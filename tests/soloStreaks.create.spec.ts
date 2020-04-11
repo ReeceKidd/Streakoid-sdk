@@ -16,6 +16,7 @@ describe('POST /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
@@ -23,6 +24,7 @@ describe('POST /solo-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -132,7 +134,7 @@ describe('POST /solo-streaks', () => {
     });
 
     test(`when a soloStreak is created an CreatedSoloStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -143,23 +145,22 @@ describe('POST /solo-streaks', () => {
             soloStreakId: soloStreak._id,
             activityFeedItemType: ActivityFeedItemTypes.createdSoloStreak,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak) {
+            expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(String(userProfileImage));
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
                     'createdAt',

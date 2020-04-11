@@ -12,6 +12,7 @@ describe('GET /team-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -19,6 +20,7 @@ describe('GET /team-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -176,7 +178,7 @@ describe('GET /team-streaks', () => {
     });
 
     test(`when a team streak is created an CreatedTeamStreakActivity is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const streakName = 'meditation';
         const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];
@@ -202,12 +204,14 @@ describe('GET /team-streaks', () => {
             expect(createdTeamStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
             expect(createdTeamStreakActivityFeedItem.userId).toEqual(String(userId));
             expect(createdTeamStreakActivityFeedItem.username).toEqual(username);
+            expect(createdTeamStreakActivityFeedItem.userProfileImage).toEqual(String(userProfileImage));
             expect(Object.keys(createdTeamStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',

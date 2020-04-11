@@ -12,6 +12,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -19,6 +20,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -229,7 +231,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
         });
 
         test('when user incompletes a task a IncompletedChallengeStreakActivityItem is created', async () => {
-            expect.assertions(6);
+            expect.assertions(7);
 
             const color = 'blue';
             const levels = [{ level: 0, criteria: 'criteria' }];
@@ -272,12 +274,14 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 expect(incompletedChallengeStreakTaskActivityFeedItem.challengeName).toEqual(String(challenge.name));
                 expect(incompletedChallengeStreakTaskActivityFeedItem.userId).toEqual(String(userId));
                 expect(incompletedChallengeStreakTaskActivityFeedItem.username).toEqual(username);
+                expect(incompletedChallengeStreakTaskActivityFeedItem.userProfileImage).toEqual(userProfileImage);
                 expect(Object.keys(incompletedChallengeStreakTaskActivityFeedItem).sort()).toEqual(
                     [
                         '_id',
                         'activityFeedItemType',
                         'userId',
                         'username',
+                        'userProfileImage',
                         'challengeStreakId',
                         'challengeId',
                         'challengeName',

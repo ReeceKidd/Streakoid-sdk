@@ -12,6 +12,7 @@ describe('PATCH /teamStreaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -20,6 +21,7 @@ describe('PATCH /teamStreaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -104,7 +106,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -124,23 +126,22 @@ describe('PATCH /teamStreaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',
@@ -152,7 +153,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak is restored an RestoredTeamStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -179,23 +180,22 @@ describe('PATCH /teamStreaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.restoredTeamStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredTeamStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.restoredTeamStreak) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',
@@ -207,7 +207,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak is deleted an DeletedTeamStreakActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -234,23 +234,22 @@ describe('PATCH /teamStreaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.deletedTeamStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedTeamStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedTeamStreak) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',
@@ -262,7 +261,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak name is edited an EditedTeamStreakNameActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -284,23 +283,22 @@ describe('PATCH /teamStreaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakName,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakName
-        ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(newTeamStreakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakName) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(newTeamStreakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',
@@ -312,7 +310,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak description is edited an EditedTeamStreakDescriptionActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -334,23 +332,25 @@ describe('PATCH /teamStreaks', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakDescription,
         );
         if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakDescription
+            activityFeedItem &&
+            activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.editedTeamStreakDescription
         ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',

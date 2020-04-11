@@ -54,7 +54,7 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
     });
 
     test(`when another user if followed a FollowedUserActivityFeedItem is created`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         await streakoid.users.following.followUser({ userId, userToFollowId });
 
@@ -70,6 +70,7 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
         ) {
             expect(followedUserActivityFeedItem.userId).toEqual(String(user._id));
             expect(followedUserActivityFeedItem.username).toEqual(String(user.username));
+            expect(followedUserActivityFeedItem.userProfileImage).toEqual(String(user.profileImages.originalImageUrl));
             expect(followedUserActivityFeedItem.userFollowedId).toEqual(String(userToFollow._id));
             expect(followedUserActivityFeedItem.userFollowedUsername).toEqual(String(userToFollow.username));
 
@@ -79,6 +80,7 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'userFollowedId',
                     'userFollowedUsername',
                     'createdAt',

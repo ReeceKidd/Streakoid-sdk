@@ -12,6 +12,7 @@ describe('POST /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
     let challengeId: string;
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
@@ -25,6 +26,7 @@ describe('POST /challenge-streaks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
             const { challenge } = await streakoid.challenges.create({
                 name,
@@ -123,7 +125,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test('when user joins a challenge a JoinedChallengeActivityItem is created', async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
@@ -153,12 +155,14 @@ describe('POST /challenge-streaks', () => {
             expect(completedChallengeStrekActivityFeedItem.challengeName).toEqual(String(challenge.name));
             expect(completedChallengeStrekActivityFeedItem.userId).toEqual(String(userId));
             expect(completedChallengeStrekActivityFeedItem.username).toEqual(username);
+            expect(completedChallengeStrekActivityFeedItem.userProfileImage).toEqual(userProfileImage);
             expect(Object.keys(completedChallengeStrekActivityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'challengeStreakId',
                     'challengeId',
                     'challengeName',

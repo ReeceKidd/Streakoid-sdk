@@ -13,6 +13,7 @@ jest.setTimeout(120000);
 describe('POST /team-members', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let userProfileImage: string;
     let followerId: string;
     const streakName = 'Daily Spanish';
 
@@ -21,6 +22,7 @@ describe('POST /team-members', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
             const follower = await getFriend();
             followerId = follower._id;
@@ -156,7 +158,7 @@ describe('POST /team-members', () => {
     });
 
     test(`when a follower joins a team streak it creates a JoinedTeamStreakActivityFeedItem`, async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -174,23 +176,22 @@ describe('POST /team-members', () => {
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             teamStreakId: teamStreak._id,
         });
-        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+        const activityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak,
         );
-        if (
-            createdSoloStreakActivityFeedItem &&
-            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak
-        ) {
-            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',

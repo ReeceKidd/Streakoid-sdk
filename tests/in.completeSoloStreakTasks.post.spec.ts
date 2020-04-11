@@ -12,6 +12,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -20,6 +21,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -208,7 +210,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
 
         test('when user incompletes a task a IncompletedSoloStreakActivityItem is created', async () => {
-            expect.assertions(5);
+            expect.assertions(6);
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
 
@@ -225,23 +227,25 @@ describe('GET /complete-solo-streak-tasks', () => {
             const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
                 soloStreakId: soloStreak._id,
             });
-            const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+            const activityFeedItem = activityFeedItems.find(
                 item => item.activityFeedItemType === ActivityFeedItemTypes.incompletedSoloStreak,
             );
             if (
-                createdSoloStreakActivityFeedItem &&
-                createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.incompletedSoloStreak
+                activityFeedItem &&
+                activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.incompletedSoloStreak
             ) {
-                expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
-                expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
-                expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
-                expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
-                expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+                expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+                expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+                expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
+                expect(activityFeedItem.username).toEqual(username);
+                expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+                expect(Object.keys(activityFeedItem).sort()).toEqual(
                     [
                         '_id',
                         'activityFeedItemType',
                         'userId',
                         'username',
+                        'userProfileImage',
                         'soloStreakId',
                         'soloStreakName',
                         'createdAt',

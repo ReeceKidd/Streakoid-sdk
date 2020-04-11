@@ -13,6 +13,7 @@ jest.setTimeout(120000);
 describe('GET /incomplete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let userProfileImage: string;
     let followerId: string;
     const streakName = 'Daily Spanish';
 
@@ -21,6 +22,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
             const follower = await getFriend();
             followerId = follower._id;
@@ -1311,7 +1313,7 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     });
 
     test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
-        expect.assertions(5);
+        expect.assertions(6);
 
         const members = [{ memberId: userId }];
 
@@ -1354,12 +1356,14 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             expect(createdTeamMemberStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
             expect(createdTeamMemberStreakActivityFeedItem.userId).toEqual(String(userId));
             expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(username);
+            expect(createdTeamMemberStreakActivityFeedItem.userProfileImage).toEqual(userProfileImage);
             expect(Object.keys(createdTeamMemberStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',
                     'userId',
                     'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
                     'createdAt',

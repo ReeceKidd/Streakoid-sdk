@@ -13,6 +13,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let username: string;
+    let userProfileImage: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -20,6 +21,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
             const user = await getPayingUser();
             userId = user._id;
             username = user.username;
+            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -416,7 +418,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
         });
 
         test('when user completes a task a CompletedChallengeStreakActivityItem is created', async () => {
-            expect.assertions(6);
+            expect.assertions(7);
 
             const color = 'blue';
             const levels = [{ level: 0, criteria: 'criteria' }];
@@ -451,6 +453,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 expect(completedChallengeStrekActivityFeedItem.challengeId).toEqual(String(challenge._id));
                 expect(completedChallengeStrekActivityFeedItem.challengeName).toEqual(String(challenge.name));
                 expect(completedChallengeStrekActivityFeedItem.userId).toEqual(String(userId));
+                expect(completedChallengeStrekActivityFeedItem.userProfileImage).toEqual(String(userProfileImage));
                 expect(completedChallengeStrekActivityFeedItem.username).toEqual(username);
                 expect(Object.keys(completedChallengeStrekActivityFeedItem).sort()).toEqual(
                     [
@@ -458,6 +461,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
                         'activityFeedItemType',
                         'userId',
                         'username',
+                        'userProfileImage',
                         'challengeStreakId',
                         'challengeId',
                         'challengeName',
