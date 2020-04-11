@@ -290,7 +290,7 @@ describe('PATCH /solo-streaks', () => {
     });
 
     test(`when solo streak description is edited an EditedSoloStreakNameActivityFeedItem is created`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -320,6 +320,7 @@ describe('PATCH /solo-streaks', () => {
         ) {
             expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
             expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(activityFeedItem.soloStreakDescription).toEqual(String(newDescription));
             expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
             expect(activityFeedItem.username).toEqual(username);
             expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
@@ -332,6 +333,7 @@ describe('PATCH /solo-streaks', () => {
                     'userProfileImage',
                     'soloStreakId',
                     'soloStreakName',
+                    'soloStreakDescription',
                     'createdAt',
                     'updatedAt',
                     '__v',

@@ -310,7 +310,7 @@ describe('PATCH /teamStreaks', () => {
     });
 
     test(`when team streak description is edited an EditedTeamStreakDescriptionActivityFeedItem is created`, async () => {
-        expect.assertions(6);
+        expect.assertions(7);
 
         const members = [{ memberId: userId }];
 
@@ -341,6 +341,7 @@ describe('PATCH /teamStreaks', () => {
         ) {
             expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
             expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.teamStreakDescription).toEqual(String(newTeamStreakDescription));
             expect(activityFeedItem.userId).toEqual(String(userId));
             expect(activityFeedItem.username).toEqual(username);
             expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
@@ -353,6 +354,7 @@ describe('PATCH /teamStreaks', () => {
                     'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
+                    'teamStreakDescription',
                     'createdAt',
                     'updatedAt',
                     '__v',
