@@ -62,6 +62,7 @@ export interface EditedSoloStreakDescriptionActivityFeedItem {
     userProfileImage: string;
     soloStreakId: string;
     soloStreakName: string;
+    soloStreakDescription: string;
     createdAt?: string;
     _id?: string;
 }
@@ -280,6 +281,7 @@ export interface EditedTeamStreakDescriptionActivityFeedItem {
     userProfileImage: string;
     teamStreakId: string;
     teamStreakName: string;
+    teamStreakDescription: string;
     createdAt?: string;
     _id?: string;
 }
