@@ -4,15 +4,16 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 import { getFriend } from './setup/getFriend';
-import { username, originalImageUrl } from './setup/environment';
+import { originalImageUrl } from './setup/environment';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
     let followerId: string;
     const streakName = 'Daily Spanish';
 
@@ -21,6 +22,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
             const follower = await getFriend();
             followerId = follower._id;
@@ -989,6 +991,60 @@ describe('GET /complete-team-member-streak-tasks', () => {
             expect(err.response.status).toEqual(422);
             expect(err.response.data.message).toEqual('Team member streak task already completed today.');
             expect(err.response.data.code).toEqual('422-03');
+        }
+    });
+
+    test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
+        expect.assertions(5);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreak._id,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            teamStreakId: teamStreak._id,
+        });
+        const createdTeamMemberStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.completedTeamMemberStreak,
+        );
+        if (
+            createdTeamMemberStreakActivityFeedItem &&
+            createdTeamMemberStreakActivityFeedItem.activityFeedItemType ===
+                ActivityFeedItemTypes.completedTeamMemberStreak
+        ) {
+            expect(createdTeamMemberStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(createdTeamMemberStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(createdTeamMemberStreakActivityFeedItem.userId).toEqual(String(userId));
+            expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdTeamMemberStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'teamStreakId',
+                    'teamStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
         }
     });
 });

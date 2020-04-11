@@ -5,18 +5,21 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
@@ -409,6 +412,60 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 expect(err.response.status).toEqual(422);
                 expect(err.response.data.message).toEqual('Challenge streak task already completed today.');
                 expect(err.response.data.code).toEqual('422-06');
+            }
+        });
+
+        test('when user completes a task a CompletedChallengeStreakActivityItem is created', async () => {
+            expect.assertions(6);
+
+            const color = 'blue';
+            const levels = [{ level: 0, criteria: 'criteria' }];
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const icon = 'duolingo';
+            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const challengeId = challenge._id;
+
+            const challengeStreak = await streakoid.challengeStreaks.create({
+                userId,
+                challengeId,
+            });
+
+            await streakoid.completeChallengeStreakTasks.create({
+                userId,
+                challengeStreakId: challengeStreak._id,
+            });
+
+            const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+                activityFeedItemType: ActivityFeedItemTypes.completedChallengeStreak,
+            });
+            const completedChallengeStrekActivityFeedItem = activityFeedItems.find(
+                item => item.activityFeedItemType === ActivityFeedItemTypes.completedChallengeStreak,
+            );
+            if (
+                completedChallengeStrekActivityFeedItem &&
+                completedChallengeStrekActivityFeedItem.activityFeedItemType ===
+                    ActivityFeedItemTypes.completedChallengeStreak
+            ) {
+                expect(completedChallengeStrekActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+                expect(completedChallengeStrekActivityFeedItem.challengeId).toEqual(String(challenge._id));
+                expect(completedChallengeStrekActivityFeedItem.challengeName).toEqual(String(challenge.name));
+                expect(completedChallengeStrekActivityFeedItem.userId).toEqual(String(userId));
+                expect(completedChallengeStrekActivityFeedItem.username).toEqual(username);
+                expect(Object.keys(completedChallengeStrekActivityFeedItem).sort()).toEqual(
+                    [
+                        '_id',
+                        'activityFeedItemType',
+                        'userId',
+                        'username',
+                        'challengeStreakId',
+                        'challengeId',
+                        'challengeName',
+                        'createdAt',
+                        'updatedAt',
+                        '__v',
+                    ].sort(),
+                );
             }
         });
     });

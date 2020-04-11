@@ -5,7 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend } from './setup/getFriend';
-import { ActivityFeedItemTypes } from '../src';
+import { ActivityFeedItemTypes, User, PopulatedCurrentUser } from '../src';
 
 jest.setTimeout(120000);
 
@@ -13,26 +13,28 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let userToFollowId: string;
+    let user: User;
+    let userToFollow: PopulatedCurrentUser;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
+            user = await getPayingUser();
             userId = user._id;
             streakoid = await streakoidTest();
-            const userToFollow = await getFriend();
+            userToFollow = await getFriend();
             userToFollowId = userToFollow._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
-    test(`can follow another user and followed user activity gets created`, async () => {
-        expect.assertions(11);
+    test(`can follow another user`, async () => {
+        expect.assertions(6);
 
         const following = await streakoid.users.following.followUser({ userId, userToFollowId });
         expect(following.length).toEqual(1);
@@ -49,17 +51,41 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
             { userId: expect.any(String), username: expect.any(String), profileImage: expect.any(String) },
         ]);
         expect(updatedUserWhoIsBeingFollowed.following).toEqual([]);
+    });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({
+    test(`when another user if followed a FollowedUserActivityFeedItem is created`, async () => {
+        expect.assertions(5);
+
+        await streakoid.users.following.followUser({ userId, userToFollowId });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             activityFeedItemType: ActivityFeedItemTypes.followedUser,
         });
-        const createdAccountActivityFeedItem = activityFeedItems.activityFeedItems[0];
-        expect(createdAccountActivityFeedItem.activityFeedItemType).toEqual(ActivityFeedItemTypes.followedUser);
-        expect(createdAccountActivityFeedItem.userId).toEqual(String(userId));
-        expect(createdAccountActivityFeedItem.subjectId).toEqual(String(userToFollowId));
-        expect(createdAccountActivityFeedItem._id).toEqual(expect.any(String));
-        expect(Object.keys(createdAccountActivityFeedItem).sort()).toEqual(
-            ['_id', 'createdAt', 'updatedAt', 'activityFeedItemType', 'subjectId', 'userId', '__v'].sort(),
+        const followedUserActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.followedUser,
         );
+        if (
+            followedUserActivityFeedItem &&
+            followedUserActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.followedUser
+        ) {
+            expect(followedUserActivityFeedItem.userId).toEqual(String(user._id));
+            expect(followedUserActivityFeedItem.username).toEqual(String(user.username));
+            expect(followedUserActivityFeedItem.userFollowedId).toEqual(String(userToFollow._id));
+            expect(followedUserActivityFeedItem.userFollowedUsername).toEqual(String(userToFollow.username));
+
+            expect(Object.keys(followedUserActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'userFollowedId',
+                    'userFollowedUsername',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

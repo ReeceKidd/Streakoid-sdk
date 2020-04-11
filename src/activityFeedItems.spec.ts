@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import { ActivityFeedItemTypes } from '.';
-import ActivityFeedItemType from './models/ActivityFeedItemType';
+import { LostSoloStreakActivityFeedItem } from './models/ActivityFeedItemType';
 
 describe('SDK activityFeedItems', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -11,14 +11,20 @@ describe('SDK activityFeedItems', () => {
 
     describe('getAll', () => {
         const userIds = ['userId', 'followerId'];
-        const subjectId = 'subjectId';
+        const soloStreakId = 'subjectId';
+        const challengeStreakId = 'challengeStreakId';
+        const challengeId = 'challengeId';
+        const teamStreakId = 'teamStreakId';
         const activityFeedItemType = ActivityFeedItemTypes.createdSoloStreak;
         const limit = 10;
         const createdAtBefore = new Date();
 
         const query = {
             userIds,
-            subjectId,
+            soloStreakId,
+            challengeStreakId,
+            challengeId,
+            teamStreakId,
             activityFeedItemType,
             limit,
             createdAtBefore,
@@ -42,21 +48,22 @@ describe('SDK activityFeedItems', () => {
             expect(streakoidClient.get).toBeCalledWith(
                 `/v1/activity-feed-items?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
-                )}&subjectId=${subjectId}&activityFeedItemType=${activityFeedItemType}&`,
+                )}&soloStreakId=${soloStreakId}&challengeStreakId=${challengeStreakId}&challengeId=${challengeId}&teamStreakId=${teamStreakId}&activityFeedItemType=${activityFeedItemType}&`,
             );
         });
     });
     describe('create', () => {
-        test('calls POST with all available parmaters', async () => {
+        test('calls POST with an ActivityFeedItemType', async () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const activityFeedItem: ActivityFeedItemType = {
+            const activityFeedItem: LostSoloStreakActivityFeedItem = {
                 activityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
                 userId: 'userId',
                 username: 'username',
                 soloStreakId: 'soloStreakId',
                 soloStreakName: 'Reading',
+                numberOfDaysLost: 1,
             };
 
             await streakoid.activityFeedItems.create(activityFeedItem);

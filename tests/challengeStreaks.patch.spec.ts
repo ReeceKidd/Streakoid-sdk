@@ -4,13 +4,14 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('PATCH /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
     let challengeStreakId: string;
     const color = 'blue';
     const levels = [{ level: 0, criteria: 'criteria' }];
@@ -23,6 +24,7 @@ describe('PATCH /challenge-streaks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
@@ -144,5 +146,183 @@ describe('PATCH /challenge-streaks', () => {
 
         expect(updatedChallenge.members.length).toEqual(0);
         expect(updatedChallenge.numberOfMembers).toEqual(0);
+    });
+
+    test(`when challenge streak status is archived an ArchivedChallengeStreakActivityFeedItem is created`, async () => {
+        expect.assertions(6);
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            challengeStreakId: challengeStreak._id,
+        });
+        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.archivedChallengeStreak,
+        );
+        if (
+            createdChallengeStreakActivityFeedItem &&
+            createdChallengeStreakActivityFeedItem.activityFeedItemType ===
+                ActivityFeedItemTypes.archivedChallengeStreak
+        ) {
+            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'challengeStreakId',
+                    'challengeName',
+                    'challengeId',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
+    });
+
+    test(`when challenge streak status is restored an RestoredChallengeStreakActivityFeedItem is created`, async () => {
+        expect.assertions(6);
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.live,
+            },
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            challengeStreakId: challengeStreak._id,
+        });
+        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.restoredChallengeStreak,
+        );
+        if (
+            createdChallengeStreakActivityFeedItem &&
+            createdChallengeStreakActivityFeedItem.activityFeedItemType ===
+                ActivityFeedItemTypes.restoredChallengeStreak
+        ) {
+            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'challengeStreakId',
+                    'challengeName',
+                    'challengeId',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
+    });
+
+    test(`when challenge streak status is deleted an DeletedChallengeStreakActivityFeedItem is created`, async () => {
+        expect.assertions(6);
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.deleted,
+            },
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            challengeStreakId: challengeStreak._id,
+        });
+        const createdChallengeStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak,
+        );
+        if (
+            createdChallengeStreakActivityFeedItem &&
+            createdChallengeStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.deletedChallengeStreak
+        ) {
+            expect(createdChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(createdChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(createdChallengeStreakActivityFeedItem.userId).toEqual(String(challengeStreak.userId));
+            expect(createdChallengeStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdChallengeStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'challengeStreakId',
+                    'challengeName',
+                    'challengeId',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

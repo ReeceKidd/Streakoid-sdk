@@ -18,13 +18,19 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         limit = DEFAULT_ACTIVITY_FEED_LIMIT,
         createdAtBefore,
         userIds,
-        subjectId,
+        soloStreakId,
+        challengeStreakId,
+        challengeId,
+        teamStreakId,
         activityFeedItemType,
     }: {
         limit?: number;
         createdAtBefore?: Date;
         userIds?: string[];
-        subjectId?: string;
+        soloStreakId?: string;
+        challengeStreakId?: string;
+        challengeId?: string;
+        teamStreakId?: string;
         activityFeedItemType?: ActivityFeedItemTypes;
     }): Promise<GetAllActivityFeedItemsResponse> => {
         try {
@@ -42,8 +48,20 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
                 )}&`;
             }
 
-            if (subjectId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}subjectId=${subjectId}&`;
+            if (soloStreakId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}soloStreakId=${soloStreakId}&`;
+            }
+
+            if (challengeStreakId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeStreakId=${challengeStreakId}&`;
+            }
+
+            if (challengeId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeId=${challengeId}&`;
+            }
+
+            if (teamStreakId) {
+                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}teamStreakId=${teamStreakId}&`;
             }
 
             if (activityFeedItemType) {

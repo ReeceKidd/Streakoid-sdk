@@ -4,7 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 import { getFriend } from './setup/getFriend';
 import { username, originalImageUrl } from './setup/environment';
 
@@ -153,5 +153,51 @@ describe('POST /team-members', () => {
                 '__v',
             ].sort(),
         );
+    });
+
+    test(`when a follower joins a team streak it creates a JoinedTeamStreakActivityFeedItem`, async () => {
+        expect.assertions(5);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        await streakoid.teamStreaks.teamMembers.create({
+            followerId,
+            teamStreakId: teamStreak._id,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            teamStreakId: teamStreak._id,
+        });
+        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak,
+        );
+        if (
+            createdSoloStreakActivityFeedItem &&
+            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedTeamStreak
+        ) {
+            expect(createdSoloStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(createdSoloStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(userId));
+            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'teamStreakId',
+                    'teamStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

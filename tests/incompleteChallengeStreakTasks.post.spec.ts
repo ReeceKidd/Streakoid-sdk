@@ -4,19 +4,21 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
@@ -223,6 +225,67 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 expect(err.response.status).toEqual(422);
                 expect(err.response.data.message).toEqual('Challenge streak has not been completed today.');
                 expect(err.response.data.code).toEqual('422-07');
+            }
+        });
+
+        test('when user incompletes a task a IncompletedChallengeStreakActivityItem is created', async () => {
+            expect.assertions(6);
+
+            const color = 'blue';
+            const levels = [{ level: 0, criteria: 'criteria' }];
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const icon = 'duolingo';
+            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const challengeId = challenge._id;
+
+            const challengeStreak = await streakoid.challengeStreaks.create({
+                userId,
+                challengeId,
+            });
+
+            await streakoid.completeChallengeStreakTasks.create({
+                userId,
+                challengeStreakId: challengeStreak._id,
+            });
+
+            await streakoid.incompleteChallengeStreakTasks.create({
+                userId,
+                challengeStreakId: challengeStreak._id,
+            });
+
+            const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+                activityFeedItemType: ActivityFeedItemTypes.incompletedChallengeStreak,
+            });
+            const incompletedChallengeStreakTaskActivityFeedItem = activityFeedItems.find(
+                item => item.activityFeedItemType === ActivityFeedItemTypes.incompletedChallengeStreak,
+            );
+            if (
+                incompletedChallengeStreakTaskActivityFeedItem &&
+                incompletedChallengeStreakTaskActivityFeedItem.activityFeedItemType ===
+                    ActivityFeedItemTypes.incompletedChallengeStreak
+            ) {
+                expect(incompletedChallengeStreakTaskActivityFeedItem.challengeStreakId).toEqual(
+                    String(challengeStreak._id),
+                );
+                expect(incompletedChallengeStreakTaskActivityFeedItem.challengeId).toEqual(String(challenge._id));
+                expect(incompletedChallengeStreakTaskActivityFeedItem.challengeName).toEqual(String(challenge.name));
+                expect(incompletedChallengeStreakTaskActivityFeedItem.userId).toEqual(String(userId));
+                expect(incompletedChallengeStreakTaskActivityFeedItem.username).toEqual(username);
+                expect(Object.keys(incompletedChallengeStreakTaskActivityFeedItem).sort()).toEqual(
+                    [
+                        '_id',
+                        'activityFeedItemType',
+                        'userId',
+                        'username',
+                        'challengeStreakId',
+                        'challengeId',
+                        'challengeName',
+                        'createdAt',
+                        'updatedAt',
+                        '__v',
+                    ].sort(),
+                );
             }
         });
     });

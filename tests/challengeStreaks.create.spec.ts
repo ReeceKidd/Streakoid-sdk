@@ -4,13 +4,14 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('POST /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
     let challengeId: string;
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
@@ -23,6 +24,7 @@ describe('POST /challenge-streaks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
             const { challenge } = await streakoid.challenges.create({
                 name,
@@ -118,5 +120,53 @@ describe('POST /challenge-streaks', () => {
         const updatedUser = await streakoid.users.getOne(userId);
 
         expect(updatedUser.badges).toEqual([expect.any(Object)]);
+    });
+
+    test('when user joins a challenge a JoinedChallengeActivityItem is created', async () => {
+        expect.assertions(6);
+
+        const color = 'blue';
+        const levels = [{ level: 0, criteria: 'criteria' }];
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const challengeId = challenge._id;
+
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
+        });
+        const completedChallengeStrekActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge,
+        );
+        if (
+            completedChallengeStrekActivityFeedItem &&
+            completedChallengeStrekActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge
+        ) {
+            expect(completedChallengeStrekActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(completedChallengeStrekActivityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(completedChallengeStrekActivityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(completedChallengeStrekActivityFeedItem.userId).toEqual(String(userId));
+            expect(completedChallengeStrekActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(completedChallengeStrekActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'challengeStreakId',
+                    'challengeId',
+                    'challengeName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

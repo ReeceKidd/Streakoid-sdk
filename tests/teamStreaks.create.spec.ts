@@ -4,20 +4,21 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
-import { username } from './setup/environment';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('GET /team-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
@@ -172,5 +173,48 @@ describe('GET /team-streaks', () => {
         expect(creator._id).toBeDefined();
         expect(creator.username).toEqual(expect.any(String));
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
+    });
+
+    test(`when a team streak is created an CreatedTeamStreakActivity is created`, async () => {
+        expect.assertions(5);
+
+        const streakName = 'meditation';
+        const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            teamStreakId: teamStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.createdTeamStreak,
+        });
+        const createdTeamStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.createdTeamStreak,
+        );
+        if (
+            createdTeamStreakActivityFeedItem &&
+            createdTeamStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdTeamStreak
+        ) {
+            expect(createdTeamStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(createdTeamStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(createdTeamStreakActivityFeedItem.userId).toEqual(String(userId));
+            expect(createdTeamStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdTeamStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'teamStreakId',
+                    'teamStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

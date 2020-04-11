@@ -4,7 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -15,17 +15,19 @@ const numberOfMinutes = 30;
 describe('POST /solo-streaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -127,5 +129,44 @@ describe('POST /solo-streaks', () => {
                 '__v',
             ].sort(),
         );
+    });
+
+    test(`when a soloStreak is created an CreatedSoloStreakActivityFeedItem is created`, async () => {
+        expect.assertions(5);
+
+        const soloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            soloStreakId: soloStreak._id,
+            activityFeedItemType: ActivityFeedItemTypes.createdSoloStreak,
+        });
+        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak,
+        );
+        if (
+            createdSoloStreakActivityFeedItem &&
+            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdSoloStreak
+        ) {
+            expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+            expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
+            expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'soloStreakId',
+                    'soloStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });

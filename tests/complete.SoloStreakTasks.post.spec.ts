@@ -5,12 +5,14 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
+import { ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
 describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let username: string;
     const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
@@ -18,6 +20,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            username = user.username;
             streakoid = await streakoidTest();
         }
     });
@@ -365,6 +368,46 @@ describe('GET /complete-solo-streak-tasks', () => {
                 expect(err.response.status).toEqual(422);
                 expect(err.response.data.message).toEqual('Solo streak task already completed today.');
                 expect(err.response.data.code).toEqual('422-01');
+            }
+        });
+
+        test('when user completes a task a CompletedSoloStreakActivityItem is created', async () => {
+            expect.assertions(5);
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+                soloStreakId: soloStreak._id,
+            });
+            const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+                item => item.activityFeedItemType === ActivityFeedItemTypes.completedSoloStreak,
+            );
+            if (
+                createdSoloStreakActivityFeedItem &&
+                createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.completedSoloStreak
+            ) {
+                expect(createdSoloStreakActivityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
+                expect(createdSoloStreakActivityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
+                expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(soloStreak.userId));
+                expect(createdSoloStreakActivityFeedItem.username).toEqual(username);
+                expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+                    [
+                        '_id',
+                        'activityFeedItemType',
+                        'userId',
+                        'username',
+                        'soloStreakId',
+                        'soloStreakName',
+                        'createdAt',
+                        'updatedAt',
+                        '__v',
+                    ].sort(),
+                );
             }
         });
     });

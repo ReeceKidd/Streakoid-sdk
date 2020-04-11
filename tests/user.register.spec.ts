@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(39);
+        expect.assertions(33);
 
         const user = await streakoid.users.create({
             username,
@@ -98,18 +98,32 @@ describe('POST /users', () => {
                 'username',
             ].sort(),
         );
+    });
 
-        const activityFeedItems = await streakoid.activityFeedItems.getAll({});
-        expect(activityFeedItems.totalCountOfActivityFeedItems).toEqual(1);
+    test('when user registers a CreateAccountActivityFeedItem is created', async () => {
+        expect.assertions(3);
 
-        const createdAccountActivityFeedItem = activityFeedItems.activityFeedItems[0];
-        expect(createdAccountActivityFeedItem.activityFeedItemType).toEqual(ActivityFeedItemTypes.createdAccount);
-        expect(createdAccountActivityFeedItem.userId).toEqual(user._id);
-        expect(createdAccountActivityFeedItem.subjectId).toBeUndefined();
-        expect(createdAccountActivityFeedItem._id).toEqual(expect.any(String));
-        expect(Object.keys(createdAccountActivityFeedItem).sort()).toEqual(
-            ['_id', 'createdAt', 'updatedAt', 'activityFeedItemType', 'userId', '__v'].sort(),
+        const user = await streakoid.users.create({
+            username: 'new-username',
+            email: 'google@gmail.com',
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            activityFeedItemType: ActivityFeedItemTypes.createdAccount,
+        });
+        const createdSoloStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.createdAccount,
         );
+        if (
+            createdSoloStreakActivityFeedItem &&
+            createdSoloStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.createdAccount
+        ) {
+            expect(createdSoloStreakActivityFeedItem.userId).toEqual(String(user._id));
+            expect(createdSoloStreakActivityFeedItem.username).toEqual(String(user.username));
+            expect(Object.keys(createdSoloStreakActivityFeedItem).sort()).toEqual(
+                ['_id', 'activityFeedItemType', 'userId', 'username', 'createdAt', 'updatedAt', '__v'].sort(),
+            );
+        }
     });
 
     test('fails because username is missing from request', async () => {

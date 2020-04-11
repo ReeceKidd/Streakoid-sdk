@@ -70,6 +70,7 @@ export interface LostSoloStreakActivityFeedItem {
     username: string;
     soloStreakId: string;
     soloStreakName: string;
+    numberOfDaysLost: number;
 }
 
 export interface CompletedChallengeStreakActivityFeedItem {
@@ -133,6 +134,7 @@ export interface LostChallengeStreakActivityFeedItem {
     challengeStreakId: string;
     challengeId: string;
     challengeName: string;
+    numberOfDaysLost: number;
 }
 
 export interface CreatedTeamStreakActivityFeedItem {
@@ -213,6 +215,7 @@ export interface LostTeamStreakActivityFeedItem {
     username: string;
     teamStreakId: string;
     teamStreakName: string;
+    numberOfDaysLost: number;
 }
 
 export interface CreatedAccountActivityFeedItem {

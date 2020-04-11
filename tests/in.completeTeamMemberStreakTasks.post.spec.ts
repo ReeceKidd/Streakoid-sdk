@@ -5,7 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { username, originalImageUrl } from './setup/environment';
-import { StreakStatus } from '../src';
+import { StreakStatus, ActivityFeedItemTypes } from '../src';
 import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
@@ -1308,5 +1308,65 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         expect(creator._id).toBeDefined();
         expect(creator.username).toEqual(username);
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
+    });
+
+    test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
+        expect.assertions(5);
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreak._id,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        await streakoid.incompleteTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            teamStreakId: teamStreak._id,
+        });
+        const createdTeamMemberStreakActivityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.incompletedTeamMemberStreak,
+        );
+        if (
+            createdTeamMemberStreakActivityFeedItem &&
+            createdTeamMemberStreakActivityFeedItem.activityFeedItemType ===
+                ActivityFeedItemTypes.incompletedTeamMemberStreak
+        ) {
+            expect(createdTeamMemberStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(createdTeamMemberStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(createdTeamMemberStreakActivityFeedItem.userId).toEqual(String(userId));
+            expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(username);
+            expect(Object.keys(createdTeamMemberStreakActivityFeedItem).sort()).toEqual(
+                [
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'teamStreakId',
+                    'teamStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
+                ].sort(),
+            );
+        }
     });
 });
