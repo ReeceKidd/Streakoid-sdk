@@ -41,6 +41,7 @@ describe('POST /streak-tracking-events', () => {
             soloStreakId: soloStreak._id,
             soloStreakName: soloStreak.streakName,
             userId: user._id,
+            userProfileImage: user.profileImages.originalImageUrl,
             username: user.username,
             numberOfDaysLost: 10,
         });
@@ -54,6 +55,7 @@ describe('POST /streak-tracking-events', () => {
                 'soloStreakName',
                 'userId',
                 'username',
+                'numberOfDaysLost',
                 'createdAt',
                 'updatedAt',
                 '__v',
