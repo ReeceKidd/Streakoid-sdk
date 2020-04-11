@@ -61,6 +61,7 @@ describe('SDK activityFeedItems', () => {
                 activityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
                 userId: 'userId',
                 username: 'username',
+                userProfileImage: 'google.com/image',
                 soloStreakId: 'soloStreakId',
                 soloStreakName: 'Reading',
                 numberOfDaysLost: 1,
