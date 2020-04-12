@@ -3,7 +3,6 @@ export enum AgendaJobNames {
     teamStreakDailyTracker = 'teamStreakDailyTracker',
     challengeStreakDailyTracker = 'challengeStreakDailyTracker',
     adjustForDaylightSavingsTime = 'adjustForDaylightSavingsTime',
-    completeStreaksReminder = 'completeStreaksReminder',
 }
 
 export default AgendaJobNames;
