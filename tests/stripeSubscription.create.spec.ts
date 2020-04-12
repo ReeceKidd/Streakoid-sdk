@@ -102,11 +102,11 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
+        expect(databaseUser.notifications.completeStreaksReminder.reminderHour).toEqual(21);
         expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -211,11 +211,11 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
+        expect(databaseUser.notifications.completeStreaksReminder.reminderHour).toEqual(21);
         expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

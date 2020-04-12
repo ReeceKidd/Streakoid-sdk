@@ -2,7 +2,8 @@ interface Notifications {
     completeStreaksReminder: {
         emailNotification: boolean;
         pushNotification: boolean;
-        reminderTime: number;
+        reminderHour: number;
+        reminderMinute: number;
     };
     teamStreakUpdates: {
         emailNotification: boolean;

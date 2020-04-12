@@ -31,7 +31,8 @@ describe('SDK users', () => {
                     completeStreaksReminder: {
                         emailNotification: true,
                         pushNotification: true,
-                        reminderTime: 21,
+                        reminderHour: 21,
+                        reminderMinute: 0,
                     },
                     teamStreakUpdates: {
                         emailNotification: true,

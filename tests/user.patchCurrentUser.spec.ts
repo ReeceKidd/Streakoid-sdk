@@ -15,7 +15,7 @@ const updatedNotifications: Notifications = {
     completeStreaksReminder: {
         emailNotification: true,
         pushNotification: true,
-        reminderTime: 22,
+        reminderHour: 22,
     },
     newFollowerUpdates: {
         emailNotification: true,
@@ -86,11 +86,11 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeStreaksReminder.reminderTime).toEqual(22);
+        expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(22);
         expect(Object.keys(updatedUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -195,11 +195,11 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeStreaksReminder.reminderTime).toEqual(22);
+        expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(22);
         expect(Object.keys(updatedUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -283,11 +283,11 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(expect.any(Number));
+        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -367,11 +367,11 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(expect.any(Number));
+        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

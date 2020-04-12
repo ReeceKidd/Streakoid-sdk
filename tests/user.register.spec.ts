@@ -53,11 +53,11 @@ describe('POST /users', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
+        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(21);
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
