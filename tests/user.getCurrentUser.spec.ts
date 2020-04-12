@@ -50,7 +50,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -58,9 +58,12 @@ describe('GET /user', () => {
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -151,7 +154,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -159,9 +162,12 @@ describe('GET /user', () => {
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -232,7 +238,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -240,9 +246,12 @@ describe('GET /user', () => {
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -313,7 +322,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'friendRequest', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
             ['emailNotification', 'pushNotification', 'reminderTime'].sort(),
@@ -321,9 +330,12 @@ describe('GET /user', () => {
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(user.notifications.friendRequest).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(user.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
+            `emailNotification`,
+            'pushNotification',
+        ]);
+        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

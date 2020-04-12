@@ -107,12 +107,12 @@ describe('POST /stripe-subscription', () => {
         expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(databaseUser.notifications.friendRequest).sort()).toEqual([
+        expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(databaseUser.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -216,12 +216,12 @@ describe('POST /stripe-subscription', () => {
         expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(databaseUser.notifications.completeStreaksReminder.reminderTime).toEqual(21);
-        expect(Object.keys(databaseUser.notifications.friendRequest).sort()).toEqual([
+        expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.friendRequest.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.friendRequest.pushNotification).toEqual(true);
+        expect(databaseUser.notifications.newFollowerUpdates.emailNotification).toEqual(true);
+        expect(databaseUser.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
