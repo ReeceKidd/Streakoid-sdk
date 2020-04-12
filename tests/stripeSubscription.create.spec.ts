@@ -46,7 +46,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(44);
+        expect.assertions(35);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -102,29 +102,20 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
-        expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.reminderHour).toEqual(21);
         expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.badgeUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.hasCompletedIntroduction).toEqual(false);
@@ -155,7 +146,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(44);
+        expect.assertions(35);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -211,29 +202,20 @@ describe('POST /stripe-subscription', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(Object.keys(databaseUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
-        expect(databaseUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(databaseUser.notifications.completeStreaksReminder.reminderHour).toEqual(21);
         expect(Object.keys(databaseUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.newFollowerUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.teamStreakUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
         expect(Object.keys(databaseUser.notifications.badgeUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
         ]);
-        expect(databaseUser.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(databaseUser.notifications.badgeUpdates.pushNotification).toEqual(true);
         expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.hasCompletedIntroduction).toEqual(false);

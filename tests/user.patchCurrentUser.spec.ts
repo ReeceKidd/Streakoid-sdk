@@ -16,6 +16,7 @@ const updatedNotifications: Notifications = {
         emailNotification: true,
         pushNotification: true,
         reminderHour: 22,
+        reminderMinute: 15,
     },
     newFollowerUpdates: {
         emailNotification: true,
@@ -63,7 +64,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(32);
+        expect.assertions(33);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -86,11 +87,12 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
         expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(22);
+        expect(updatedUser.notifications.completeStreaksReminder.reminderMinute).toEqual(15);
         expect(Object.keys(updatedUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -140,7 +142,7 @@ describe('PATCH /user', () => {
     });
 
     test(`if current user has a badge on their profile it returns a populated badge.`, async () => {
-        expect.assertions(40);
+        expect.assertions(41);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -195,11 +197,12 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
         expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(22);
+        expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(updatedUser.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(updatedUser.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -249,7 +252,7 @@ describe('PATCH /user', () => {
     });
 
     test(`if current user is following a user it returns the a populated following list`, async () => {
-        expect.assertions(37);
+        expect.assertions(38);
 
         const friend = await getFriend();
 
@@ -283,11 +286,12 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
@@ -334,7 +338,7 @@ describe('PATCH /user', () => {
     });
 
     test(`if current user has a follower a user it returns the a populated follower list`, async () => {
-        expect.assertions(37);
+        expect.assertions(38);
 
         const friend = await getFriend();
 
@@ -367,11 +371,12 @@ describe('PATCH /user', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',

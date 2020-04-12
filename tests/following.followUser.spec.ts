@@ -53,7 +53,7 @@ describe('GET /users/:userId/users/:userToFollowId', () => {
         expect(updatedUserWhoIsBeingFollowed.following).toEqual([]);
     });
 
-    test.only(`when another user if followed a FollowedUserActivityFeedItem is created`, async () => {
+    test(`when another user if followed a FollowedUserActivityFeedItem is created`, async () => {
         expect.assertions(7);
 
         await streakoid.users.following.followUser({ userId, userToFollowId });

@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(33);
+        expect.assertions(34);
 
         const user = await streakoid.users.create({
             username,
@@ -53,11 +53,12 @@ describe('POST /users', () => {
             ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
         expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour'].sort(),
+            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
         );
         expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
         expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(21);
+        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
             `emailNotification`,
             'pushNotification',
