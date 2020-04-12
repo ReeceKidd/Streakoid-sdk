@@ -4,6 +4,7 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import Notifications from './models/Notifications';
 import PopulatedCurrentUser from './models/PopulatedCurrentUser';
+import PushNotificationType from './models/PushNotification';
 
 const user = (streakoidClient: AxiosInstance) => {
     const getCurrentUser = async (): Promise<PopulatedCurrentUser> => {
@@ -23,6 +24,7 @@ const user = (streakoidClient: AxiosInstance) => {
             notifications?: Notifications;
             timezone?: string;
             pushNotificationToken?: string;
+            pushNotifications?: PushNotificationType[];
             badges?: string[];
             hasCompletedIntroduction?: boolean;
         };
