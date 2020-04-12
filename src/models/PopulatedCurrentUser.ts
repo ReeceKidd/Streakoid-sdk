@@ -5,6 +5,7 @@ import Notifications from './Notifications';
 import Badge from './Badge';
 import Friend from './Friend';
 import BasicUser from './BasicUser';
+import { PushNotificationType } from '..';
 
 interface PopulatedCurrentUser {
     _id: string;
@@ -24,6 +25,7 @@ interface PopulatedCurrentUser {
     notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;
+    pushNotifications: PushNotificationType[];
     hasCompletedIntroduction: boolean;
     createdAt: string;
     updatedAt: string;

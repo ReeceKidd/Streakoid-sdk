@@ -3,6 +3,7 @@ import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Notifications from './Notifications';
 import Friend from './Friend';
+import { PushNotificationType } from '..';
 
 interface User {
     _id: string;
@@ -26,6 +27,7 @@ interface User {
     };
     profileImages: ProfileImages;
     pushNotificationToken: string;
+    pushNotifications: PushNotificationType[];
     hasCompletedIntroduction: boolean;
     createdAt: string;
     updatedAt: string;
