@@ -17,10 +17,6 @@ const updatedNotifications: Notifications = {
         pushNotification: true,
         reminderTime: 22,
     },
-    friendRequest: {
-        emailNotification: true,
-        pushNotification: true,
-    },
     teamStreakUpdates: {
         emailNotification: true,
         pushNotification: true,

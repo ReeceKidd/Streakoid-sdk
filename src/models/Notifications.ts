@@ -4,10 +4,6 @@ interface Notifications {
         pushNotification: boolean;
         reminderTime: number;
     };
-    friendRequest: {
-        emailNotification: boolean;
-        pushNotification: boolean;
-    };
     teamStreakUpdates: {
         emailNotification: boolean;
         pushNotification: boolean;

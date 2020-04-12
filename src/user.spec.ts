@@ -33,10 +33,6 @@ describe('SDK users', () => {
                         pushNotification: true,
                         reminderTime: 21,
                     },
-                    friendRequest: {
-                        emailNotification: true,
-                        pushNotification: true,
-                    },
                     teamStreakUpdates: {
                         emailNotification: true,
                         pushNotification: true,
