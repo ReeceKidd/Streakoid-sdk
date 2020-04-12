@@ -41,6 +41,10 @@ describe('SDK users', () => {
                         emailNotification: true,
                         pushNotification: true,
                     },
+                    newFollowerUpdates: {
+                        emailNotification: true,
+                        pushNotification: true,
+                    },
                     badgeUpdates: {
                         emailNotification: true,
                         pushNotification: true,
