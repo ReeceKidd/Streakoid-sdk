@@ -12,6 +12,10 @@ interface Notifications {
         emailNotification: boolean;
         pushNotification: boolean;
     };
+    newFollowerUpdates: {
+        emailNotification: boolean;
+        pushNotification: boolean;
+    };
     badgeUpdates: {
         emailNotification: boolean;
         pushNotification: boolean;
