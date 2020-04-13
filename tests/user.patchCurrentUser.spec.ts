@@ -36,7 +36,7 @@ const updatedTimezone = 'Europe/Paris';
 const updatedPushNotificationToken = 'push-notification-token';
 const customStreakReminder: CustomStreakReminder = {
     type: PushNotificationTypes.customStreakReminder,
-    _id: 'customStreakReminderId',
+    expoId: 'customStreakReminderId',
     reminderHour: 10,
     reminderMinute: 5,
     streakId: 'streakId',
@@ -44,7 +44,7 @@ const customStreakReminder: CustomStreakReminder = {
 };
 const completeAllStreksReminder: CompleteAllStreaksReminder = {
     type: PushNotificationTypes.completeAllStreaksReminder,
-    _id: 'completeAllStreakReminder',
+    expoId: 'completeAllStreakReminder',
     reminderHour: 10,
     reminderMinute: 5,
 };
@@ -138,7 +138,7 @@ describe('PATCH /user', () => {
             notification => notification.type === PushNotificationTypes.customStreakReminder,
         );
         if (updatedUserCustomStreakReminder) {
-            expect(updatedUserCustomStreakReminder._id).toEqual(customStreakReminder._id);
+            expect(updatedUserCustomStreakReminder.expoId).toEqual(customStreakReminder.expoId);
             expect(updatedUserCustomStreakReminder.reminderHour).toEqual(customStreakReminder.reminderHour);
             expect(updatedUserCustomStreakReminder.reminderMinute).toEqual(customStreakReminder.reminderMinute);
             expect(updatedUserCustomStreakReminder.type).toEqual(PushNotificationTypes.customStreakReminder);
@@ -147,7 +147,7 @@ describe('PATCH /user', () => {
             notification => notification.type === PushNotificationTypes.completeAllStreaksReminder,
         );
         if (updatedCompleteAllStreakReminder) {
-            expect(updatedCompleteAllStreakReminder._id).toEqual(completeAllStreksReminder._id);
+            expect(updatedCompleteAllStreakReminder.expoId).toEqual(completeAllStreksReminder.expoId);
             expect(updatedCompleteAllStreakReminder.reminderHour).toEqual(completeAllStreksReminder.reminderHour);
             expect(updatedCompleteAllStreakReminder.reminderMinute).toEqual(completeAllStreksReminder.reminderMinute);
             expect(updatedCompleteAllStreakReminder.type).toEqual(PushNotificationTypes.completeAllStreaksReminder);
