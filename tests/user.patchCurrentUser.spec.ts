@@ -9,7 +9,7 @@ import { username } from './setup/environment';
 import Notifications from '../src/models/Notifications';
 import { BadgeTypes, PushNotificationTypes, StreakTypes } from '../src';
 import { getFriend } from './setup/getFriend';
-import { CustomStreakReminder, CompleteAllStreaksReminder } from '../src/models/PushNotification';
+import { CustomStreakReminder, CompleteAllStreaksReminder } from '../src/models/PushNotifications';
 
 const updatedEmail = 'email@gmail.com';
 const updatedNotifications: Notifications = {

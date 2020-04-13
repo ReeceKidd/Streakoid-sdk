@@ -36,7 +36,7 @@ import PopulatedChallenge from './models/PopulatedChallenge';
 import Note from './models/Note';
 import ActivityFeedItemType from './models/ActivityFeedItemType';
 import DatabaseStats from './models/DatabaseStats';
-import PushNotificationType from './models/PushNotification';
+import PushNotifications from './models/PushNotifications';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import SupportedResponseHeaders from './SupportedResponseHeaders';
@@ -98,6 +98,6 @@ export {
     ActivityFeedItemType,
     DatabaseStats,
     ActivityFeedItemTypes,
-    PushNotificationType,
+    PushNotifications,
     PushNotificationTypes,
 };

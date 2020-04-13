@@ -17,6 +17,9 @@ export interface CompleteAllStreaksReminder {
     reminderMinute: number;
 }
 
-type PushNotificationType = CustomStreakReminder | CompleteAllStreaksReminder;
+interface PushNotifications {
+    completeAllStreaksReminder: CompleteAllStreaksReminder;
+    customStreakReminders: CustomStreakReminder[];
+}
 
-export default PushNotificationType;
+export default PushNotifications;
