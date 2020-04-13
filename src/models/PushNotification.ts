@@ -2,7 +2,7 @@ import PushNotificationTypes from '../PushNotificationTypes';
 import StreakTypes from '../StreakTypes';
 
 export interface CustomStreakReminder {
-    _id: string;
+    expoId: string;
     type: PushNotificationTypes.customStreakReminder;
     streakId: string;
     streakType: StreakTypes;
@@ -11,7 +11,7 @@ export interface CustomStreakReminder {
 }
 
 export interface CompleteAllStreaksReminder {
-    _id: string;
+    expoId: string;
     type: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
