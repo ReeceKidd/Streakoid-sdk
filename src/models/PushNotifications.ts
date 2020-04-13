@@ -21,9 +21,6 @@ export interface CompleteAllStreaksReminder {
 
 interface PushNotifications {
     customStreakReminders: CustomStreakReminder[];
-    completeStreaksReminder: {
-        enabled: boolean;
-    };
     teamStreakUpdates: {
         enabled: boolean;
     };
