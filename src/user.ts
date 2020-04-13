@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
-import Notifications from './models/Notifications';
 import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 import PushNotifications from './models/PushNotifications';
 
@@ -21,7 +20,6 @@ const user = (streakoidClient: AxiosInstance) => {
     }: {
         updateData?: {
             email?: string;
-            notifications?: Notifications;
             timezone?: string;
             pushNotificationToken?: string;
             pushNotifications?: PushNotifications;

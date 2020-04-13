@@ -1,7 +1,6 @@
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
-import Notifications from './Notifications';
 import Friend from './Friend';
 import { PushNotifications } from '..';
 
@@ -19,7 +18,6 @@ interface User {
     followers: string[];
     following: string[];
     friends: Friend[];
-    notifications: Notifications;
     badges: string[];
     stripe: {
         customer: string;

@@ -2,6 +2,7 @@ import PushNotificationTypes from '../PushNotificationTypes';
 import StreakTypes from '../StreakTypes';
 
 export interface CustomStreakReminder {
+    enabled: boolean;
     expoId: string;
     type: PushNotificationTypes.customStreakReminder;
     streakId: string;
@@ -11,15 +12,28 @@ export interface CustomStreakReminder {
 }
 
 export interface CompleteAllStreaksReminder {
-    expoId: string;
-    type: PushNotificationTypes.completeAllStreaksReminder;
-    reminderHour: number;
-    reminderMinute: number;
+    enabled: boolean;
+    expoId?: string;
+    type?: PushNotificationTypes.completeAllStreaksReminder;
+    reminderHour?: number;
+    reminderMinute?: number;
 }
 
 interface PushNotifications {
-    completeAllStreaksReminder: CompleteAllStreaksReminder;
     customStreakReminders: CustomStreakReminder[];
+    completeStreaksReminder: {
+        enabled: boolean;
+    };
+    teamStreakUpdates: {
+        enabled: boolean;
+    };
+    newFollowerUpdates: {
+        enabled: boolean;
+    };
+    badgeUpdates: {
+        enabled: boolean;
+    };
+    completeAllStreaksReminder: CompleteAllStreaksReminder;
 }
 
 export default PushNotifications;

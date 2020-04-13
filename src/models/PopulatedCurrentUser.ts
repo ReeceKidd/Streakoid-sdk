@@ -1,12 +1,10 @@
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
-import Notifications from './Notifications';
 import Badge from './Badge';
 import Friend from './Friend';
 import BasicUser from './BasicUser';
 import { PushNotifications } from '..';
-import { CompleteAllStreaksReminder } from './PushNotifications';
 
 interface PopulatedCurrentUser {
     _id: string;
@@ -23,7 +21,6 @@ interface PopulatedCurrentUser {
     following: BasicUser[];
     followers: BasicUser[];
     friends: Friend[];
-    notifications: Notifications;
     profileImages: ProfileImages;
     pushNotificationToken: string;
     pushNotifications: PushNotifications;
