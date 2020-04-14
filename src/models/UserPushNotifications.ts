@@ -10,7 +10,7 @@ interface UserPushNotifications {
     badgeUpdates: {
         enabled: boolean;
     };
-    completeAllStreaksReminder: CompleteAllStreaksReminder;
+    completeAllStreaksReminder?: CompleteAllStreaksReminder;
 }
 
 export default UserPushNotifications;
