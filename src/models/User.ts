@@ -2,7 +2,7 @@ import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Friend from './Friend';
-import { PushNotifications } from '..';
+import { UserPushNotifications } from '..';
 
 interface User {
     _id: string;
@@ -25,7 +25,7 @@ interface User {
     };
     profileImages: ProfileImages;
     pushNotificationToken: string;
-    pushNotifications: PushNotifications;
+    pushNotifications: UserPushNotifications;
     hasCompletedIntroduction: boolean;
     createdAt: string;
     updatedAt: string;

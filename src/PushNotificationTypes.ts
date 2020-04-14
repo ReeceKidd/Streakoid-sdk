@@ -1,5 +1,7 @@
 enum PushNotificationTypes {
-    customStreakReminder = 'customStreakReminder',
+    customSoloStreakReminder = 'customSoloStreakReminder',
+    customChallengeStreakReminder = 'customChallengeStreakReminder',
+    customTeamMemberStreakReminder = 'customTeamMemberStreakReminder',
     completeAllStreaksReminder = 'completeAllStreaksReminder',
 }
 
