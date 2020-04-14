@@ -6,7 +6,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { BadgeTypes, PushNotificationTypes } from '../src';
+import { BadgeTypes } from '../src';
 import { getFriend } from './setup/getFriend';
 
 const updatedEmail = 'email@gmail.com';
@@ -43,7 +43,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(31);
+        expect.assertions(25);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -63,18 +63,8 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.pushNotifications).sort()).toEqual(
-            ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
-        expect(Object.keys(updatedUser.pushNotifications.completeAllStreaksReminder).sort()).toEqual(
-            ['enabled', 'expoId', 'type', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(updatedUser.pushNotifications.completeAllStreaksReminder.enabled).toEqual(expect.any(Boolean));
-        expect(updatedUser.pushNotifications.completeAllStreaksReminder.expoId).toEqual(expect.any(String));
-        expect(updatedUser.pushNotifications.completeAllStreaksReminder.type).toEqual(
-            PushNotificationTypes.completeAllStreaksReminder,
-        );
-        expect(updatedUser.pushNotifications.completeAllStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(updatedUser.pushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(updatedUser.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(updatedUser.pushNotifications.newFollowerUpdates.enabled).toEqual(expect.any(Boolean));
         expect(Object.keys(updatedUser.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);

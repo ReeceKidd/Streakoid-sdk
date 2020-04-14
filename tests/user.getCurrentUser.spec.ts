@@ -7,7 +7,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { BadgeTypes, PushNotificationTypes } from '../src';
+import { BadgeTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -31,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(32);
+        expect.assertions(26);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -50,18 +50,8 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
-        expect(Object.keys(user.pushNotifications.completeAllStreaksReminder).sort()).toEqual(
-            ['enabled', 'expoId', 'type', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(user.pushNotifications.completeAllStreaksReminder.enabled).toEqual(expect.any(Boolean));
-        expect(user.pushNotifications.completeAllStreaksReminder.expoId).toEqual(expect.any(String));
-        expect(user.pushNotifications.completeAllStreaksReminder.type).toEqual(
-            PushNotificationTypes.completeAllStreaksReminder,
-        );
-        expect(user.pushNotifications.completeAllStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.pushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);

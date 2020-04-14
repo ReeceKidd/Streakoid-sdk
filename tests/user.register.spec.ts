@@ -4,7 +4,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
-import { ActivityFeedItemTypes, PushNotificationTypes } from '../src';
+import { ActivityFeedItemTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(32);
+        expect.assertions(26);
 
         const user = await streakoid.users.create({
             username,
@@ -52,16 +52,6 @@ describe('POST /users', () => {
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
             ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
-        expect(Object.keys(user.pushNotifications.completeAllStreaksReminder).sort()).toEqual(
-            ['enabled', 'expoId', 'type', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(user.pushNotifications.completeAllStreaksReminder.enabled).toEqual(expect.any(Boolean));
-        expect(user.pushNotifications.completeAllStreaksReminder.expoId).toEqual(expect.any(String));
-        expect(user.pushNotifications.completeAllStreaksReminder.type).toEqual(
-            PushNotificationTypes.completeAllStreaksReminder,
-        );
-        expect(user.pushNotifications.completeAllStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.pushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(expect.any(Number));
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
