@@ -27,26 +27,6 @@ describe('SDK users', () => {
             streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const updateData = {
                 email: 'email@email.com',
-                notifications: {
-                    completeStreaksReminder: {
-                        emailNotification: true,
-                        pushNotification: true,
-                        reminderHour: 21,
-                        reminderMinute: 0,
-                    },
-                    teamStreakUpdates: {
-                        emailNotification: true,
-                        pushNotification: true,
-                    },
-                    newFollowerUpdates: {
-                        emailNotification: true,
-                        pushNotification: true,
-                    },
-                    badgeUpdates: {
-                        emailNotification: true,
-                        pushNotification: true,
-                    },
-                },
                 timezone: 'Europe/London',
                 pushNotification: 'push-notification',
                 badges: ['badgeId1', 'badgeId2'],

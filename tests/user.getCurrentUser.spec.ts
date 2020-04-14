@@ -7,7 +7,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { BadgeTypes } from '../src';
+import { BadgeTypes, PushNotificationTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -31,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(34);
+        expect.assertions(32);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -49,31 +49,25 @@ describe('GET /user', () => {
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+        expect(Object.keys(user.pushNotifications).sort()).toEqual(
+            ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
-        expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
+        expect(Object.keys(user.pushNotifications.completeAllStreaksReminder).sort()).toEqual(
+            ['enabled', 'expoId', 'type', 'reminderHour', 'reminderMinute'].sort(),
         );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
-        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
+        expect(user.pushNotifications.completeAllStreaksReminder.enabled).toEqual(expect.any(Boolean));
+        expect(user.pushNotifications.completeAllStreaksReminder.expoId).toEqual(expect.any(String));
+        expect(user.pushNotifications.completeAllStreaksReminder.type).toEqual(
+            PushNotificationTypes.completeAllStreaksReminder,
+        );
+        expect(user.pushNotifications.completeAllStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(user.pushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(expect.any(Number));
+        expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
+        expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
+        expect(Object.keys(user.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
+        expect(user.pushNotifications.teamStreakUpdates.enabled).toEqual(true);
+        expect(Object.keys(user.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
+        expect(user.pushNotifications.badgeUpdates.enabled).toEqual(true);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: expect.any(String),
@@ -92,10 +86,9 @@ describe('GET /user', () => {
                 'following',
                 'friends',
                 'membershipInformation',
-                'notifications',
+                'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
-                'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -106,7 +99,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user has a badge on their profile it returns a populated badge`, async () => {
-        expect.assertions(42);
+        expect.assertions(10);
 
         // Adds user to challenge streak so they get a badge on their profile
         const name = 'Duolingo';
@@ -129,16 +122,6 @@ describe('GET /user', () => {
 
         const user = await streakoid.user.getCurrentUser();
 
-        expect(user._id).toEqual(expect.any(String));
-        expect(user.email).toBeDefined();
-        expect(user.username).toEqual(username);
-        expect(user.userType).toEqual(UserTypes.basic);
-        expect(Object.keys(user.membershipInformation).sort()).toEqual(
-            ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
-        );
-        expect(user.followers).toEqual([]);
-        expect(user.following).toEqual([]);
-        expect(user.friends).toEqual([]);
         expect(user.badges.length).toEqual(1);
         const badge = user.badges[0];
 
@@ -152,42 +135,7 @@ describe('GET /user', () => {
         expect(Object.keys(badge).sort()).toEqual(
             ['_id', 'name', 'description', 'icon', 'badgeType', 'createdAt', 'updatedAt', '__v'].sort(),
         );
-        expect(user.membershipInformation.isPayingMember).toEqual(true);
-        expect(user.membershipInformation.pastMemberships).toEqual([]);
-        expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
-        );
-        expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
-        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.timezone).toEqual(londonTimezone);
-        expect(user.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(user.pushNotificationToken).toBeNull();
-        expect(user.hasCompletedIntroduction).toEqual(false);
-        expect(user.createdAt).toEqual(expect.any(String));
-        expect(user.updatedAt).toEqual(expect.any(String));
+
         expect(Object.keys(user).sort()).toEqual(
             [
                 '_id',
@@ -198,10 +146,9 @@ describe('GET /user', () => {
                 'friends',
                 'following',
                 'membershipInformation',
-                'notifications',
+                'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
-                'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -212,7 +159,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user is following a user it returns the a populated following list`, async () => {
-        expect.assertions(38);
+        expect.assertions(5);
 
         const friend = await getFriend();
 
@@ -220,60 +167,12 @@ describe('GET /user', () => {
 
         const user = await streakoid.user.getCurrentUser();
 
-        expect(user._id).toEqual(expect.any(String));
-        expect(user.email).toBeDefined();
-        expect(user.username).toEqual(username);
-        expect(user.userType).toEqual(UserTypes.basic);
-        expect(Object.keys(user.membershipInformation).sort()).toEqual(
-            ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
-        );
-        expect(user.followers).toEqual([]);
-        expect(user.friends).toEqual([]);
-        expect(user.badges).toEqual([]);
-        expect(user.following.length).toEqual(1);
-
         const following = user.following[0];
         expect(following.username).toEqual(expect.any(String));
         expect(following.userId).toEqual(expect.any(String));
         expect(following.profileImage).toEqual(expect.any(String));
         expect(Object.keys(following).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(user.membershipInformation.isPayingMember).toEqual(true);
-        expect(user.membershipInformation.pastMemberships).toEqual([]);
-        expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
-        );
-        expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
-        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.timezone).toEqual(londonTimezone);
-        expect(user.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(user.pushNotificationToken).toBeNull();
-        expect(user.hasCompletedIntroduction).toEqual(false);
-        expect(user.createdAt).toEqual(expect.any(String));
-        expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 '_id',
@@ -284,10 +183,9 @@ describe('GET /user', () => {
                 'friends',
                 'following',
                 'membershipInformation',
-                'notifications',
+                'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
-                'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -298,7 +196,7 @@ describe('GET /user', () => {
     });
 
     test(`if current user has a follower a user it returns the a populated follower list`, async () => {
-        expect.assertions(38);
+        expect.assertions(6);
 
         const friend = await getFriend();
 
@@ -306,16 +204,6 @@ describe('GET /user', () => {
 
         const user = await streakoid.user.getCurrentUser();
 
-        expect(user._id).toEqual(expect.any(String));
-        expect(user.email).toBeDefined();
-        expect(user.username).toEqual(username);
-        expect(user.userType).toEqual(UserTypes.basic);
-        expect(Object.keys(user.membershipInformation).sort()).toEqual(
-            ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
-        );
-        expect(user.following).toEqual([]);
-        expect(user.friends).toEqual([]);
-        expect(user.badges).toEqual([]);
         expect(user.followers.length).toEqual(1);
 
         const follower = user.followers[0];
@@ -324,42 +212,6 @@ describe('GET /user', () => {
         expect(follower.profileImage).toEqual(expect.any(String));
         expect(Object.keys(follower).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(user.membershipInformation.isPayingMember).toEqual(true);
-        expect(user.membershipInformation.pastMemberships).toEqual([]);
-        expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(user.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
-        );
-        expect(Object.keys(user.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
-        );
-        expect(user.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(user.notifications.completeStreaksReminder.reminderHour).toEqual(expect.any(Number));
-        expect(user.notifications.completeStreaksReminder.reminderMinute).toEqual(expect.any(Number));
-        expect(Object.keys(user.notifications.newFollowerUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.newFollowerUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.teamStreakUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(user.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.teamStreakUpdates.pushNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(user.notifications.badgeUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(user.notifications.badgeUpdates).sort()).toEqual([`emailNotification`, 'pushNotification']);
-        expect(user.timezone).toEqual(londonTimezone);
-        expect(user.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(user.pushNotificationToken).toBeNull();
-        expect(user.hasCompletedIntroduction).toEqual(false);
-        expect(user.createdAt).toEqual(expect.any(String));
-        expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
             [
                 '_id',
@@ -370,10 +222,9 @@ describe('GET /user', () => {
                 'friends',
                 'following',
                 'membershipInformation',
-                'notifications',
+                'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
-                'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

@@ -6,56 +6,18 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import Notifications from '../src/models/Notifications';
-import { BadgeTypes, PushNotificationTypes, StreakTypes } from '../src';
+import { BadgeTypes, PushNotificationTypes } from '../src';
 import { getFriend } from './setup/getFriend';
-import { CustomStreakReminder, CompleteAllStreaksReminder } from '../src/models/UserPushNotifications';
 
 const updatedEmail = 'email@gmail.com';
-const updatedNotifications: Notifications = {
-    completeStreaksReminder: {
-        emailNotification: true,
-        pushNotification: true,
-        reminderHour: 22,
-        reminderMinute: 15,
-    },
-    newFollowerUpdates: {
-        emailNotification: true,
-        pushNotification: true,
-    },
-    teamStreakUpdates: {
-        emailNotification: true,
-        pushNotification: true,
-    },
-    badgeUpdates: {
-        emailNotification: true,
-        pushNotification: true,
-    },
-};
 const updatedTimezone = 'Europe/Paris';
 const updatedPushNotificationToken = 'push-notification-token';
-const customStreakReminder: CustomStreakReminder = {
-    type: PushNotificationTypes.customStreakReminder,
-    expoId: 'customStreakReminderId',
-    reminderHour: 10,
-    reminderMinute: 5,
-    streakId: 'streakId',
-    streakType: StreakTypes.solo,
-};
-const completeAllStreksReminder: CompleteAllStreaksReminder = {
-    type: PushNotificationTypes.completeAllStreaksReminder,
-    expoId: 'completeAllStreakReminder',
-    reminderHour: 10,
-    reminderMinute: 5,
-};
-const updatedPushNotifications = [customStreakReminder, completeAllStreksReminder];
+
 const updatedHasCompletedIntroduction = true;
 const updateData = {
     email: updatedEmail,
-    notifications: updatedNotifications,
     timezone: updatedTimezone,
     pushNotificationToken: updatedPushNotificationToken,
-    pushNotifications: updatedPushNotifications,
     hasCompletedIntroduction: updatedHasCompletedIntroduction,
 };
 
@@ -81,7 +43,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(42);
+        expect.assertions(31);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -100,58 +62,30 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
-        expect(Object.keys(updatedUser.notifications).sort()).toEqual(
-            ['completeStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+        expect(Object.keys(updatedUser.pushNotifications).sort()).toEqual(
+            ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
         );
-        expect(Object.keys(updatedUser.notifications.completeStreaksReminder).sort()).toEqual(
-            ['emailNotification', 'pushNotification', 'reminderHour', 'reminderMinute'].sort(),
+        expect(Object.keys(updatedUser.pushNotifications.completeAllStreaksReminder).sort()).toEqual(
+            ['enabled', 'expoId', 'type', 'reminderHour', 'reminderMinute'].sort(),
         );
-        expect(updatedUser.notifications.completeStreaksReminder.emailNotification).toEqual(true);
-        expect(updatedUser.notifications.completeStreaksReminder.pushNotification).toEqual(true);
-        expect(updatedUser.notifications.completeStreaksReminder.reminderHour).toEqual(22);
-        expect(updatedUser.notifications.completeStreaksReminder.reminderMinute).toEqual(15);
-        expect(Object.keys(updatedUser.notifications.newFollowerUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(updatedUser.notifications.newFollowerUpdates.emailNotification).toEqual(true);
-        expect(updatedUser.notifications.newFollowerUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(updatedUser.notifications.teamStreakUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(updatedUser.notifications.teamStreakUpdates.emailNotification).toEqual(true);
-        expect(updatedUser.notifications.teamStreakUpdates.pushNotification).toEqual(true);
-        expect(Object.keys(updatedUser.notifications.badgeUpdates).sort()).toEqual([
-            `emailNotification`,
-            'pushNotification',
-        ]);
-        expect(updatedUser.notifications.badgeUpdates.emailNotification).toEqual(true);
-        expect(updatedUser.notifications.badgeUpdates.pushNotification).toEqual(true);
+        expect(updatedUser.pushNotifications.completeAllStreaksReminder.enabled).toEqual(expect.any(Boolean));
+        expect(updatedUser.pushNotifications.completeAllStreaksReminder.expoId).toEqual(expect.any(String));
+        expect(updatedUser.pushNotifications.completeAllStreaksReminder.type).toEqual(
+            PushNotificationTypes.completeAllStreaksReminder,
+        );
+        expect(updatedUser.pushNotifications.completeAllStreaksReminder.reminderHour).toEqual(expect.any(Number));
+        expect(updatedUser.pushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(expect.any(Number));
+        expect(Object.keys(updatedUser.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
+        expect(updatedUser.pushNotifications.newFollowerUpdates.enabled).toEqual(expect.any(Boolean));
+        expect(Object.keys(updatedUser.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
+        expect(updatedUser.pushNotifications.teamStreakUpdates.enabled).toEqual(expect.any(Boolean));
+        expect(Object.keys(updatedUser.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
+        expect(updatedUser.pushNotifications.badgeUpdates.enabled).toEqual(expect.any(Boolean));
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(updatedUser.pushNotificationToken).toEqual(updatedPushNotificationToken);
-        expect(updatedUser.pushNotifications.length).toEqual(2);
-        const updatedUserCustomStreakReminder = updatedUser.pushNotifications.find(
-            notification => notification.type === PushNotificationTypes.customStreakReminder,
-        );
-        if (updatedUserCustomStreakReminder) {
-            expect(updatedUserCustomStreakReminder.expoId).toEqual(customStreakReminder.expoId);
-            expect(updatedUserCustomStreakReminder.reminderHour).toEqual(customStreakReminder.reminderHour);
-            expect(updatedUserCustomStreakReminder.reminderMinute).toEqual(customStreakReminder.reminderMinute);
-            expect(updatedUserCustomStreakReminder.type).toEqual(PushNotificationTypes.customStreakReminder);
-        }
-        const updatedCompleteAllStreakReminder = updatedUser.pushNotifications.find(
-            notification => notification.type === PushNotificationTypes.completeAllStreaksReminder,
-        );
-        if (updatedCompleteAllStreakReminder) {
-            expect(updatedCompleteAllStreakReminder.expoId).toEqual(completeAllStreksReminder.expoId);
-            expect(updatedCompleteAllStreakReminder.reminderHour).toEqual(completeAllStreksReminder.reminderHour);
-            expect(updatedCompleteAllStreakReminder.reminderMinute).toEqual(completeAllStreksReminder.reminderMinute);
-            expect(updatedCompleteAllStreakReminder.type).toEqual(PushNotificationTypes.completeAllStreaksReminder);
-        }
         expect(updatedUser.hasCompletedIntroduction).toEqual(updatedHasCompletedIntroduction);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
@@ -162,7 +96,6 @@ describe('PATCH /user', () => {
                 'email',
                 'badges',
                 'membershipInformation',
-                'notifications',
                 'profileImages',
                 'followers',
                 'following',
@@ -225,10 +158,9 @@ describe('PATCH /user', () => {
                 'email',
                 'badges',
                 'membershipInformation',
-                'notifications',
+                'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
-                'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
                 'followers',
@@ -269,7 +201,6 @@ describe('PATCH /user', () => {
                 'friends',
                 'following',
                 'membershipInformation',
-                'notifications',
                 'profileImages',
                 'pushNotificationToken',
                 'pushNotifications',
@@ -309,7 +240,6 @@ describe('PATCH /user', () => {
                 'friends',
                 'following',
                 'membershipInformation',
-                'notifications',
                 'profileImages',
                 'pushNotificationToken',
                 'pushNotifications',
