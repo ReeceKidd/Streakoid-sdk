@@ -1,5 +1,10 @@
 import PushNotificationTypes from '../PushNotificationTypes';
 
+export type CustomStreakReminder =
+    | CustomSoloStreakReminder
+    | CustomChallengeStreakReminder
+    | CustomTeamMemberStreakReminder;
+
 export interface CustomSoloStreakReminder {
     enabled: boolean;
     expoId: string;
