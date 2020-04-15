@@ -34,8 +34,8 @@ export interface CustomTeamMemberStreakReminder {
 
 export interface CompleteAllStreaksReminder {
     enabled: boolean;
-    expoId: string;
     type: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
+    expoId?: string;
 }
