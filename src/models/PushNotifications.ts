@@ -37,5 +37,5 @@ export interface CompleteAllStreaksReminder {
     type: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
-    expoId?: string;
+    expoId: string;
 }
