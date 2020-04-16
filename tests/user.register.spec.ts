@@ -49,7 +49,6 @@ describe('POST /users', () => {
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
-        console.log(user.pushNotifications);
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
             ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );

@@ -33,11 +33,10 @@ describe('PATCH /user/push-notifications', () => {
     });
 
     test(`that completeAllStreaksReminder can be updated by itself`, async () => {
-        expect.assertions(8);
+        expect.assertions(7);
 
         const completeAllStreaksReminder: CompleteAllStreaksReminder = {
             enabled: true,
-            type: PushNotificationTypes.completeAllStreaksReminder,
             expoId: 'expoId',
             reminderHour: 10,
             reminderMinute: 5,
@@ -51,7 +50,7 @@ describe('PATCH /user/push-notifications', () => {
 
         if (updatedPushNotifications.completeAllStreaksReminder) {
             expect(Object.keys(updatedPushNotifications.completeAllStreaksReminder).sort()).toEqual(
-                ['enabled', 'expoId', 'reminderHour', 'reminderMinute', 'type'].sort(),
+                ['enabled', 'expoId', 'reminderHour', 'reminderMinute'].sort(),
             );
             expect(updatedPushNotifications.completeAllStreaksReminder.enabled).toEqual(
                 completeAllStreaksReminder.enabled,
@@ -61,9 +60,6 @@ describe('PATCH /user/push-notifications', () => {
             );
             expect(updatedPushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(
                 completeAllStreaksReminder.reminderMinute,
-            );
-            expect(updatedPushNotifications.completeAllStreaksReminder.type).toEqual(
-                PushNotificationTypes.completeAllStreaksReminder,
             );
             expect(updatedPushNotifications.completeAllStreaksReminder.expoId).toEqual(
                 completeAllStreaksReminder.expoId,
