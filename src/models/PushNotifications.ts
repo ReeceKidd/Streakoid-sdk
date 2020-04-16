@@ -37,7 +37,6 @@ export interface CustomTeamMemberStreakReminder extends StreakReminder {
 }
 
 export interface CompleteAllStreaksReminder extends StreakReminder {
-    type: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
 }

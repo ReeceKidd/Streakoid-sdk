@@ -43,7 +43,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(25);
+        expect.assertions(26);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -63,7 +63,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
         expect(Object.keys(updatedUser.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(updatedUser.pushNotifications.newFollowerUpdates.enabled).toEqual(expect.any(Boolean));
@@ -71,6 +71,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.pushNotifications.teamStreakUpdates.enabled).toEqual(expect.any(Boolean));
         expect(Object.keys(updatedUser.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
         expect(updatedUser.pushNotifications.badgeUpdates.enabled).toEqual(expect.any(Boolean));
+        expect(updatedUser.pushNotifications.customStreakReminders).toEqual([]);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(26);
+        expect.assertions(27);
 
         const user = await streakoid.users.create({
             username,
@@ -49,8 +49,9 @@ describe('POST /users', () => {
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
+        console.log(user.pushNotifications);
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['completeAllStreaksReminder', 'newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
@@ -58,6 +59,7 @@ describe('POST /users', () => {
         expect(user.pushNotifications.teamStreakUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.badgeUpdates.enabled).toEqual(true);
+        expect(user.pushNotifications.customStreakReminders).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',

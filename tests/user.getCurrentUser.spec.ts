@@ -31,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(26);
+        expect.assertions(27);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -50,7 +50,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
@@ -58,6 +58,7 @@ describe('GET /user', () => {
         expect(user.pushNotifications.teamStreakUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.badgeUpdates.enabled).toEqual(true);
+        expect(user.pushNotifications.customStreakReminders).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: expect.any(String),

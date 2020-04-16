@@ -8,14 +8,14 @@ import { ActivityFeedItemTypes, SoloStreak, User } from '../src';
 
 jest.setTimeout(120000);
 
-describe('POST /streak-tracking-events', () => {
+describe('POST /activity-feed-items', () => {
     let streakoid: StreakoidFactory;
     let user: User;
     let soloStreak: SoloStreak;
     const streakName = 'Daily Spanish';
     const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             user = await getPayingUser();
@@ -28,7 +28,7 @@ describe('POST /streak-tracking-events', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }

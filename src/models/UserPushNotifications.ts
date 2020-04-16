@@ -10,7 +10,7 @@ interface UserPushNotifications {
     badgeUpdates: {
         enabled: boolean;
     };
-    customStreakReminders?: CustomStreakReminder[];
+    customStreakReminders: CustomStreakReminder[];
     completeAllStreaksReminder?: CompleteAllStreaksReminder;
 }
 
