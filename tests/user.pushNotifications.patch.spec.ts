@@ -33,7 +33,7 @@ describe('PATCH /user/push-notifications', () => {
     });
 
     test(`that completeAllStreaksReminder can be updated by itself`, async () => {
-        expect.assertions(7);
+        expect.assertions(8);
 
         const completeAllStreaksReminder: CompleteAllStreaksReminder = {
             enabled: true,
@@ -51,7 +51,7 @@ describe('PATCH /user/push-notifications', () => {
 
         if (updatedPushNotifications.completeAllStreaksReminder) {
             expect(Object.keys(updatedPushNotifications.completeAllStreaksReminder).sort()).toEqual(
-                ['enabled', 'expoId', 'reminderHour', 'reminderMinute'].sort(),
+                ['enabled', 'expoId', 'reminderHour', 'reminderMinute', 'pushNotificationType'].sort(),
             );
             expect(updatedPushNotifications.completeAllStreaksReminder.enabled).toEqual(
                 completeAllStreaksReminder.enabled,
@@ -64,6 +64,9 @@ describe('PATCH /user/push-notifications', () => {
             );
             expect(updatedPushNotifications.completeAllStreaksReminder.expoId).toEqual(
                 completeAllStreaksReminder.expoId,
+            );
+            expect(updatedPushNotifications.completeAllStreaksReminder.pushNotificationType).toEqual(
+                PushNotificationTypes.completeAllStreaksReminder,
             );
 
             expect(Object.keys(updatedPushNotifications).sort()).toEqual(
@@ -153,7 +156,7 @@ describe('PATCH /user/push-notifications', () => {
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'type',
+                    'pushNotificationType',
                     'soloStreakName',
                     'soloStreakId',
                 ].sort(),
@@ -200,7 +203,7 @@ describe('PATCH /user/push-notifications', () => {
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'type',
+                    'pushNotificationType',
                     'challengeStreakId',
                     'challengeId',
                     'challengeName',
@@ -248,7 +251,7 @@ describe('PATCH /user/push-notifications', () => {
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'type',
+                    'pushNotificationType',
                     'teamMemberStreakId',
                     'teamStreakId',
                     'teamStreakName',
