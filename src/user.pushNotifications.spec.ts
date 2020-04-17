@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import UserPushNotifications from './models/UserPushNotifications';
+import PushNotificationTypes from './PushNotificationTypes';
 jest.genMockFromModule('./streakoid');
 
 describe('SDK users', () => {
@@ -20,6 +21,7 @@ describe('SDK users', () => {
                     expoId: 'expoId',
                     reminderHour: 10,
                     reminderMinute: 10,
+                    type: PushNotificationTypes.completeAllStreaksReminder,
                 },
                 teamStreakUpdates: {
                     enabled: true,
