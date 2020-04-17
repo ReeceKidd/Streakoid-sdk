@@ -1,6 +1,6 @@
 import PushNotificationTypes from '../PushNotificationTypes';
 
-export type PushNotificationType = CustomSoloStreakReminder & CompleteAllStreaksReminder;
+export type PushNotificationType = CustomStreakReminder | CompleteAllStreaksReminder;
 
 export type CustomStreakReminder =
     | CustomSoloStreakReminder
