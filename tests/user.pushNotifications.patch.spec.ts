@@ -40,6 +40,7 @@ describe('PATCH /user/push-notifications', () => {
             expoId: 'expoId',
             reminderHour: 10,
             reminderMinute: 5,
+            pushNotificationType: PushNotificationTypes.completeAllStreaksReminder,
         };
 
         const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
@@ -87,7 +88,7 @@ describe('PATCH /user/push-notifications', () => {
             reminderMinute: 5,
             soloStreakId: 'soloStreakId',
             soloStreakName: 'Reading',
-            type: PushNotificationTypes.customSoloStreakReminder,
+            pushNotificationType: PushNotificationTypes.customSoloStreakReminder,
         };
         const customChallengeStreakReminder: CustomChallengeStreakReminder = {
             expoId: 'expoId',
@@ -97,7 +98,7 @@ describe('PATCH /user/push-notifications', () => {
             challengeStreakId: 'challengeStreakId',
             challengeId: 'challengeId',
             challengeName: 'Reading',
-            type: PushNotificationTypes.customChallengeStreakReminder,
+            pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
         };
         const customTeamMemberStreakReminder: CustomTeamMemberStreakReminder = {
             expoId: 'expoId',
@@ -107,7 +108,7 @@ describe('PATCH /user/push-notifications', () => {
             teamMemberStreakId: 'challengeStreakId',
             teamStreakId: 'challengeId',
             teamStreakName: 'Reading',
-            type: PushNotificationTypes.customTeamMemberStreakReminder,
+            pushNotificationType: PushNotificationTypes.customTeamMemberStreakReminder,
         };
         const customStreakReminders: CustomStreakReminder[] = [
             customSoloStreakReminder,
@@ -126,12 +127,12 @@ describe('PATCH /user/push-notifications', () => {
         expect(updatedPushNotifications.customStreakReminders.length).toEqual(3);
 
         const updatedSoloStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication => pushNotication.type === PushNotificationTypes.customSoloStreakReminder,
+            pushNotication => pushNotication.pushNotificationType === PushNotificationTypes.customSoloStreakReminder,
         );
 
         if (
             updatedSoloStreakPushNotification &&
-            updatedSoloStreakPushNotification.type === PushNotificationTypes.customSoloStreakReminder
+            updatedSoloStreakPushNotification.pushNotificationType === PushNotificationTypes.customSoloStreakReminder
         ) {
             expect(updatedSoloStreakPushNotification.enabled).toEqual(updatedSoloStreakPushNotification.enabled);
             expect(updatedSoloStreakPushNotification.reminderHour).toEqual(
@@ -140,7 +141,9 @@ describe('PATCH /user/push-notifications', () => {
             expect(updatedSoloStreakPushNotification.reminderMinute).toEqual(
                 updatedSoloStreakPushNotification.reminderMinute,
             );
-            expect(updatedSoloStreakPushNotification.type).toEqual(PushNotificationTypes.customSoloStreakReminder);
+            expect(updatedSoloStreakPushNotification.pushNotificationType).toEqual(
+                PushNotificationTypes.customSoloStreakReminder,
+            );
             expect(updatedSoloStreakPushNotification.expoId).toEqual(updatedSoloStreakPushNotification.expoId);
             expect(updatedSoloStreakPushNotification.soloStreakId).toEqual(customSoloStreakReminder.soloStreakId);
             expect(updatedSoloStreakPushNotification.soloStreakName).toEqual(customSoloStreakReminder.soloStreakName);
@@ -158,12 +161,14 @@ describe('PATCH /user/push-notifications', () => {
         }
 
         const updatedChallengeStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication => pushNotication.type === PushNotificationTypes.customChallengeStreakReminder,
+            pushNotication =>
+                pushNotication.pushNotificationType === PushNotificationTypes.customChallengeStreakReminder,
         );
 
         if (
             updatedChallengeStreakPushNotification &&
-            updatedChallengeStreakPushNotification.type === PushNotificationTypes.customChallengeStreakReminder
+            updatedChallengeStreakPushNotification.pushNotificationType ===
+                PushNotificationTypes.customChallengeStreakReminder
         ) {
             expect(updatedChallengeStreakPushNotification.enabled).toEqual(
                 updatedChallengeStreakPushNotification.enabled,
@@ -174,7 +179,7 @@ describe('PATCH /user/push-notifications', () => {
             expect(updatedChallengeStreakPushNotification.reminderMinute).toEqual(
                 updatedChallengeStreakPushNotification.reminderMinute,
             );
-            expect(updatedChallengeStreakPushNotification.type).toEqual(
+            expect(updatedChallengeStreakPushNotification.pushNotificationType).toEqual(
                 PushNotificationTypes.customChallengeStreakReminder,
             );
             expect(updatedChallengeStreakPushNotification.expoId).toEqual(
@@ -204,12 +209,14 @@ describe('PATCH /user/push-notifications', () => {
         }
 
         const updatedTeamMemberStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication => pushNotication.type === PushNotificationTypes.customTeamMemberStreakReminder,
+            pushNotication =>
+                pushNotication.pushNotificationType === PushNotificationTypes.customTeamMemberStreakReminder,
         );
 
         if (
             updatedTeamMemberStreakPushNotification &&
-            updatedTeamMemberStreakPushNotification.type === PushNotificationTypes.customTeamMemberStreakReminder
+            updatedTeamMemberStreakPushNotification.pushNotificationType ===
+                PushNotificationTypes.customTeamMemberStreakReminder
         ) {
             expect(updatedTeamMemberStreakPushNotification.enabled).toEqual(
                 updatedTeamMemberStreakPushNotification.enabled,
@@ -220,7 +227,7 @@ describe('PATCH /user/push-notifications', () => {
             expect(updatedTeamMemberStreakPushNotification.reminderMinute).toEqual(
                 updatedTeamMemberStreakPushNotification.reminderMinute,
             );
-            expect(updatedTeamMemberStreakPushNotification.type).toEqual(
+            expect(updatedTeamMemberStreakPushNotification.pushNotificationType).toEqual(
                 PushNotificationTypes.customTeamMemberStreakReminder,
             );
             expect(updatedTeamMemberStreakPushNotification.expoId).toEqual(

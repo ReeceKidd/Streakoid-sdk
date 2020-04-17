@@ -13,7 +13,7 @@ export interface StreakReminder {
 }
 
 export interface CustomSoloStreakReminder extends StreakReminder {
-    type: PushNotificationTypes.customSoloStreakReminder;
+    pushNotificationType: PushNotificationTypes.customSoloStreakReminder;
     soloStreakId: string;
     soloStreakName: string;
     reminderHour: number;
@@ -21,7 +21,7 @@ export interface CustomSoloStreakReminder extends StreakReminder {
 }
 
 export interface CustomChallengeStreakReminder extends StreakReminder {
-    type: PushNotificationTypes.customChallengeStreakReminder;
+    pushNotificationType: PushNotificationTypes.customChallengeStreakReminder;
     challengeStreakId: string;
     challengeId: string;
     challengeName: string;
@@ -30,7 +30,7 @@ export interface CustomChallengeStreakReminder extends StreakReminder {
 }
 
 export interface CustomTeamMemberStreakReminder extends StreakReminder {
-    type: PushNotificationTypes.customTeamMemberStreakReminder;
+    pushNotificationType: PushNotificationTypes.customTeamMemberStreakReminder;
     teamMemberStreakId: string;
     teamStreakId: string;
     teamStreakName: string;
@@ -39,7 +39,7 @@ export interface CustomTeamMemberStreakReminder extends StreakReminder {
 }
 
 export interface CompleteAllStreaksReminder extends StreakReminder {
-    type: PushNotificationTypes.completeAllStreaksReminder;
+    pushNotificationType: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
 }
