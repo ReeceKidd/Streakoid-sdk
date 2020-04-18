@@ -2,10 +2,7 @@ import PushNotificationTypes from '../PushNotificationTypes';
 
 export type PushNotificationType = CustomStreakReminder | CompleteAllStreaksReminder;
 
-export type CustomStreakReminder =
-    | CustomSoloStreakReminder
-    | CustomChallengeStreakReminder
-    | CustomTeamMemberStreakReminder;
+export type CustomStreakReminder = CustomSoloStreakReminder | CustomChallengeStreakReminder | CustomTeamStreakReminder;
 
 export interface StreakReminder {
     enabled: boolean;
@@ -29,9 +26,8 @@ export interface CustomChallengeStreakReminder extends StreakReminder {
     reminderMinute: number;
 }
 
-export interface CustomTeamMemberStreakReminder extends StreakReminder {
-    pushNotificationType: PushNotificationTypes.customTeamMemberStreakReminder;
-    teamMemberStreakId: string;
+export interface CustomTeamStreakReminder extends StreakReminder {
+    pushNotificationType: PushNotificationTypes.customTeamStreakReminder;
     teamStreakId: string;
     teamStreakName: string;
     reminderHour: number;
