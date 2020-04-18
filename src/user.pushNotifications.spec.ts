@@ -6,7 +6,7 @@ import {
     CustomStreakReminder,
     CustomSoloStreakReminder,
     CustomChallengeStreakReminder,
-    CustomTeamMemberStreakReminder,
+    CustomTeamStreakReminder,
 } from './models/PushNotifications';
 jest.genMockFromModule('./streakoid');
 
@@ -47,15 +47,14 @@ describe('SDK users', () => {
                 challengeName: 'Reading',
                 pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
             };
-            const customTeamMemberStreakReminder: CustomTeamMemberStreakReminder = {
+            const customTeamMemberStreakReminder: CustomTeamStreakReminder = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
                 reminderMinute: 5,
-                teamMemberStreakId: 'challengeStreakId',
                 teamStreakId: 'challengeId',
                 teamStreakName: 'Reading',
-                pushNotificationType: PushNotificationTypes.customTeamMemberStreakReminder,
+                pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
             };
 
             const customStreakReminders: CustomStreakReminder[] = [
