@@ -9,7 +9,7 @@ import {
     CustomStreakReminder,
     CustomSoloStreakReminder,
     CustomChallengeStreakReminder,
-    CustomTeamMemberStreakReminder,
+    CustomTeamStreakReminder,
 } from '../src/models/PushNotifications';
 import { getPayingUser } from './setup/getPayingUser';
 
@@ -82,7 +82,7 @@ describe('PATCH /user/push-notifications', () => {
     });
 
     test(`that customStreakReminders can be updated by itself with each of the different types of custom streak reminders.`, async () => {
-        expect.assertions(28);
+        expect.assertions(27);
 
         const customSoloStreakReminder: CustomSoloStreakReminder = {
             expoId: 'expoId',
@@ -103,20 +103,19 @@ describe('PATCH /user/push-notifications', () => {
             challengeName: 'Reading',
             pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
         };
-        const customTeamMemberStreakReminder: CustomTeamMemberStreakReminder = {
+        const customTeamStreakReminder: CustomTeamStreakReminder = {
             expoId: 'expoId',
             enabled: true,
             reminderHour: 10,
             reminderMinute: 5,
-            teamMemberStreakId: 'challengeStreakId',
-            teamStreakId: 'challengeId',
+            teamStreakId: 'teamStreakId',
             teamStreakName: 'Reading',
-            pushNotificationType: PushNotificationTypes.customTeamMemberStreakReminder,
+            pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
         };
         const customStreakReminders: CustomStreakReminder[] = [
             customSoloStreakReminder,
             customChallengeStreakReminder,
-            customTeamMemberStreakReminder,
+            customTeamStreakReminder,
         ];
 
         const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
@@ -212,14 +211,13 @@ describe('PATCH /user/push-notifications', () => {
         }
 
         const updatedTeamMemberStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication =>
-                pushNotication.pushNotificationType === PushNotificationTypes.customTeamMemberStreakReminder,
+            pushNotication => pushNotication.pushNotificationType === PushNotificationTypes.customTeamStreakReminder,
         );
 
         if (
             updatedTeamMemberStreakPushNotification &&
             updatedTeamMemberStreakPushNotification.pushNotificationType ===
-                PushNotificationTypes.customTeamMemberStreakReminder
+                PushNotificationTypes.customTeamStreakReminder
         ) {
             expect(updatedTeamMemberStreakPushNotification.enabled).toEqual(
                 updatedTeamMemberStreakPushNotification.enabled,
@@ -231,19 +229,14 @@ describe('PATCH /user/push-notifications', () => {
                 updatedTeamMemberStreakPushNotification.reminderMinute,
             );
             expect(updatedTeamMemberStreakPushNotification.pushNotificationType).toEqual(
-                PushNotificationTypes.customTeamMemberStreakReminder,
+                PushNotificationTypes.customTeamStreakReminder,
             );
             expect(updatedTeamMemberStreakPushNotification.expoId).toEqual(
                 updatedTeamMemberStreakPushNotification.expoId,
             );
-            expect(updatedTeamMemberStreakPushNotification.teamMemberStreakId).toEqual(
-                customTeamMemberStreakReminder.teamMemberStreakId,
-            );
-            expect(updatedTeamMemberStreakPushNotification.teamStreakId).toEqual(
-                customTeamMemberStreakReminder.teamStreakId,
-            );
+            expect(updatedTeamMemberStreakPushNotification.teamStreakId).toEqual(customTeamStreakReminder.teamStreakId);
             expect(updatedTeamMemberStreakPushNotification.teamStreakName).toEqual(
-                customTeamMemberStreakReminder.teamStreakName,
+                customTeamStreakReminder.teamStreakName,
             );
             expect(Object.keys(updatedTeamMemberStreakPushNotification).sort()).toEqual(
                 [
@@ -252,7 +245,6 @@ describe('PATCH /user/push-notifications', () => {
                     'reminderHour',
                     'reminderMinute',
                     'pushNotificationType',
-                    'teamMemberStreakId',
                     'teamStreakId',
                     'teamStreakName',
                 ].sort(),
