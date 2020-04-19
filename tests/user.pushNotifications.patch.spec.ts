@@ -6,7 +6,7 @@ import { tearDownDatabase } from './setup/tearDownDatabase';
 import { PushNotificationTypes } from '../src';
 import {
     CompleteAllStreaksReminderPushNotification,
-    CustomStreakReminderPushNotifications,
+    CustomStreakReminderPushNotification,
     CustomSoloStreakReminderPushNotification,
     CustomChallengeStreakReminderPushNotification,
     CustomTeamStreakReminderPushNotification,
@@ -112,7 +112,7 @@ describe('PATCH /user/push-notifications', () => {
             teamStreakName: 'Reading',
             pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
         };
-        const customStreakReminders: CustomStreakReminderPushNotifications[] = [
+        const customStreakReminders: CustomStreakReminderPushNotification[] = [
             customSoloStreakReminderPushNotification,
             customChallengeStreakReminderPushNotification,
             customTeamStreakReminderPushNotification,

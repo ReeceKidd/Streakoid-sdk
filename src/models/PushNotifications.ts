@@ -1,14 +1,14 @@
 import PushNotificationTypes from '../PushNotificationTypes';
 
 export type PushNotificationType =
-    | CustomStreakReminderPushNotifications
+    | CustomStreakReminderPushNotification
     | CompleteAllStreaksReminderPushNotification
     | CompletedTeamStreakUpdatePushNotification
     | IncompletedTeamStreakUpdatePushNotification
     | AddedNoteToTeamStreakPushNotification
     | NewFollowerPushNotification;
 
-export type CustomStreakReminderPushNotifications =
+export type CustomStreakReminderPushNotification =
     | CustomSoloStreakReminderPushNotification
     | CustomChallengeStreakReminderPushNotification
     | CustomTeamStreakReminderPushNotification;
