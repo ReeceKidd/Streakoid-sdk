@@ -22,7 +22,6 @@ export interface CustomSoloStreakReminderPushNotification {
 export interface CustomChallengeStreakReminderPushNotification {
     pushNotificationType: PushNotificationTypes.customChallengeStreakReminder;
     challengeStreakId: string;
-    challengeId: string;
     challengeName: string;
 }
 
