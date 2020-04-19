@@ -40,8 +40,6 @@ export interface CustomTeamStreakReminderPushNotification {
 
 export interface CompleteAllStreaksReminderPushNotification {
     pushNotificationType: PushNotificationTypes.completeAllStreaksReminder;
-    reminderHour: number;
-    reminderMinute: number;
 }
 
 export interface CompletedTeamStreakUpdatePushNotification {
