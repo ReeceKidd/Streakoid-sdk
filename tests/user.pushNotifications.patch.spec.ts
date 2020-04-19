@@ -3,15 +3,15 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { PushNotificationTypes } from '../src';
 import {
-    CompleteAllStreaksReminderPushNotification,
-    CustomStreakReminderPushNotification,
-    CustomSoloStreakReminderPushNotification,
-    CustomChallengeStreakReminderPushNotification,
-    CustomTeamStreakReminderPushNotification,
-} from '../src/models/PushNotifications';
+    CompleteAllStreaksReminder,
+    CustomStreakReminder,
+    CustomSoloStreakReminder,
+    CustomChallengeStreakReminder,
+    CustomTeamStreakReminder,
+} from '../src/models/StreakReminders';
 import { getPayingUser } from './setup/getPayingUser';
+import { StreakReminderTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -35,41 +35,39 @@ describe('PATCH /user/push-notifications', () => {
     test(`that completeAllStreaksReminder can be updated by itself`, async () => {
         expect.assertions(8);
 
-        const completeAllStreaksReminder: CompleteAllStreaksReminderPushNotification = {
+        const completeAllStreaksReminder: CompleteAllStreaksReminder = {
             enabled: true,
             expoId: 'expoId',
             reminderHour: 10,
             reminderMinute: 5,
-            pushNotificationType: PushNotificationTypes.completeAllStreaksReminder,
+            streakReminderType: StreakReminderTypes.completeAllStreaksReminder,
         };
 
-        const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
+        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
             completeAllStreaksReminder,
         });
 
-        expect(updatedPushNotifications.completeAllStreaksReminder).toBeDefined();
+        expect(updatedStreakReminders.completeAllStreaksReminder).toBeDefined();
 
-        if (updatedPushNotifications.completeAllStreaksReminder) {
-            expect(Object.keys(updatedPushNotifications.completeAllStreaksReminder).sort()).toEqual(
-                ['enabled', 'expoId', 'reminderHour', 'reminderMinute', 'pushNotificationType'].sort(),
+        if (updatedStreakReminders.completeAllStreaksReminder) {
+            expect(Object.keys(updatedStreakReminders.completeAllStreaksReminder).sort()).toEqual(
+                ['enabled', 'expoId', 'reminderHour', 'reminderMinute', 'streakReminderType'].sort(),
             );
-            expect(updatedPushNotifications.completeAllStreaksReminder.enabled).toEqual(
+            expect(updatedStreakReminders.completeAllStreaksReminder.enabled).toEqual(
                 completeAllStreaksReminder.enabled,
             );
-            expect(updatedPushNotifications.completeAllStreaksReminder.reminderHour).toEqual(
+            expect(updatedStreakReminders.completeAllStreaksReminder.reminderHour).toEqual(
                 completeAllStreaksReminder.reminderHour,
             );
-            expect(updatedPushNotifications.completeAllStreaksReminder.reminderMinute).toEqual(
+            expect(updatedStreakReminders.completeAllStreaksReminder.reminderMinute).toEqual(
                 completeAllStreaksReminder.reminderMinute,
             );
-            expect(updatedPushNotifications.completeAllStreaksReminder.expoId).toEqual(
-                completeAllStreaksReminder.expoId,
-            );
-            expect(updatedPushNotifications.completeAllStreaksReminder.pushNotificationType).toEqual(
-                PushNotificationTypes.completeAllStreaksReminder,
+            expect(updatedStreakReminders.completeAllStreaksReminder.expoId).toEqual(completeAllStreaksReminder.expoId);
+            expect(updatedStreakReminders.completeAllStreaksReminder.streakReminderType).toEqual(
+                StreakReminderTypes.completeAllStreaksReminder,
             );
 
-            expect(Object.keys(updatedPushNotifications).sort()).toEqual(
+            expect(Object.keys(updatedStreakReminders).sort()).toEqual(
                 [
                     'completeAllStreaksReminder',
                     'newFollowerUpdates',
@@ -81,19 +79,19 @@ describe('PATCH /user/push-notifications', () => {
         }
     });
 
-    test(`that customStreakReminderPushNotifications can be updated by itself with each of the different types of custom streak reminders.`, async () => {
+    test(`that customStreakReminders can be updated by itself with each of the different types of custom streak reminders.`, async () => {
         expect.assertions(27);
 
-        const customSoloStreakReminderPushNotification: CustomSoloStreakReminderPushNotification = {
+        const customSoloStreakReminder: CustomSoloStreakReminder = {
             expoId: 'expoId',
             enabled: true,
             reminderHour: 10,
             reminderMinute: 5,
             soloStreakId: 'soloStreakId',
             soloStreakName: 'Reading',
-            pushNotificationType: PushNotificationTypes.customSoloStreakReminder,
+            streakReminderType: StreakReminderTypes.customSoloStreakReminder,
         };
-        const customChallengeStreakReminderPushNotification: CustomChallengeStreakReminderPushNotification = {
+        const customChallengeStreakReminder: CustomChallengeStreakReminder = {
             expoId: 'expoId',
             enabled: true,
             reminderHour: 10,
@@ -101,112 +99,86 @@ describe('PATCH /user/push-notifications', () => {
             challengeStreakId: 'challengeStreakId',
             challengeId: 'challengeId',
             challengeName: 'Reading',
-            pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
+            streakReminderType: StreakReminderTypes.customChallengeStreakReminder,
         };
-        const customTeamStreakReminderPushNotification: CustomTeamStreakReminderPushNotification = {
+        const customTeamStreakReminder: CustomTeamStreakReminder = {
             expoId: 'expoId',
             enabled: true,
             reminderHour: 10,
             reminderMinute: 5,
             teamStreakId: 'teamStreakId',
             teamStreakName: 'Reading',
-            pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
+            streakReminderType: StreakReminderTypes.customTeamStreakReminder,
         };
-        const customStreakReminders: CustomStreakReminderPushNotification[] = [
-            customSoloStreakReminderPushNotification,
-            customChallengeStreakReminderPushNotification,
-            customTeamStreakReminderPushNotification,
+        const customStreakReminders: CustomStreakReminder[] = [
+            customSoloStreakReminder,
+            customChallengeStreakReminder,
+            customTeamStreakReminder,
         ];
 
-        const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
+        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
             customStreakReminders,
         });
 
-        expect(Object.keys(updatedPushNotifications).sort()).toEqual(
+        expect(Object.keys(updatedStreakReminders).sort()).toEqual(
             ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
 
-        expect(updatedPushNotifications.customStreakReminders.length).toEqual(3);
+        expect(updatedStreakReminders.customStreakReminders.length).toEqual(3);
 
-        const updatedSoloStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication => pushNotication.pushNotificationType === PushNotificationTypes.customSoloStreakReminder,
+        const updatedSoloStreak = updatedStreakReminders.customStreakReminders.find(
+            pushNotication => pushNotication.streakReminderType === StreakReminderTypes.customSoloStreakReminder,
         );
 
         if (
-            updatedSoloStreakPushNotification &&
-            updatedSoloStreakPushNotification.pushNotificationType === PushNotificationTypes.customSoloStreakReminder
+            updatedSoloStreak &&
+            updatedSoloStreak.streakReminderType === StreakReminderTypes.customSoloStreakReminder
         ) {
-            expect(updatedSoloStreakPushNotification.enabled).toEqual(updatedSoloStreakPushNotification.enabled);
-            expect(updatedSoloStreakPushNotification.reminderHour).toEqual(
-                updatedSoloStreakPushNotification.reminderHour,
-            );
-            expect(updatedSoloStreakPushNotification.reminderMinute).toEqual(
-                updatedSoloStreakPushNotification.reminderMinute,
-            );
-            expect(updatedSoloStreakPushNotification.pushNotificationType).toEqual(
-                PushNotificationTypes.customSoloStreakReminder,
-            );
-            expect(updatedSoloStreakPushNotification.expoId).toEqual(updatedSoloStreakPushNotification.expoId);
-            expect(updatedSoloStreakPushNotification.soloStreakId).toEqual(
-                customSoloStreakReminderPushNotification.soloStreakId,
-            );
-            expect(updatedSoloStreakPushNotification.soloStreakName).toEqual(
-                customSoloStreakReminderPushNotification.soloStreakName,
-            );
-            expect(Object.keys(updatedSoloStreakPushNotification).sort()).toEqual(
+            expect(updatedSoloStreak.enabled).toEqual(updatedSoloStreak.enabled);
+            expect(updatedSoloStreak.reminderHour).toEqual(updatedSoloStreak.reminderHour);
+            expect(updatedSoloStreak.reminderMinute).toEqual(updatedSoloStreak.reminderMinute);
+            expect(updatedSoloStreak.streakReminderType).toEqual(StreakReminderTypes.customSoloStreakReminder);
+            expect(updatedSoloStreak.expoId).toEqual(updatedSoloStreak.expoId);
+            expect(updatedSoloStreak.soloStreakId).toEqual(customSoloStreakReminder.soloStreakId);
+            expect(updatedSoloStreak.soloStreakName).toEqual(customSoloStreakReminder.soloStreakName);
+            expect(Object.keys(updatedSoloStreak).sort()).toEqual(
                 [
                     'enabled',
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'pushNotificationType',
+                    'streakReminderType',
                     'soloStreakName',
                     'soloStreakId',
                 ].sort(),
             );
         }
 
-        const updatedChallengeStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication =>
-                pushNotication.pushNotificationType === PushNotificationTypes.customChallengeStreakReminder,
+        const updatedChallengeStreak = updatedStreakReminders.customStreakReminders.find(
+            pushNotication => pushNotication.streakReminderType === StreakReminderTypes.customChallengeStreakReminder,
         );
 
         if (
-            updatedChallengeStreakPushNotification &&
-            updatedChallengeStreakPushNotification.pushNotificationType ===
-                PushNotificationTypes.customChallengeStreakReminder
+            updatedChallengeStreak &&
+            updatedChallengeStreak.streakReminderType === StreakReminderTypes.customChallengeStreakReminder
         ) {
-            expect(updatedChallengeStreakPushNotification.enabled).toEqual(
-                updatedChallengeStreakPushNotification.enabled,
+            expect(updatedChallengeStreak.enabled).toEqual(updatedChallengeStreak.enabled);
+            expect(updatedChallengeStreak.reminderHour).toEqual(updatedChallengeStreak.reminderHour);
+            expect(updatedChallengeStreak.reminderMinute).toEqual(updatedChallengeStreak.reminderMinute);
+            expect(updatedChallengeStreak.streakReminderType).toEqual(
+                StreakReminderTypes.customChallengeStreakReminder,
             );
-            expect(updatedChallengeStreakPushNotification.reminderHour).toEqual(
-                updatedChallengeStreakPushNotification.reminderHour,
-            );
-            expect(updatedChallengeStreakPushNotification.reminderMinute).toEqual(
-                updatedChallengeStreakPushNotification.reminderMinute,
-            );
-            expect(updatedChallengeStreakPushNotification.pushNotificationType).toEqual(
-                PushNotificationTypes.customChallengeStreakReminder,
-            );
-            expect(updatedChallengeStreakPushNotification.expoId).toEqual(
-                updatedChallengeStreakPushNotification.expoId,
-            );
-            expect(updatedChallengeStreakPushNotification.challengeStreakId).toEqual(
-                customChallengeStreakReminderPushNotification.challengeStreakId,
-            );
-            expect(updatedChallengeStreakPushNotification.challengeName).toEqual(
-                customChallengeStreakReminderPushNotification.challengeName,
-            );
-            expect(updatedChallengeStreakPushNotification.challengeId).toEqual(
-                customChallengeStreakReminderPushNotification.challengeId,
-            );
-            expect(Object.keys(updatedChallengeStreakPushNotification).sort()).toEqual(
+            expect(updatedChallengeStreak.expoId).toEqual(updatedChallengeStreak.expoId);
+            expect(updatedChallengeStreak.challengeStreakId).toEqual(customChallengeStreakReminder.challengeStreakId);
+            expect(updatedChallengeStreak.challengeName).toEqual(customChallengeStreakReminder.challengeName);
+            expect(updatedChallengeStreak.challengeId).toEqual(customChallengeStreakReminder.challengeId);
+            expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
                 [
                     'enabled',
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'pushNotificationType',
+                    'streakReminderType',
                     'challengeStreakId',
                     'challengeId',
                     'challengeName',
@@ -214,43 +186,28 @@ describe('PATCH /user/push-notifications', () => {
             );
         }
 
-        const updatedTeamMemberStreakPushNotification = updatedPushNotifications.customStreakReminders.find(
-            pushNotication => pushNotication.pushNotificationType === PushNotificationTypes.customTeamStreakReminder,
+        const updatedTeamMemberStreak = updatedStreakReminders.customStreakReminders.find(
+            pushNotication => pushNotication.streakReminderType === StreakReminderTypes.customTeamStreakReminder,
         );
 
         if (
-            updatedTeamMemberStreakPushNotification &&
-            updatedTeamMemberStreakPushNotification.pushNotificationType ===
-                PushNotificationTypes.customTeamStreakReminder
+            updatedTeamMemberStreak &&
+            updatedTeamMemberStreak.streakReminderType === StreakReminderTypes.customTeamStreakReminder
         ) {
-            expect(updatedTeamMemberStreakPushNotification.enabled).toEqual(
-                updatedTeamMemberStreakPushNotification.enabled,
-            );
-            expect(updatedTeamMemberStreakPushNotification.reminderHour).toEqual(
-                updatedTeamMemberStreakPushNotification.reminderHour,
-            );
-            expect(updatedTeamMemberStreakPushNotification.reminderMinute).toEqual(
-                updatedTeamMemberStreakPushNotification.reminderMinute,
-            );
-            expect(updatedTeamMemberStreakPushNotification.pushNotificationType).toEqual(
-                PushNotificationTypes.customTeamStreakReminder,
-            );
-            expect(updatedTeamMemberStreakPushNotification.expoId).toEqual(
-                updatedTeamMemberStreakPushNotification.expoId,
-            );
-            expect(updatedTeamMemberStreakPushNotification.teamStreakId).toEqual(
-                customTeamStreakReminderPushNotification.teamStreakId,
-            );
-            expect(updatedTeamMemberStreakPushNotification.teamStreakName).toEqual(
-                customTeamStreakReminderPushNotification.teamStreakName,
-            );
-            expect(Object.keys(updatedTeamMemberStreakPushNotification).sort()).toEqual(
+            expect(updatedTeamMemberStreak.enabled).toEqual(updatedTeamMemberStreak.enabled);
+            expect(updatedTeamMemberStreak.reminderHour).toEqual(updatedTeamMemberStreak.reminderHour);
+            expect(updatedTeamMemberStreak.reminderMinute).toEqual(updatedTeamMemberStreak.reminderMinute);
+            expect(updatedTeamMemberStreak.streakReminderType).toEqual(StreakReminderTypes.customTeamStreakReminder);
+            expect(updatedTeamMemberStreak.expoId).toEqual(updatedTeamMemberStreak.expoId);
+            expect(updatedTeamMemberStreak.teamStreakId).toEqual(customTeamStreakReminder.teamStreakId);
+            expect(updatedTeamMemberStreak.teamStreakName).toEqual(customTeamStreakReminder.teamStreakName);
+            expect(Object.keys(updatedTeamMemberStreak).sort()).toEqual(
                 [
                     'enabled',
                     'expoId',
                     'reminderHour',
                     'reminderMinute',
-                    'pushNotificationType',
+                    'streakReminderType',
                     'teamStreakId',
                     'teamStreakName',
                 ].sort(),
@@ -259,41 +216,41 @@ describe('PATCH /user/push-notifications', () => {
     });
 
     test(`that teaStreakUpdates can be disabled by themselves`, async () => {
-        const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
+        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
             teamStreakUpdates: {
                 enabled: false,
             },
         });
-        expect(Object.keys(updatedPushNotifications).sort()).toEqual(
+        expect(Object.keys(updatedStreakReminders).sort()).toEqual(
             ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
 
-        expect(updatedPushNotifications.teamStreakUpdates.enabled).toEqual(false);
+        expect(updatedStreakReminders.teamStreakUpdates.enabled).toEqual(false);
     });
 
     test(`that newFollowerUpdates can be disabled by themselves`, async () => {
-        const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
+        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
             newFollowerUpdates: {
                 enabled: false,
             },
         });
-        expect(Object.keys(updatedPushNotifications).sort()).toEqual(
+        expect(Object.keys(updatedStreakReminders).sort()).toEqual(
             ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
 
-        expect(updatedPushNotifications.newFollowerUpdates.enabled).toEqual(false);
+        expect(updatedStreakReminders.newFollowerUpdates.enabled).toEqual(false);
     });
 
     test(`that newFollowerUpdates can be disabled by themselves`, async () => {
-        const updatedPushNotifications = await streakoid.user.pushNotifications.updatePushNotifications({
+        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
             badgeUpdates: {
                 enabled: false,
             },
         });
-        expect(Object.keys(updatedPushNotifications).sort()).toEqual(
+        expect(Object.keys(updatedStreakReminders).sort()).toEqual(
             ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
         );
 
-        expect(updatedPushNotifications.badgeUpdates.enabled).toEqual(false);
+        expect(updatedStreakReminders.badgeUpdates.enabled).toEqual(false);
     });
 });
