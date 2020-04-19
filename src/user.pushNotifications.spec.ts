@@ -2,11 +2,11 @@ import { streakoidFactory, streakoidClient } from './streakoid';
 import UserPushNotifications from './models/UserPushNotifications';
 import PushNotificationTypes from './PushNotificationTypes';
 import {
-    CompleteAllStreaksReminder,
-    CustomStreakReminder,
-    CustomSoloStreakReminder,
-    CustomChallengeStreakReminder,
-    CustomTeamStreakReminder,
+    CompleteAllStreaksReminderPushNotification,
+    CustomStreakReminderPushNotification,
+    CustomSoloStreakReminderPushNotification,
+    CustomChallengeStreakReminderPushNotification,
+    CustomTeamStreakReminderPushNotification,
 } from './models/PushNotifications';
 jest.genMockFromModule('./streakoid');
 
@@ -21,14 +21,14 @@ describe('SDK users', () => {
         test('calls PATCH with correct URL and  parmaters', async () => {
             expect.assertions(1);
 
-            const completeAllStreaksReminder: CompleteAllStreaksReminder = {
+            const completeAllStreaksReminder: CompleteAllStreaksReminderPushNotification = {
                 pushNotificationType: PushNotificationTypes.completeAllStreaksReminder,
                 enabled: true,
                 expoId: 'expoId',
                 reminderHour: 10,
                 reminderMinute: 10,
             };
-            const customSoloStreakReminder: CustomSoloStreakReminder = {
+            const customSoloStreakReminder: CustomSoloStreakReminderPushNotification = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
@@ -37,7 +37,7 @@ describe('SDK users', () => {
                 soloStreakName: 'Reading',
                 pushNotificationType: PushNotificationTypes.customSoloStreakReminder,
             };
-            const customChallengeStreakReminder: CustomChallengeStreakReminder = {
+            const customChallengeStreakReminder: CustomChallengeStreakReminderPushNotification = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
@@ -47,7 +47,7 @@ describe('SDK users', () => {
                 challengeName: 'Reading',
                 pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
             };
-            const customTeamMemberStreakReminder: CustomTeamStreakReminder = {
+            const customTeamMemberStreakReminder: CustomTeamStreakReminderPushNotification = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
@@ -57,7 +57,7 @@ describe('SDK users', () => {
                 pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
             };
 
-            const customStreakReminders: CustomStreakReminder[] = [
+            const customStreakReminders: CustomStreakReminderPushNotification[] = [
                 customSoloStreakReminder,
                 customChallengeStreakReminder,
                 customTeamMemberStreakReminder,
