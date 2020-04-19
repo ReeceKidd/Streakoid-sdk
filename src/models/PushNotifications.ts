@@ -1,21 +1,24 @@
 import PushNotificationTypes from '../PushNotificationTypes';
 
 export type PushNotificationType =
-    | CustomStreakReminder
-    | CompleteAllStreaksReminder
-    | CompletedTeamStreakUpdate
-    | IncompletedTeamStreakUpdate
-    | AddedNoteToTeamStreak
-    | NewFollower;
+    | CustomStreakReminderPushNotifications
+    | CompleteAllStreaksReminderPushNotification
+    | CompletedTeamStreakUpdatePushNotification
+    | IncompletedTeamStreakUpdatePushNotification
+    | AddedNoteToTeamStreakPushNotification
+    | NewFollowerPushNotification;
 
-export type CustomStreakReminder = CustomSoloStreakReminder | CustomChallengeStreakReminder | CustomTeamStreakReminder;
+export type CustomStreakReminderPushNotifications =
+    | CustomSoloStreakReminderPushNotification
+    | CustomChallengeStreakReminderPushNotification
+    | CustomTeamStreakReminderPushNotification;
 
 export interface StreakReminder {
     enabled: boolean;
     expoId: string;
 }
 
-export interface CustomSoloStreakReminder extends StreakReminder {
+export interface CustomSoloStreakReminderPushNotification extends StreakReminder {
     pushNotificationType: PushNotificationTypes.customSoloStreakReminder;
     soloStreakId: string;
     soloStreakName: string;
@@ -23,7 +26,7 @@ export interface CustomSoloStreakReminder extends StreakReminder {
     reminderMinute: number;
 }
 
-export interface CustomChallengeStreakReminder extends StreakReminder {
+export interface CustomChallengeStreakReminderPushNotification extends StreakReminder {
     pushNotificationType: PushNotificationTypes.customChallengeStreakReminder;
     challengeStreakId: string;
     challengeId: string;
@@ -32,7 +35,7 @@ export interface CustomChallengeStreakReminder extends StreakReminder {
     reminderMinute: number;
 }
 
-export interface CustomTeamStreakReminder extends StreakReminder {
+export interface CustomTeamStreakReminderPushNotification extends StreakReminder {
     pushNotificationType: PushNotificationTypes.customTeamStreakReminder;
     teamStreakId: string;
     teamStreakName: string;
@@ -40,25 +43,25 @@ export interface CustomTeamStreakReminder extends StreakReminder {
     reminderMinute: number;
 }
 
-export interface CompleteAllStreaksReminder extends StreakReminder {
+export interface CompleteAllStreaksReminderPushNotification extends StreakReminder {
     pushNotificationType: PushNotificationTypes.completeAllStreaksReminder;
     reminderHour: number;
     reminderMinute: number;
 }
 
-export interface CompletedTeamStreakUpdate {
+export interface CompletedTeamStreakUpdatePushNotification {
     pushNotificationType: PushNotificationTypes.completedTeamStreakUpdate;
     teamStreakId: string;
     teamStreakName: string;
 }
 
-export interface IncompletedTeamStreakUpdate {
+export interface IncompletedTeamStreakUpdatePushNotification {
     pushNotificationType: PushNotificationTypes.incompletedTeamStreakUpdate;
     teamStreakId: string;
     teamStreakName: string;
 }
 
-export interface AddedNoteToTeamStreak {
+export interface AddedNoteToTeamStreakPushNotification {
     pushNotificationType: PushNotificationTypes.addedNoteToTeamStreak;
     userId: string;
     username: string;
@@ -67,7 +70,7 @@ export interface AddedNoteToTeamStreak {
     note: string;
 }
 
-export interface NewFollower {
+export interface NewFollowerPushNotification {
     pushNotificationType: PushNotificationTypes.newFollower;
     followerId: string;
     followerUsername: string;
