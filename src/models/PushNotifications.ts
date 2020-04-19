@@ -17,8 +17,6 @@ export interface CustomSoloStreakReminderPushNotification {
     pushNotificationType: PushNotificationTypes.customSoloStreakReminder;
     soloStreakId: string;
     soloStreakName: string;
-    reminderHour: number;
-    reminderMinute: number;
 }
 
 export interface CustomChallengeStreakReminderPushNotification {
@@ -26,16 +24,12 @@ export interface CustomChallengeStreakReminderPushNotification {
     challengeStreakId: string;
     challengeId: string;
     challengeName: string;
-    reminderHour: number;
-    reminderMinute: number;
 }
 
 export interface CustomTeamStreakReminderPushNotification {
     pushNotificationType: PushNotificationTypes.customTeamStreakReminder;
     teamStreakId: string;
     teamStreakName: string;
-    reminderHour: number;
-    reminderMinute: number;
 }
 
 export interface CompleteAllStreaksReminderPushNotification {
