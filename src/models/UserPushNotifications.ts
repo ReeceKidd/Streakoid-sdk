@@ -1,4 +1,4 @@
-import { CompleteAllStreaksReminderPushNotification, CustomStreakReminderPushNotification } from './PushNotifications';
+import { CustomStreakReminder, CompleteAllStreaksReminder } from './StreakReminders';
 
 interface UserPushNotifications {
     teamStreakUpdates: {
@@ -10,8 +10,8 @@ interface UserPushNotifications {
     badgeUpdates: {
         enabled: boolean;
     };
-    customStreakReminders: CustomStreakReminderPushNotification[];
-    completeAllStreaksReminder?: CompleteAllStreaksReminderPushNotification;
+    customStreakReminders: CustomStreakReminder[];
+    completeAllStreaksReminder?: CompleteAllStreaksReminder;
 }
 
 export default UserPushNotifications;

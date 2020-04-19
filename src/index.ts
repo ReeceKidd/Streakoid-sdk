@@ -49,6 +49,7 @@ import RouterCategories from './RouterCategories';
 import PaymentPlans from './PaymentPlans';
 import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 import PushNotificationTypes from './PushNotificationTypes';
+import StreakReminderTypes from './StreakReminderTypes';
 
 export {
     streakoidClientFactory,
@@ -100,4 +101,5 @@ export {
     ActivityFeedItemTypes,
     UserPushNotifications,
     PushNotificationTypes,
+    StreakReminderTypes,
 };

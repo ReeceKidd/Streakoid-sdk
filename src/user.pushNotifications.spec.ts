@@ -1,13 +1,13 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import UserPushNotifications from './models/UserPushNotifications';
-import PushNotificationTypes from './PushNotificationTypes';
+import StreakReminderTypes from './StreakReminderTypes';
 import {
-    CompleteAllStreaksReminderPushNotification,
-    CustomStreakReminderPushNotification,
-    CustomSoloStreakReminderPushNotification,
-    CustomChallengeStreakReminderPushNotification,
-    CustomTeamStreakReminderPushNotification,
-} from './models/PushNotifications';
+    CompleteAllStreaksReminder,
+    CustomSoloStreakReminder,
+    CustomTeamStreakReminder,
+    CustomChallengeStreakReminder,
+    CustomStreakReminder,
+} from './models/StreakReminders';
 jest.genMockFromModule('./streakoid');
 
 describe('SDK users', () => {
@@ -21,23 +21,23 @@ describe('SDK users', () => {
         test('calls PATCH with correct URL and  parmaters', async () => {
             expect.assertions(1);
 
-            const completeAllStreaksReminder: CompleteAllStreaksReminderPushNotification = {
-                pushNotificationType: PushNotificationTypes.completeAllStreaksReminder,
+            const completeAllStreaksReminder: CompleteAllStreaksReminder = {
+                streakReminderType: StreakReminderTypes.completeAllStreaksReminder,
                 enabled: true,
                 expoId: 'expoId',
                 reminderHour: 10,
                 reminderMinute: 10,
             };
-            const customSoloStreakReminder: CustomSoloStreakReminderPushNotification = {
+            const customSoloStreakReminder: CustomSoloStreakReminder = {
+                streakReminderType: StreakReminderTypes.customSoloStreakReminder,
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
                 reminderMinute: 5,
                 soloStreakId: 'soloStreakId',
                 soloStreakName: 'Reading',
-                pushNotificationType: PushNotificationTypes.customSoloStreakReminder,
             };
-            const customChallengeStreakReminder: CustomChallengeStreakReminderPushNotification = {
+            const customChallengeStreakReminder: CustomChallengeStreakReminder = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
@@ -45,19 +45,19 @@ describe('SDK users', () => {
                 challengeStreakId: 'challengeStreakId',
                 challengeId: 'challengeId',
                 challengeName: 'Reading',
-                pushNotificationType: PushNotificationTypes.customChallengeStreakReminder,
+                streakReminderType: StreakReminderTypes.customChallengeStreakReminder,
             };
-            const customTeamMemberStreakReminder: CustomTeamStreakReminderPushNotification = {
+            const customTeamMemberStreakReminder: CustomTeamStreakReminder = {
                 expoId: 'expoId',
                 enabled: true,
                 reminderHour: 10,
                 reminderMinute: 5,
                 teamStreakId: 'challengeId',
                 teamStreakName: 'Reading',
-                pushNotificationType: PushNotificationTypes.customTeamStreakReminder,
+                streakReminderType: StreakReminderTypes.customTeamStreakReminder,
             };
 
-            const customStreakReminders: CustomStreakReminderPushNotification[] = [
+            const customStreakReminders: CustomStreakReminder[] = [
                 customSoloStreakReminder,
                 customChallengeStreakReminder,
                 customTeamMemberStreakReminder,

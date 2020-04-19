@@ -3,10 +3,7 @@ import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import UserPushNotifications from './models/UserPushNotifications';
-import {
-    CompleteAllStreaksReminderPushNotification,
-    CustomStreakReminderPushNotification,
-} from './models/PushNotifications';
+import { CompleteAllStreaksReminder, CustomStreakReminder } from './models/StreakReminders';
 
 const pushNotifications = (streakoidClient: AxiosInstance) => {
     const updatePushNotifications = async ({
@@ -16,8 +13,8 @@ const pushNotifications = (streakoidClient: AxiosInstance) => {
         newFollowerUpdates,
         badgeUpdates,
     }: {
-        completeAllStreaksReminder?: CompleteAllStreaksReminderPushNotification;
-        customStreakReminders?: CustomStreakReminderPushNotification[];
+        completeAllStreaksReminder?: CompleteAllStreaksReminder;
+        customStreakReminders?: CustomStreakReminder[];
         teamStreakUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
         badgeUpdates?: { enabled: boolean };
