@@ -72,7 +72,6 @@ describe('PATCH /user/push-notifications', () => {
                     'completeAllStreaksReminder',
                     'newFollowerUpdates',
                     'teamStreakUpdates',
-                    'badgeUpdates',
                     'customStreakReminders',
                 ].sort(),
             );
@@ -121,7 +120,7 @@ describe('PATCH /user/push-notifications', () => {
         });
 
         expect(Object.keys(updatedStreakReminders).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
         );
 
         expect(updatedStreakReminders.customStreakReminders.length).toEqual(3);
@@ -222,7 +221,7 @@ describe('PATCH /user/push-notifications', () => {
             },
         });
         expect(Object.keys(updatedStreakReminders).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
         );
 
         expect(updatedStreakReminders.teamStreakUpdates.enabled).toEqual(false);
@@ -235,22 +234,9 @@ describe('PATCH /user/push-notifications', () => {
             },
         });
         expect(Object.keys(updatedStreakReminders).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
         );
 
         expect(updatedStreakReminders.newFollowerUpdates.enabled).toEqual(false);
-    });
-
-    test(`that newFollowerUpdates can be disabled by themselves`, async () => {
-        const updatedStreakReminders = await streakoid.user.pushNotifications.updatePushNotifications({
-            badgeUpdates: {
-                enabled: false,
-            },
-        });
-        expect(Object.keys(updatedStreakReminders).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
-        );
-
-        expect(updatedStreakReminders.badgeUpdates.enabled).toEqual(false);
     });
 });

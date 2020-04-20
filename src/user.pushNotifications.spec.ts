@@ -69,9 +69,6 @@ describe('SDK users', () => {
                 teamStreakUpdates: {
                     enabled: true,
                 },
-                badgeUpdates: {
-                    enabled: true,
-                },
                 newFollowerUpdates: {
                     enabled: true,
                 },

@@ -61,14 +61,12 @@ describe('PATCH /user', () => {
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(updatedUser.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
         );
         expect(Object.keys(updatedUser.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(updatedUser.pushNotifications.newFollowerUpdates.enabled).toEqual(expect.any(Boolean));
         expect(Object.keys(updatedUser.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
         expect(updatedUser.pushNotifications.teamStreakUpdates.enabled).toEqual(expect.any(Boolean));
-        expect(Object.keys(updatedUser.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
-        expect(updatedUser.pushNotifications.badgeUpdates.enabled).toEqual(expect.any(Boolean));
         expect(updatedUser.pushNotifications.customStreakReminders).toEqual([]);
         expect(updatedUser.timezone).toEqual(updatedTimezone);
         expect(updatedUser.profileImages).toEqual({

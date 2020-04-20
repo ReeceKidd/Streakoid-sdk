@@ -49,14 +49,12 @@ describe('POST /users', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'badgeUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
         );
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.teamStreakUpdates.enabled).toEqual(true);
-        expect(Object.keys(user.pushNotifications.badgeUpdates).sort()).toEqual(['enabled']);
-        expect(user.pushNotifications.badgeUpdates.enabled).toEqual(true);
         expect(user.pushNotifications.customStreakReminders).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
