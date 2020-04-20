@@ -23,7 +23,6 @@ import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 import PopulatedUser from './models/PopulatedUser';
 import TeamStreak from './models/TeamStreak';
 import PopulatedTeamStreak from './models/PopulatedTeamStreak';
-import Badge from './models/Badge';
 import DailyJob from './models/DailyJob';
 import Email from './models/Email';
 import ProfileImages from './models/ProfileImages';
@@ -43,7 +42,6 @@ import SupportedResponseHeaders from './SupportedResponseHeaders';
 import StreakTypes from './StreakTypes';
 import StreakTrackingEventTypes from './StreakTrackingEventTypes';
 import AgendaJobNames from './AgendaJobNames';
-import BadgeTypes from './BadgeTypes';
 import StreakStatus from './StreakStatus';
 import RouterCategories from './RouterCategories';
 import PaymentPlans from './PaymentPlans';
@@ -80,7 +78,6 @@ export {
     PopulatedUser,
     TeamStreak,
     PopulatedTeamStreak,
-    Badge,
     ChallengeStreak,
     Challenge,
     ChallengeMember,
@@ -90,7 +87,6 @@ export {
     StreakTypes,
     StreakTrackingEventTypes,
     AgendaJobNames,
-    BadgeTypes,
     DailyJob,
     StreakStatus,
     RouterCategories,

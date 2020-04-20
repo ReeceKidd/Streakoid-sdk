@@ -2,7 +2,6 @@ import ApiVersions from './ApiVersions';
 import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
 import Challenge from './models/Challenge';
-import { Badge } from '.';
 import PopulatedChallenge from './models/PopulatedChallenge';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -51,7 +50,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
         numberOfMinutes?: number;
         whatsappGroupLink?: string;
         discordGroupLink?: string;
-    }): Promise<{ badge: Badge; challenge: Challenge }> => {
+    }): Promise<{ challenge: Challenge }> => {
         try {
             const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.challenges}`, {
                 name,

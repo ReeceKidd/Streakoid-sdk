@@ -89,66 +89,6 @@ describe('GET /user', () => {
         );
     });
 
-    test(`if current user has a badge on their profile it returns a populated badge`, async () => {
-        expect.assertions(10);
-
-        // Adds user to challenge streak so they get a badge on their profile
-        const name = 'Duolingo';
-        const description = 'Everyday I must complete a duolingo lesson';
-        const icon = 'duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
-        const { challenge } = await streakoid.challenges.create({
-            name,
-            description,
-            icon,
-            color,
-            levels,
-        });
-        const challengeId = challenge._id;
-        await streakoid.challengeStreaks.create({
-            userId,
-            challengeId,
-        });
-
-        const user = await streakoid.user.getCurrentUser();
-
-        expect(user.badges.length).toEqual(1);
-        const badge = user.badges[0];
-
-        expect(badge._id).toEqual(expect.any(String));
-        expect(badge.name).toEqual(name);
-        expect(badge.description).toEqual(description);
-        expect(badge.icon).toEqual(icon);
-        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
-        expect(badge.createdAt).toEqual(expect.any(String));
-        expect(badge.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(badge).sort()).toEqual(
-            ['_id', 'name', 'description', 'icon', 'badgeType', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
-
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'badges',
-                'followers',
-                'friends',
-                'following',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotificationToken',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
-    });
-
     test(`if current user is following a user it returns the a populated following list`, async () => {
         expect.assertions(5);
 

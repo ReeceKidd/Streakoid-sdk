@@ -45,7 +45,7 @@ describe('POST /challenge-streaks', () => {
         }
     });
 
-    test(`creates challenge streak, adds user to challenge members, and adds badge to users profile.`, async () => {
+    test(`creates challenge streak, adds user to challenge members.`, async () => {
         expect.assertions(30);
 
         const challengeStreak = await streakoid.challengeStreaks.create({

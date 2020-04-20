@@ -25,7 +25,7 @@ describe('POST /challenges', () => {
         }
     });
 
-    test(`creates a challenge with a badge with minimum paramaters`, async () => {
+    test(`creates a challenge with with minimum paramaters`, async () => {
         expect.assertions(22);
 
         const name = 'Duolingo';
@@ -34,7 +34,7 @@ describe('POST /challenges', () => {
         const color = 'blue';
         const levels = [{ level: 0, criteria: 'criteria' }];
 
-        const { challenge, badge } = await streakoid.challenges.create({
+        const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
@@ -72,20 +72,9 @@ describe('POST /challenges', () => {
                 '__v',
             ].sort(),
         );
-
-        expect(badge._id).toEqual(expect.any(String));
-        expect(badge.name).toEqual(name);
-        expect(badge.description).toEqual(description);
-        expect(badge.icon).toEqual(icon);
-        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
-        expect(badge.createdAt).toEqual(expect.any(String));
-        expect(badge.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(badge).sort()).toEqual(
-            ['_id', 'name', 'description', 'badgeType', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
-        );
     });
 
-    test(`creates a challenge and badge with maximum paramaters`, async () => {
+    test(`creates a challenge with maximum paramaters`, async () => {
         expect.assertions(25);
 
         const name = 'Duolingo';
@@ -97,7 +86,7 @@ describe('POST /challenges', () => {
         const whatsappGroupLink = 'whatsapp.com/chat';
         const discordGroupLink = ' discordGroupLink';
 
-        const { challenge, badge } = await streakoid.challenges.create({
+        const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
@@ -143,17 +132,6 @@ describe('POST /challenges', () => {
                 'updatedAt',
                 '__v',
             ].sort(),
-        );
-
-        expect(badge._id).toEqual(expect.any(String));
-        expect(badge.name).toEqual(name);
-        expect(badge.description).toEqual(description);
-        expect(badge.icon).toEqual(icon);
-        expect(badge.badgeType).toEqual(BadgeTypes.challenge);
-        expect(badge.createdAt).toEqual(expect.any(String));
-        expect(badge.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(badge).sort()).toEqual(
-            ['_id', 'name', 'description', 'badgeType', 'icon', 'createdAt', 'updatedAt', '__v'].sort(),
         );
     });
 });

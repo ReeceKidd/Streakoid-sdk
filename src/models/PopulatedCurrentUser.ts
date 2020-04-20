@@ -1,7 +1,6 @@
 import ProfileImages from './ProfileImages';
 import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
-import Badge from './Badge';
 import Friend from './Friend';
 import BasicUser from './BasicUser';
 import { UserPushNotifications } from '..';
@@ -17,7 +16,6 @@ interface PopulatedCurrentUser {
     email: string;
     userType: UserTypes;
     timezone: string;
-    badges: Badge[];
     following: BasicUser[];
     followers: BasicUser[];
     friends: Friend[];

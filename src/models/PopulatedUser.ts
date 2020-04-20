@@ -1,7 +1,6 @@
 import UserTypes from '../userTypes';
 import BasicUser from './BasicUser';
 import ProfileImages from './ProfileImages';
-import { Badge } from '..';
 import Friend from './Friend';
 
 interface PopulatedUser {
@@ -13,7 +12,6 @@ interface PopulatedUser {
     friends: Friend[];
     followers: BasicUser[];
     following: BasicUser[];
-    badges: Badge[];
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
