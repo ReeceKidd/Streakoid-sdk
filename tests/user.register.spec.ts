@@ -42,7 +42,6 @@ describe('POST /users', () => {
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
-        expect(user.badges).toEqual([]);
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.friends).toEqual([]);
@@ -73,7 +72,6 @@ describe('POST /users', () => {
                 'createdAt',
                 'email',
                 'membershipInformation',
-                'badges',
                 'followers',
                 'following',
                 'friends',

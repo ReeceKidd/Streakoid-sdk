@@ -38,7 +38,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -53,7 +52,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -76,7 +74,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -91,7 +88,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -113,7 +109,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -128,7 +123,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -151,7 +145,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -166,7 +159,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -188,7 +180,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -203,7 +194,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -228,7 +218,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -243,7 +232,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -268,7 +256,6 @@ describe('GET /users', () => {
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.isPayingMember).toEqual(true);
         expect(user.friends).toEqual(expect.any(Array));
-        expect(user.badges).toEqual(expect.any(Array));
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
@@ -283,7 +270,6 @@ describe('GET /users', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',

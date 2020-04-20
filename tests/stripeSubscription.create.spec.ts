@@ -54,7 +54,6 @@ describe('POST /stripe-subscription', () => {
         });
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
-        expect(user.badges).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);
@@ -69,7 +68,6 @@ describe('POST /stripe-subscription', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -93,7 +91,6 @@ describe('POST /stripe-subscription', () => {
             'pastMemberships',
         ]);
         expect(databaseUser.followers).toEqual([]);
-        expect(databaseUser.badges).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
         expect(databaseUser.email).toEqual(email);
@@ -101,7 +98,6 @@ describe('POST /stripe-subscription', () => {
         expect(databaseUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.hasCompletedIntroduction).toEqual(false);
         expect(databaseUser.createdAt).toBeDefined();
@@ -113,7 +109,6 @@ describe('POST /stripe-subscription', () => {
                 'friends',
                 'following',
                 'followers',
-                'badges',
                 'membershipInformation',
                 '_id',
                 'username',
@@ -139,7 +134,6 @@ describe('POST /stripe-subscription', () => {
         });
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.friends).toEqual([]);
-        expect(user.badges).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);
@@ -154,7 +148,6 @@ describe('POST /stripe-subscription', () => {
                 'userType',
                 'isPayingMember',
                 'friends',
-                'badges',
                 '_id',
                 'username',
                 'timezone',
@@ -178,7 +171,6 @@ describe('POST /stripe-subscription', () => {
             'pastMemberships',
         ]);
         expect(databaseUser.followers).toEqual([]);
-        expect(databaseUser.badges).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
         expect(databaseUser.email).toEqual(email);
@@ -186,7 +178,6 @@ describe('POST /stripe-subscription', () => {
         expect(databaseUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(databaseUser.badges).toEqual([]);
         expect(databaseUser.pushNotificationToken).toBeNull();
         expect(databaseUser.hasCompletedIntroduction).toEqual(false);
         expect(databaseUser.createdAt).toBeDefined();
@@ -198,7 +189,6 @@ describe('POST /stripe-subscription', () => {
                 'followers',
                 'following',
                 'friends',
-                'badges',
                 'membershipInformation',
                 '_id',
                 'username',

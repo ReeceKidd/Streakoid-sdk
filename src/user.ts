@@ -22,7 +22,6 @@ const user = (streakoidClient: AxiosInstance) => {
             email?: string;
             timezone?: string;
             pushNotificationToken?: string;
-            badges?: string[];
             hasCompletedIntroduction?: boolean;
         };
     }): Promise<PopulatedCurrentUser> => {

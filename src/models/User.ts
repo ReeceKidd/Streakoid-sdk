@@ -18,7 +18,6 @@ interface User {
     followers: string[];
     following: string[];
     friends: Friend[];
-    badges: string[];
     stripe: {
         customer: string;
         subscription: string;

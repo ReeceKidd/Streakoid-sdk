@@ -9,7 +9,6 @@ interface FormattedUser {
     userType: UserTypes;
     timezone: string;
     friends: Friend[];
-    badges: string[];
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
