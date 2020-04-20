@@ -3,9 +3,6 @@ interface Challenge {
     name: string;
     description: string;
     icon: string;
-    color: string;
-    badgeId: string;
-    levels: { _id: string; level: number; badgeId: string; criteria: string }[];
     members: string[];
     numberOfMembers: number;
     createdAt: string;

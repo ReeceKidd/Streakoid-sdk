@@ -12,8 +12,6 @@ describe('GET /streak-recommendations', () => {
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
-    const color = 'blue';
-    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -24,8 +22,6 @@ describe('GET /streak-recommendations', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
             });
         }
     });
@@ -47,15 +43,8 @@ describe('GET /streak-recommendations', () => {
         expect(streakRecommendation.name).toEqual(name);
         expect(streakRecommendation.description).toEqual(description);
         expect(streakRecommendation.icon).toEqual(icon);
-        expect(streakRecommendation.color).toEqual(color);
-        expect(streakRecommendation.badgeId).toBeDefined();
         expect(streakRecommendation.members).toEqual([]);
         expect(streakRecommendation.numberOfMembers).toEqual(0);
-        expect(streakRecommendation.levels.length).toEqual(1);
-        const level = streakRecommendation.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
-        expect(level.level).toEqual(0);
-        expect(level.criteria).toEqual('criteria');
         expect(streakRecommendation.createdAt).toEqual(expect.any(String));
         expect(streakRecommendation.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakRecommendation).sort()).toEqual(
@@ -65,7 +54,6 @@ describe('GET /streak-recommendations', () => {
                 'description',
                 'icon',
                 'color',
-                'badgeId',
                 'levels',
                 'members',
                 'numberOfMembers',
@@ -87,15 +75,8 @@ describe('GET /streak-recommendations', () => {
         expect(streakRecommendation.name).toEqual(name);
         expect(streakRecommendation.description).toEqual(description);
         expect(streakRecommendation.icon).toEqual(icon);
-        expect(streakRecommendation.color).toEqual(color);
-        expect(streakRecommendation.badgeId).toBeDefined();
         expect(streakRecommendation.members).toEqual([]);
         expect(streakRecommendation.numberOfMembers).toEqual(0);
-        expect(streakRecommendation.levels.length).toEqual(1);
-        const level = streakRecommendation.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
-        expect(level.level).toEqual(0);
-        expect(level.criteria).toEqual('criteria');
         expect(streakRecommendation.createdAt).toEqual(expect.any(String));
         expect(streakRecommendation.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(streakRecommendation).sort()).toEqual(
@@ -105,7 +86,6 @@ describe('GET /streak-recommendations', () => {
                 'description',
                 'icon',
                 'color',
-                'badgeId',
                 'levels',
                 'members',
                 'numberOfMembers',

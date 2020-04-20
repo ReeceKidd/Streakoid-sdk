@@ -7,7 +7,6 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { BadgeTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -45,7 +44,6 @@ describe('GET /user', () => {
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.friends).toEqual([]);
-        expect(user.badges).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();

@@ -12,8 +12,6 @@ describe('GET /challenges', () => {
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
-    const color = 'blue';
-    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -24,8 +22,6 @@ describe('GET /challenges', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
             });
         }
     });
@@ -46,15 +42,8 @@ describe('GET /challenges', () => {
         expect(challenge.name).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
-        expect(challenge.color).toEqual(color);
-        expect(challenge.badgeId).toBeDefined();
         expect(challenge.members).toEqual([]);
         expect(challenge.numberOfMembers).toEqual(0);
-        expect(challenge.levels.length).toEqual(1);
-        const level = challenge.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
-        expect(level.level).toEqual(0);
-        expect(level.criteria).toEqual('criteria');
         expect(challenge.createdAt).toEqual(expect.any(String));
         expect(challenge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(challenge).sort()).toEqual(
@@ -64,7 +53,6 @@ describe('GET /challenges', () => {
                 'description',
                 'icon',
                 'color',
-                'badgeId',
                 'levels',
                 'members',
                 'numberOfMembers',
@@ -85,15 +73,8 @@ describe('GET /challenges', () => {
         expect(challenge.name).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
-        expect(challenge.color).toEqual(color);
-        expect(challenge.badgeId).toBeDefined();
         expect(challenge.members).toEqual([]);
         expect(challenge.numberOfMembers).toEqual(0);
-        expect(challenge.levels.length).toEqual(1);
-        const level = challenge.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
-        expect(level.level).toEqual(0);
-        expect(level.criteria).toEqual('criteria');
         expect(challenge.createdAt).toEqual(expect.any(String));
         expect(challenge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(challenge).sort()).toEqual(
@@ -102,9 +83,6 @@ describe('GET /challenges', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'badgeId',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',

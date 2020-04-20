@@ -36,17 +36,13 @@ const challenges = (streakoidClient: AxiosInstance) => {
         name,
         description,
         icon,
-        color,
         numberOfMinutes,
-        levels,
         whatsappGroupLink,
         discordGroupLink,
     }: {
         name: string;
         description: string;
         icon: string;
-        color: string;
-        levels: { level: number; criteria: string }[];
         numberOfMinutes?: number;
         whatsappGroupLink?: string;
         discordGroupLink?: string;
@@ -56,8 +52,6 @@ const challenges = (streakoidClient: AxiosInstance) => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
                 numberOfMinutes,
                 whatsappGroupLink,
                 discordGroupLink,

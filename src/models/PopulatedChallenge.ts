@@ -5,9 +5,6 @@ interface PopulatedChallenge {
     name: string;
     description: string;
     icon: string;
-    color: string;
-    badgeId: string;
-    levels: { _id: string; level: number; badgeId: string; criteria: string }[];
     members: ChallengeMember[];
     numberOfMembers: number;
     createdAt: string;

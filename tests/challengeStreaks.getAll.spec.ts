@@ -33,16 +33,12 @@ describe('GET /challenge-streaks', () => {
         expect.assertions(13);
 
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
         await streakoid.challengeStreaks.create({
@@ -78,7 +74,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -91,16 +86,12 @@ describe('GET /challenge-streaks', () => {
         expect.assertions(14);
 
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
 
@@ -153,7 +144,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -165,16 +155,12 @@ describe('GET /challenge-streaks', () => {
     test('completed challenge streaks can be retreived', async () => {
         expect.assertions(14);
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
 
@@ -218,7 +204,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -231,16 +216,12 @@ describe('GET /challenge-streaks', () => {
         expect.assertions(12);
 
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
         const secondChallengeStreak = await streakoid.challengeStreaks.create({
@@ -281,7 +262,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -294,16 +274,12 @@ describe('GET /challenge-streaks', () => {
         expect.assertions(12);
 
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
 
@@ -345,7 +321,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -358,16 +333,12 @@ describe('GET /challenge-streaks', () => {
         expect.assertions(14);
 
         const name = 'Duolingo';
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
-            color,
-            levels,
         });
         challengeId = challenge._id;
 
@@ -400,7 +371,6 @@ describe('GET /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',

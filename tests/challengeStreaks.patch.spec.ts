@@ -15,8 +15,6 @@ describe('PATCH /challenge-streaks', () => {
     let username: string;
     let userProfileImage: string;
     let challengeStreakId: string;
-    const color = 'blue';
-    const levels = [{ level: 0, criteria: 'criteria' }];
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
@@ -45,8 +43,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -84,7 +80,6 @@ describe('PATCH /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -100,8 +95,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -137,7 +130,6 @@ describe('PATCH /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -158,8 +150,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -222,8 +212,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -278,8 +266,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -341,8 +327,6 @@ describe('PATCH /challenge-streaks', () => {
             name,
             description,
             icon,
-            color,
-            levels,
         });
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,

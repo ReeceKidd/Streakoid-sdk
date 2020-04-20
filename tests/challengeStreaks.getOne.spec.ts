@@ -12,8 +12,6 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
     let challengeStreakId: string;
-    const color = 'blue';
-    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -28,8 +26,6 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
             });
             const challengeStreak = await streakoid.challengeStreaks.create({
                 userId,
@@ -72,7 +68,6 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
                 'pastStreaks',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',

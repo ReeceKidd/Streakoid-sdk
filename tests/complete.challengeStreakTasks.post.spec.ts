@@ -36,12 +36,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('user can complete a challenge streak task with a new current streak', async () => {
             expect.assertions(22);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
             const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
             const challengeStreakId = challengeStreak._id;
@@ -76,7 +74,6 @@ describe('GET /complete-challenge-streak-tasks', () => {
             expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
             expect(updatedChallengeStreak.userId).toBeDefined();
             expect(updatedChallengeStreak.challengeId).toBeDefined();
-            expect(updatedChallengeStreak.badgeId).toBeDefined();
             expect(updatedChallengeStreak._id).toBeDefined();
             expect(Object.keys(updatedChallengeStreak.currentStreak).sort()).toEqual(
                 ['numberOfDaysInARow', 'startDate'].sort(),
@@ -98,7 +95,6 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
-                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -110,12 +106,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('user can complete a challenge streak task with an exsiting current streak', async () => {
             expect.assertions(20);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
 
             const newChallengeStreak = await streakoid.challengeStreaks.create({
@@ -187,7 +181,6 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     'pastStreaks',
                     '_id',
                     'userId',
-                    'badgeId',
                     'challengeId',
                     'timezone',
                     'createdAt',
@@ -200,12 +193,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('user can complete, incomplete and recomplete a challenge streak with a new current streak', async () => {
             expect.assertions(20);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
 
             const challengeStreakForRecompletion = await streakoid.challengeStreaks.create({
@@ -275,7 +266,6 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
-                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -287,12 +277,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('user can complete, incomplete and recomplete a challenge streak with an exsiting current streak', async () => {
             expect.assertions(21);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
 
             const newChallengeStreak = await streakoid.challengeStreaks.create({
@@ -376,7 +364,6 @@ describe('GET /complete-challenge-streak-tasks', () => {
                     '_id',
                     'userId',
                     'challengeId',
-                    'badgeId',
                     'timezone',
                     'createdAt',
                     'updatedAt',
@@ -388,12 +375,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('user cannot complete the same challenge streak task in the same day', async () => {
             expect.assertions(3);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
 
             const secondChallengeStreak = await streakoid.challengeStreaks.create({
@@ -420,12 +405,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         test('when user completes a task a CompletedChallengeStreakActivityItem is created', async () => {
             expect.assertions(7);
 
-            const color = 'blue';
-            const levels = [{ level: 0, criteria: 'criteria' }];
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
             const challengeId = challenge._id;
 
             const challengeStreak = await streakoid.challengeStreaks.create({

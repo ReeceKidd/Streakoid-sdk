@@ -6,7 +6,6 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { BadgeTypes } from '../src';
 import { getFriend } from './setup/getFriend';
 
 const updatedEmail = 'email@gmail.com';
@@ -56,7 +55,6 @@ describe('PATCH /user', () => {
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
         );
-        expect(updatedUser.badges).toEqual([]);
         expect(updatedUser.followers).toEqual([]);
         expect(updatedUser.following).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);

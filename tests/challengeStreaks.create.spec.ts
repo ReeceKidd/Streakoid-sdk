@@ -17,8 +17,6 @@ describe('POST /challenge-streaks', () => {
     const name = 'Duolingo';
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
-    const color = 'blue';
-    const levels = [{ level: 0, criteria: 'criteria' }];
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
@@ -32,8 +30,6 @@ describe('POST /challenge-streaks', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
             });
             challengeId = challenge._id;
         }
@@ -57,7 +53,6 @@ describe('POST /challenge-streaks', () => {
         expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.userId).toBeDefined();
         expect(challengeStreak.challengeId).toBeDefined();
-        expect(challengeStreak.badgeId).toBeDefined();
         expect(Object.keys(challengeStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
         expect(challengeStreak.completedToday).toEqual(false);
@@ -75,7 +70,6 @@ describe('POST /challenge-streaks', () => {
                 '_id',
                 'userId',
                 'challengeId',
-                'badgeId',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -89,17 +83,10 @@ describe('POST /challenge-streaks', () => {
         expect(updatedChallenge.name).toEqual(name);
         expect(updatedChallenge.description).toEqual(description);
         expect(updatedChallenge.icon).toEqual(icon);
-        expect(updatedChallenge.color).toEqual(color);
-        expect(updatedChallenge.badgeId).toBeDefined();
         expect(updatedChallenge.members.length).toEqual(1);
         const challengeMember = updatedChallenge.members[0];
         expect(Object.keys(challengeMember).sort()).toEqual(['profileImage', 'userId', 'username'].sort());
         expect(updatedChallenge.numberOfMembers).toEqual(1);
-        expect(updatedChallenge.levels.length).toEqual(1);
-        const level = updatedChallenge.levels[0];
-        expect(Object.keys(level).sort()).toEqual(['_id', 'level', 'criteria'].sort());
-        expect(level.level).toEqual(0);
-        expect(level.criteria).toEqual('criteria');
         expect(updatedChallenge.createdAt).toEqual(expect.any(String));
         expect(updatedChallenge.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedChallenge).sort()).toEqual(
@@ -109,7 +96,6 @@ describe('POST /challenge-streaks', () => {
                 'description',
                 'icon',
                 'color',
-                'badgeId',
                 'levels',
                 'members',
                 'numberOfMembers',
@@ -118,21 +104,15 @@ describe('POST /challenge-streaks', () => {
                 '__v',
             ].sort(),
         );
-
-        const updatedUser = await streakoid.users.getOne(userId);
-
-        expect(updatedUser.badges).toEqual([expect.any(Object)]);
     });
 
     test('when user joins a challenge a JoinedChallengeActivityItem is created', async () => {
         expect.assertions(7);
 
-        const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
-        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const { challenge } = await streakoid.challenges.create({ name, description, icon });
         const challengeId = challenge._id;
 
         const challengeStreak = await streakoid.challengeStreaks.create({

@@ -53,8 +53,6 @@ describe('SDK challenges', () => {
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
-            const color = 'color';
-            const levels = [{ level: 1, criteria: 'criteria' }];
             const whatsappGroupLink = 'https://whatsapp.com';
             const discordGroupLink = 'dicord.com/chat';
 
@@ -62,8 +60,6 @@ describe('SDK challenges', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
                 whatsappGroupLink,
                 discordGroupLink,
             });
@@ -72,8 +68,6 @@ describe('SDK challenges', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
                 whatsappGroupLink,
                 discordGroupLink,
             });
@@ -86,16 +80,12 @@ describe('SDK challenges', () => {
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
-            const color = 'color';
-            const levels = [{ level: 1, criteria: 'criteria' }];
             const numberOfMinutes = 30;
 
             await streakoid.challenges.create({
                 name,
                 description,
                 icon,
-                color,
-                levels,
                 numberOfMinutes,
             });
 
@@ -103,8 +93,6 @@ describe('SDK challenges', () => {
                 name,
                 description,
                 icon,
-                color,
-                levels,
                 numberOfMinutes,
             });
         });
