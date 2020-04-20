@@ -1,16 +1,19 @@
 import { StreakoidFactory } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { getPayingUser } from './setup/getPayingUser';
+import { getFriend } from './setup/getFriend';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus, ActivityFeedItemTypes } from '../src';
+import { StreakStatus, ActivityFeedItemTypes, StreakReminderTypes } from '../src';
+import { CustomTeamStreakReminder, CustomStreakReminder } from '../src/models/StreakReminders';
 
 jest.setTimeout(120000);
 
 describe('PATCH /teamStreaks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
+    let friendId: string;
     let username: string;
     let userProfileImage: string;
     const streakName = 'Daily Spanish';
@@ -20,6 +23,8 @@ describe('PATCH /teamStreaks', () => {
             await setUpDatabase();
             const user = await getPayingUser();
             userId = user._id;
+            const friend = await getFriend();
+            friendId = friend._id;
             username = user.username;
             userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
@@ -103,6 +108,63 @@ describe('PATCH /teamStreaks', () => {
 
         const member = members[0];
         expect(Object.keys(member).sort()).toEqual(['memberId'].sort());
+    });
+
+    test(`when team streak is archived disables customTeamStreak reminders for all members`, async () => {
+        expect.assertions(2);
+
+        const members = [{ memberId: userId }, { memberId: friendId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const userCustomTeamStreakReminder: CustomTeamStreakReminder = {
+            enabled: true,
+            expoId: 'expoId',
+            reminderHour: 21,
+            reminderMinute: 0,
+            teamStreakId: teamStreak._id,
+            teamStreakName: teamStreak.streakName,
+            streakReminderType: StreakReminderTypes.customTeamStreakReminder,
+        };
+
+        const customStreakReminders: CustomStreakReminder[] = [userCustomTeamStreakReminder];
+
+        await streakoid.user.pushNotifications.updatePushNotifications({ customStreakReminders });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const updatedUser = await streakoid.user.getCurrentUser();
+
+        const updatedCustomTeamStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
+            reminder => reminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder,
+        );
+
+        if (
+            updatedCustomTeamStreakReminder &&
+            updatedCustomTeamStreakReminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder
+        ) {
+            expect(updatedCustomTeamStreakReminder.enabled).toEqual(false);
+            expect(Object.keys(updatedCustomTeamStreakReminder).sort()).toEqual(
+                [
+                    'enabled',
+                    'expoId',
+                    'reminderHour',
+                    'reminderMinute',
+                    'streakReminderType',
+                    'teamStreakId',
+                    'teamStreakName',
+                ].sort(),
+            );
+        }
     });
 
     test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {

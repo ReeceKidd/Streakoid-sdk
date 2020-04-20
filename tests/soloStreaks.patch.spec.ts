@@ -4,7 +4,8 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus, ActivityFeedItemTypes } from '../src';
+import { StreakStatus, ActivityFeedItemTypes, StreakReminderTypes } from '../src';
+import { CustomSoloStreakReminder, CustomStreakReminder } from '../src/models/StreakReminders';
 
 jest.setTimeout(120000);
 
@@ -84,6 +85,62 @@ describe('PATCH /solo-streaks', () => {
                 '__v',
             ].sort(),
         );
+    });
+
+    test(`when solo streak is archived if current user has a customReminder enabled it is disabled`, async () => {
+        expect.assertions(2);
+
+        const soloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+            streakDescription,
+        });
+        const soloStreakId = soloStreak._id;
+
+        const customSoloStreakReminder: CustomSoloStreakReminder = {
+            enabled: true,
+            expoId: 'expoId',
+            reminderHour: 21,
+            reminderMinute: 0,
+            soloStreakId,
+            streakReminderType: StreakReminderTypes.customSoloStreakReminder,
+            soloStreakName: soloStreak.streakName,
+        };
+
+        const customStreakReminders: CustomStreakReminder[] = [customSoloStreakReminder];
+
+        await streakoid.user.pushNotifications.updatePushNotifications({ customStreakReminders });
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const updatedUser = await streakoid.user.getCurrentUser();
+
+        const updatedCustomSoloStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
+            reminder => reminder.streakReminderType === StreakReminderTypes.customSoloStreakReminder,
+        );
+
+        if (
+            updatedCustomSoloStreakReminder &&
+            updatedCustomSoloStreakReminder.streakReminderType === StreakReminderTypes.customSoloStreakReminder
+        ) {
+            expect(updatedCustomSoloStreakReminder.enabled).toEqual(false);
+            expect(Object.keys(updatedCustomSoloStreakReminder).sort()).toEqual(
+                [
+                    'enabled',
+                    'expoId',
+                    'reminderHour',
+                    'reminderMinute',
+                    'streakReminderType',
+                    'soloStreakId',
+                    'soloStreakName',
+                ].sort(),
+            );
+        }
     });
 
     test(`when solo streak is archived an ArchivedSoloStreakActivityFeedItem is created`, async () => {

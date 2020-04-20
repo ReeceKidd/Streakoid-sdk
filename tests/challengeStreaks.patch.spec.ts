@@ -4,7 +4,8 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus, ActivityFeedItemTypes } from '../src';
+import { StreakStatus, ActivityFeedItemTypes, StreakReminderTypes } from '../src';
+import { CustomChallengeStreakReminder, CustomStreakReminder } from '../src/models/StreakReminders';
 
 jest.setTimeout(120000);
 
@@ -148,6 +149,71 @@ describe('PATCH /challenge-streaks', () => {
 
         expect(updatedChallenge.members.length).toEqual(0);
         expect(updatedChallenge.numberOfMembers).toEqual(0);
+    });
+
+    test(`when challenge streak is archived if current user has a customReminder enabled it is disabled`, async () => {
+        expect.assertions(2);
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+            color,
+            levels,
+        });
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        challengeStreakId = challengeStreak._id;
+
+        const customChallengeStreakReminder: CustomChallengeStreakReminder = {
+            enabled: true,
+            expoId: 'expoId',
+            reminderHour: 21,
+            reminderMinute: 0,
+            challengeStreakId,
+            streakReminderType: StreakReminderTypes.customChallengeStreakReminder,
+            challengeId: challenge._id,
+            challengeName: challenge.name,
+        };
+
+        const customStreakReminders: CustomStreakReminder[] = [customChallengeStreakReminder];
+
+        await streakoid.user.pushNotifications.updatePushNotifications({ customStreakReminders });
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const updatedUser = await streakoid.user.getCurrentUser();
+
+        const updatedCustomChallengeStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
+            reminder => reminder.streakReminderType === StreakReminderTypes.customChallengeStreakReminder,
+        );
+
+        if (
+            updatedCustomChallengeStreakReminder &&
+            updatedCustomChallengeStreakReminder.streakReminderType ===
+                StreakReminderTypes.customChallengeStreakReminder
+        ) {
+            expect(updatedCustomChallengeStreakReminder.enabled).toEqual(false);
+            expect(Object.keys(updatedCustomChallengeStreakReminder).sort()).toEqual(
+                [
+                    'enabled',
+                    'expoId',
+                    'reminderHour',
+                    'reminderMinute',
+                    'streakReminderType',
+                    'challengeStreakId',
+                    'challengeName',
+                    'challengeId',
+                ].sort(),
+            );
+        }
     });
 
     test(`when challenge streak status is archived an ArchivedChallengeStreakActivityFeedItem is created`, async () => {
