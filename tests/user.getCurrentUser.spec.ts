@@ -30,7 +30,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(27);
+        expect.assertions(24);
 
         const user = await streakoid.user.getCurrentUser();
 

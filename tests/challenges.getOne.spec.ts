@@ -37,7 +37,7 @@ describe('GET /challenges/:challengeId', () => {
     });
 
     test(`gets a challenge using challengeId`, async () => {
-        expect.assertions(15);
+        expect.assertions(9);
 
         const challenge = await streakoid.challenges.getOne({ challengeId });
 
@@ -55,8 +55,6 @@ describe('GET /challenges/:challengeId', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',

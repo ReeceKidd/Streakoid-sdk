@@ -34,7 +34,7 @@ describe('GET /complete-challenge-streak-tasks', () => {
 
     describe('POST /v1/complete-challenge-streak-tasks', () => {
         test('user can complete a challenge streak task with a new current streak', async () => {
-            expect.assertions(22);
+            expect.assertions(21);
 
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';

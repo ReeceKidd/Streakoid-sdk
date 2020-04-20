@@ -33,7 +33,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge using the name query paramater`, async () => {
-        expect.assertions(15);
+        expect.assertions(9);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];
@@ -52,8 +52,6 @@ describe('GET /challenges', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',
@@ -64,7 +62,7 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge without the query paramater`, async () => {
-        expect.assertions(15);
+        expect.assertions(9);
 
         const challenges = await streakoid.challenges.getAll({ name });
         const challenge = challenges[0];

@@ -25,7 +25,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with with minimum paramaters`, async () => {
-        expect.assertions(22);
+        expect.assertions(9);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -51,8 +51,6 @@ describe('POST /challenges', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',
@@ -63,7 +61,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with maximum paramaters`, async () => {
-        expect.assertions(25);
+        expect.assertions(12);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';

@@ -28,7 +28,7 @@ describe('GET /users', () => {
     });
 
     test(`returns all users when no searchTerm is used`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({});
         expect(users.length).toEqual(1);
@@ -64,7 +64,7 @@ describe('GET /users', () => {
     });
 
     test(`returns user when full searchTerm is used`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: username });
         expect(users.length).toEqual(1);
@@ -100,7 +100,7 @@ describe('GET /users', () => {
     });
 
     test('returns user when partial searchTerm is used', async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: username.slice(0, 1) });
         expect(users.length).toEqual(1);
@@ -135,7 +135,7 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when username query paramater is used', async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ username });
         expect(users.length).toEqual(1);
@@ -171,7 +171,7 @@ describe('GET /users', () => {
     });
 
     test('returns exact user when email query paramater is used', async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ email });
         expect(users.length).toEqual(1);
@@ -206,7 +206,7 @@ describe('GET /users', () => {
     });
 
     test(`limits to one user when two are available`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         await getFriend();
 
@@ -244,7 +244,7 @@ describe('GET /users', () => {
     });
 
     test(`skips to second user when two are available`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         await getFriend();
 

@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(27);
+        expect.assertions(24);
 
         const user = await streakoid.users.create({
             username,

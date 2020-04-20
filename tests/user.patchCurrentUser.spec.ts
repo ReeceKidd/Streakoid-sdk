@@ -42,7 +42,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(26);
+        expect.assertions(23);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,

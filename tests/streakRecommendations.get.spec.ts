@@ -33,7 +33,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`random streak recommendations can be retreived`, async () => {
-        expect.assertions(15);
+        expect.assertions(9);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
 
@@ -53,8 +53,6 @@ describe('GET /streak-recommendations', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',
@@ -65,7 +63,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`non random streak recommendations can be retreived`, async () => {
-        expect.assertions(15);
+        expect.assertions(9);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: false, limit: 5 });
 
@@ -85,8 +83,6 @@ describe('GET /streak-recommendations', () => {
                 'name',
                 'description',
                 'icon',
-                'color',
-                'levels',
                 'members',
                 'numberOfMembers',
                 'createdAt',
