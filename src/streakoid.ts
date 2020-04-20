@@ -13,7 +13,6 @@ import { dailyJobs } from './dailyJobs';
 import { completeTeamStreaks } from './completeTeamStreaks';
 import { teamMemberStreaks } from './teamMemberStreaks';
 import { streakRecommendations } from './streakRecommendations';
-import { badges } from './badges';
 import { challenges } from './challenges';
 import { challengeStreaks } from './challengeStreak';
 
@@ -54,7 +53,6 @@ export interface StreakoidFactory {
     dailyJobs: ReturnType<typeof dailyJobs>;
     emails: ReturnType<typeof emails>;
     streakRecommendations: ReturnType<typeof streakRecommendations>;
-    badges: ReturnType<typeof badges>;
     challenges: ReturnType<typeof challenges>;
     challengeStreaks: ReturnType<typeof challengeStreaks>;
     notes: ReturnType<typeof notes>;
@@ -83,7 +81,6 @@ export const streakoidFactory = (streakoidClient: AxiosInstance): StreakoidFacto
         dailyJobs: dailyJobs(streakoidClient),
         emails: emails(streakoidClient),
         streakRecommendations: streakRecommendations(streakoidClient),
-        badges: badges(streakoidClient),
         challenges: challenges(streakoidClient),
         challengeStreaks: challengeStreaks(streakoidClient),
         notes: notes(streakoidClient),
