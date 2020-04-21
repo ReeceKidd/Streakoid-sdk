@@ -33,7 +33,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`random streak recommendations can be retreived`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
 
@@ -41,6 +41,7 @@ describe('GET /streak-recommendations', () => {
 
         expect(streakRecommendation._id).toEqual(expect.any(String));
         expect(streakRecommendation.name).toEqual(name);
+        expect(streakRecommendation.databaseName).toEqual(name.toLowerCase());
         expect(streakRecommendation.description).toEqual(description);
         expect(streakRecommendation.icon).toEqual(icon);
         expect(streakRecommendation.members).toEqual([]);
@@ -51,6 +52,7 @@ describe('GET /streak-recommendations', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',
@@ -63,7 +65,7 @@ describe('GET /streak-recommendations', () => {
     });
 
     test(`non random streak recommendations can be retreived`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const streakRecommendations = await streakoid.streakRecommendations.getAll({ random: false, limit: 5 });
 
@@ -71,6 +73,7 @@ describe('GET /streak-recommendations', () => {
 
         expect(streakRecommendation._id).toEqual(expect.any(String));
         expect(streakRecommendation.name).toEqual(name);
+        expect(streakRecommendation.databaseName).toEqual(name.toLowerCase());
         expect(streakRecommendation.description).toEqual(description);
         expect(streakRecommendation.icon).toEqual(icon);
         expect(streakRecommendation.members).toEqual([]);
@@ -81,6 +84,7 @@ describe('GET /streak-recommendations', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',

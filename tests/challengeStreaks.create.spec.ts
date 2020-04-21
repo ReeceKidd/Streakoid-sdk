@@ -42,7 +42,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members.`, async () => {
-        expect.assertions(22);
+        expect.assertions(23);
 
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -81,6 +81,7 @@ describe('POST /challenge-streaks', () => {
 
         expect(updatedChallenge._id).toEqual(expect.any(String));
         expect(updatedChallenge.name).toEqual(name);
+        expect(updatedChallenge.databaseName).toEqual(name.toLowerCase());
         expect(updatedChallenge.description).toEqual(description);
         expect(updatedChallenge.icon).toEqual(icon);
         expect(updatedChallenge.members.length).toEqual(1);
@@ -93,6 +94,7 @@ describe('POST /challenge-streaks', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',
