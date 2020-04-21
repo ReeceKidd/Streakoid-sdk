@@ -39,12 +39,16 @@ export interface CompletedTeamStreakUpdatePushNotification {
     pushNotificationType: PushNotificationTypes.completedTeamStreakUpdate;
     teamStreakId: string;
     teamStreakName: string;
+    title: string;
+    body: string;
 }
 
 export interface IncompletedTeamStreakUpdatePushNotification {
     pushNotificationType: PushNotificationTypes.incompletedTeamStreakUpdate;
     teamStreakId: string;
     teamStreakName: string;
+    title: string;
+    body: string;
 }
 
 export interface AddedNoteToTeamStreakPushNotification {
@@ -54,10 +58,14 @@ export interface AddedNoteToTeamStreakPushNotification {
     teamStreakId: string;
     teamStreakName: string;
     note: string;
+    title: string;
+    body: string;
 }
 
 export interface NewFollowerPushNotification {
     pushNotificationType: PushNotificationTypes.newFollower;
     followerId: string;
     followerUsername: string;
+    title: string;
+    body: string;
 }
