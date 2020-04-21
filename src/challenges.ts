@@ -43,7 +43,7 @@ const challenges = (streakoidClient: AxiosInstance) => {
     }: {
         name: string;
         description: string;
-        icon: string;
+        icon?: string;
         color?: string;
         numberOfMinutes?: number;
         whatsappGroupLink?: string;
