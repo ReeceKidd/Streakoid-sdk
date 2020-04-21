@@ -61,11 +61,12 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with maximum paramaters`, async () => {
-        expect.assertions(12);
+        expect.assertions(13);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
+        const color = 'red';
         const numberOfMinutes = 30;
         const whatsappGroupLink = 'whatsapp.com/chat';
         const discordGroupLink = ' discordGroupLink';
@@ -74,6 +75,7 @@ describe('POST /challenges', () => {
             name,
             description,
             icon,
+            color,
             numberOfMinutes,
             whatsappGroupLink,
             discordGroupLink,
@@ -83,6 +85,7 @@ describe('POST /challenges', () => {
         expect(challenge.name).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
+        expect(challenge.color).toEqual(color);
         expect(challenge.members).toEqual([]);
         expect(challenge.numberOfMembers).toEqual(0);
         expect(challenge.numberOfMinutes).toEqual(30);
@@ -96,6 +99,7 @@ describe('POST /challenges', () => {
                 'name',
                 'description',
                 'icon',
+                'color',
                 'numberOfMinutes',
                 'whatsappGroupLink',
                 'discordGroupLink',
