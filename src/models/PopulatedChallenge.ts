@@ -5,6 +5,7 @@ interface PopulatedChallenge {
     name: string;
     description: string;
     icon: string;
+    color: string;
     members: ChallengeMember[];
     numberOfMembers: number;
     createdAt: string;
