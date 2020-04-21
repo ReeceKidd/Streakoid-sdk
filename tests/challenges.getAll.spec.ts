@@ -39,7 +39,7 @@ describe('GET /challenges', () => {
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -68,7 +68,7 @@ describe('GET /challenges', () => {
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -97,7 +97,7 @@ describe('GET /challenges', () => {
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);

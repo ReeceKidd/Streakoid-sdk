@@ -2,7 +2,7 @@ import ChallengeMember from './ChallengeMember';
 
 interface PopulatedChallenge {
     _id: string;
-    name: string;
+    databaseName: string;
     displayName: string;
     description: string;
     members: ChallengeMember[];

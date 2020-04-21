@@ -1,6 +1,6 @@
 interface Challenge {
     _id: string;
-    name: string;
+    databaseName: string;
     displayName: string;
     description: string;
     members: string[];
