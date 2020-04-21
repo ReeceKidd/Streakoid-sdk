@@ -3,7 +3,7 @@ import ChallengeMember from './ChallengeMember';
 interface PopulatedChallenge {
     _id: string;
     databaseName: string;
-    displayName: string;
+    name: string;
     description: string;
     members: ChallengeMember[];
     numberOfMembers: number;

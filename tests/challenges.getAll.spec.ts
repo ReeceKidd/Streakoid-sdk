@@ -33,13 +33,14 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge using the exact name query paramater`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
-        const challenges = await streakoid.challenges.getAll({ name });
+        const challenges = await streakoid.challenges.getAll({ name: name });
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.databaseName).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
+        expect(challenge.name).toEqual(name);
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -50,6 +51,7 @@ describe('GET /challenges', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',
@@ -61,14 +63,15 @@ describe('GET /challenges', () => {
         );
     });
 
-    test.only(`gets a challenge using a partial challenge name query paramater`, async () => {
-        expect.assertions(9);
+    test(`gets a challenge using a partial challenge name query paramater`, async () => {
+        expect.assertions(10);
 
         const challenges = await streakoid.challenges.getAll({ name: 'duo' });
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.databaseName).toEqual(name);
+        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -79,6 +82,7 @@ describe('GET /challenges', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',
@@ -91,13 +95,14 @@ describe('GET /challenges', () => {
     });
 
     test(`gets a challenge without the query paramater`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
-        const challenges = await streakoid.challenges.getAll({ name });
+        const challenges = await streakoid.challenges.getAll({ name: name });
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
-        expect(challenge.databaseName).toEqual(name);
+        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -108,6 +113,7 @@ describe('GET /challenges', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',

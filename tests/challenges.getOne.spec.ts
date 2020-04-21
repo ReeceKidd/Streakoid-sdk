@@ -37,12 +37,13 @@ describe('GET /challenges/:challengeId', () => {
     });
 
     test(`gets a challenge using challengeId`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const challenge = await streakoid.challenges.getOne({ challengeId });
 
         expect(challenge._id).toEqual(expect.any(String));
         expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -53,6 +54,7 @@ describe('GET /challenges/:challengeId', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',

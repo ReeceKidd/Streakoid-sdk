@@ -25,7 +25,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with with minimum paramaters`, async () => {
-        expect.assertions(9);
+        expect.assertions(10);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -39,6 +39,7 @@ describe('POST /challenges', () => {
 
         expect(challenge._id).toEqual(expect.any(String));
         expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.members).toEqual([]);
@@ -49,6 +50,7 @@ describe('POST /challenges', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'members',
@@ -61,7 +63,7 @@ describe('POST /challenges', () => {
     });
 
     test(`creates a challenge with maximum paramaters`, async () => {
-        expect.assertions(13);
+        expect.assertions(14);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -83,6 +85,7 @@ describe('POST /challenges', () => {
 
         expect(challenge._id).toEqual(expect.any(String));
         expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
         expect(challenge.description).toEqual(description);
         expect(challenge.icon).toEqual(icon);
         expect(challenge.color).toEqual(color);
@@ -97,6 +100,7 @@ describe('POST /challenges', () => {
             [
                 '_id',
                 'name',
+                'databaseName',
                 'description',
                 'icon',
                 'color',

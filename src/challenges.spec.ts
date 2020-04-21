@@ -11,7 +11,7 @@ describe('SDK challenges', () => {
         const name = 'Yoga';
 
         const query = {
-            name,
+            name: name,
         };
 
         test('calls GET with correct URL when no query paramters are passed', async () => {
