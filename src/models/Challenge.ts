@@ -1,6 +1,7 @@
 interface Challenge {
     _id: string;
     name: string;
+    displayName: string;
     description: string;
     members: string[];
     numberOfMembers: number;
