@@ -2,12 +2,12 @@ interface Challenge {
     _id: string;
     name: string;
     description: string;
-    color: string;
-    icon: string;
     members: string[];
     numberOfMembers: number;
     createdAt: string;
     updatedAt: string;
+    icon?: string;
+    color?: string;
     numberOfMinutes?: number;
     whatsappGroupLink?: string;
     discordGroupLink?: string;

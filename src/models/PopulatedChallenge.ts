@@ -4,12 +4,12 @@ interface PopulatedChallenge {
     _id: string;
     name: string;
     description: string;
-    icon: string;
-    color: string;
     members: ChallengeMember[];
     numberOfMembers: number;
     createdAt: string;
     updatedAt: string;
+    icon?: string;
+    color?: string;
     numberOfMinutes?: number;
     whatsappGroupLink?: string;
     discordGroupLink?: string;
