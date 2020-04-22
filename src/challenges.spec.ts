@@ -8,10 +8,12 @@ describe('SDK challenges', () => {
     });
 
     describe('getAll', () => {
-        const name = 'Yoga';
+        const searchQuery = 'Yoga';
+        const limit = 10;
 
         const query = {
-            name: name,
+            searchQuery,
+            limit,
         };
 
         test('calls GET with correct URL when no query paramters are passed', async () => {
@@ -29,7 +31,7 @@ describe('SDK challenges', () => {
 
             await streakoid.challenges.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?name=${name}&`);
+            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&`);
         });
     });
 
@@ -52,26 +54,15 @@ describe('SDK challenges', () => {
             streakoidClient.post = jest.fn().mockResolvedValue(true);
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
-            const icon = 'faCog';
-            const color = 'red';
-            const whatsappGroupLink = 'https://whatsapp.com';
-            const discordGroupLink = 'dicord.com/chat';
 
             await streakoid.challenges.create({
                 name,
                 description,
-                icon,
-                color,
-                whatsappGroupLink,
-                discordGroupLink,
             });
 
             expect(streakoidClient.post).toBeCalledWith(`/v1/challenges`, {
                 name,
                 description,
-                icon,
-                whatsappGroupLink,
-                discordGroupLink,
             });
         });
 
@@ -97,6 +88,7 @@ describe('SDK challenges', () => {
                 name,
                 description,
                 icon,
+                color,
                 numberOfMinutes,
             });
         });

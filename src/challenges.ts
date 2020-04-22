@@ -6,12 +6,16 @@ import PopulatedChallenge from './models/PopulatedChallenge';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challenges = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ name }: { name?: string }): Promise<Challenge[]> => {
+    const getAll = async ({ searchQuery, limit }: { searchQuery?: string; limit?: number }): Promise<Challenge[]> => {
         try {
             let getAllChallengesURL = `/${ApiVersions.v1}/${RouterCategories.challenges}?`;
 
-            if (name) {
-                getAllChallengesURL = `${getAllChallengesURL}name=${name}&`;
+            if (searchQuery) {
+                getAllChallengesURL = `${getAllChallengesURL}searchQuery=${searchQuery}&`;
+            }
+
+            if (limit) {
+                getAllChallengesURL = `${getAllChallengesURL}limit=${limit}&`;
             }
 
             const { data } = await streakoidClient.get(getAllChallengesURL);

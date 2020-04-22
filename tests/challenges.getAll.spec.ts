@@ -13,20 +13,15 @@ describe('GET /challenges', () => {
     const description = 'Everyday I must complete a duolingo lesson';
     const icon = 'duolingo';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             streakoid = await streakoidTest();
             await getPayingUser();
-            await streakoid.challenges.create({
-                name,
-                description,
-                icon,
-            });
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -35,7 +30,13 @@ describe('GET /challenges', () => {
     test(`gets a challenge using the exact name query paramater`, async () => {
         expect.assertions(10);
 
-        const challenges = await streakoid.challenges.getAll({ name: name });
+        await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        const challenges = await streakoid.challenges.getAll({ searchQuery: name });
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
@@ -66,7 +67,13 @@ describe('GET /challenges', () => {
     test(`gets a challenge using a partial challenge name query paramater`, async () => {
         expect.assertions(10);
 
-        const challenges = await streakoid.challenges.getAll({ name: 'duo' });
+        await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        const challenges = await streakoid.challenges.getAll({ searchQuery: 'duo' });
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
@@ -97,7 +104,57 @@ describe('GET /challenges', () => {
     test(`gets a challenge without the query paramater`, async () => {
         expect.assertions(10);
 
-        const challenges = await streakoid.challenges.getAll({ name: name });
+        await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        const challenges = await streakoid.challenges.getAll({});
+        const challenge = challenges[0];
+
+        expect(challenge._id).toEqual(expect.any(String));
+        expect(challenge.name).toEqual(name);
+        expect(challenge.databaseName).toEqual(name.toLowerCase());
+        expect(challenge.description).toEqual(description);
+        expect(challenge.icon).toEqual(icon);
+        expect(challenge.members).toEqual([]);
+        expect(challenge.numberOfMembers).toEqual(0);
+        expect(challenge.createdAt).toEqual(expect.any(String));
+        expect(challenge.updatedAt).toEqual(expect.any(String));
+        expect(Object.keys(challenge).sort()).toEqual(
+            [
+                '_id',
+                'name',
+                'databaseName',
+                'description',
+                'icon',
+                'members',
+                'numberOfMembers',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+    });
+
+    test(`gets one challenge when two exist`, async () => {
+        expect.assertions(11);
+
+        await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        await streakoid.challenges.create({
+            name: 'Second challenge',
+            description,
+            icon,
+        });
+
+        const challenges = await streakoid.challenges.getAll({ limit: 1 });
+        expect(challenges.length).toEqual(1);
         const challenge = challenges[0];
 
         expect(challenge._id).toEqual(expect.any(String));
