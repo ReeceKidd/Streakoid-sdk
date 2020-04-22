@@ -50,8 +50,8 @@ import PaymentPlans from './PaymentPlans';
 import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 import PushNotificationTypes from './PushNotificationTypes';
 import StreakReminderTypes from './StreakReminderTypes';
-import AcheivementTypes from './AcheivmentTypes';
-import AcheivementEventTypes from './AcheivmentEventTypes';
+import AchievementTypes from './AcheivmentTypes';
+import AchievementEventTypes from './AcheivmentEventTypes';
 
 export {
     streakoidClientFactory,
@@ -103,7 +103,7 @@ export {
     PushNotificationTypes,
     StreakReminderTypes,
     AcheivmentType,
-    AcheivementTypes,
+    AchievementTypes,
     AcheivmentEventType,
-    AcheivementEventTypes,
+    AchievementEventTypes,
 };
