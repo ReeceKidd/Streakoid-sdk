@@ -1,5 +1,5 @@
-enum AcheivmentTypes {
+enum AcheivmentEventTypes {
     unlockedAcheivement = 'unlockedAcheivement',
 }
 
-export default AcheivmentTypes;
+export default AcheivmentEventTypes;

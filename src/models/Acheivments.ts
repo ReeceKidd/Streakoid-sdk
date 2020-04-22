@@ -1,9 +1,9 @@
-import { AcheivementTypes } from '..';
+import AcheivmentTypes from '../AcheivmentTypes';
 
 type AchievementType = OneHundredDaySoloStreak;
 
 export interface OneHundredDaySoloStreak {
-    acheivementType: AcheivementTypes.oneHundredDaySoloStreak;
+    acheivementType: AcheivmentTypes.oneHundredDaySoloStreak;
     name: string;
     description: string;
 }
