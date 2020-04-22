@@ -3,6 +3,7 @@ import PastSubscription from './PastSubscription';
 import UserTypes from '../userTypes';
 import Friend from './Friend';
 import { UserPushNotifications } from '..';
+import AchievementType from './Achievements';
 
 interface User {
     _id: string;
@@ -18,6 +19,7 @@ interface User {
     followers: string[];
     following: string[];
     friends: Friend[];
+    achievements: AchievementType[];
     stripe: {
         customer: string;
         subscription: string;

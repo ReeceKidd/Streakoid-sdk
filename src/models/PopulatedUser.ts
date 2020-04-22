@@ -2,6 +2,7 @@ import UserTypes from '../userTypes';
 import BasicUser from './BasicUser';
 import ProfileImages from './ProfileImages';
 import Friend from './Friend';
+import AchievementType from './Achievements';
 
 interface PopulatedUser {
     _id: string;
@@ -12,6 +13,7 @@ interface PopulatedUser {
     friends: Friend[];
     followers: BasicUser[];
     following: BasicUser[];
+    achievements: AchievementType[];
     createdAt: string;
     updatedAt: string;
     profileImages: ProfileImages;
