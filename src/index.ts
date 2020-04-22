@@ -36,8 +36,8 @@ import Note from './models/Note';
 import ActivityFeedItemType from './models/ActivityFeedItemType';
 import DatabaseStats from './models/DatabaseStats';
 import UserPushNotifications from './models/UserPushNotifications';
-import AcheivmentType from './models/Acheivments';
-import AcheivmentEventType from './models/AcheivmentEvent';
+import AchievementType from './models/Achievements';
+import AchievementEventType from './models/AchievementEvent';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';
 import SupportedResponseHeaders from './SupportedResponseHeaders';
@@ -50,8 +50,8 @@ import PaymentPlans from './PaymentPlans';
 import ActivityFeedItemTypes from './ActivityFeedItemTypes';
 import PushNotificationTypes from './PushNotificationTypes';
 import StreakReminderTypes from './StreakReminderTypes';
-import AchievementTypes from './AcheivmentTypes';
-import AchievementEventTypes from './AcheivmentEventTypes';
+import AchievementTypes from './AchievementTypes';
+import AchievementEventTypes from './AchievementEventTypes';
 
 export {
     streakoidClientFactory,
@@ -102,8 +102,8 @@ export {
     UserPushNotifications,
     PushNotificationTypes,
     StreakReminderTypes,
-    AcheivmentType,
+    AchievementType,
     AchievementTypes,
-    AcheivmentEventType,
+    AchievementEventType,
     AchievementEventTypes,
 };

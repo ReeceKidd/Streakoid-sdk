@@ -1,4 +1,4 @@
-import AcheivmentTypes from '../AcheivmentTypes';
+import AcheivmentTypes from '../AchievementTypes';
 
 type AchievementType = OneHundredDaySoloStreak;
 
