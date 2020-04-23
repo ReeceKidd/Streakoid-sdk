@@ -1,0 +1,69 @@
+import { StreakoidFactory } from '../src/streakoid';
+import { streakoidTest } from './setup/streakoidTest';
+import { getPayingUser } from './setup/getPayingUser';
+import { isTestEnvironment } from './setup/isTestEnvironment';
+import { setUpDatabase } from './setup/setUpDatabase';
+import { tearDownDatabase } from './setup/tearDownDatabase';
+import { AchievementTypes } from '../src';
+
+jest.setTimeout(120000);
+
+describe('POST /achievements', () => {
+    let streakoid: StreakoidFactory;
+
+    beforeEach(async () => {
+        if (isTestEnvironment()) {
+            await setUpDatabase();
+            await getPayingUser();
+            streakoid = await streakoidTest();
+        }
+    });
+
+    afterEach(async () => {
+        if (isTestEnvironment()) {
+            await tearDownDatabase();
+        }
+    });
+
+    test(`oneHundredDaySoloStreak achievement can be created`, async () => {
+        expect.assertions(4);
+        const name = '100 Day Solo Streak';
+        const description = 'Get a 100 Day Solo Streak';
+        const achievement = await streakoid.achievements.create({
+            achievementType: AchievementTypes.oneHundredDaySoloStreak,
+            name,
+            description,
+        });
+
+        expect(achievement.achievementType).toEqual(AchievementTypes.oneHundredDaySoloStreak);
+        expect(achievement.name).toEqual(name);
+        expect(achievement.description).toEqual(description);
+        expect(Object.keys(achievement).sort()).toEqual(
+            ['_id', 'achievementType', 'name', 'description', '__v'].sort(),
+        );
+    });
+
+    test(`that two achievements with the same achievementType cannot be created.`, async () => {
+        expect.assertions(2);
+        const name = '100 Day Solo Streak';
+        const description = 'Get a 100 Day Solo Streak';
+        await streakoid.achievements.create({
+            achievementType: AchievementTypes.oneHundredDaySoloStreak,
+            name,
+            description,
+        });
+
+        try {
+            await streakoid.achievements.create({
+                achievementType: AchievementTypes.oneHundredDaySoloStreak,
+                name,
+                description,
+            });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual(
+                'child "username" fails because ["username" is not allowed to be empty]',
+            );
+        }
+    });
+});

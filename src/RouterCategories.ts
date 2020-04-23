@@ -29,6 +29,7 @@ enum RouterCategories {
     activityFeedItems = 'activity-feed-items',
     databaseStats = 'database-stats',
     following = 'following',
+    achievements = 'achievements',
 }
 
 export default RouterCategories;
