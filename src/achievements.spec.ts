@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
 import { AchievementTypes } from '.';
-import { OneHundredDaySoloStreak } from './models/Achievement';
+import { OneHundredDaySoloStreakAchievement } from './models/Achievement';
 
 describe('SDK achievements', () => {
     const streakoid = streakoidFactory(streakoidClient);
@@ -39,7 +39,7 @@ describe('SDK achievements', () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
-            const achievement: OneHundredDaySoloStreak = {
+            const achievement: OneHundredDaySoloStreakAchievement = {
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
                 name: '100 Day Solo Streak',
                 description: '100 Days',
