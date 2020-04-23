@@ -7,6 +7,9 @@ interface UserPushNotifications {
     newFollowerUpdates: {
         enabled: boolean;
     };
+    achievementUpdates: {
+        enabled: boolean;
+    };
     customStreakReminders: CustomStreakReminder[];
     completeAllStreaksReminder?: CompleteAllStreaksReminder;
 }

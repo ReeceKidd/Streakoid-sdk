@@ -72,6 +72,9 @@ describe('SDK users', () => {
                 newFollowerUpdates: {
                     enabled: true,
                 },
+                achievementUpdates: {
+                    enabled: true,
+                },
                 customStreakReminders,
             };
 

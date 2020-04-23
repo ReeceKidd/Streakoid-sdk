@@ -11,11 +11,13 @@ const pushNotifications = (streakoidClient: AxiosInstance) => {
         customStreakReminders,
         teamStreakUpdates,
         newFollowerUpdates,
+        achievementUpdates,
     }: {
         completeAllStreaksReminder?: CompleteAllStreaksReminder;
         customStreakReminders?: CustomStreakReminder[];
         teamStreakUpdates?: { enabled: boolean };
         newFollowerUpdates?: { enabled: boolean };
+        achievementUpdates?: { enabled: boolean };
     }): Promise<UserPushNotifications> => {
         try {
             const updateData = {
@@ -23,6 +25,7 @@ const pushNotifications = (streakoidClient: AxiosInstance) => {
                 customStreakReminders,
                 teamStreakUpdates,
                 newFollowerUpdates,
+                achievementUpdates,
             };
             const { data } = await streakoidClient.patch(
                 `/${ApiVersions.v1}/${RouterCategories.user}/push-notifications`,
