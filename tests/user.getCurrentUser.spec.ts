@@ -50,7 +50,7 @@ describe('GET /user', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders', 'achievementUpdates'].sort(),
         );
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);

@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(25);
+        expect.assertions(27);
 
         const user = await streakoid.users.create({
             username,
@@ -50,12 +50,14 @@ describe('POST /users', () => {
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();
         expect(Object.keys(user.pushNotifications).sort()).toEqual(
-            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders'].sort(),
+            ['newFollowerUpdates', 'teamStreakUpdates', 'customStreakReminders', 'achievementUpdates'].sort(),
         );
         expect(Object.keys(user.pushNotifications.newFollowerUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.newFollowerUpdates.enabled).toEqual(true);
         expect(Object.keys(user.pushNotifications.teamStreakUpdates).sort()).toEqual(['enabled']);
         expect(user.pushNotifications.teamStreakUpdates.enabled).toEqual(true);
+        expect(Object.keys(user.pushNotifications.achievementUpdates).sort()).toEqual(['enabled']);
+        expect(user.pushNotifications.achievementUpdates.enabled).toEqual(true);
         expect(user.pushNotifications.customStreakReminders).toEqual([]);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({

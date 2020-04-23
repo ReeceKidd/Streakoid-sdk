@@ -6,7 +6,8 @@ export type PushNotificationType =
     | CompletedTeamStreakUpdatePushNotification
     | IncompletedTeamStreakUpdatePushNotification
     | AddedNoteToTeamStreakPushNotification
-    | NewFollowerPushNotification;
+    | NewFollowerPushNotification
+    | UnlockedAchievementPushNotification;
 
 export type CustomStreakReminderPushNotification =
     | CustomSoloStreakReminderPushNotification
