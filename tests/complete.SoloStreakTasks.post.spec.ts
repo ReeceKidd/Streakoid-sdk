@@ -6,6 +6,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { ActivityFeedItemTypes, AchievementTypes } from '../src';
+import { OneHundredDaySoloStreakAchievement } from '../src/models/Achievement';
 
 jest.setTimeout(120000);
 
@@ -416,13 +417,14 @@ describe('GET /complete-solo-streak-tasks', () => {
         });
 
         test('when user completes a task on the 100th day and they do not already have the OneHundredDaySoloStreak achievement they unlock the OneHundredDaySoloStreak achievement ', async () => {
-            expect.assertions(3);
+            expect.assertions(8);
 
-            await streakoid.achievements.create({
+            const achievementToCreate: OneHundredDaySoloStreakAchievement = {
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
                 name: '100 Hundred Days',
                 description: '100 Day solo streak',
-            });
+            };
+            await streakoid.achievements.create(achievementToCreate);
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
 
@@ -447,19 +449,25 @@ describe('GET /complete-solo-streak-tasks', () => {
             expect(oneHundredDaySoloStreakAchievement.achievementType).toEqual(
                 AchievementTypes.oneHundredDaySoloStreak,
             );
+            expect(oneHundredDaySoloStreakAchievement.name).toEqual(achievementToCreate.name);
+            expect(oneHundredDaySoloStreakAchievement.description).toEqual(achievementToCreate.description);
+            expect(oneHundredDaySoloStreakAchievement._id).toEqual(expect.any(String));
+            expect(oneHundredDaySoloStreakAchievement.createdAt).toEqual(expect.any(String));
+            expect(oneHundredDaySoloStreakAchievement.updatedAt).toEqual(expect.any(String));
             expect(Object.keys(oneHundredDaySoloStreakAchievement).sort()).toEqual(
-                ['__v', 'createdAt', 'updatedAt', 'achievementType', '_id'].sort(),
+                ['__v', 'createdAt', 'updatedAt', 'achievementType', '_id', 'description', 'name'].sort(),
             );
         });
 
         test('when user completes a task on the 100th day but they already have the OneHundredDaySoloStreak achievement nothing happens', async () => {
-            expect.assertions(3);
+            expect.assertions(8);
 
-            await streakoid.achievements.create({
+            const achievementToCreate: OneHundredDaySoloStreakAchievement = {
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
                 name: '100 Hundred Days',
                 description: '100 Day solo streak',
-            });
+            };
+            await streakoid.achievements.create(achievementToCreate);
 
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
@@ -492,7 +500,14 @@ describe('GET /complete-solo-streak-tasks', () => {
             expect(oneHundredDaySoloStreakAchievement.achievementType).toEqual(
                 AchievementTypes.oneHundredDaySoloStreak,
             );
-            expect(Object.keys(oneHundredDaySoloStreakAchievement).sort()).toEqual(['achievementType', '_id'].sort());
+            expect(oneHundredDaySoloStreakAchievement.name).toEqual(achievementToCreate.name);
+            expect(oneHundredDaySoloStreakAchievement.description).toEqual(achievementToCreate.description);
+            expect(oneHundredDaySoloStreakAchievement._id).toEqual(expect.any(String));
+            expect(oneHundredDaySoloStreakAchievement.createdAt).toEqual(expect.any(String));
+            expect(oneHundredDaySoloStreakAchievement.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(oneHundredDaySoloStreakAchievement).sort()).toEqual(
+                ['__v', 'createdAt', 'updatedAt', 'achievementType', '_id', 'description', 'name'].sort(),
+            );
         });
 
         test('if currentStreak number of days does not equal 100 no OneHundredDaySoloStreak us unlocked.', async () => {
