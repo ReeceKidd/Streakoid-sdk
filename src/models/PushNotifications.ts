@@ -70,7 +70,7 @@ export interface NewFollowerPushNotification {
     body: string;
 }
 
-export interface UnlockedAchievement {
+export interface UnlockedAchievementPushNotification {
     pushNotificationType: PushNotificationTypes.unlockedAchievement;
     achievementId: string;
     title: string;
