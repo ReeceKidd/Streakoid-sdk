@@ -7,6 +7,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
+import { AchievementTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -30,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(24);
+        expect.assertions(25);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -43,6 +44,7 @@ describe('GET /user', () => {
         );
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
+        expect(user.achievements).toEqual([]);
         expect(user.friends).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
@@ -71,6 +73,7 @@ describe('GET /user', () => {
                 'followers',
                 'following',
                 'friends',
+                'achievements',
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
@@ -107,6 +110,7 @@ describe('GET /user', () => {
                 'followers',
                 'friends',
                 'following',
+                'achievements',
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
@@ -145,6 +149,70 @@ describe('GET /user', () => {
                 'followers',
                 'friends',
                 'following',
+                'achievements',
+                'membershipInformation',
+                'pushNotifications',
+                'profileImages',
+                'pushNotificationToken',
+                'hasCompletedIntroduction',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
+            ].sort(),
+        );
+    });
+
+    test(`if current user has an achievement it returns the current user with populated achievements`, async () => {
+        expect.assertions(6);
+
+        const achievementName = '100 Hundred Days';
+        const achievementDescription = '100 Day solo streak';
+        await streakoid.achievements.create({
+            achievementType: AchievementTypes.oneHundredDaySoloStreak,
+            name: achievementName,
+            description: achievementDescription,
+        });
+
+        const soloStreak = await streakoid.soloStreaks.create({ userId, streakName: 'Reading' });
+        const soloStreakId = soloStreak._id;
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                currentStreak: {
+                    ...soloStreak.currentStreak,
+                    numberOfDaysInARow: 99,
+                },
+            },
+        });
+
+        await streakoid.completeSoloStreakTasks.create({
+            userId,
+            soloStreakId,
+        });
+
+        const user = await streakoid.user.getCurrentUser();
+
+        expect(user.achievements.length).toEqual(1);
+
+        const achievement = user.achievements[0];
+        expect(achievement.achievementType).toEqual(AchievementTypes.oneHundredDaySoloStreak);
+        expect(achievement.name).toEqual(achievementName);
+        expect(achievement.description).toEqual(achievementDescription);
+        expect(Object.keys(achievement).sort()).toEqual(
+            ['_id', 'achievementType', 'name', 'description', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'email',
+                'followers',
+                'friends',
+                'following',
+                'achievements',
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',

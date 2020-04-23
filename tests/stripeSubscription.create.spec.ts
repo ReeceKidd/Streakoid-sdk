@@ -46,7 +46,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(28);
+        expect.assertions(30);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -91,6 +91,8 @@ describe('POST /stripe-subscription', () => {
             'pastMemberships',
         ]);
         expect(databaseUser.followers).toEqual([]);
+        expect(databaseUser.following).toEqual([]);
+        expect(databaseUser.achievements).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
         expect(databaseUser.email).toEqual(email);
@@ -109,6 +111,7 @@ describe('POST /stripe-subscription', () => {
                 'friends',
                 'following',
                 'followers',
+                'achievements',
                 'membershipInformation',
                 '_id',
                 'username',
@@ -126,7 +129,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(28);
+        expect.assertions(30);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -171,6 +174,8 @@ describe('POST /stripe-subscription', () => {
             'pastMemberships',
         ]);
         expect(databaseUser.followers).toEqual([]);
+        expect(databaseUser.following).toEqual([]);
+        expect(databaseUser.achievements).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
         expect(databaseUser.email).toEqual(email);
@@ -188,6 +193,7 @@ describe('POST /stripe-subscription', () => {
                 'userType',
                 'followers',
                 'following',
+                'achievements',
                 'friends',
                 'membershipInformation',
                 '_id',

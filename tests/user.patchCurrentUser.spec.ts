@@ -7,6 +7,7 @@ import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
+import { AchievementTypes } from '../src';
 
 const updatedEmail = 'email@gmail.com';
 const updatedTimezone = 'Europe/Paris';
@@ -42,7 +43,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(23);
+        expect.assertions(24);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -57,6 +58,7 @@ describe('PATCH /user', () => {
         );
         expect(updatedUser.followers).toEqual([]);
         expect(updatedUser.following).toEqual([]);
+        expect(updatedUser.achievements).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
         expect(updatedUser.membershipInformation.currentMembershipStartDate).toBeDefined();
@@ -85,6 +87,7 @@ describe('PATCH /user', () => {
                 'profileImages',
                 'followers',
                 'following',
+                'achievements',
                 'friends',
                 'pushNotificationToken',
                 'pushNotifications',
@@ -123,6 +126,7 @@ describe('PATCH /user', () => {
                 'followers',
                 'friends',
                 'following',
+                'achievements',
                 'membershipInformation',
                 'profileImages',
                 'pushNotificationToken',
@@ -161,10 +165,74 @@ describe('PATCH /user', () => {
                 'followers',
                 'friends',
                 'following',
+                'achievements',
                 'membershipInformation',
                 'profileImages',
                 'pushNotificationToken',
                 'pushNotifications',
+                'hasCompletedIntroduction',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
+            ].sort(),
+        );
+    });
+
+    test(`if current user has an achievement it returns the current user with populated achievements`, async () => {
+        expect.assertions(6);
+
+        const achievementName = '100 Hundred Days';
+        const achievementDescription = '100 Day solo streak';
+        await streakoid.achievements.create({
+            achievementType: AchievementTypes.oneHundredDaySoloStreak,
+            name: achievementName,
+            description: achievementDescription,
+        });
+
+        const soloStreak = await streakoid.soloStreaks.create({ userId, streakName: 'Reading' });
+        const soloStreakId = soloStreak._id;
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                currentStreak: {
+                    ...soloStreak.currentStreak,
+                    numberOfDaysInARow: 99,
+                },
+            },
+        });
+
+        await streakoid.completeSoloStreakTasks.create({
+            userId,
+            soloStreakId,
+        });
+
+        const user = await streakoid.user.updateCurrentUser({ updateData });
+
+        expect(user.achievements.length).toEqual(1);
+
+        const achievement = user.achievements[0];
+        expect(achievement.achievementType).toEqual(AchievementTypes.oneHundredDaySoloStreak);
+        expect(achievement.name).toEqual(achievementName);
+        expect(achievement.description).toEqual(achievementDescription);
+        expect(Object.keys(achievement).sort()).toEqual(
+            ['_id', 'achievementType', 'name', 'description', 'createdAt', 'updatedAt', '__v'].sort(),
+        );
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'email',
+                'followers',
+                'friends',
+                'following',
+                'achievements',
+                'membershipInformation',
+                'pushNotifications',
+                'profileImages',
+                'pushNotificationToken',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

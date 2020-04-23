@@ -36,7 +36,7 @@ import Note from './models/Note';
 import ActivityFeedItemType from './models/ActivityFeedItemType';
 import DatabaseStats from './models/DatabaseStats';
 import UserPushNotifications from './models/UserPushNotifications';
-import AchievementType from './models/Achievements';
+import AchievementType from './models/Achievement';
 import AchievementEventType from './models/AchievementEvent';
 
 import SupportedRequestHeaders from './SupportedRequestHeaders';

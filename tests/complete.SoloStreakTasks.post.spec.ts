@@ -5,7 +5,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { ActivityFeedItemTypes } from '../src';
+import { ActivityFeedItemTypes, AchievementTypes } from '../src';
 
 jest.setTimeout(120000);
 
@@ -16,7 +16,7 @@ describe('GET /complete-solo-streak-tasks', () => {
     let userProfileImage: string;
     const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
@@ -27,7 +27,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -413,6 +413,117 @@ describe('GET /complete-solo-streak-tasks', () => {
                     ].sort(),
                 );
             }
+        });
+
+        test('when user completes a task on the 100th day and they do not already have the OneHundredDaySoloStreak achievement they unlock the OneHundredDaySoloStreak achievement ', async () => {
+            expect.assertions(3);
+
+            await streakoid.achievements.create({
+                achievementType: AchievementTypes.oneHundredDaySoloStreak,
+                name: '100 Hundred Days',
+                description: '100 Day solo streak',
+            });
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.soloStreaks.update({
+                soloStreakId,
+                updateData: {
+                    currentStreak: {
+                        ...soloStreak.currentStreak,
+                        numberOfDaysInARow: 99,
+                    },
+                },
+            });
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.achievements.length).toEqual(1);
+            const oneHundredDaySoloStreakAchievement = updatedUser.achievements[0];
+            expect(oneHundredDaySoloStreakAchievement.achievementType).toEqual(
+                AchievementTypes.oneHundredDaySoloStreak,
+            );
+            expect(Object.keys(oneHundredDaySoloStreakAchievement).sort()).toEqual(
+                ['__v', 'createdAt', 'updatedAt', 'achievementType', '_id'].sort(),
+            );
+        });
+
+        test('when user completes a task on the 100th day but they already have the OneHundredDaySoloStreak achievement nothing happens', async () => {
+            expect.assertions(3);
+
+            await streakoid.achievements.create({
+                achievementType: AchievementTypes.oneHundredDaySoloStreak,
+                name: '100 Hundred Days',
+                description: '100 Day solo streak',
+            });
+
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.soloStreaks.update({
+                soloStreakId,
+                updateData: {
+                    currentStreak: {
+                        ...soloStreak.currentStreak,
+                        numberOfDaysInARow: 99,
+                    },
+                },
+            });
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            await streakoid.incompleteSoloStreakTasks.create({ userId, soloStreakId });
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.achievements.length).toEqual(1);
+            const oneHundredDaySoloStreakAchievement = updatedUser.achievements[0];
+            expect(oneHundredDaySoloStreakAchievement.achievementType).toEqual(
+                AchievementTypes.oneHundredDaySoloStreak,
+            );
+            expect(Object.keys(oneHundredDaySoloStreakAchievement).sort()).toEqual(['achievementType', '_id'].sort());
+        });
+
+        test('if currentStreak number of days does not equal 100 no OneHundredDaySoloStreak us unlocked.', async () => {
+            expect.assertions(1);
+
+            await streakoid.achievements.create({
+                achievementType: AchievementTypes.oneHundredDaySoloStreak,
+                name: '100 Hundred Days',
+                description: '100 Day solo streak',
+            });
+
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.soloStreaks.update({
+                soloStreakId,
+                updateData: {
+                    currentStreak: {
+                        ...soloStreak.currentStreak,
+                        numberOfDaysInARow: 70,
+                    },
+                },
+            });
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.achievements.length).toEqual(0);
         });
     });
 });

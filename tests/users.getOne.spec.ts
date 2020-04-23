@@ -6,6 +6,7 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
+import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
@@ -13,7 +14,7 @@ describe('GET /users/:userId', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             const user = await getPayingUser();
@@ -22,14 +23,14 @@ describe('GET /users/:userId', () => {
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     test(`retreives user`, async () => {
-        expect.assertions(12);
+        expect.assertions(13);
 
         const user = await streakoid.users.getOne(userId);
 
@@ -40,6 +41,7 @@ describe('GET /users/:userId', () => {
         expect(user.friends).toEqual([]);
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
+        expect(user.achievements).toEqual([]);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
@@ -56,10 +58,79 @@ describe('GET /users/:userId', () => {
                 'friends',
                 'followers',
                 'following',
+                'achievements',
                 'profileImages',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
+            ].sort(),
+        );
+    });
+
+    test(`if user has a following a populated following list iis returned`, async () => {
+        expect.assertions(5);
+
+        const friend = await getFriend();
+
+        await streakoid.users.following.followUser({ userId, userToFollowId: friend._id });
+
+        const user = await streakoid.users.getOne(userId);
+
+        const following = user.following[0];
+        expect(following.username).toEqual(expect.any(String));
+        expect(following.userId).toEqual(expect.any(String));
+        expect(following.profileImage).toEqual(expect.any(String));
+        expect(Object.keys(following).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'followers',
+                'friends',
+                'following',
+                'achievements',
+                'isPayingMember',
+                'profileImages',
+                'pushNotificationToken',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
+            ].sort(),
+        );
+    });
+
+    test(`if user has followers a populated followers list is returned`, async () => {
+        expect.assertions(5);
+
+        const friend = await getFriend();
+
+        await streakoid.users.following.followUser({ userId: friend._id, userToFollowId: userId });
+
+        const user = await streakoid.users.getOne(userId);
+
+        const followers = user.followers[0];
+        expect(followers.username).toEqual(expect.any(String));
+        expect(followers.userId).toEqual(expect.any(String));
+        expect(followers.profileImage).toEqual(expect.any(String));
+        expect(Object.keys(followers).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'followers',
+                'friends',
+                'following',
+                'achievements',
+                'isPayingMember',
+                'profileImages',
+                'pushNotificationToken',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
             ].sort(),
         );
     });

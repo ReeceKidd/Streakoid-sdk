@@ -4,7 +4,7 @@ import UserTypes from '../userTypes';
 import Friend from './Friend';
 import BasicUser from './BasicUser';
 import { UserPushNotifications } from '..';
-import AchievementType from './Achievements';
+import DatabaseAchievementType from './DatabaseAchievement';
 
 interface PopulatedCurrentUser {
     _id: string;
@@ -20,7 +20,7 @@ interface PopulatedCurrentUser {
     following: BasicUser[];
     followers: BasicUser[];
     friends: Friend[];
-    achievements: AchievementType[];
+    achievements: DatabaseAchievementType[];
     profileImages: ProfileImages;
     pushNotificationToken: string;
     pushNotifications: UserPushNotifications;
