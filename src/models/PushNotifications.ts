@@ -69,3 +69,10 @@ export interface NewFollowerPushNotification {
     title: string;
     body: string;
 }
+
+export interface UnlockedAchievement {
+    pushNotificationType: PushNotificationTypes.unlockedAchievement;
+    achievementId: string;
+    title: string;
+    body: string;
+}
