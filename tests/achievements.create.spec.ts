@@ -25,7 +25,7 @@ describe('POST /achievements', () => {
         }
     });
 
-    test(`oneHundredDaySoloStreak achievement can be created`, async () => {
+    test(`${AchievementTypes.oneHundredDaySoloStreak} achievement can be created`, async () => {
         expect.assertions(4);
         const name = '100 Day Solo Streak';
         const description = 'Get a 100 Day Solo Streak';
@@ -39,31 +39,7 @@ describe('POST /achievements', () => {
         expect(achievement.name).toEqual(name);
         expect(achievement.description).toEqual(description);
         expect(Object.keys(achievement).sort()).toEqual(
-            ['_id', 'achievementType', 'name', 'description', '__v'].sort(),
+            ['_id', 'achievementType', 'name', 'description', 'createdAt', 'updatedAt', '__v'].sort(),
         );
-    });
-
-    test(`that two achievements with the same achievementType cannot be created.`, async () => {
-        expect.assertions(2);
-        const name = '100 Day Solo Streak';
-        const description = 'Get a 100 Day Solo Streak';
-        await streakoid.achievements.create({
-            achievementType: AchievementTypes.oneHundredDaySoloStreak,
-            name,
-            description,
-        });
-
-        try {
-            await streakoid.achievements.create({
-                achievementType: AchievementTypes.oneHundredDaySoloStreak,
-                name,
-                description,
-            });
-        } catch (err) {
-            expect(err.response.status).toEqual(400);
-            expect(err.response.data.message).toEqual(
-                'child "username" fails because ["username" is not allowed to be empty]',
-            );
-        }
     });
 });
