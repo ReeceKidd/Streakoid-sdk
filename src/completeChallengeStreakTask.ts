@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import CompleteChallengeStreakTask from './models/CompleteChallengeStreakTask';
 import { AxiosInstance } from 'axios';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { CompleteChallengeStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteChallengeStreakTask';
 
 const completeChallengeStreakTasks = (streakoidClient: AxiosInstance) => {
     const getAll = async ({

@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import CompleteSoloStreakTask from './models/CompleteSoloStreakTask';
 import { AxiosInstance } from 'axios';
+import { CompleteSoloStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteSoloStreakTask';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 export interface CompleteSoloStreakTasksReturnType {
     getAll: ({ userId, streakId }: { userId?: string; streakId?: string }) => Promise<CompleteSoloStreakTask[]>;

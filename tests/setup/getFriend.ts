@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-import { PopulatedCurrentUser } from '../../src';
 import { streakoid } from '../../src/streakoid';
+import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
 
 export const friendUsername = 'follower';
 export const friendEmail = 'follower@gmail.com';

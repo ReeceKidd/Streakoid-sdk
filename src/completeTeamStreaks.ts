@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import CompleteTeamStreak from './models/CompleteTeamStreak';
+import { CompleteTeamStreak } from '@streakoid/streakoid-models/lib/Models/CompleteTeamStreak';
 import { AxiosInstance } from 'axios';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const completeTeamStreaks = (streakoidClient: AxiosInstance) => {

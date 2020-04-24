@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import Feedback from './models/Feedback';
+import { Feedback } from '@streakoid/streakoid-models/lib/Models/Feedback';
 import { AxiosInstance } from 'axios';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const feedbacks = (streakoidClient: AxiosInstance) => {

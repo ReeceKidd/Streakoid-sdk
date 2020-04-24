@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import Email from './models/Email';
 import { AxiosInstance } from 'axios';
+import { Email } from '@streakoid/streakoid-models/lib/Models/Email';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const emails = (streakoidClient: AxiosInstance) => {

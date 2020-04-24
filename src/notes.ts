@@ -1,9 +1,9 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import Note from './models/Note';
-import StreakTypes from './StreakTypes';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const notes = (streakoidClient: AxiosInstance) => {

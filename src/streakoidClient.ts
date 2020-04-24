@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import SupportedRequestHeaders from './SupportedRequestHeaders';
+import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
 
 export const streakoidClientFactory = (
     applicationUrl: string,

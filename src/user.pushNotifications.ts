@@ -1,9 +1,12 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import UserPushNotifications from './models/UserPushNotifications';
-import { CompleteAllStreaksReminder, CustomStreakReminder } from './models/StreakReminders';
+import {
+    CompleteAllStreaksReminder,
+    CustomStreakReminder,
+} from '@streakoid/streakoid-models/lib/Models/StreakReminders';
+import { UserPushNotifications } from '@streakoid/streakoid-models/lib/Models/UserPushNotifications';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 const pushNotifications = (streakoidClient: AxiosInstance) => {
     const updatePushNotifications = async ({

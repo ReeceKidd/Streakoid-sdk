@@ -1,10 +1,10 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
 
-import TeamMember from './models/TeamMember';
-import TeamStreakRouterCategories from './TeamStreakRouterCategories';
+import { TeamMember } from '@streakoid/streakoid-models/lib/Models/TeamMember';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import TeamStreakRouterCategories from '@streakoid/streakoid-models/lib/Types/TeamStreakRouterCategories';
 
 const teamMembers = (streakoidClient: AxiosInstance) => {
     const create = async ({

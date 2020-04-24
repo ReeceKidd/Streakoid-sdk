@@ -1,11 +1,12 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import SoloStreak from './models/SoloStreak';
-import CurrentStreak from './models/CurrentStreak';
-import StreakStatus from './StreakStatus';
-import { PastStreak } from '.';
+import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 export enum GetAllSoloStreaksSortFields {
     currentStreak = 'currentStreak',

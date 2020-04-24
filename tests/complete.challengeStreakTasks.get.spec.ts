@@ -30,11 +30,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
         expect.assertions(8);
 
         const color = 'blue';
-        const levels = [{ level: 0, criteria: 'criteria' }];
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
-        const { challenge } = await streakoid.challenges.create({ name, description, icon, color, levels });
+        const { challenge } = await streakoid.challenges.create({ name, description, icon, color });
         const challengeId = challenge._id;
         const challengeStreak = await streakoid.challengeStreaks.create({ userId, challengeId });
         const challengeStreakId = challengeStreak._id;

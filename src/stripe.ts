@@ -2,9 +2,9 @@ import { AxiosInstance } from 'axios';
 import { Token } from 'react-stripe-checkout';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import FormattedUser from './models/FormattedUser';
-import { PaymentPlans } from '.';
+import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 
 export enum stripeRouterPaths {
     subscriptions = 'subscriptions',

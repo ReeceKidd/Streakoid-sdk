@@ -9,9 +9,9 @@ import {
     CustomSoloStreakReminder,
     CustomChallengeStreakReminder,
     CustomTeamStreakReminder,
-} from '../src/models/StreakReminders';
+} from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import { getPayingUser } from './setup/getPayingUser';
-import { StreakReminderTypes } from '../src';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 
 jest.setTimeout(120000);
 

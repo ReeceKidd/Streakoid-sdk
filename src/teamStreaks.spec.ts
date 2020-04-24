@@ -1,8 +1,8 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import StreakStatus from './StreakStatus';
-import { CurrentStreak } from '.';
-import PastStreak from './models/PastStreak';
 import { GetAllTeamStreaksSortFields } from './teamStreaks';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 describe('SDK TeamStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);

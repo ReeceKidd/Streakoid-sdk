@@ -21,7 +21,6 @@ describe('GET /database-stats', () => {
                 description: 'Must meditate',
                 icon: 'brain',
                 color: 'blue',
-                levels: [],
             });
             await streakoid.challengeStreaks.create({ userId: user._id, challengeId: challenge.challenge._id });
             await streakoid.teamStreaks.create({

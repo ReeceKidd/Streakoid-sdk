@@ -1,10 +1,10 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import StreakTrackingEvent from './models/StreakTrackingEvent';
-import { StreakTrackingEventTypes } from '.';
-import StreakTypes from './StreakTypes';
+import StreakTrackingEventTypes from '@streakoid/streakoid-models/lib/Types/StreakTrackingEventTypes';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { StreakTrackingEvent } from '@streakoid/streakoid-models/lib/Models/StreakTrackingEvent';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const streakTrackingEvents = (streakoidClient: AxiosInstance) => {

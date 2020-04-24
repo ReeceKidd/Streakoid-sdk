@@ -1,10 +1,10 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import TeamMemberStreak from './models/TeamMemberStreak';
-import CurrentStreak from './models/CurrentStreak';
-import { PastStreak } from '.';
+import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const teamMemberStreaks = (streakoidClient: AxiosInstance) => {

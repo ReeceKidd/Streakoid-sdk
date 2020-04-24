@@ -5,8 +5,9 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { username, originalImageUrl } from './setup/environment';
-import { StreakStatus, ActivityFeedItemTypes } from '../src';
 import { getFriend } from './setup/getFriend';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 

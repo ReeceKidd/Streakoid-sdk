@@ -3,7 +3,8 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { AgendaJobNames, StreakTypes } from '../src';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import AgendaJobNames from '@streakoid/streakoid-models/lib/Types/AgendaJobNames';
 
 jest.setTimeout(120000);
 

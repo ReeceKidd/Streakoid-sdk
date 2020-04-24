@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import StreakStatus from './StreakStatus';
 import { GetAllChallengeStreaksSortFields } from './challengeStreak';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 describe('SDK challengeStreaks', () => {
     const streakoid = streakoidFactory(streakoidClient);

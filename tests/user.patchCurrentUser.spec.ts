@@ -4,10 +4,10 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
-import { AchievementTypes } from '../src';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
 
 const updatedEmail = 'email@gmail.com';
 const updatedTimezone = 'Europe/Paris';

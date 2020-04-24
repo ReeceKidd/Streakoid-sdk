@@ -1,5 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { AgendaJobNames, StreakTypes } from '.';
+import AgendaJobNames from '@streakoid/streakoid-models/lib/Types/AgendaJobNames';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 describe('SDK dailyJobs', () => {
     const streakoid = streakoidFactory(streakoidClient);

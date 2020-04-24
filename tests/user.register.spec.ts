@@ -3,8 +3,8 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import UserTypes from '../src/userTypes';
-import { ActivityFeedItemTypes } from '../src';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 
@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(27);
+        expect.assertions(26);
 
         const user = await streakoid.users.create({
             username,
@@ -45,7 +45,6 @@ describe('POST /users', () => {
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.achievements).toEqual([]);
-        expect(user.friends).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();

@@ -1,7 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { ActivityFeedItemTypes } from '.';
-import { LostSoloStreakActivityFeedItem } from './models/ActivityFeedItemType';
-
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+import { LostSoloStreakActivityFeedItem } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 describe('SDK activityFeedItems', () => {
     const streakoid = streakoidFactory(streakoidClient);
 

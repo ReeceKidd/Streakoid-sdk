@@ -1,12 +1,13 @@
 import { StreakoidFactory } from '../src/streakoid';
-import StreakStatus from '../src/StreakStatus';
 import { streakoidTest } from './setup/streakoidTest';
 import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { ActivityFeedItemTypes, AchievementTypes } from '../src';
-import { OneHundredDaySoloStreakAchievement } from '../src/models/Achievement';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+import { OneHundredDaySoloStreakAchievement } from '@streakoid/streakoid-models/lib/Models/Achievement';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
 
 jest.setTimeout(120000);
 

@@ -8,8 +8,8 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { email, username } from './setup/environment';
 import { getUser } from './setup/getUser';
-import UserTypes from '../src/userTypes';
-import { PaymentPlans } from '../src';
+import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 jest.setTimeout(120000);
 
@@ -46,14 +46,13 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(30);
+        expect.assertions(29);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
             paymentPlan: PaymentPlans.Monthly,
         });
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);
@@ -129,14 +128,13 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(30);
+        expect.assertions(29);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
             paymentPlan: PaymentPlans.Annually,
         });
         expect(user.userType).toEqual(UserTypes.basic);
-        expect(user.friends).toEqual([]);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);

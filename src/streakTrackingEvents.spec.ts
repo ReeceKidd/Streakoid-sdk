@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { StreakTrackingEventTypes } from '.';
-import StreakTypes from './StreakTypes';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import StreakTrackingEventTypes from '@streakoid/streakoid-models/lib/Types/StreakTrackingEventTypes';
 
 describe('SDK streakTrackingEvents', () => {
     const streakoid = streakoidFactory(streakoidClient);

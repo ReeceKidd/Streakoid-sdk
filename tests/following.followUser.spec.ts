@@ -5,7 +5,9 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend } from './setup/getFriend';
-import { ActivityFeedItemTypes, User, PopulatedCurrentUser } from '../src';
+import { User } from '@streakoid/streakoid-models/lib/Models/User';
+import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 

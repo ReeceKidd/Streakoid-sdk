@@ -5,7 +5,7 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { getFriend } from './setup/getFriend';
-import { StreakTypes } from '../src';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 jest.setTimeout(120000);
 

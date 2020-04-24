@@ -1,8 +1,8 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
-import Challenge from './models/Challenge';
-import PopulatedChallenge from './models/PopulatedChallenge';
+import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
+import { PopulatedChallenge } from '@streakoid/streakoid-models/lib/Models/PopulatedChallenge';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const challenges = (streakoidClient: AxiosInstance) => {

@@ -1,9 +1,9 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
-import AgendaJobNames from './AgendaJobNames';
-import StreakTypes from './StreakTypes';
-import DailyJob from './models/DailyJob';
+import { DailyJob } from '@streakoid/streakoid-models/lib/Models/DailyJob';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import AgendaJobNames from '@streakoid/streakoid-models/lib/Types/AgendaJobNames';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const dailyJobs = (streakoidClient: AxiosInstance) => {

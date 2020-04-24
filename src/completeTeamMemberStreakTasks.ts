@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import CompleteTeamMemberStreakTask from './models/CompleteTeamMemberStreakTask';
+import { CompleteTeamMemberStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteTeamMemberStreakTask';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 export interface CompleteTeamMemberStreakTaskReturnType {
     getAll: ({

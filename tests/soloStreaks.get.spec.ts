@@ -3,9 +3,9 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
 import { getPayingUser } from './setup/getPayingUser';
 import { GetAllSoloStreaksSortFields } from '../src/soloStreaks';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 jest.setTimeout(120000);
 

@@ -4,9 +4,9 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
 import { username, originalImageUrl } from './setup/environment';
 import { GetAllTeamStreaksSortFields } from '../src/teamStreaks';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 jest.setTimeout(120000);
 

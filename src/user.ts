@@ -1,9 +1,9 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import PopulatedCurrentUser from './models/PopulatedCurrentUser';
 import { pushNotifications } from './user.pushNotifications';
+import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 const user = (streakoidClient: AxiosInstance) => {
     const getCurrentUser = async (): Promise<PopulatedCurrentUser> => {

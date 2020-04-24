@@ -1,9 +1,9 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
 import { AxiosInstance } from 'axios';
-import SupportedResponseHeaders from './SupportedResponseHeaders';
-import ActivityFeedItemTypes from './ActivityFeedItemTypes';
-import ActivityFeedItemType from './models/ActivityFeedItemType';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { ActivityFeedItemType } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 
 export interface GetAllActivityFeedItemsResponse {
     activityFeedItems: ActivityFeedItemType[];

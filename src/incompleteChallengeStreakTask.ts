@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import IncompleteChalllengeStreakTask from './models/IncompleteChallengeStreakTask';
 import { AxiosInstance } from 'axios';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { IncompleteChallengeStreakTask } from '@streakoid/streakoid-models/lib/Models/IncompleteChallengeStreakTask';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const incompleteChalllengeStreakTasks = (streakoidClient: AxiosInstance) => {
@@ -11,7 +11,7 @@ const incompleteChalllengeStreakTasks = (streakoidClient: AxiosInstance) => {
     }: {
         userId: string;
         challengeStreakId: string;
-    }): Promise<IncompleteChalllengeStreakTask> => {
+    }): Promise<IncompleteChallengeStreakTask> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.incompleteChallengeStreakTasks}`,

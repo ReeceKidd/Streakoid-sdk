@@ -1,11 +1,11 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import ChallengeStreak from './models/ChallengeStreak';
-import StreakStatus from './StreakStatus';
-import CurrentStreak from './models/CurrentStreak';
-import { PastStreak } from '.';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 export enum GetAllChallengeStreaksSortFields {
     currentStreak = 'currentStreak',

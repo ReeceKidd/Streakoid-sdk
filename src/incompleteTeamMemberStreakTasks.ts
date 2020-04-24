@@ -1,7 +1,7 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import IncompleteTeamMemberStreakTask from './models/IncompleteTeamMemberStreakTask';
+import { IncompleteTeamMemberStreakTask } from '@streakoid/streakoid-models/lib/Models/IncompleteTeamMemberStreakTask';
 import { AxiosInstance } from 'axios';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const incompleteTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {

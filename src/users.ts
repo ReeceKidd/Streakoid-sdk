@@ -1,10 +1,12 @@
 import { AxiosInstance } from 'axios';
 
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
-import { FormattedUser, PopulatedCurrentUser, PopulatedUser } from '.';
 import { followers } from './followers';
 import { following } from './following';
+import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
+import { PopulatedUser } from '@streakoid/streakoid-models/lib/Models/PopulatedUser';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { FormattedUser } from '@streakoid/streakoid-models/lib/Models/FormattedUser';
 
 const users = (streakoidClient: AxiosInstance) => {
     const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {

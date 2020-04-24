@@ -1,5 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { PaymentPlans } from '.';
+import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
 
 describe('SDK stripe', () => {
     const streakoid = streakoidFactory(streakoidClient);

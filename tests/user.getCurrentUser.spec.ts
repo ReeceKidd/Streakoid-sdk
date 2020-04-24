@@ -6,6 +6,8 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import { username } from './setup/environment';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
 
 jest.setTimeout(120000);
 
@@ -29,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retreives current user`, async () => {
-        expect.assertions(25);
+        expect.assertions(24);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -43,7 +45,6 @@ describe('GET /user', () => {
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.achievements).toEqual([]);
-        expect(user.friends).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
         expect(user.membershipInformation.currentMembershipStartDate).toBeDefined();

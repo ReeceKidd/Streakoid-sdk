@@ -1,8 +1,8 @@
 import ApiVersions from './ApiVersions';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
-import DatabaseAchievement from '@streakoid/streakoid-models/lib/Models/DatabaseAchievement';
-import Achievement from '@streakoid/streakoid-models/lib/Models/Achievement';
+import { DatabaseAchievement } from '@streakoid/streakoid-models/lib/Models/DatabaseAchievement';
+import { AchievementType } from '@streakoid/streakoid-models/lib/Models/Achievement';
 import { AxiosInstance } from 'axios';
 
 const achievements = (streakoidClient: AxiosInstance) => {
@@ -25,7 +25,7 @@ const achievements = (streakoidClient: AxiosInstance) => {
         }
     };
 
-    const create = async (achievement: Achievement): Promise<DatabaseAchievement> => {
+    const create = async (achievement: AchievementType): Promise<DatabaseAchievement> => {
         try {
             const { data } = await streakoidClient.post(
                 `/${ApiVersions.v1}/${RouterCategories.achievements}`,

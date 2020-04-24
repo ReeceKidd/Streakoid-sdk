@@ -1,13 +1,13 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import UserPushNotifications from './models/UserPushNotifications';
-import StreakReminderTypes from './StreakReminderTypes';
 import {
     CompleteAllStreaksReminder,
     CustomSoloStreakReminder,
     CustomTeamStreakReminder,
     CustomChallengeStreakReminder,
     CustomStreakReminder,
-} from './models/StreakReminders';
+} from '@streakoid/streakoid-models/lib/Models/StreakReminders';
+import { UserPushNotifications } from '@streakoid/streakoid-models/lib/Models/UserPushNotifications';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 jest.genMockFromModule('./streakoid');
 
 describe('SDK users', () => {

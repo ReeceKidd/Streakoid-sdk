@@ -4,9 +4,9 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 jest.setTimeout(120000);
 
@@ -30,7 +30,7 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retreives user`, async () => {
-        expect.assertions(13);
+        expect.assertions(12);
 
         const user = await streakoid.users.getOne(userId);
 
@@ -38,7 +38,6 @@ describe('GET /users/:userId', () => {
         expect(user.username).toEqual(username);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.timezone).toEqual(londonTimezone);
-        expect(user.friends).toEqual([]);
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.achievements).toEqual([]);

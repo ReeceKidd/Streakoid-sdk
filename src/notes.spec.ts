@@ -1,5 +1,5 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { StreakTypes } from '.';
+import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 
 describe('SDK notes', () => {
     const streakoid = streakoidFactory(streakoidClient);

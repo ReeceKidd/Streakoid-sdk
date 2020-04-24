@@ -4,8 +4,13 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus, ActivityFeedItemTypes, StreakReminderTypes } from '../src';
-import { CustomChallengeStreakReminder, CustomStreakReminder } from '../src/models/StreakReminders';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import {
+    CustomStreakReminder,
+    CustomChallengeStreakReminder,
+} from '@streakoid/streakoid-models/lib/Models/StreakReminders';
+import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
+import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 

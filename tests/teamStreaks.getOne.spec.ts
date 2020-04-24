@@ -5,7 +5,7 @@ import { username, originalImageUrl } from './setup/environment';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { StreakStatus } from '../src';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 jest.setTimeout(120000);
 
