@@ -5,9 +5,7 @@ import { getFriend } from './setup/getFriend';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import UserTypes from '../src/userTypes';
 import { username } from './setup/environment';
-import { AchievementTypes } from '../src';
 
 jest.setTimeout(120000);
 

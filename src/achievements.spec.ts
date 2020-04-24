@@ -1,6 +1,6 @@
 import { streakoidFactory, streakoidClient } from './streakoid';
-import { AchievementTypes } from '.';
-import { OneHundredDaySoloStreakAchievement } from './models/Achievement';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
+import { OneHundredDaySoloStreakAchievement } from '@streakoid/streakoid-models/lib/Models/Achievement';
 
 describe('SDK achievements', () => {
     const streakoid = streakoidFactory(streakoidClient);

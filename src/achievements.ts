@@ -1,9 +1,9 @@
 import ApiVersions from './ApiVersions';
-import RouterCategories from './RouterCategories';
+import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
+import DatabaseAchievement from '@streakoid/streakoid-models/lib/Models/DatabaseAchievement';
+import Achievement from '@streakoid/streakoid-models/lib/Models/Achievement';
 import { AxiosInstance } from 'axios';
-import AchievementTypes from './AchievementTypes';
-import Achievement from './models/Achievement';
-import DatabaseAchievement from './models/DatabaseAchievement';
 
 const achievements = (streakoidClient: AxiosInstance) => {
     const getAll = async ({
