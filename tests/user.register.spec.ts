@@ -75,7 +75,6 @@ describe('POST /users', () => {
                 'followers',
                 'following',
                 'achievements',
-                'friends',
                 'profileImages',
                 'pushNotificationToken',
                 'pushNotifications',

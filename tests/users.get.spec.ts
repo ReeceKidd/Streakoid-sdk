@@ -50,7 +50,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -85,7 +84,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -119,7 +117,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -154,7 +151,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -188,7 +184,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -225,7 +220,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -262,7 +256,6 @@ describe('GET /users', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',

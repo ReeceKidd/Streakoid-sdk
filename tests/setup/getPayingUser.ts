@@ -1,7 +1,7 @@
 import { username, email } from './environment';
 import { streakoid } from '../../src/streakoid';
-import { User } from '../../src';
 import mongoose from 'mongoose';
+import { User } from '@streakoid/streakoid-models/lib/Models/User';
 
 const getPayingUser = async (): Promise<User> => {
     await streakoid.users.create({

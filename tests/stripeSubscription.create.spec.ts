@@ -66,7 +66,6 @@ describe('POST /stripe-subscription', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -107,7 +106,6 @@ describe('POST /stripe-subscription', () => {
             [
                 'stripe',
                 'userType',
-                'friends',
                 'following',
                 'followers',
                 'achievements',
@@ -148,7 +146,6 @@ describe('POST /stripe-subscription', () => {
             [
                 'userType',
                 'isPayingMember',
-                'friends',
                 '_id',
                 'username',
                 'timezone',
@@ -192,7 +189,6 @@ describe('POST /stripe-subscription', () => {
                 'followers',
                 'following',
                 'achievements',
-                'friends',
                 'membershipInformation',
                 '_id',
                 'username',

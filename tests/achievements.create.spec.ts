@@ -4,7 +4,7 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { AchievementTypes } from '../src';
+import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
 
 jest.setTimeout(120000);
 
