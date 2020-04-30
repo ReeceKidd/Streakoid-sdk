@@ -30,8 +30,8 @@ describe('GET /user', () => {
         }
     });
 
-    test(`retreives current user`, async () => {
-        expect.assertions(24);
+    test(`retrieves current user`, async () => {
+        expect.assertions(25);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -44,6 +44,7 @@ describe('GET /user', () => {
         );
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
+        expect(user.totalStreakCompletes).toEqual(0);
         expect(user.achievements).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(true);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
@@ -71,6 +72,7 @@ describe('GET /user', () => {
                 'email',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 'pushNotifications',
@@ -107,6 +109,7 @@ describe('GET /user', () => {
                 'email',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 'pushNotifications',
@@ -145,6 +148,7 @@ describe('GET /user', () => {
                 'email',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 'pushNotifications',
@@ -207,6 +211,7 @@ describe('GET /user', () => {
                 'email',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 'pushNotifications',

@@ -29,8 +29,8 @@ describe('GET /users/:userId', () => {
         }
     });
 
-    test(`retreives user`, async () => {
-        expect.assertions(12);
+    test(`retrieves user`, async () => {
+        expect.assertions(13);
 
         const user = await streakoid.users.getOne(userId);
 
@@ -40,6 +40,7 @@ describe('GET /users/:userId', () => {
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
+        expect(user.totalStreakCompletes).toEqual(0);
         expect(user.achievements).toEqual([]);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -56,6 +57,7 @@ describe('GET /users/:userId', () => {
                 'timezone',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'profileImages',
                 'pushNotificationToken',
@@ -65,7 +67,7 @@ describe('GET /users/:userId', () => {
         );
     });
 
-    test(`if user has a following a populated following list iis returned`, async () => {
+    test(`if user has a following a populated following list is returned`, async () => {
         expect.assertions(5);
 
         const friend = await getFriend();
@@ -86,6 +88,7 @@ describe('GET /users/:userId', () => {
                 'createdAt',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'isPayingMember',
                 'profileImages',
@@ -119,6 +122,7 @@ describe('GET /users/:userId', () => {
                 'createdAt',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'isPayingMember',
                 'profileImages',

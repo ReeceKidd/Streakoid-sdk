@@ -46,7 +46,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(29);
+        expect.assertions(30);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -71,6 +71,7 @@ describe('POST /stripe-subscription', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -90,6 +91,7 @@ describe('POST /stripe-subscription', () => {
         ]);
         expect(databaseUser.followers).toEqual([]);
         expect(databaseUser.following).toEqual([]);
+        expect(databaseUser.totalStreakCompletes).toEqual(0);
         expect(databaseUser.achievements).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
@@ -108,6 +110,7 @@ describe('POST /stripe-subscription', () => {
                 'userType',
                 'following',
                 'followers',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 '_id',
@@ -126,7 +129,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(29);
+        expect.assertions(30);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -151,6 +154,7 @@ describe('POST /stripe-subscription', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -170,6 +174,7 @@ describe('POST /stripe-subscription', () => {
         ]);
         expect(databaseUser.followers).toEqual([]);
         expect(databaseUser.following).toEqual([]);
+        expect(databaseUser.totalStreakCompletes).toEqual(0);
         expect(databaseUser.achievements).toEqual([]);
         expect(databaseUser._id).toBeDefined();
         expect(databaseUser.username).toEqual(username);
@@ -188,6 +193,7 @@ describe('POST /stripe-subscription', () => {
                 'userType',
                 'followers',
                 'following',
+                'totalStreakCompletes',
                 'achievements',
                 'membershipInformation',
                 '_id',
@@ -216,7 +222,7 @@ describe('POST /stripe-subscription', () => {
         }
     });
 
-    test('sends correct error when customer has insufficent funds', async () => {
+    test('sends correct error when customer has insufficient funds', async () => {
         expect.assertions(2);
         try {
             const token: any = { email, id: 'tok_chargeDeclinedInsufficientFunds' };

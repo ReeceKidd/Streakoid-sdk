@@ -28,7 +28,7 @@ describe('GET /users', () => {
     });
 
     test(`returns all users when no searchTerm is used`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({});
         expect(users.length).toEqual(1);
@@ -44,6 +44,7 @@ describe('GET /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.totalStreakCompletes).toEqual(0);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -55,6 +56,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -62,7 +64,7 @@ describe('GET /users', () => {
     });
 
     test(`returns user when full searchTerm is used`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: username });
         expect(users.length).toEqual(1);
@@ -74,6 +76,7 @@ describe('GET /users', () => {
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
         expect(user.timezone).toEqual(expect.any(String));
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
@@ -89,6 +92,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -96,13 +100,14 @@ describe('GET /users', () => {
     });
 
     test('returns user when partial searchTerm is used', async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ searchQuery: username.slice(0, 1) });
         expect(users.length).toEqual(1);
 
         const user = users[0];
         expect(user.userType).toEqual(UserTypes.basic);
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.isPayingMember).toEqual(true);
         expect(user._id).toEqual(expect.any(String));
         expect(user.username).toEqual(expect.any(String));
@@ -121,6 +126,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
+                'totalStreakCompletes',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
@@ -128,8 +134,8 @@ describe('GET /users', () => {
         );
     });
 
-    test('returns exact user when username query paramater is used', async () => {
-        expect.assertions(11);
+    test('returns exact user when username query paramter is used', async () => {
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ username });
         expect(users.length).toEqual(1);
@@ -144,6 +150,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -156,14 +163,15 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
         );
     });
 
-    test('returns exact user when email query paramater is used', async () => {
-        expect.assertions(11);
+    test('returns exact user when email query paramter is used', async () => {
+        expect.assertions(12);
 
         const users = await streakoid.users.getAll({ email });
         expect(users.length).toEqual(1);
@@ -178,6 +186,7 @@ describe('GET /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -189,6 +198,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -196,7 +206,7 @@ describe('GET /users', () => {
     });
 
     test(`limits to one user when two are available`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         await getFriend();
 
@@ -213,6 +223,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -224,6 +235,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
+                'totalStreakCompletes',
                 'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
@@ -232,7 +244,7 @@ describe('GET /users', () => {
     });
 
     test(`skips to second user when two are available`, async () => {
-        expect.assertions(11);
+        expect.assertions(12);
 
         await getFriend();
 
@@ -250,6 +262,7 @@ describe('GET /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeDefined();
+        expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -261,6 +274,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'pushNotificationToken',
+                'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
