@@ -27,12 +27,14 @@ const users = (streakoidClient: AxiosInstance) => {
         searchQuery,
         username,
         email,
+        userIds,
     }: {
         skip?: number;
         limit?: number;
         searchQuery?: string;
         username?: string;
         email?: string;
+        userIds?: string[];
     }): Promise<FormattedUser[]> => {
         try {
             let getAllUsersURL = `/${ApiVersions.v1}/${RouterCategories.users}?`;
@@ -48,6 +50,8 @@ const users = (streakoidClient: AxiosInstance) => {
                 getAllUsersURL = `${getAllUsersURL}username=${username}&`;
             } else if (email) {
                 getAllUsersURL = `${getAllUsersURL}email=${email}&`;
+            } else if (userIds) {
+                getAllUsersURL = `${getAllUsersURL}userIds=${encodeURIComponent(JSON.stringify(userIds))}&`;
             }
             const { data } = await streakoidClient.get(getAllUsersURL);
             return data;

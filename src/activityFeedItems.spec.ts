@@ -29,7 +29,7 @@ describe('SDK activityFeedItems', () => {
             createdAtBefore,
         };
 
-        test('calls GET with correct URL when no query paramters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 
@@ -38,7 +38,7 @@ describe('SDK activityFeedItems', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/activity-feed-items?limit=${limit}&`);
         });
 
-        test('calls GET with correct URL when all query paramters are passed', async () => {
+        test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 

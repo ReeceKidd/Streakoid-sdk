@@ -5,7 +5,6 @@ import { getFriend } from './setup/getFriend';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { email, username } from './setup/environment';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 jest.setTimeout(120000);
@@ -16,7 +15,6 @@ describe('GET /users', () => {
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            await getPayingUser();
             streakoid = await streakoidTest();
         }
     });
@@ -29,6 +27,8 @@ describe('GET /users', () => {
 
     test(`returns all users when no searchTerm is used`, async () => {
         expect.assertions(12);
+
+        await getPayingUser();
 
         const users = await streakoid.users.getAll({});
         expect(users.length).toEqual(1);
@@ -66,6 +66,8 @@ describe('GET /users', () => {
     test(`returns user when full searchTerm is used`, async () => {
         expect.assertions(12);
 
+        const { username } = await getPayingUser();
+
         const users = await streakoid.users.getAll({ searchQuery: username });
         expect(users.length).toEqual(1);
 
@@ -102,6 +104,8 @@ describe('GET /users', () => {
     test('returns user when partial searchTerm is used', async () => {
         expect.assertions(12);
 
+        const { username } = await getPayingUser();
+
         const users = await streakoid.users.getAll({ searchQuery: username.slice(0, 1) });
         expect(users.length).toEqual(1);
 
@@ -136,6 +140,8 @@ describe('GET /users', () => {
 
     test('returns exact user when username query paramter is used', async () => {
         expect.assertions(12);
+
+        const { username } = await getPayingUser();
 
         const users = await streakoid.users.getAll({ username });
         expect(users.length).toEqual(1);
@@ -173,6 +179,8 @@ describe('GET /users', () => {
     test('returns exact user when email query paramter is used', async () => {
         expect.assertions(12);
 
+        const { email } = await getPayingUser();
+
         const users = await streakoid.users.getAll({ email });
         expect(users.length).toEqual(1);
 
@@ -205,12 +213,14 @@ describe('GET /users', () => {
         );
     });
 
-    test(`limits to one user when two are available`, async () => {
+    test(`returns users specified with userIds`, async () => {
         expect.assertions(12);
+
+        const payingUser = await getPayingUser();
 
         await getFriend();
 
-        const users = await streakoid.users.getAll({ limit: 1 });
+        const users = await streakoid.users.getAll({ userIds: [payingUser._id] });
         expect(users.length).toEqual(1);
 
         const user = users[0];
@@ -243,8 +253,21 @@ describe('GET /users', () => {
         );
     });
 
+    test(`limits to one user when two are available`, async () => {
+        expect.assertions(1);
+
+        await getPayingUser();
+
+        await getFriend();
+
+        const users = await streakoid.users.getAll({ limit: 1 });
+        expect(users.length).toEqual(1);
+    });
+
     test(`skips to second user when two are available`, async () => {
         expect.assertions(12);
+
+        await getPayingUser();
 
         await getFriend();
 

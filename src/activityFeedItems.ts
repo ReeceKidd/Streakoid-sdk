@@ -34,41 +34,41 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
         activityFeedItemType?: ActivityFeedItemTypes;
     }): Promise<GetAllActivityFeedItemsResponse> => {
         try {
-            let getAllactivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${Number(
+            let getAllActivityFeedItemsURL = `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}?limit=${Number(
                 limit,
             )}&`;
 
             if (createdAtBefore) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}createdAtBefore=${createdAtBefore.toISOString()}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}createdAtBefore=${createdAtBefore.toISOString()}&`;
             }
 
             if (userIds) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}userIds=${encodeURIComponent(
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&`;
             }
 
             if (soloStreakId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}soloStreakId=${soloStreakId}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}soloStreakId=${soloStreakId}&`;
             }
 
             if (challengeStreakId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeStreakId=${challengeStreakId}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}challengeStreakId=${challengeStreakId}&`;
             }
 
             if (challengeId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}challengeId=${challengeId}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}challengeId=${challengeId}&`;
             }
 
             if (teamStreakId) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}teamStreakId=${teamStreakId}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}teamStreakId=${teamStreakId}&`;
             }
 
             if (activityFeedItemType) {
-                getAllactivityFeedItemsURL = `${getAllactivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
+                getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
-            const response = await streakoidClient.get(getAllactivityFeedItemsURL);
+            const response = await streakoidClient.get(getAllActivityFeedItemsURL);
             return {
                 activityFeedItems: response.data,
                 totalCountOfActivityFeedItems: Number(response.headers[SupportedResponseHeaders.TotalCount]),

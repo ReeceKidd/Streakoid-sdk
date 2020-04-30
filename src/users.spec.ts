@@ -9,7 +9,7 @@ describe('SDK users', () => {
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
             streakoidClient.post = jest.fn().mockResolvedValue(true);
@@ -26,7 +26,7 @@ describe('SDK users', () => {
     });
 
     describe('getAll', () => {
-        test('calls GET with correct URL and skip paramater', async () => {
+        test('calls GET with correct URL and skip paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -35,7 +35,7 @@ describe('SDK users', () => {
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?skip=10&`);
         });
-        test('calls GET with correct URL and limit paramater', async () => {
+        test('calls GET with correct URL and limit paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -44,7 +44,7 @@ describe('SDK users', () => {
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?limit=10&`);
         });
-        test('calls GET with correct URL and searchQuery paramater', async () => {
+        test('calls GET with correct URL and searchQuery paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -54,7 +54,7 @@ describe('SDK users', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?searchQuery=searchQuery&`);
         });
 
-        test('calls GET with correct URL without searchQuery paramater', async () => {
+        test('calls GET with correct URL without searchQuery paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -64,7 +64,7 @@ describe('SDK users', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?`);
         });
 
-        test('calls GET with correct URL and username paramater', async () => {
+        test('calls GET with correct URL and username paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -74,7 +74,7 @@ describe('SDK users', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?username=username&`);
         });
 
-        test('calls GET with correct URL and email paramater', async () => {
+        test('calls GET with correct URL and email paramter', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -82,6 +82,20 @@ describe('SDK users', () => {
             await streakoid.users.getAll({ email: 'email' });
 
             expect(streakoidClient.get).toBeCalledWith(`/v1/users?email=email&`);
+        });
+
+        test('calls GET with correct URL and userIds paramter', async () => {
+            expect.assertions(1);
+
+            streakoidClient.get = jest.fn().mockResolvedValue(true);
+
+            const userIds = ['user1', 'user2'];
+
+            await streakoid.users.getAll({ userIds });
+
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/users?userIds=${encodeURIComponent(JSON.stringify(userIds))}&`,
+            );
         });
     });
 
