@@ -13,26 +13,15 @@ jest.setTimeout(120000);
 
 describe('GET /complete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
-    let followerId: string;
-    const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
-            const follower = await getFriend();
-            followerId = follower._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -41,11 +30,14 @@ describe('GET /complete-team-member-streak-tasks', () => {
     test('user can complete a team member streak task with a new current streak', async () => {
         expect.assertions(22);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Spanish',
             members,
         });
 
@@ -115,14 +107,17 @@ describe('GET /complete-team-member-streak-tasks', () => {
         );
     });
 
-    test('user can complete a team member streak task with an exsiting current streak', async () => {
+    test('user can complete a team member streak task with an existing current streak', async () => {
         expect.assertions(22);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Spanish',
             members,
         });
 
@@ -209,11 +204,14 @@ describe('GET /complete-team-member-streak-tasks', () => {
     test('if lone team member has completed their task the new team streak gets updated.', async () => {
         expect.assertions(49);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const members = [{ memberId: userId }];
 
         const teamStreakWithOneMember = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Spanish',
             members,
         });
 
@@ -303,7 +301,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(updatedTeamStreak.members.length).toEqual(1);
         const member = updatedTeamStreak.members[0];
         expect(member._id).toBeDefined();
-        expect(member.username).toEqual(username);
+        expect(member.username).toEqual(user.username);
         expect(member.profileImage).toEqual(originalImageUrl);
         expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
         expect(Object.keys(updatedTeamStreak.members[0].teamMemberStreak).sort()).toEqual(
@@ -322,7 +320,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             ].sort(),
         );
 
-        expect(updatedTeamStreak.streakName).toEqual(streakName);
+        expect(updatedTeamStreak.streakName).toEqual(teamStreakWithOneMember.streakName);
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
         expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
@@ -353,18 +351,21 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         const { creator } = updatedTeamStreak;
         expect(creator._id).toBeDefined();
-        expect(creator.username).toEqual(username);
+        expect(creator.username).toEqual(user.username);
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
     test('if lone team member has completed their task the existing team streak gets updated.', async () => {
         expect.assertions(49);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const members = [{ memberId: userId }];
 
         const teamStreakWithOneMember = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Daily Spanish',
             members,
         });
 
@@ -467,7 +468,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         expect(updatedTeamStreak.members.length).toEqual(1);
         const member = updatedTeamStreak.members[0];
         expect(member._id).toBeDefined();
-        expect(member.username).toEqual(username);
+        expect(member.username).toEqual(user.username);
         expect(member.profileImage).toEqual(originalImageUrl);
         expect(Object.keys(member).sort()).toEqual(['_id', 'username', 'profileImage', 'teamMemberStreak'].sort());
         expect(Object.keys(updatedTeamStreak.members[0].teamMemberStreak).sort()).toEqual(
@@ -486,7 +487,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
             ].sort(),
         );
 
-        expect(updatedTeamStreak.streakName).toEqual(streakName);
+        expect(updatedTeamStreak.streakName).toEqual(expect.any(String));
         expect(updatedTeamStreak.status).toEqual(StreakStatus.live);
         expect(updatedTeamStreak.creatorId).toBeDefined();
         expect(updatedTeamStreak.timezone).toEqual(londonTimezone);
@@ -517,18 +518,24 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         const { creator } = updatedTeamStreak;
         expect(creator._id).toBeDefined();
-        expect(creator.username).toEqual(username);
+        expect(creator.username).toEqual(user.username);
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
     test('if one of two team members has not completed their task the new team streak does not get completed for the day', async () => {
         expect.assertions(49);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
+
         const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Spanish',
             members,
         });
 
@@ -645,7 +652,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const unaffectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakWithTwoMembers._id);
 
         expect(unaffectedTeamStreak.members.length).toEqual(2);
-        expect(unaffectedTeamStreak.streakName).toEqual(streakName);
+        expect(unaffectedTeamStreak.streakName).toEqual(expect.any(String));
         expect(unaffectedTeamStreak.status).toEqual(StreakStatus.live);
         expect(unaffectedTeamStreak.creatorId).toBeDefined();
         expect(unaffectedTeamStreak.timezone).toEqual(londonTimezone);
@@ -675,18 +682,24 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         const { creator } = unaffectedTeamStreak;
         expect(creator._id).toBeDefined();
-        expect(creator.username).toEqual(username);
+        expect(creator.username).toEqual(user.username);
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
     test('if one of two team members has not completed their task the exiting team streak does not get completed for the day', async () => {
         expect.assertions(50);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
+
         const members = [{ memberId: userId }, { memberId: followerId }];
 
         const teamStreakWithTwoMembers = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Spanish',
             members,
         });
 
@@ -816,7 +829,7 @@ describe('GET /complete-team-member-streak-tasks', () => {
         const unaffectedTeamStreak = await streakoid.teamStreaks.getOne(teamStreakWithCurrentStreak._id);
 
         expect(unaffectedTeamStreak.members.length).toEqual(2);
-        expect(unaffectedTeamStreak.streakName).toEqual(streakName);
+        expect(unaffectedTeamStreak.streakName).toEqual(expect.any(String));
         expect(unaffectedTeamStreak.status).toEqual(StreakStatus.live);
         expect(unaffectedTeamStreak.creatorId).toBeDefined();
         expect(unaffectedTeamStreak.timezone).toEqual(londonTimezone);
@@ -849,12 +862,15 @@ describe('GET /complete-team-member-streak-tasks', () => {
 
         const { creator } = unaffectedTeamStreak;
         expect(creator._id).toBeDefined();
-        expect(creator.username).toEqual(username);
+        expect(creator.username).toEqual(user.username);
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
     test('completing one team streak for the day does not affect another existing team streak.', async () => {
         expect.assertions(30);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const members = [{ memberId: userId }];
 
@@ -965,12 +981,15 @@ describe('GET /complete-team-member-streak-tasks', () => {
     test('user cannot complete the same team streak member task in the same day', async () => {
         expect.assertions(3);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         try {
             const members = [{ memberId: userId }];
 
             const teamStreak = await streakoid.teamStreaks.create({
                 creatorId: userId,
-                streakName,
+                streakName: 'Daily Spanish',
                 members,
             });
 
@@ -997,14 +1016,47 @@ describe('GET /complete-team-member-streak-tasks', () => {
         }
     });
 
-    test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
-        expect.assertions(6);
+    test('when team member completes a team member streak their totalStreakCompletes increases by one.', async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
-            streakName,
+            streakName: 'Daily Spanish',
+            members,
+        });
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreak._id,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        const updatedUser = await streakoid.users.getOne(userId);
+        expect(updatedUser.totalStreakCompletes).toEqual(1);
+    });
+
+    test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
+        expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName: 'Daily Spanish',
             members,
         });
 
@@ -1034,8 +1086,10 @@ describe('GET /complete-team-member-streak-tasks', () => {
             expect(createdTeamMemberStreakActivityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
             expect(createdTeamMemberStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
             expect(createdTeamMemberStreakActivityFeedItem.userId).toEqual(String(userId));
-            expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(username);
-            expect(createdTeamMemberStreakActivityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(user.username);
+            expect(createdTeamMemberStreakActivityFeedItem.userProfileImage).toEqual(
+                user.profileImages.originalImageUrl,
+            );
             expect(Object.keys(createdTeamMemberStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',

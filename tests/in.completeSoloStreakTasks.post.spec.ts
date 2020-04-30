@@ -12,30 +12,27 @@ jest.setTimeout(120000);
 describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
     let userId: string;
-    let username: string;
-    let userProfileImage: string;
     const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     describe('POST /v1/incomplete-solo-streak-tasks', () => {
-        test('user can incomplete a solo streak task and the solo streak tasks startdate gets reset if it is the first day of the streak', async () => {
+        test('user can incomplete a solo streak task and the solo streak tasks start date gets reset if it is the first day of the streak', async () => {
             expect.assertions(21);
+
+            const user = await getPayingUser();
+            userId = user._id;
 
             const createSoloStreakResponse = await streakoid.soloStreaks.create({
                 userId,
@@ -43,7 +40,7 @@ describe('GET /complete-solo-streak-tasks', () => {
             });
             const soloStreakId = createSoloStreakResponse._id;
 
-            // Task must be completed before it can be incompleted
+            // Task must be completed before it can be incomplete
             await streakoid.completeSoloStreakTasks.create({
                 userId,
                 soloStreakId,
@@ -112,6 +109,9 @@ describe('GET /complete-solo-streak-tasks', () => {
         test('user can incomplete a solo streak task after the first day of the streak', async () => {
             expect.assertions(21);
 
+            const user = await getPayingUser();
+            userId = user._id;
+
             // Manually updating the solo streak to simulate a streak greater than one day.
             const multipleDaySoloStreak = await streakoid.soloStreaks.create({
                 userId,
@@ -125,7 +125,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 updateData: { active: true, currentStreak: { numberOfDaysInARow, startDate: new Date().toString() } },
             });
 
-            // Streak must be completed before it can be incompleted.
+            // Streak must be completed before it can be incomplete.
             await streakoid.completeSoloStreakTasks.create({
                 userId,
                 soloStreakId: multipleDaySoloStreak._id,
@@ -193,6 +193,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         test('user cannot incomplete a solo streak task that has not been completed', async () => {
             expect.assertions(3);
+            const user = await getPayingUser();
+            userId = user._id;
             const secondSoloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
@@ -210,8 +212,35 @@ describe('GET /complete-solo-streak-tasks', () => {
             }
         });
 
-        test('when user incompletes a task a IncompletedSoloStreakActivityItem is created', async () => {
+        test('when user incomplete,s there totalStreakCompletes decreases by one', async () => {
+            expect.assertions(1);
+
+            const user = await getPayingUser();
+            userId = user._id;
+
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            await streakoid.incompleteSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.totalStreakCompletes).toEqual(0);
+        });
+
+        test('when user incompletes a streak a IncompletedSoloStreakActivityItem is created', async () => {
             expect.assertions(6);
+
+            const user = await getPayingUser();
+            userId = user._id;
+
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
 
@@ -238,8 +267,8 @@ describe('GET /complete-solo-streak-tasks', () => {
                 expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
                 expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
                 expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
-                expect(activityFeedItem.username).toEqual(username);
-                expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+                expect(activityFeedItem.username).toEqual(user.username);
+                expect(activityFeedItem.userProfileImage).toEqual(user.profileImages.originalImageUrl);
                 expect(Object.keys(activityFeedItem).sort()).toEqual(
                     [
                         '_id',

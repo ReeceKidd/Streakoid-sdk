@@ -13,24 +13,15 @@ jest.setTimeout(120000);
 
 describe('GET /incomplete-team-member-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let userProfileImage: string;
-    let followerId: string;
-    const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
-            const follower = await getFriend();
-            followerId = follower._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -38,7 +29,12 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('lone user can incomplete a team member streak task for the first day of a streak.', async () => {
         expect.assertions(50);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const members = [{ memberId: userId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -203,7 +199,11 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
     test('lone user can incomplete a team member streak task after the first day of the streak', async () => {
         expect.assertions(50);
+
+        const user = await getPayingUser();
+        const userId = user._id;
         const members = [{ memberId: userId }];
+        const streakName = 'Daily Spanish';
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
             streakName,
@@ -382,8 +382,11 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     });
 
     test('lone user cannot incomplete a complete streak task that has not been completed', async () => {
+        const user = await getPayingUser();
+        const userId = user._id;
         expect.assertions(3);
         const members = [{ memberId: userId }];
+        const streakName = 'Daily Spanish';
         const newTeamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
             streakName,
@@ -409,8 +412,15 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
     test('if both team members have completed their tasks for a new streak and one team member incompletes their own streak the team streak and that users streak gets reset.', async () => {
         expect.assertions(50);
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
 
         const members = [{ memberId: userId }, { memberId: followerId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -580,8 +590,15 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
 
     test('if both team members have completed their tasks for an existing streak and one team member incompletes their own streak the team streaks number of days in a row drops and it is set to incomplete.', async () => {
         expect.assertions(50);
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
 
         const members = [{ memberId: userId }, { memberId: followerId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -777,7 +794,15 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for a new streak and both team members incomplete their own streaks and the team streak should be reset.', async () => {
         expect.assertions(72);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
+
         const members = [{ memberId: userId }, { memberId: followerId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -1008,7 +1033,15 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
     test('if both team members have completed their tasks for an existing streak and both team members incomplete their own streaks and the team streak should be reset.', async () => {
         expect.assertions(85);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const follower = await getFriend();
+        const followerId = follower._id;
+
         const members = [{ memberId: userId }, { memberId: followerId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -1313,10 +1346,53 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
+    test('when team member incompletes a task thier totalStreakCompletes is decreased by one.', async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const members = [{ memberId: userId }];
+
+        const streakName = 'Daily Spanish';
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        const teamMemberStreaks = await streakoid.teamMemberStreaks.getAll({
+            userId,
+            teamStreakId: teamStreak._id,
+        });
+        const teamMemberStreak = teamMemberStreaks[0];
+
+        await streakoid.completeTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        await streakoid.incompleteTeamMemberStreakTasks.create({
+            userId,
+            teamStreakId: teamStreak._id,
+            teamMemberStreakId: teamMemberStreak._id,
+        });
+
+        const updatedUser = await streakoid.users.getOne(userId);
+        expect(updatedUser.totalStreakCompletes).toEqual(0);
+    });
+
     test('when team member completes a task a CompletedTeamMemberStreakActivityFeedItem is created', async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const members = [{ memberId: userId }];
+
+        const streakName = 'Daily Spanish';
 
         const teamStreak = await streakoid.teamStreaks.create({
             creatorId: userId,
@@ -1357,7 +1433,9 @@ describe('GET /incomplete-team-member-streak-tasks', () => {
             expect(createdTeamMemberStreakActivityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
             expect(createdTeamMemberStreakActivityFeedItem.userId).toEqual(String(userId));
             expect(createdTeamMemberStreakActivityFeedItem.username).toEqual(username);
-            expect(createdTeamMemberStreakActivityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(createdTeamMemberStreakActivityFeedItem.userProfileImage).toEqual(
+                user.profileImages.originalImageUrl,
+            );
             expect(Object.keys(createdTeamMemberStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',

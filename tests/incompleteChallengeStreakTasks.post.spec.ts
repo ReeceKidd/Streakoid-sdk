@@ -11,30 +11,26 @@ jest.setTimeout(120000);
 
 describe('GET /complete-challenge-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     describe('POST /v1/incomplete-challenge-streak-tasks', () => {
-        test('user can incomplete a challenge streak task and the challenge streak tasks startdate gets reset if it is the first day of the streak', async () => {
+        test('user can incomplete a challenge streak task and the challenge streak tasks start date gets reset if it is the first day of the streak', async () => {
             expect.assertions(20);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
@@ -111,6 +107,9 @@ describe('GET /complete-challenge-streak-tasks', () => {
 
         test('user can incomplete a challenge streak task after the first day of the streak', async () => {
             expect.assertions(20);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
@@ -201,6 +200,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
 
         test('user cannot incomplete a challenge streak task that has not been completed', async () => {
             expect.assertions(3);
+
+            const user = await getPayingUser();
+            const userId = user._id;
+
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
             const icon = 'duolingo';
@@ -223,8 +226,42 @@ describe('GET /complete-challenge-streak-tasks', () => {
             }
         });
 
+        test('when user incompletes a challenge streak their totalStreakCompletes is decreased by one', async () => {
+            expect.assertions(1);
+
+            const user = await getPayingUser();
+            const userId = user._id;
+
+            const name = 'Duolingo';
+            const description = 'Everyday I must complete a duolingo lesson';
+            const icon = 'duolingo';
+            const { challenge } = await streakoid.challenges.create({ name, description, icon });
+            const challengeId = challenge._id;
+
+            const challengeStreak = await streakoid.challengeStreaks.create({
+                userId,
+                challengeId,
+            });
+
+            await streakoid.completeChallengeStreakTasks.create({
+                userId,
+                challengeStreakId: challengeStreak._id,
+            });
+
+            await streakoid.incompleteChallengeStreakTasks.create({
+                userId,
+                challengeStreakId: challengeStreak._id,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.totalStreakCompletes).toEqual(0);
+        });
+
         test('when user incompletes a task a IncompletedChallengeStreakActivityItem is created', async () => {
             expect.assertions(7);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const name = 'Duolingo';
             const description = 'Everyday I must complete a duolingo lesson';
@@ -264,8 +301,10 @@ describe('GET /complete-challenge-streak-tasks', () => {
                 expect(incompletedChallengeStreakTaskActivityFeedItem.challengeId).toEqual(String(challenge._id));
                 expect(incompletedChallengeStreakTaskActivityFeedItem.challengeName).toEqual(String(challenge.name));
                 expect(incompletedChallengeStreakTaskActivityFeedItem.userId).toEqual(String(userId));
-                expect(incompletedChallengeStreakTaskActivityFeedItem.username).toEqual(username);
-                expect(incompletedChallengeStreakTaskActivityFeedItem.userProfileImage).toEqual(userProfileImage);
+                expect(incompletedChallengeStreakTaskActivityFeedItem.username).toEqual(user.username);
+                expect(incompletedChallengeStreakTaskActivityFeedItem.userProfileImage).toEqual(
+                    user.profileImages.originalImageUrl,
+                );
                 expect(Object.keys(incompletedChallengeStreakTaskActivityFeedItem).sort()).toEqual(
                     [
                         '_id',

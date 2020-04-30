@@ -13,18 +13,11 @@ jest.setTimeout(120000);
 
 describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
     const streakName = 'Daily Spanish';
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -38,6 +31,9 @@ describe('GET /complete-solo-streak-tasks', () => {
     describe('POST /v1/complete-solo-streak-tasks', () => {
         test('user can complete a solo streak task with a new current streak', async () => {
             expect.assertions(21);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
@@ -102,8 +98,11 @@ describe('GET /complete-solo-streak-tasks', () => {
             );
         });
 
-        test('user can complete a solo streak task with an exsiting current streak', async () => {
+        test('user can complete a solo streak task with an existing current streak', async () => {
             expect.assertions(21);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const newSoloStreak = await streakoid.soloStreaks.create({
                 userId,
@@ -183,37 +182,40 @@ describe('GET /complete-solo-streak-tasks', () => {
             );
         });
 
-        test('user can complete, incomplete and recomplete a solo streak with a new current streak', async () => {
+        test('user can complete, incomplete and complete a solo streak with a new current streak', async () => {
             expect.assertions(21);
 
-            const soloStreakForRecompletion = await streakoid.soloStreaks.create({
+            const user = await getPayingUser();
+            const userId = user._id;
+
+            const soloStreakForCompletion = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
             });
 
             await streakoid.completeSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
             await streakoid.incompleteSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
-            const recompleteSoloStreakTask = await streakoid.completeSoloStreakTasks.create({
+            const completeSoloStreakTask = await streakoid.completeSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
-            expect(recompleteSoloStreakTask._id).toBeDefined();
-            expect(recompleteSoloStreakTask.userId).toBeDefined();
-            expect(recompleteSoloStreakTask.streakId).toEqual(soloStreakForRecompletion._id);
-            expect(recompleteSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.createdAt).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(recompleteSoloStreakTask).sort()).toEqual(
+            expect(completeSoloStreakTask._id).toBeDefined();
+            expect(completeSoloStreakTask.userId).toBeDefined();
+            expect(completeSoloStreakTask.streakId).toEqual(soloStreakForCompletion._id);
+            expect(completeSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.createdAt).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(completeSoloStreakTask).sort()).toEqual(
                 [
                     '_id',
                     'userId',
@@ -226,7 +228,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedSoloStreak = await streakoid.soloStreaks.getOne(soloStreakForRecompletion._id);
+            const updatedSoloStreak = await streakoid.soloStreaks.getOne(soloStreakForCompletion._id);
 
             expect(updatedSoloStreak.streakName).toEqual(streakName);
             expect(updatedSoloStreak.status).toEqual(StreakStatus.live);
@@ -261,8 +263,11 @@ describe('GET /complete-solo-streak-tasks', () => {
             );
         });
 
-        test('user can complete, incomplete and recomplete a solo streak with an exsiting current streak', async () => {
+        test('user can complete, incomplete and complete a solo streak with an existing current streak', async () => {
             expect.assertions(21);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const newSoloStreak = await streakoid.soloStreaks.create({
                 userId,
@@ -271,7 +276,7 @@ describe('GET /complete-solo-streak-tasks', () => {
 
             const numberOfDaysInARow = 2;
 
-            const soloStreakForRecompletion = await streakoid.soloStreaks.update({
+            const soloStreakForCompletion = await streakoid.soloStreaks.update({
                 soloStreakId: newSoloStreak._id,
                 updateData: {
                     active: true,
@@ -284,27 +289,27 @@ describe('GET /complete-solo-streak-tasks', () => {
 
             await streakoid.completeSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
             await streakoid.incompleteSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
-            const recompleteSoloStreakTask = await streakoid.completeSoloStreakTasks.create({
+            const completeSoloStreakTask = await streakoid.completeSoloStreakTasks.create({
                 userId,
-                soloStreakId: soloStreakForRecompletion._id,
+                soloStreakId: soloStreakForCompletion._id,
             });
 
-            expect(recompleteSoloStreakTask._id).toBeDefined();
-            expect(recompleteSoloStreakTask.userId).toBeDefined();
-            expect(recompleteSoloStreakTask.streakId).toEqual(soloStreakForRecompletion._id);
-            expect(recompleteSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.createdAt).toEqual(expect.any(String));
-            expect(recompleteSoloStreakTask.updatedAt).toEqual(expect.any(String));
-            expect(Object.keys(recompleteSoloStreakTask).sort()).toEqual(
+            expect(completeSoloStreakTask._id).toBeDefined();
+            expect(completeSoloStreakTask.userId).toBeDefined();
+            expect(completeSoloStreakTask.streakId).toEqual(soloStreakForCompletion._id);
+            expect(completeSoloStreakTask.taskCompleteTime).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.taskCompleteDay).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.createdAt).toEqual(expect.any(String));
+            expect(completeSoloStreakTask.updatedAt).toEqual(expect.any(String));
+            expect(Object.keys(completeSoloStreakTask).sort()).toEqual(
                 [
                     '_id',
                     'userId',
@@ -317,7 +322,7 @@ describe('GET /complete-solo-streak-tasks', () => {
                 ].sort(),
             );
 
-            const updatedSoloStreak = await streakoid.soloStreaks.getOne(soloStreakForRecompletion._id);
+            const updatedSoloStreak = await streakoid.soloStreaks.getOne(soloStreakForCompletion._id);
 
             expect(updatedSoloStreak.streakName).toEqual(streakName);
             expect(updatedSoloStreak.status).toEqual(StreakStatus.live);
@@ -352,8 +357,28 @@ describe('GET /complete-solo-streak-tasks', () => {
             );
         });
 
+        test('when a user completes a task their totalStreakCompletes increases by one.', async () => {
+            expect.assertions(1);
+
+            const user = await getPayingUser();
+            const userId = user._id;
+
+            const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
+            const soloStreakId = soloStreak._id;
+
+            await streakoid.completeSoloStreakTasks.create({
+                userId,
+                soloStreakId,
+            });
+
+            const updatedUser = await streakoid.users.getOne(userId);
+            expect(updatedUser.totalStreakCompletes).toEqual(1);
+        });
+
         test('user cannot complete the same solo streak task in the same day', async () => {
             expect.assertions(3);
+            const user = await getPayingUser();
+            const userId = user._id;
             const secondSoloStreak = await streakoid.soloStreaks.create({
                 userId,
                 streakName,
@@ -377,6 +402,8 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         test('when user completes a task a CompletedSoloStreakActivityItem is created', async () => {
             expect.assertions(6);
+            const user = await getPayingUser();
+            const userId = user._id;
             const soloStreak = await streakoid.soloStreaks.create({ userId, streakName });
             const soloStreakId = soloStreak._id;
 
@@ -398,8 +425,8 @@ describe('GET /complete-solo-streak-tasks', () => {
                 expect(activityFeedItem.soloStreakId).toEqual(String(soloStreak._id));
                 expect(activityFeedItem.soloStreakName).toEqual(String(soloStreak.streakName));
                 expect(activityFeedItem.userId).toEqual(String(soloStreak.userId));
-                expect(activityFeedItem.username).toEqual(username);
-                expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+                expect(activityFeedItem.username).toEqual(user.username);
+                expect(activityFeedItem.userProfileImage).toEqual(user.profileImages.originalImageUrl);
                 expect(Object.keys(activityFeedItem).sort()).toEqual(
                     [
                         '_id',
@@ -419,6 +446,9 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         test('when user completes a task on the 100th day and they do not already have the OneHundredDaySoloStreak achievement they unlock the OneHundredDaySoloStreak achievement ', async () => {
             expect.assertions(8);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const achievementToCreate: OneHundredDaySoloStreakAchievement = {
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
@@ -462,6 +492,9 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         test('when user completes a task on the 100th day but they already have the OneHundredDaySoloStreak achievement nothing happens', async () => {
             expect.assertions(8);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             const achievementToCreate: OneHundredDaySoloStreakAchievement = {
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
@@ -513,6 +546,9 @@ describe('GET /complete-solo-streak-tasks', () => {
 
         test('if currentStreak number of days does not equal 100 no OneHundredDaySoloStreak us unlocked.', async () => {
             expect.assertions(1);
+
+            const user = await getPayingUser();
+            const userId = user._id;
 
             await streakoid.achievements.create({
                 achievementType: AchievementTypes.oneHundredDaySoloStreak,
