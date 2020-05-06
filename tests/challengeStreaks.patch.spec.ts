@@ -31,7 +31,7 @@ describe('PATCH /challenge-streaks', () => {
     });
 
     test(`that request passes when challenge streak is patched with correct keys`, async () => {
-        expect.assertions(15);
+        expect.assertions(16);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -63,6 +63,7 @@ describe('PATCH /challenge-streaks', () => {
 
         expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
         expect(updatedChallengeStreak.userId).toEqual(String(user._id));
+        expect(updatedChallengeStreak.username).toEqual(user.username);
         expect(updatedChallengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
         expect(updatedChallengeStreak.challengeId).toEqual(challenge._id);
         expect(updatedChallengeStreak.challengeName).toEqual(challenge.name);
@@ -84,6 +85,7 @@ describe('PATCH /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -134,6 +136,7 @@ describe('PATCH /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',

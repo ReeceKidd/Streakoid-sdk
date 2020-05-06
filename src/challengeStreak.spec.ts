@@ -10,7 +10,7 @@ describe('SDK challengeStreaks', () => {
     });
 
     describe('getAll', () => {
-        test('calls GET with correct URL when no query paramters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -19,7 +19,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?`);
         });
 
-        test('calls GET with correct URL when userId query paramater is passed', async () => {
+        test('calls GET with correct URL when userId query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -30,7 +30,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when challengeId query paramater is passed', async () => {
+        test('calls GET with correct URL when challengeId query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -41,7 +41,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?challengeId=${challengeId}&`);
         });
 
-        test('calls GET with correct URL when completedToday query paramater is passed', async () => {
+        test('calls GET with correct URL when completedToday query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -52,7 +52,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?completedToday=true&`);
         });
 
-        test('calls GET with correct URL when timezone query paramater is passed', async () => {
+        test('calls GET with correct URL when timezone query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -63,7 +63,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?timezone=${timezone}&`);
         });
 
-        test('calls GET with correct URL when active query paramater is passed', async () => {
+        test('calls GET with correct URL when active query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -74,7 +74,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?active=${active}&`);
         });
 
-        test('calls GET with correct URL when status query paramater is passed', async () => {
+        test('calls GET with correct URL when status query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -85,7 +85,7 @@ describe('SDK challengeStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?status=${status}&`);
         });
 
-        test('calls GET with correct URL when sortField query paramater is passed', async () => {
+        test('calls GET with correct URL when sortField query parameters is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 

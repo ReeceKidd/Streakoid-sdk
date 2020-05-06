@@ -26,7 +26,7 @@ describe('GET /challenge-streaks', () => {
     });
 
     test(`challenge streaks can be retrieved with user query parameter`, async () => {
-        expect.assertions(16);
+        expect.assertions(17);
 
         const user = await getPayingUser();
         const userId = user._id;
@@ -58,8 +58,9 @@ describe('GET /challenge-streaks', () => {
         expect(challengeStreak.active).toEqual(false);
         expect(challengeStreak.pastStreaks).toEqual([]);
         expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toBeDefined();
-        expect(challengeStreak.userProfileImage).toBeDefined();
+        expect(challengeStreak.userId).toEqual(String(user._id));
+        expect(challengeStreak.username).toEqual(user.username);
+        expect(challengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
         expect(challengeStreak.challengeId).toBeDefined();
         expect(challengeStreak.challengeName).toBeDefined();
         expect(challengeStreak.timezone).toEqual(londonTimezone);
@@ -74,6 +75,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -138,6 +140,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -188,6 +191,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -239,6 +243,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -291,6 +296,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
@@ -338,6 +344,7 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',

@@ -26,7 +26,7 @@ describe('POST /challenge-streaks', () => {
     });
 
     test(`creates challenge streak, adds user to challenge members.`, async () => {
-        expect.assertions(25);
+        expect.assertions(26);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -50,6 +50,7 @@ describe('POST /challenge-streaks', () => {
         expect(challengeStreak._id).toBeDefined();
         expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.userId).toEqual(String(user._id));
+        expect(challengeStreak.username).toEqual(user.username);
         expect(challengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
         expect(challengeStreak.challengeId).toBeDefined();
         expect(challengeStreak.challengeName).toEqual(name);
@@ -69,6 +70,7 @@ describe('POST /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',

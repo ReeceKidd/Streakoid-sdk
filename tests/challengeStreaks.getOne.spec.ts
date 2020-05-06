@@ -25,7 +25,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
     });
 
     test(`challenge streak can be retrieved`, async () => {
-        expect.assertions(15);
+        expect.assertions(16);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -48,6 +48,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
 
         expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.userId).toEqual(String(user._id));
+        expect(challengeStreak.username).toEqual(user.username);
         expect(challengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
         expect(challengeStreak.challengeId).toEqual(challenge._id);
         expect(challengeStreak.challengeName).toEqual(name);
@@ -69,6 +70,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
                 'active',
                 'pastStreaks',
                 'userId',
+                'username',
                 'userProfileImage',
                 'challengeId',
                 'challengeName',
