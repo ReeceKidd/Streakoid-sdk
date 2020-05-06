@@ -10,45 +10,47 @@ jest.setTimeout(120000);
 
 describe('GET /challenge-streaks/:challengeStreakId', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let challengeStreakId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
             streakoid = await streakoidTest();
-            const name = 'Duolingo';
-            const description = 'Everyday I must complete a duolingo lesson';
-            const icon = 'duolingo';
-            const { challenge } = await streakoid.challenges.create({
-                name,
-                description,
-                icon,
-            });
-            const challengeStreak = await streakoid.challengeStreaks.create({
-                userId,
-                challengeId: challenge._id,
-            });
-            challengeStreakId = challengeStreak._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
-    test(`challenge streak can be retreived`, async () => {
-        expect.assertions(13);
+    test(`challenge streak can be retrieved`, async () => {
+        expect.assertions(15);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const createdChallengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        const challengeStreakId = createdChallengeStreak._id;
 
         const challengeStreak = await streakoid.challengeStreaks.getOne({ challengeStreakId });
 
         expect(challengeStreak.status).toEqual(StreakStatus.live);
-        expect(challengeStreak.userId).toBeDefined();
-        expect(challengeStreak.challengeId).toBeDefined();
+        expect(challengeStreak.userId).toEqual(String(user._id));
+        expect(challengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
+        expect(challengeStreak.challengeId).toEqual(challenge._id);
+        expect(challengeStreak.challengeName).toEqual(name);
         expect(challengeStreak.completedToday).toEqual(false);
         expect(challengeStreak.active).toEqual(false);
         expect(challengeStreak.pastStreaks).toEqual([]);
@@ -67,7 +69,9 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
                 'active',
                 'pastStreaks',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -80,6 +84,7 @@ describe('GET /challenge-streaks/:challengeStreakId', () => {
         expect.assertions(5);
 
         try {
+            await getPayingUser();
             await streakoid.challengeStreaks.getOne({ challengeStreakId: '5d54487483233622e43270f9' });
         } catch (err) {
             const { data } = err.response;

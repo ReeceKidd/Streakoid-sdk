@@ -11,49 +11,48 @@ jest.setTimeout(120000);
 
 describe('POST /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
-    let challengeId: string;
-    const name = 'Duolingo';
-    const description = 'Everyday I must complete a duolingo lesson';
-    const icon = 'duolingo';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
-            const { challenge } = await streakoid.challenges.create({
-                name,
-                description,
-                icon,
-            });
-            challengeId = challenge._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     test(`creates challenge streak, adds user to challenge members.`, async () => {
-        expect.assertions(23);
+        expect.assertions(25);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+
+        const challengeId = challenge._id;
+
+        const user = await getPayingUser();
 
         const challengeStreak = await streakoid.challengeStreaks.create({
-            userId,
+            userId: user._id,
             challengeId,
         });
 
         expect(challengeStreak._id).toBeDefined();
         expect(challengeStreak.status).toEqual(StreakStatus.live);
-        expect(challengeStreak.userId).toBeDefined();
+        expect(challengeStreak.userId).toEqual(String(user._id));
+        expect(challengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
         expect(challengeStreak.challengeId).toBeDefined();
+        expect(challengeStreak.challengeName).toEqual(name);
         expect(Object.keys(challengeStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
         expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
         expect(challengeStreak.completedToday).toEqual(false);
@@ -70,7 +69,9 @@ describe('POST /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -112,32 +113,40 @@ describe('POST /challenge-streaks', () => {
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
-        const icon = 'duolingo';
-        const { challenge } = await streakoid.challenges.create({ name, description, icon });
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+        });
+
         const challengeId = challenge._id;
 
+        const user = await getPayingUser();
+
         const challengeStreak = await streakoid.challengeStreaks.create({
-            userId,
+            userId: user._id,
             challengeId,
         });
 
         const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
             activityFeedItemType: ActivityFeedItemTypes.joinedChallenge,
         });
-        const completedChallengeStrekActivityFeedItem = activityFeedItems.find(
+        const completedChallengeStreakActivityFeedItem = activityFeedItems.find(
             item => item.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge,
         );
         if (
-            completedChallengeStrekActivityFeedItem &&
-            completedChallengeStrekActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge
+            completedChallengeStreakActivityFeedItem &&
+            completedChallengeStreakActivityFeedItem.activityFeedItemType === ActivityFeedItemTypes.joinedChallenge
         ) {
-            expect(completedChallengeStrekActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
-            expect(completedChallengeStrekActivityFeedItem.challengeId).toEqual(String(challenge._id));
-            expect(completedChallengeStrekActivityFeedItem.challengeName).toEqual(String(challenge.name));
-            expect(completedChallengeStrekActivityFeedItem.userId).toEqual(String(userId));
-            expect(completedChallengeStrekActivityFeedItem.username).toEqual(username);
-            expect(completedChallengeStrekActivityFeedItem.userProfileImage).toEqual(userProfileImage);
-            expect(Object.keys(completedChallengeStrekActivityFeedItem).sort()).toEqual(
+            expect(completedChallengeStreakActivityFeedItem.challengeStreakId).toEqual(String(challengeStreak._id));
+            expect(completedChallengeStreakActivityFeedItem.challengeId).toEqual(String(challenge._id));
+            expect(completedChallengeStreakActivityFeedItem.challengeName).toEqual(String(challenge.name));
+            expect(completedChallengeStreakActivityFeedItem.userId).toEqual(String(user._id));
+            expect(completedChallengeStreakActivityFeedItem.username).toEqual(user.username);
+            expect(completedChallengeStreakActivityFeedItem.userProfileImage).toEqual(
+                user.profileImages.originalImageUrl,
+            );
+            expect(Object.keys(completedChallengeStreakActivityFeedItem).sort()).toEqual(
                 [
                     '_id',
                     'activityFeedItemType',

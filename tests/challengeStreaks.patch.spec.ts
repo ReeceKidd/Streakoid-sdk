@@ -16,44 +16,41 @@ jest.setTimeout(120000);
 
 describe('PATCH /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
-    let challengeStreakId: string;
-    const name = 'Duolingo';
-    const description = 'Everyday I must complete a duolingo lesson';
-    const icon = 'duolingo';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     test(`that request passes when challenge streak is patched with correct keys`, async () => {
-        expect.assertions(12);
+        expect.assertions(15);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
 
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         const updatedTimezone = 'Europe/Paris';
 
@@ -65,7 +62,10 @@ describe('PATCH /challenge-streaks', () => {
         });
 
         expect(updatedChallengeStreak.status).toEqual(StreakStatus.live);
-        expect(updatedChallengeStreak.userId).toBeDefined();
+        expect(updatedChallengeStreak.userId).toEqual(String(user._id));
+        expect(updatedChallengeStreak.userProfileImage).toEqual(user.profileImages.originalImageUrl);
+        expect(updatedChallengeStreak.challengeId).toEqual(challenge._id);
+        expect(updatedChallengeStreak.challengeName).toEqual(challenge.name);
         expect(updatedChallengeStreak.completedToday).toEqual(false);
         expect(updatedChallengeStreak.active).toEqual(false);
         expect(updatedChallengeStreak.pastStreaks).toEqual([]);
@@ -84,7 +84,9 @@ describe('PATCH /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -94,18 +96,26 @@ describe('PATCH /challenge-streaks', () => {
     });
 
     test(`that when status is set to deleted the user is removed from the challenge and the number of members in the challenge is decreased by one`, async () => {
-        expect.assertions(14);
+        expect.assertions(5);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
 
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         const updatedChallengeStreak = await streakoid.challengeStreaks.update({
             challengeStreakId,
@@ -115,16 +125,6 @@ describe('PATCH /challenge-streaks', () => {
         });
 
         expect(updatedChallengeStreak.status).toEqual(StreakStatus.deleted);
-        expect(updatedChallengeStreak.userId).toBeDefined();
-        expect(updatedChallengeStreak.completedToday).toEqual(false);
-        expect(updatedChallengeStreak.active).toEqual(false);
-        expect(updatedChallengeStreak.pastStreaks).toEqual([]);
-        expect(updatedChallengeStreak.timezone).toEqual(expect.any(String));
-        expect(updatedChallengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
-        expect(Object.keys(updatedChallengeStreak.currentStreak)).toEqual(['numberOfDaysInARow']);
-        expect(updatedChallengeStreak._id).toEqual(expect.any(String));
-        expect(updatedChallengeStreak.createdAt).toEqual(expect.any(String));
-        expect(updatedChallengeStreak.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
             [
                 'currentStreak',
@@ -134,7 +134,9 @@ describe('PATCH /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -146,21 +148,41 @@ describe('PATCH /challenge-streaks', () => {
 
         expect(updatedChallenge.members.length).toEqual(0);
         expect(updatedChallenge.numberOfMembers).toEqual(0);
+        expect(Object.keys(updatedChallenge).sort()).toEqual(
+            [
+                '_id',
+                'name',
+                'databaseName',
+                'description',
+                'icon',
+                'members',
+                'numberOfMembers',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
     });
 
     test(`when challenge streak is archived if current user has a customReminder enabled it is disabled`, async () => {
         expect.assertions(2);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
 
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+        const user = await getPayingUser();
+        const userId = user._id;
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         const customChallengeStreakReminder: CustomChallengeStreakReminder = {
             enabled: true,
@@ -213,16 +235,25 @@ describe('PATCH /challenge-streaks', () => {
 
     test(`when challenge streak status is archived an ArchivedChallengeStreakActivityFeedItem is created`, async () => {
         expect.assertions(7);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         await streakoid.challengeStreaks.update({
             challengeStreakId,
@@ -267,16 +298,25 @@ describe('PATCH /challenge-streaks', () => {
 
     test(`when challenge streak status is restored an RestoredChallengeStreakActivityFeedItem is created`, async () => {
         expect.assertions(7);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         await streakoid.challengeStreaks.update({
             challengeStreakId,
@@ -328,16 +368,25 @@ describe('PATCH /challenge-streaks', () => {
 
     test(`when challenge streak status is deleted an DeletedChallengeStreakActivityFeedItem is created`, async () => {
         expect.assertions(7);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
         const { challenge } = await streakoid.challenges.create({
             name,
             description,
             icon,
         });
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
         const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
         });
-        challengeStreakId = challengeStreak._id;
+        const challengeStreakId = challengeStreak._id;
 
         await streakoid.challengeStreaks.update({
             challengeStreakId,

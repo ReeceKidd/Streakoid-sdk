@@ -11,26 +11,25 @@ jest.setTimeout(120000);
 
 describe('GET /challenge-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let challengeId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
-    test(`challenge streaks can be retreived with user query parameter`, async () => {
-        expect.assertions(13);
+    test(`challenge streaks can be retrieved with user query parameter`, async () => {
+        expect.assertions(16);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -40,7 +39,6 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
         await streakoid.challengeStreaks.create({
             userId,
             challengeId: challenge._id,
@@ -61,6 +59,9 @@ describe('GET /challenge-streaks', () => {
         expect(challengeStreak.pastStreaks).toEqual([]);
         expect(challengeStreak._id).toEqual(expect.any(String));
         expect(challengeStreak.userId).toBeDefined();
+        expect(challengeStreak.userProfileImage).toBeDefined();
+        expect(challengeStreak.challengeId).toBeDefined();
+        expect(challengeStreak.challengeName).toBeDefined();
         expect(challengeStreak.timezone).toEqual(londonTimezone);
         expect(challengeStreak.createdAt).toEqual(expect.any(String));
         expect(challengeStreak.updatedAt).toEqual(expect.any(String));
@@ -73,7 +74,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -82,8 +85,8 @@ describe('GET /challenge-streaks', () => {
         );
     });
 
-    test('incomplete challenge streaks can be retreived', async () => {
-        expect.assertions(14);
+    test('incomplete challenge streaks can be retrieved', async () => {
+        expect.assertions(3);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -93,7 +96,10 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
+        const challengeId = challenge._id;
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const newChallengeStreak = await streakoid.challengeStreaks.create({
             userId,
@@ -122,18 +128,7 @@ describe('GET /challenge-streaks', () => {
 
         const challengeStreak = challengeStreaks[0];
 
-        expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
-        expect(challengeStreak.currentStreak.startDate).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
-        expect(challengeStreak.status).toEqual(StreakStatus.live);
         expect(challengeStreak.completedToday).toEqual(false);
-        expect(challengeStreak.active).toEqual(true);
-        expect(challengeStreak.pastStreaks).toEqual([]);
-        expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toEqual(expect.any(String));
-        expect(challengeStreak.timezone).toEqual(expect.any(String));
-        expect(challengeStreak.createdAt).toEqual(expect.any(String));
-        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(challengeStreak).sort()).toEqual(
             [
                 'currentStreak',
@@ -143,7 +138,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -152,8 +149,8 @@ describe('GET /challenge-streaks', () => {
         );
     });
 
-    test('completed challenge streaks can be retreived', async () => {
-        expect.assertions(14);
+    test('completed challenge streaks can be retrieved', async () => {
+        expect.assertions(2);
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
         const icon = 'duolingo';
@@ -162,39 +159,27 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
+        const challengeId = challenge._id;
 
-        const secondChallengeStreak = await streakoid.challengeStreaks.create({
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
             challengeId,
         });
-        const secondChallengeStreakId = secondChallengeStreak._id;
 
         await streakoid.completeChallengeStreakTasks.create({
             userId,
-            challengeStreakId: secondChallengeStreakId,
+            challengeStreakId: challengeStreak._id,
         });
 
-        const challengeStreaks = await streakoid.challengeStreaks.getAll({
-            completedToday: true,
+        const updatedChallengeStreak = await streakoid.challengeStreaks.getOne({
+            challengeStreakId: challengeStreak._id,
         });
-        expect(challengeStreaks.length).toBeGreaterThanOrEqual(1);
 
-        const challengeStreak = challengeStreaks[0];
-
-        expect(challengeStreak.status).toEqual(StreakStatus.live);
-        expect(challengeStreak.currentStreak.numberOfDaysInARow).toBeGreaterThanOrEqual(1);
-        expect(challengeStreak.currentStreak.startDate).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
-        expect(challengeStreak.completedToday).toEqual(true);
-        expect(challengeStreak.active).toEqual(true);
-        expect(challengeStreak.pastStreaks).toEqual([]);
-        expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toEqual(expect.any(String));
-        expect(challengeStreak.timezone).toEqual(expect.any(String));
-        expect(challengeStreak.createdAt).toEqual(expect.any(String));
-        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak).sort()).toEqual(
+        expect(updatedChallengeStreak.completedToday).toEqual(true);
+        expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
             [
                 'status',
                 'currentStreak',
@@ -203,7 +188,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -212,8 +199,8 @@ describe('GET /challenge-streaks', () => {
         );
     });
 
-    test('archived challenge streaks can be retreived', async () => {
-        expect.assertions(12);
+    test('archived challenge streaks can be retrieved', async () => {
+        expect.assertions(2);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -223,36 +210,27 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
-        const secondChallengeStreak = await streakoid.challengeStreaks.create({
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
-            challengeId,
+            challengeId: challenge._id,
         });
-        const secondChallengeStreakId = secondChallengeStreak._id;
 
         await streakoid.challengeStreaks.update({
-            challengeStreakId: secondChallengeStreakId,
+            challengeStreakId: challengeStreak._id,
             updateData: { status: StreakStatus.archived },
         });
-
         const challengeStreaks = await streakoid.challengeStreaks.getAll({
             status: StreakStatus.archived,
         });
 
-        const challengeStreak = challengeStreaks[0];
+        const updatedChallengeStreak = challengeStreaks[0];
 
-        expect(challengeStreak.status).toEqual(StreakStatus.archived);
-        expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
-        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
-        expect(challengeStreak.completedToday).toEqual(false);
-        expect(challengeStreak.active).toEqual(false);
-        expect(challengeStreak.pastStreaks).toEqual([]);
-        expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toEqual(expect.any(String));
-        expect(challengeStreak.timezone).toEqual(expect.any(String));
-        expect(challengeStreak.createdAt).toEqual(expect.any(String));
-        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak).sort()).toEqual(
+        expect(updatedChallengeStreak.status).toEqual(StreakStatus.archived);
+        expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
             [
                 'status',
                 'currentStreak',
@@ -261,7 +239,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -270,8 +250,8 @@ describe('GET /challenge-streaks', () => {
         );
     });
 
-    test('deleted challenge streaks can be retreived', async () => {
-        expect.assertions(12);
+    test('deleted challenge streaks can be retrieved', async () => {
+        expect.assertions(2);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -281,16 +261,17 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
 
-        const secondChallengeStreak = await streakoid.challengeStreaks.create({
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        const challengeStreak = await streakoid.challengeStreaks.create({
             userId,
-            challengeId,
+            challengeId: challenge._id,
         });
-        const secondChallengeStreakId = secondChallengeStreak._id;
 
         await streakoid.challengeStreaks.update({
-            challengeStreakId: secondChallengeStreakId,
+            challengeStreakId: challengeStreak._id,
             updateData: { status: StreakStatus.deleted },
         });
 
@@ -298,20 +279,10 @@ describe('GET /challenge-streaks', () => {
             status: StreakStatus.deleted,
         });
 
-        const challengeStreak = challengeStreaks[0];
+        const updatedChallengeStreak = challengeStreaks[0];
 
-        expect(challengeStreak.status).toEqual(StreakStatus.deleted);
-        expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(0);
-        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
-        expect(challengeStreak.completedToday).toEqual(false);
-        expect(challengeStreak.active).toEqual(false);
-        expect(challengeStreak.pastStreaks).toEqual([]);
-        expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toEqual(expect.any(String));
-        expect(challengeStreak.timezone).toEqual(expect.any(String));
-        expect(challengeStreak.createdAt).toEqual(expect.any(String));
-        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak).sort()).toEqual(
+        expect(updatedChallengeStreak.status).toEqual(StreakStatus.deleted);
+        expect(Object.keys(updatedChallengeStreak).sort()).toEqual(
             [
                 'status',
                 'currentStreak',
@@ -320,7 +291,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
@@ -329,8 +302,8 @@ describe('GET /challenge-streaks', () => {
         );
     });
 
-    test('challenge streaks can be retreived with a sort field', async () => {
-        expect.assertions(14);
+    test('challenge streaks can be retrieved with a sort field', async () => {
+        expect.assertions(2);
 
         const name = 'Duolingo';
         const description = 'Everyday I must complete a duolingo lesson';
@@ -340,7 +313,14 @@ describe('GET /challenge-streaks', () => {
             description,
             icon,
         });
-        challengeId = challenge._id;
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
 
         const challengeStreaks = await streakoid.challengeStreaks.getAll({
             sortField: GetAllChallengeStreaksSortFields.currentStreak,
@@ -349,18 +329,6 @@ describe('GET /challenge-streaks', () => {
 
         const challengeStreak = challengeStreaks[0];
 
-        expect(challengeStreak.currentStreak.numberOfDaysInARow).toEqual(expect.any(Number));
-        expect(challengeStreak.currentStreak.startDate).toEqual(expect.any(String));
-        expect(Object.keys(challengeStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow', 'startDate'].sort());
-        expect(challengeStreak.status).toEqual(StreakStatus.live);
-        expect(challengeStreak.completedToday).toEqual(false);
-        expect(challengeStreak.active).toEqual(true);
-        expect(challengeStreak.pastStreaks).toEqual([]);
-        expect(challengeStreak._id).toEqual(expect.any(String));
-        expect(challengeStreak.userId).toEqual(expect.any(String));
-        expect(challengeStreak.timezone).toEqual(expect.any(String));
-        expect(challengeStreak.createdAt).toEqual(expect.any(String));
-        expect(challengeStreak.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(challengeStreak).sort()).toEqual(
             [
                 'currentStreak',
@@ -370,7 +338,9 @@ describe('GET /challenge-streaks', () => {
                 'pastStreaks',
                 '_id',
                 'userId',
+                'userProfileImage',
                 'challengeId',
+                'challengeName',
                 'timezone',
                 'createdAt',
                 'updatedAt',
