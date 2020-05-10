@@ -9,28 +9,15 @@ jest.setTimeout(120000);
 
 describe('GET /complete-solo-streak-tasks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let teamStreakId: string;
-    const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
             streakoid = await streakoidTest();
-            const members = [{ memberId: userId }];
-
-            const teamStreak = await streakoid.teamStreaks.create({
-                creatorId: userId,
-                streakName,
-                members,
-            });
-            teamStreakId = teamStreak._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -38,6 +25,18 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     test(`creates teamMember streak associated with teamId`, async () => {
         expect.assertions(12);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+        const teamStreakId = teamStreak._id;
 
         const teamMemberStreak = await streakoid.teamMemberStreaks.create({
             userId,
@@ -83,8 +82,47 @@ describe('GET /complete-solo-streak-tasks', () => {
         );
     });
 
+    test(`increases team member totalLiveStreaks by one when team member streak is created.`, async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const streakName = 'Daily Spanish';
+        const members = [{ memberId: user._id }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: user._id,
+            streakName,
+            members,
+        });
+        const teamStreakId = teamStreak._id;
+
+        await streakoid.teamMemberStreaks.create({
+            userId: user._id,
+            teamStreakId,
+        });
+
+        jest.useFakeTimers();
+        setTimeout(async () => {
+            const { totalLiveStreaks } = await streakoid.users.getOne(user._id);
+            expect(totalLiveStreaks).toEqual(1);
+        }, 1500);
+        jest.runAllTimers();
+    });
+
     test('throws userId does not exist error', async () => {
         expect.assertions(2);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+        const teamStreakId = teamStreak._id;
 
         try {
             await streakoid.teamMemberStreaks.create({
@@ -99,6 +137,17 @@ describe('GET /complete-solo-streak-tasks', () => {
 
     test('throws teamStreakId does not exist error', async () => {
         expect.assertions(2);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const members = [{ memberId: userId }];
+
+        await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
 
         try {
             await streakoid.teamMemberStreaks.create({

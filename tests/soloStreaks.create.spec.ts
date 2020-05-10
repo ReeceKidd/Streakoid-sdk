@@ -15,17 +15,10 @@ const numberOfMinutes = 30;
 
 describe('POST /solo-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -38,6 +31,9 @@ describe('POST /solo-streaks', () => {
 
     test(`creates solo streak with a description and numberOfMinutes`, async () => {
         expect.assertions(14);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -83,6 +79,9 @@ describe('POST /solo-streaks', () => {
 
     test(`creates solo streak without a description or number of minutes`, async () => {
         expect.assertions(14);
+
+        const user = await getPayingUser();
+        const userId = user._id;
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -134,8 +133,29 @@ describe('POST /solo-streaks', () => {
         );
     });
 
+    test(`when a soloStreak is created the users live streak count is increased by one.`, async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+
+        await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+        });
+
+        const updatedUser = await streakoid.users.getOne(userId);
+
+        expect(updatedUser.totalLiveStreaks).toEqual(1);
+    });
+
     test(`when a soloStreak is created an CreatedSoloStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,

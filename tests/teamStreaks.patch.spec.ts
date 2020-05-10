@@ -6,29 +6,16 @@ import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
-import { CustomTeamStreakReminder, CustomStreakReminder } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
-import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 
 jest.setTimeout(120000);
 
 describe('PATCH /teamStreaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let friendId: string;
-    let username: string;
-    let userProfileImage: string;
-    const streakName = 'Daily Spanish';
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            const friend = await getFriend();
-            friendId = friend._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
@@ -41,6 +28,10 @@ describe('PATCH /teamStreaks', () => {
 
     test(`that request passes when team streak is patched with correct keys`, async () => {
         expect.assertions(15);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 
@@ -112,8 +103,14 @@ describe('PATCH /teamStreaks', () => {
         expect(Object.keys(member).sort()).toEqual(['memberId'].sort());
     });
 
-    test(`when team streak is archived disables customTeamStreak reminders for all members`, async () => {
+    test(`when team streak is archived all members totalLiveStreaks count are decreased by one.`, async () => {
         expect.assertions(2);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const friend = await getFriend();
+        const friendId = friend._id;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }, { memberId: friendId }];
 
@@ -122,20 +119,6 @@ describe('PATCH /teamStreaks', () => {
             streakName,
             members,
         });
-
-        const userCustomTeamStreakReminder: CustomTeamStreakReminder = {
-            enabled: true,
-            expoId: 'expoId',
-            reminderHour: 21,
-            reminderMinute: 0,
-            teamStreakId: teamStreak._id,
-            teamStreakName: teamStreak.streakName,
-            streakReminderType: StreakReminderTypes.customTeamStreakReminder,
-        };
-
-        const customStreakReminders: CustomStreakReminder[] = [userCustomTeamStreakReminder];
-
-        await streakoid.user.pushNotifications.updatePushNotifications({ customStreakReminders });
 
         await streakoid.teamStreaks.update({
             teamStreakId: teamStreak._id,
@@ -146,24 +129,101 @@ describe('PATCH /teamStreaks', () => {
 
         const updatedUser = await streakoid.user.getCurrentUser();
 
-        const updatedCustomTeamStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
-            reminder => reminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder,
-        );
+        expect(updatedUser.totalLiveStreaks).toEqual(0);
 
-        if (
-            updatedCustomTeamStreakReminder &&
-            updatedCustomTeamStreakReminder.streakReminderType === StreakReminderTypes.customTeamStreakReminder
-        ) {
-            expect(updatedCustomTeamStreakReminder.enabled).toEqual(false);
-            expect(Object.keys(updatedCustomTeamStreakReminder).sort()).toEqual(
+        const updatedFriend = await streakoid.users.getOne(friendId);
+
+        expect(updatedFriend.totalLiveStreaks).toEqual(0);
+    });
+
+    test(`when team streak is restored all members totalLiveStreaks count are increased by one.`, async () => {
+        expect.assertions(2);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const friend = await getFriend();
+        const friendId = friend._id;
+        const streakName = 'Daily Spanish';
+
+        const members = [{ memberId: userId }, { memberId: friendId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: {
+                status: StreakStatus.live,
+            },
+        });
+
+        const updatedUser = await streakoid.user.getCurrentUser();
+
+        expect(updatedUser.totalLiveStreaks).toEqual(0);
+
+        const updatedFriend = await streakoid.users.getOne(friendId);
+
+        expect(updatedFriend.totalLiveStreaks).toEqual(0);
+    });
+
+    test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {
+        expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+
+        const members = [{ memberId: userId }];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: userId,
+            streakName,
+            members,
+        });
+
+        await streakoid.teamStreaks.update({
+            teamStreakId: teamStreak._id,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
+            teamStreakId: teamStreak._id,
+        });
+        const activityFeedItem = activityFeedItems.find(
+            item => item.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak,
+        );
+        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak) {
+            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
+            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
+            expect(activityFeedItem.userId).toEqual(String(userId));
+            expect(activityFeedItem.username).toEqual(username);
+            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
+            expect(Object.keys(activityFeedItem).sort()).toEqual(
                 [
-                    'enabled',
-                    'expoId',
-                    'reminderHour',
-                    'reminderMinute',
-                    'streakReminderType',
+                    '_id',
+                    'activityFeedItemType',
+                    'userId',
+                    'username',
+                    'userProfileImage',
                     'teamStreakId',
                     'teamStreakName',
+                    'createdAt',
+                    'updatedAt',
+                    '__v',
                 ].sort(),
             );
         }
@@ -171,6 +231,12 @@ describe('PATCH /teamStreaks', () => {
 
     test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 
@@ -218,6 +284,12 @@ describe('PATCH /teamStreaks', () => {
 
     test(`when team streak is restored an RestoredTeamStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 
@@ -273,6 +345,12 @@ describe('PATCH /teamStreaks', () => {
     test(`when team streak is deleted an DeletedTeamStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
@@ -327,6 +405,12 @@ describe('PATCH /teamStreaks', () => {
     test(`when team streak name is edited an EditedTeamStreakNameActivityFeedItem is created`, async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+
         const members = [{ memberId: userId }];
 
         const teamStreak = await streakoid.teamStreaks.create({
@@ -375,6 +459,12 @@ describe('PATCH /teamStreaks', () => {
 
     test(`when team streak description is edited an EditedTeamStreakDescriptionActivityFeedItem is created`, async () => {
         expect.assertions(7);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 

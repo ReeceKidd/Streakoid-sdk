@@ -165,4 +165,29 @@ describe('POST /challenge-streaks', () => {
             );
         }
     });
+
+    test('when user joins a challenge their totalLiveStreaks increases by one.', async () => {
+        expect.assertions(1);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+        });
+
+        const challengeId = challenge._id;
+
+        const user = await getPayingUser();
+
+        await streakoid.challengeStreaks.create({
+            userId: user._id,
+            challengeId,
+        });
+
+        const updatedUser = await streakoid.users.getOne(user._id);
+
+        expect(updatedUser.totalLiveStreaks).toEqual(1);
+    });
 });

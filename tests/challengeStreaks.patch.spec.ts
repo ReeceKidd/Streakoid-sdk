@@ -438,4 +438,73 @@ describe('PATCH /challenge-streaks', () => {
             );
         }
     });
+
+    test(`when challenge streak status is archived the users totalLiveStreaks is decreased by one.`, async () => {
+        expect.assertions(1);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+        const user = await getPayingUser();
+        const userId = user._id;
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        const challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const { totalLiveStreaks } = await streakoid.users.getOne(userId);
+        expect(totalLiveStreaks).toEqual(0);
+    });
+
+    test(`when challenge streak is restored the users totalLiveStreaks is increased by one.`, async () => {
+        expect.assertions(1);
+
+        const name = 'Duolingo';
+        const description = 'Everyday I must complete a duolingo lesson';
+        const icon = 'duolingo';
+
+        const { challenge } = await streakoid.challenges.create({
+            name,
+            description,
+            icon,
+        });
+        const user = await getPayingUser();
+        const userId = user._id;
+        const challengeStreak = await streakoid.challengeStreaks.create({
+            userId,
+            challengeId: challenge._id,
+        });
+        const challengeStreakId = challengeStreak._id;
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        await streakoid.challengeStreaks.update({
+            challengeStreakId,
+            updateData: {
+                status: StreakStatus.live,
+            },
+        });
+
+        const { totalLiveStreaks } = await streakoid.users.getOne(userId);
+        expect(totalLiveStreaks).toEqual(0);
+    });
 });

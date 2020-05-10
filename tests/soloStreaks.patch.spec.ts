@@ -13,24 +13,15 @@ jest.setTimeout(120000);
 
 describe('PATCH /solo-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
-    const streakName = 'Daily Spanish';
-    const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -38,6 +29,11 @@ describe('PATCH /solo-streaks', () => {
 
     test(`that request passes when solo streak is patched with correct keys`, async () => {
         expect.assertions(14);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -91,6 +87,11 @@ describe('PATCH /solo-streaks', () => {
 
     test(`when solo streak is archived if current user has a customReminder enabled it is disabled`, async () => {
         expect.assertions(2);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -148,6 +149,13 @@ describe('PATCH /solo-streaks', () => {
     test(`when solo streak is archived an ArchivedSoloStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
+
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
@@ -193,6 +201,13 @@ describe('PATCH /solo-streaks', () => {
 
     test(`when solo streak is restored an RestoredSoloStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -250,6 +265,13 @@ describe('PATCH /solo-streaks', () => {
     test(`when solo streak is deleted an DeletedSoloStreakActivityFeedItem is created`, async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
+
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
@@ -303,6 +325,13 @@ describe('PATCH /solo-streaks', () => {
     test(`when solo streak name is edited an EditedSoloStreakNameActivityFeedItem is created`, async () => {
         expect.assertions(6);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
+
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
             streakName,
@@ -350,6 +379,13 @@ describe('PATCH /solo-streaks', () => {
 
     test(`when solo streak description is edited an EditedSoloStreakNameActivityFeedItem is created`, async () => {
         expect.assertions(7);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
 
         const soloStreak = await streakoid.soloStreaks.create({
             userId,
@@ -399,5 +435,66 @@ describe('PATCH /solo-streaks', () => {
                 ].sort(),
             );
         }
+    });
+
+    test(`when solo streak is archived the users totalLiveStreakCount decreases by one.`, async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
+
+        const soloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+            streakDescription,
+        });
+        const soloStreakId = soloStreak._id;
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        const updatedUser = await streakoid.users.getOne(userId);
+
+        expect(updatedUser.totalLiveStreaks).toEqual(0);
+    });
+
+    test(`when solo streak is restored the users totalLiveStreakCount increases by one.`, async () => {
+        expect.assertions(1);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const streakName = 'Daily Spanish';
+        const streakDescription = 'Everyday I must do 30 minutes of Spanish';
+
+        const soloStreak = await streakoid.soloStreaks.create({
+            userId,
+            streakName,
+            streakDescription,
+        });
+        const soloStreakId = soloStreak._id;
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                status: StreakStatus.archived,
+            },
+        });
+
+        await streakoid.soloStreaks.update({
+            soloStreakId,
+            updateData: {
+                status: StreakStatus.live,
+            },
+        });
+
+        const updatedUser = await streakoid.users.getOne(userId);
+
+        expect(updatedUser.totalLiveStreaks).toEqual(0);
     });
 });
