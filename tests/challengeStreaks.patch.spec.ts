@@ -167,7 +167,7 @@ describe('PATCH /challenge-streaks', () => {
         );
     });
 
-    test(`when challenge streak is archived if current user has a customReminder enabled it is disabled`, async () => {
+    test(`when challenge streak is archived if current user has a customReminder enabled it is disabled`, async done => {
         expect.assertions(2);
 
         const name = 'Duolingo';
@@ -209,31 +209,34 @@ describe('PATCH /challenge-streaks', () => {
             },
         });
 
-        const updatedUser = await streakoid.user.getCurrentUser();
+        setTimeout(async () => {
+            const updatedUser = await streakoid.user.getCurrentUser();
 
-        const updatedCustomChallengeStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
-            reminder => reminder.streakReminderType === StreakReminderTypes.customChallengeStreakReminder,
-        );
-
-        if (
-            updatedCustomChallengeStreakReminder &&
-            updatedCustomChallengeStreakReminder.streakReminderType ===
-                StreakReminderTypes.customChallengeStreakReminder
-        ) {
-            expect(updatedCustomChallengeStreakReminder.enabled).toEqual(false);
-            expect(Object.keys(updatedCustomChallengeStreakReminder).sort()).toEqual(
-                [
-                    'enabled',
-                    'expoId',
-                    'reminderHour',
-                    'reminderMinute',
-                    'streakReminderType',
-                    'challengeStreakId',
-                    'challengeName',
-                    'challengeId',
-                ].sort(),
+            const updatedCustomChallengeStreakReminder = updatedUser.pushNotifications.customStreakReminders.find(
+                reminder => reminder.streakReminderType === StreakReminderTypes.customChallengeStreakReminder,
             );
-        }
+
+            if (
+                updatedCustomChallengeStreakReminder &&
+                updatedCustomChallengeStreakReminder.streakReminderType ===
+                    StreakReminderTypes.customChallengeStreakReminder
+            ) {
+                expect(updatedCustomChallengeStreakReminder.enabled).toEqual(false);
+                expect(Object.keys(updatedCustomChallengeStreakReminder).sort()).toEqual(
+                    [
+                        'enabled',
+                        'expoId',
+                        'reminderHour',
+                        'reminderMinute',
+                        'streakReminderType',
+                        'challengeStreakId',
+                        'challengeName',
+                        'challengeId',
+                    ].sort(),
+                );
+            }
+            done();
+        }, 1000);
     });
 
     test(`when challenge streak status is archived an ArchivedChallengeStreakActivityFeedItem is created`, async () => {
@@ -470,7 +473,7 @@ describe('PATCH /challenge-streaks', () => {
         expect(totalLiveStreaks).toEqual(0);
     });
 
-    test(`when challenge streak is restored the users totalLiveStreaks is increased by one.`, async () => {
+    test(`when challenge streak is restored the users totalLiveStreaks is increased by one.`, async done => {
         expect.assertions(1);
 
         const name = 'Duolingo';
@@ -504,7 +507,10 @@ describe('PATCH /challenge-streaks', () => {
             },
         });
 
-        const { totalLiveStreaks } = await streakoid.users.getOne(userId);
-        expect(totalLiveStreaks).toEqual(0);
+        setTimeout(async () => {
+            const { totalLiveStreaks } = await streakoid.users.getOne(userId);
+            expect(totalLiveStreaks).toEqual(1);
+            done();
+        }, 1000);
     });
 });

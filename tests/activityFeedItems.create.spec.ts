@@ -19,7 +19,7 @@ describe('POST /activity-feed-items', () => {
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
-            await setUpDatabase();
+            await setUpDatabase('create-activity-feed-items');
             user = await getPayingUser();
             streakoid = await streakoidTest();
             soloStreak = await streakoid.soloStreaks.create({

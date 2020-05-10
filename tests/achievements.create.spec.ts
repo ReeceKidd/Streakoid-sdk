@@ -13,7 +13,7 @@ describe('POST /achievements', () => {
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
-            await setUpDatabase();
+            await setUpDatabase('post-achievements');
             await getPayingUser();
             streakoid = await streakoidTest();
         }

@@ -13,7 +13,7 @@ describe('GET /achievements', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await setUpDatabase();
+            await setUpDatabase('get-achievements');
             await getPayingUser();
             streakoid = await streakoidTest();
         }

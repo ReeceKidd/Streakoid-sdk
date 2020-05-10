@@ -43,7 +43,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(27);
+        expect.assertions(28);
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -59,6 +59,7 @@ describe('PATCH /user', () => {
         expect(updatedUser.followers).toEqual([]);
         expect(updatedUser.following).toEqual([]);
         expect(updatedUser.totalStreakCompletes).toEqual(0);
+        expect(updatedUser.totalLiveStreaks).toEqual(0);
         expect(updatedUser.achievements).toEqual([]);
         expect(updatedUser.membershipInformation.isPayingMember).toEqual(true);
         expect(updatedUser.membershipInformation.pastMemberships).toEqual([]);
@@ -91,6 +92,7 @@ describe('PATCH /user', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'pushNotificationToken',
                 'pushNotifications',
@@ -129,6 +131,7 @@ describe('PATCH /user', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'membershipInformation',
                 'profileImages',
@@ -168,6 +171,7 @@ describe('PATCH /user', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'membershipInformation',
                 'profileImages',
@@ -231,6 +235,7 @@ describe('PATCH /user', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'membershipInformation',
                 'pushNotifications',

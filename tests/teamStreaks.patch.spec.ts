@@ -13,14 +13,14 @@ jest.setTimeout(120000);
 describe('PATCH /teamStreaks', () => {
     let streakoid: StreakoidFactory;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }

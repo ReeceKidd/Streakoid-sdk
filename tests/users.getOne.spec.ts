@@ -41,6 +41,7 @@ describe('GET /users/:userId', () => {
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.totalStreakCompletes).toEqual(0);
+        expect(user.totalLiveStreaks).toEqual(0);
         expect(user.achievements).toEqual([]);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
@@ -58,6 +59,7 @@ describe('GET /users/:userId', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'profileImages',
                 'pushNotificationToken',
@@ -89,6 +91,7 @@ describe('GET /users/:userId', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'isPayingMember',
                 'profileImages',
@@ -123,6 +126,7 @@ describe('GET /users/:userId', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'isPayingMember',
                 'profileImages',

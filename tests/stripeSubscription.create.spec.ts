@@ -46,7 +46,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(30);
+        expect.assertions(17);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -89,21 +89,6 @@ describe('POST /stripe-subscription', () => {
             'currentMembershipStartDate',
             'pastMemberships',
         ]);
-        expect(databaseUser.followers).toEqual([]);
-        expect(databaseUser.following).toEqual([]);
-        expect(databaseUser.totalStreakCompletes).toEqual(0);
-        expect(databaseUser.achievements).toEqual([]);
-        expect(databaseUser._id).toBeDefined();
-        expect(databaseUser.username).toEqual(username);
-        expect(databaseUser.email).toEqual(email);
-        expect(databaseUser.timezone).toEqual(londonTimezone);
-        expect(databaseUser.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(databaseUser.pushNotificationToken).toBeNull();
-        expect(databaseUser.hasCompletedIntroduction).toEqual(false);
-        expect(databaseUser.createdAt).toBeDefined();
-        expect(databaseUser.updatedAt).toBeDefined();
         expect(Object.keys(databaseUser).sort()).toEqual(
             [
                 'stripe',
@@ -111,6 +96,7 @@ describe('POST /stripe-subscription', () => {
                 'following',
                 'followers',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'membershipInformation',
                 '_id',
@@ -129,7 +115,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(30);
+        expect.assertions(17);
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -172,21 +158,6 @@ describe('POST /stripe-subscription', () => {
             'currentMembershipStartDate',
             'pastMemberships',
         ]);
-        expect(databaseUser.followers).toEqual([]);
-        expect(databaseUser.following).toEqual([]);
-        expect(databaseUser.totalStreakCompletes).toEqual(0);
-        expect(databaseUser.achievements).toEqual([]);
-        expect(databaseUser._id).toBeDefined();
-        expect(databaseUser.username).toEqual(username);
-        expect(databaseUser.email).toEqual(email);
-        expect(databaseUser.timezone).toEqual(londonTimezone);
-        expect(databaseUser.profileImages).toEqual({
-            originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
-        });
-        expect(databaseUser.pushNotificationToken).toBeNull();
-        expect(databaseUser.hasCompletedIntroduction).toEqual(false);
-        expect(databaseUser.createdAt).toBeDefined();
-        expect(databaseUser.updatedAt).toBeDefined();
         expect(Object.keys(databaseUser).sort()).toEqual(
             [
                 'stripe',
@@ -194,6 +165,7 @@ describe('POST /stripe-subscription', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'membershipInformation',
                 '_id',
