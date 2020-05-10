@@ -27,7 +27,7 @@ describe('GET /challenges', () => {
         }
     });
 
-    test(`gets a challenge using the exact name query paramater`, async () => {
+    test(`gets a challenge using the exact name query paramter`, async () => {
         expect.assertions(10);
 
         await streakoid.challenges.create({
@@ -64,7 +64,7 @@ describe('GET /challenges', () => {
         );
     });
 
-    test(`gets a challenge using a partial challenge name query paramater`, async () => {
+    test(`gets a challenge using a partial challenge name query paramter`, async () => {
         expect.assertions(10);
 
         await streakoid.challenges.create({
@@ -101,7 +101,7 @@ describe('GET /challenges', () => {
         );
     });
 
-    test(`gets a challenge without the query paramater`, async () => {
+    test(`gets a challenge without the query paramter`, async () => {
         expect.assertions(10);
 
         await streakoid.challenges.create({

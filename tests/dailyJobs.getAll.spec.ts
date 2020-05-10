@@ -34,7 +34,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test(`gets a dailyJob using the agendaJobId query paramater`, async () => {
+    test(`gets a dailyJob using the agendaJobId query paramter`, async () => {
         expect.assertions(9);
 
         const dailyJobs = await streakoid.dailyJobs.getAll({ agendaJobId });
@@ -63,7 +63,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         );
     });
 
-    test(`gets a dailyJob using the jobName query paramater`, async () => {
+    test(`gets a dailyJob using the jobName query paramter`, async () => {
         expect.assertions(9);
 
         const dailyJobs = await streakoid.dailyJobs.getAll({ jobName });
@@ -92,7 +92,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         );
     });
 
-    test(`gets a dailyJob using the timezone query paramater`, async () => {
+    test(`gets a dailyJob using the timezone query paramter`, async () => {
         expect.assertions(9);
 
         const dailyJobs = await streakoid.dailyJobs.getAll({ timezone });

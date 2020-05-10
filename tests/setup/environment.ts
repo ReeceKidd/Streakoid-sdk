@@ -1,4 +1,4 @@
-export const databaseUri = 'mongodb://localhost:27017';
+export const databaseUri = 'mongodb://localhost:27017/streakoid-test';
 export const username = 'tester';
 export const email = 'tester@streakoid.com';
 export const password = 'Password1';

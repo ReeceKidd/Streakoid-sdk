@@ -31,7 +31,7 @@ describe('SDK teamMemberStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?`);
         });
 
-        test('calls GET with correct URL when userId query paramater is passed', async () => {
+        test('calls GET with correct URL when userId query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -40,7 +40,7 @@ describe('SDK teamMemberStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when teamStreakId query paramater is passed', async () => {
+        test('calls GET with correct URL when teamStreakId query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -49,7 +49,7 @@ describe('SDK teamMemberStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?teamStreakId=${teamStreakId}&`);
         });
 
-        test('calls GET with correct URL when completedToday query paramater is passed', async () => {
+        test('calls GET with correct URL when completedToday query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -58,7 +58,7 @@ describe('SDK teamMemberStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?completedToday=true&`);
         });
 
-        test('calls GET with correct URL when timezone query paramater is passed', async () => {
+        test('calls GET with correct URL when timezone query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -67,7 +67,7 @@ describe('SDK teamMemberStreaks', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/team-member-streaks?timezone=${timezone}&`);
         });
 
-        test('calls GET with correct URL when active query paramater is passed', async () => {
+        test('calls GET with correct URL when active query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 

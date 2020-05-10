@@ -13,7 +13,7 @@ describe('GET /achievements', () => {
 
     beforeAll(async () => {
         if (isTestEnvironment()) {
-            await setUpDatabase('get-achievements');
+            await setUpDatabase();
             await getPayingUser();
             streakoid = await streakoidTest();
         }
@@ -25,7 +25,7 @@ describe('GET /achievements', () => {
         }
     });
 
-    test(`gets all achievements without query paramater`, async () => {
+    test(`gets all achievements without query paramter`, async () => {
         expect.assertions(4);
 
         const name = '100 Day Solo Streak';
@@ -47,7 +47,7 @@ describe('GET /achievements', () => {
         );
     });
 
-    test(`gets all achievements with query paramater`, async () => {
+    test(`gets all achievements with query paramter`, async () => {
         expect.assertions(4);
 
         const name = '100 Day Solo Streak';

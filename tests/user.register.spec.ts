@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(27);
+        expect.assertions(28);
 
         const user = await streakoid.users.create({
             username,
@@ -45,6 +45,7 @@ describe('POST /users', () => {
         expect(user.followers).toEqual([]);
         expect(user.following).toEqual([]);
         expect(user.totalStreakCompletes).toEqual(0);
+        expect(user.totalLiveStreaks).toEqual(0);
         expect(user.achievements).toEqual([]);
         expect(user.membershipInformation.isPayingMember).toEqual(false);
         expect(user.membershipInformation.pastMemberships).toEqual([]);
@@ -76,6 +77,7 @@ describe('POST /users', () => {
                 'followers',
                 'following',
                 'totalStreakCompletes',
+                'totalLiveStreaks',
                 'achievements',
                 'profileImages',
                 'pushNotificationToken',

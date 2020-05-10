@@ -18,7 +18,7 @@ describe('SDK notes', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/notes?`);
         });
 
-        test('calls GET with correct URL when userId query paramater is passed', async () => {
+        test('calls GET with correct URL when userId query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -29,7 +29,7 @@ describe('SDK notes', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when subjectId query paramater is passed', async () => {
+        test('calls GET with correct URL when subjectId query paramter is passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 

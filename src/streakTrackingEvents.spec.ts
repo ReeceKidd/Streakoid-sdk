@@ -42,7 +42,7 @@ describe('SDK streakTrackingEvents', () => {
             );
         });
 
-        test('calls GET with correct URL when type query paramater is passed', async () => {
+        test('calls GET with correct URL when type query paramter is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -52,7 +52,7 @@ describe('SDK streakTrackingEvents', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?type=${type}&`);
         });
 
-        test('calls GET with correct URL when userId query paramater is passed', async () => {
+        test('calls GET with correct URL when userId query paramter is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -62,7 +62,7 @@ describe('SDK streakTrackingEvents', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?userId=${userId}&`);
         });
 
-        test('calls GET with correct URL when streakId query paramater is passed', async () => {
+        test('calls GET with correct URL when streakId query paramter is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -72,7 +72,7 @@ describe('SDK streakTrackingEvents', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?streakId=${streakId}&`);
         });
 
-        test('calls GET with correct URL when streakType query paramater is passed', async () => {
+        test('calls GET with correct URL when streakType query paramter is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);
@@ -82,7 +82,7 @@ describe('SDK streakTrackingEvents', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/streak-tracking-events?streakType=${streakType}&`);
         });
 
-        test('calls GET with correct URL when streakType query paramater is passed', async () => {
+        test('calls GET with correct URL when streakType query paramter is passed', async () => {
             expect.assertions(1);
 
             streakoidClient.get = jest.fn().mockResolvedValue(true);

@@ -51,7 +51,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test(`team streaks can be retreived with creatorId query paramater`, async () => {
+    test(`team streaks can be retreived with creatorId query paramter`, async () => {
         expect.assertions(18);
 
         const teamStreaks = await streakoid.teamStreaks.getAll({ creatorId });

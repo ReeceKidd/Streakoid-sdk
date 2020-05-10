@@ -44,7 +44,7 @@ describe('GET /complete-solo-streak-tasks', () => {
         }
     });
 
-    test(`streak tracking events can be retreived without a query paramater`, async () => {
+    test(`streak tracking events can be retreived without a query paramter`, async () => {
         expect.assertions(8);
 
         const streakTrackingEvents = await streakoid.streakTrackingEvents.getAll({});

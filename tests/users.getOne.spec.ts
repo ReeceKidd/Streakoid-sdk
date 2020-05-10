@@ -30,7 +30,7 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retrieves user`, async () => {
-        expect.assertions(13);
+        expect.assertions(14);
 
         const user = await streakoid.users.getOne(userId);
 
