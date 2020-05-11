@@ -28,7 +28,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(28);
+        expect.assertions(29);
 
         const user = await streakoid.users.create({
             username,
@@ -65,6 +65,7 @@ describe('POST /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotificationToken).toBeNull();
         expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -81,6 +82,7 @@ describe('POST /users', () => {
                 'achievements',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',

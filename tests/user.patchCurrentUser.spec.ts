@@ -25,13 +25,10 @@ jest.setTimeout(120000);
 
 describe('PATCH /user', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
             streakoid = await streakoidTest();
         }
     });
@@ -44,6 +41,8 @@ describe('PATCH /user', () => {
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
         expect.assertions(28);
+
+        await getPayingUser();
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -95,6 +94,7 @@ describe('PATCH /user', () => {
                 'totalLiveStreaks',
                 'achievements',
                 'pushNotificationToken',
+                'endpointArn',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -107,6 +107,9 @@ describe('PATCH /user', () => {
 
     test(`if current user is following a user it returns the a populated following list`, async () => {
         expect.assertions(6);
+
+        const { _id } = await getPayingUser();
+        const userId = _id;
 
         const friend = await getFriend();
 
@@ -136,6 +139,7 @@ describe('PATCH /user', () => {
                 'membershipInformation',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -148,6 +152,9 @@ describe('PATCH /user', () => {
 
     test(`if current user has a follower a user it returns the a populated follower list`, async () => {
         expect.assertions(6);
+
+        const { _id } = await getPayingUser();
+        const userId = _id;
 
         const friend = await getFriend();
 
@@ -176,6 +183,7 @@ describe('PATCH /user', () => {
                 'membershipInformation',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -188,6 +196,9 @@ describe('PATCH /user', () => {
 
     test(`if current user has an achievement it returns the current user with populated achievements`, async () => {
         expect.assertions(6);
+
+        const { _id } = await getPayingUser();
+        const userId = _id;
 
         const achievementName = '100 Hundred Days';
         const achievementDescription = '100 Day solo streak';
@@ -241,6 +252,7 @@ describe('PATCH /user', () => {
                 'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

@@ -127,7 +127,7 @@ describe('PATCH /teamStreaks', () => {
             },
         });
 
-        const updatedUser = await streakoid.user.getCurrentUser();
+        const updatedUser = await streakoid.users.getOne(userId);
 
         expect(updatedUser.totalLiveStreaks).toEqual(0);
 
@@ -167,66 +167,13 @@ describe('PATCH /teamStreaks', () => {
             },
         });
 
-        const updatedUser = await streakoid.user.getCurrentUser();
+        const updatedUser = await streakoid.users.getOne(userId);
 
-        expect(updatedUser.totalLiveStreaks).toEqual(0);
+        expect(updatedUser.totalLiveStreaks).toEqual(1);
 
         const updatedFriend = await streakoid.users.getOne(friendId);
 
-        expect(updatedFriend.totalLiveStreaks).toEqual(0);
-    });
-
-    test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {
-        expect.assertions(6);
-
-        const user = await getPayingUser();
-        const userId = user._id;
-        const username = user.username;
-        const userProfileImage = user.profileImages.originalImageUrl;
-        const streakName = 'Daily Spanish';
-
-        const members = [{ memberId: userId }];
-
-        const teamStreak = await streakoid.teamStreaks.create({
-            creatorId: userId,
-            streakName,
-            members,
-        });
-
-        await streakoid.teamStreaks.update({
-            teamStreakId: teamStreak._id,
-            updateData: {
-                status: StreakStatus.archived,
-            },
-        });
-
-        const { activityFeedItems } = await streakoid.activityFeedItems.getAll({
-            teamStreakId: teamStreak._id,
-        });
-        const activityFeedItem = activityFeedItems.find(
-            item => item.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak,
-        );
-        if (activityFeedItem && activityFeedItem.activityFeedItemType === ActivityFeedItemTypes.archivedTeamStreak) {
-            expect(activityFeedItem.teamStreakId).toEqual(String(teamStreak._id));
-            expect(activityFeedItem.teamStreakName).toEqual(String(teamStreak.streakName));
-            expect(activityFeedItem.userId).toEqual(String(userId));
-            expect(activityFeedItem.username).toEqual(username);
-            expect(activityFeedItem.userProfileImage).toEqual(userProfileImage);
-            expect(Object.keys(activityFeedItem).sort()).toEqual(
-                [
-                    '_id',
-                    'activityFeedItemType',
-                    'userId',
-                    'username',
-                    'userProfileImage',
-                    'teamStreakId',
-                    'teamStreakName',
-                    'createdAt',
-                    'updatedAt',
-                    '__v',
-                ].sort(),
-            );
-        }
+        expect(updatedFriend.totalLiveStreaks).toEqual(1);
     });
 
     test(`when team streak is archived an ArchivedTeamStreakActivityFeedItem is created`, async () => {

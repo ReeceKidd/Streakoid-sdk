@@ -89,24 +89,14 @@ describe('GET /complete-solo-streak-tasks', () => {
         const streakName = 'Daily Spanish';
         const members = [{ memberId: user._id }];
 
-        const teamStreak = await streakoid.teamStreaks.create({
+        await streakoid.teamStreaks.create({
             creatorId: user._id,
             streakName,
             members,
         });
-        const teamStreakId = teamStreak._id;
 
-        await streakoid.teamMemberStreaks.create({
-            userId: user._id,
-            teamStreakId,
-        });
-
-        jest.useFakeTimers();
-        setTimeout(async () => {
-            const { totalLiveStreaks } = await streakoid.users.getOne(user._id);
-            expect(totalLiveStreaks).toEqual(1);
-        }, 1500);
-        jest.runAllTimers();
+        const { totalLiveStreaks } = await streakoid.users.getOne(user._id);
+        expect(totalLiveStreaks).toEqual(1);
     });
 
     test('throws userId does not exist error', async () => {

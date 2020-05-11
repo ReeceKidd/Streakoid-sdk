@@ -495,6 +495,6 @@ describe('PATCH /solo-streaks', () => {
 
         const updatedUser = await streakoid.users.getOne(userId);
 
-        expect(updatedUser.totalLiveStreaks).toEqual(0);
+        expect(updatedUser.totalLiveStreaks).toEqual(1);
     });
 });

@@ -31,7 +31,7 @@ describe('GET /user', () => {
     });
 
     test(`retrieves current user`, async () => {
-        expect.assertions(26);
+        expect.assertions(27);
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -63,6 +63,7 @@ describe('GET /user', () => {
             originalImageUrl: expect.any(String),
         });
         expect(user.pushNotificationToken).toBeNull();
+        expect(user.endpointArn).toBeNull();
         expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -80,6 +81,7 @@ describe('GET /user', () => {
                 'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -118,6 +120,7 @@ describe('GET /user', () => {
                 'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -158,6 +161,7 @@ describe('GET /user', () => {
                 'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -222,6 +226,7 @@ describe('GET /user', () => {
                 'pushNotifications',
                 'profileImages',
                 'pushNotificationToken',
+                'endpointArn',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

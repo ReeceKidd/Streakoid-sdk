@@ -6,27 +6,21 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+import { getFriend } from './setup/getFriend';
 
 jest.setTimeout(120000);
 
-describe('GET /team-streaks', () => {
+describe('POST /team-streaks', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let username: string;
-    let userProfileImage: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            username = user.username;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -34,6 +28,10 @@ describe('GET /team-streaks', () => {
 
     test(`team streak can be created with description and numberOfMinutes`, async () => {
         expect.assertions(20);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
 
         const streakName = 'Reading';
         const streakDescription = 'Everyday I must do 30 minutes of reading';
@@ -112,6 +110,10 @@ describe('GET /team-streaks', () => {
     test(`team streak can be created without description or numberOfMinutes`, async () => {
         expect.assertions(18);
 
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+
         const streakName = 'meditation';
         const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];
 
@@ -178,8 +180,133 @@ describe('GET /team-streaks', () => {
         expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
     });
 
+    test(`a team streak can be created with multiple members`, async () => {
+        expect.assertions(22);
+
+        const user = await getPayingUser();
+        const friend = await getFriend();
+
+        const streakName = 'meditation';
+        const members: { memberId: string; teamMemberStreakId?: string }[] = [
+            { memberId: user._id },
+            { memberId: friend._id },
+        ];
+
+        const teamStreak = await streakoid.teamStreaks.create({
+            creatorId: user._id,
+            streakName,
+            members,
+        });
+
+        expect(teamStreak.members.length).toEqual(2);
+        const userMember = teamStreak.members[0];
+        expect(userMember._id).toBeDefined();
+        expect(userMember.username).toEqual(user.username);
+        expect(Object.keys(userMember).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+
+        expect(Object.keys(userMember.teamMemberStreak).sort()).toEqual(
+            [
+                '_id',
+                'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                'userId',
+                'teamStreakId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        const friendMember = teamStreak.members[1];
+        expect(friendMember._id).toBeDefined();
+        expect(friendMember.username).toEqual(friend.username);
+        expect(Object.keys(friendMember).sort()).toEqual(['_id', 'username', 'teamMemberStreak'].sort());
+
+        expect(Object.keys(friendMember.teamMemberStreak).sort()).toEqual(
+            [
+                '_id',
+                'currentStreak',
+                'completedToday',
+                'active',
+                'pastStreaks',
+                'userId',
+                'teamStreakId',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+            ].sort(),
+        );
+
+        expect(teamStreak.streakName).toEqual(streakName);
+        expect(teamStreak.status).toEqual(StreakStatus.live);
+        expect(teamStreak.creatorId).toBeDefined();
+        expect(teamStreak.timezone).toEqual(londonTimezone);
+        expect(teamStreak.active).toEqual(false);
+        expect(teamStreak.completedToday).toEqual(false);
+        expect(teamStreak.currentStreak.numberOfDaysInARow).toEqual(0);
+        expect(Object.keys(teamStreak.currentStreak).sort()).toEqual(['numberOfDaysInARow'].sort());
+        expect(teamStreak.pastStreaks.length).toEqual(0);
+        expect(Object.keys(teamStreak).sort()).toEqual(
+            [
+                '_id',
+                'status',
+                'members',
+                'creatorId',
+                'streakName',
+                'active',
+                'completedToday',
+                'currentStreak',
+                'pastStreaks',
+                'timezone',
+                'createdAt',
+                'updatedAt',
+                '__v',
+                'creator',
+            ].sort(),
+        );
+
+        const { creator } = teamStreak;
+        expect(creator._id).toBeDefined();
+        expect(creator.username).toEqual(expect.any(String));
+        expect(Object.keys(creator).sort()).toEqual(['_id', 'username'].sort());
+    });
+
+    test(`when a team streak is created each team members totalLiveStreak count gets increased by one.`, async () => {
+        expect.assertions(2);
+
+        const user = await getPayingUser();
+        const friend = await getFriend();
+
+        const streakName = 'meditation';
+        const members: { memberId: string; teamMemberStreakId?: string }[] = [
+            { memberId: user._id },
+            { memberId: friend._id },
+        ];
+
+        await streakoid.teamStreaks.create({
+            creatorId: user._id,
+            streakName,
+            members,
+        });
+
+        const updatedUser = await streakoid.users.getOne(user._id);
+        expect(updatedUser.totalLiveStreaks).toEqual(1);
+
+        const updatedFriend = await streakoid.users.getOne(friend._id);
+        expect(updatedFriend.totalLiveStreaks).toEqual(1);
+    });
+
     test(`when a team streak is created an CreatedTeamStreakActivity is created`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const username = user.username;
+        const userProfileImage = user.profileImages.originalImageUrl;
 
         const streakName = 'meditation';
         const members: { memberId: string; teamMemberStreakId?: string }[] = [{ memberId: userId }];

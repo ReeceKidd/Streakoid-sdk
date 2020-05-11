@@ -13,24 +13,15 @@ jest.setTimeout(120000);
 
 describe('POST /team-members', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let userProfileImage: string;
-    let followerId: string;
-    const streakName = 'Daily Spanish';
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
-            userProfileImage = user.profileImages.originalImageUrl;
             streakoid = await streakoidTest();
-            const follower = await getFriend();
-            followerId = follower._id;
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
@@ -38,6 +29,12 @@ describe('POST /team-members', () => {
 
     test(`adds follower to team streak`, async () => {
         expect.assertions(45);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const follower = await getFriend();
+        const followerId = follower._id;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 
@@ -160,6 +157,13 @@ describe('POST /team-members', () => {
 
     test(`when a follower joins a team streak it creates a JoinedTeamStreakActivityFeedItem`, async () => {
         expect.assertions(6);
+
+        const user = await getPayingUser();
+        const userId = user._id;
+        const userProfileImage = user.profileImages.originalImageUrl;
+        const follower = await getFriend();
+        const followerId = follower._id;
+        const streakName = 'Daily Spanish';
 
         const members = [{ memberId: userId }];
 
