@@ -4,6 +4,7 @@ import ApiVersions from './ApiVersions';
 import { pushNotifications } from './user.pushNotifications';
 import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
 const user = (streakoidClient: AxiosInstance) => {
     const getCurrentUser = async (): Promise<PopulatedCurrentUser> => {
@@ -21,7 +22,10 @@ const user = (streakoidClient: AxiosInstance) => {
         updateData?: {
             email?: string;
             timezone?: string;
-            pushNotificationToken?: string;
+            pushNotification?: {
+                pushNotificationToken: string;
+                deviceType: PushNotificationSupportedDeviceTypes;
+            };
             hasCompletedIntroduction?: boolean;
         };
     }): Promise<PopulatedCurrentUser> => {
