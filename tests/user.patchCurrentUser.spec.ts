@@ -150,7 +150,7 @@ describe('PATCH /user', () => {
         );
     });
 
-    test(`if current user has a follower a user it returns the a populated follower list`, async () => {
+    test(`if current user has a follower a user it returns the a populated follower list after an update.`, async () => {
         expect.assertions(6);
 
         const { _id } = await getPayingUser();
@@ -194,7 +194,7 @@ describe('PATCH /user', () => {
         );
     });
 
-    test(`if current user has an achievement it returns the current user with populated achievements`, async () => {
+    test(`if current user has an achievement it returns the current user with populated achievements after an update`, async () => {
         expect.assertions(6);
 
         const { _id } = await getPayingUser();
