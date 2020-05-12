@@ -8,6 +8,7 @@ import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
+import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
 const updatedEmail = 'email@gmail.com';
 const updatedTimezone = 'Europe/Paris';
@@ -19,6 +20,29 @@ const updateData = {
     timezone: updatedTimezone,
     pushNotificationToken: updatedPushNotificationToken,
     hasCompletedIntroduction: updatedHasCompletedIntroduction,
+};
+
+import AWS from 'aws-sdk';
+const AWS_ACCESS_KEY_ID = 'AKIAI4DFSUY6CD6WEYPA';
+const AWS_SECRET_ACCESS_KEY = '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';
+const AWS_REGION = 'eu-west-1';
+const credentials = new AWS.Credentials({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY });
+AWS.config.update({ credentials, region: AWS_REGION });
+export const SNS = new AWS.SNS({});
+
+const deleteEndpointAfterTest = async ({ userId, platformArn }: { userId: string; platformArn: string }) => {
+    const endpoints = await SNS.listEndpointsByPlatformApplication({
+        PlatformApplicationArn: platformArn,
+    }).promise();
+    const userEndpoint =
+        endpoints &&
+        endpoints.Endpoints &&
+        endpoints.Endpoints.find(
+            endpoint => endpoint && endpoint.Attributes && endpoint.Attributes.CustomUserData == userId,
+        );
+
+    const endpointToDelete = (userEndpoint && userEndpoint.EndpointArn) || '';
+    return SNS.deleteEndpoint({ EndpointArn: endpointToDelete }).promise();
 };
 
 jest.setTimeout(120000);
@@ -103,6 +127,102 @@ describe('PATCH /user', () => {
                 'username',
             ].sort(),
         );
+    });
+
+    test(`if current user updates push notification information on an android device their endpointArn should be defined and pushNotificationToken should be updated.`, async () => {
+        expect.assertions(3);
+
+        await getPayingUser();
+
+        const pushNotificationToken = 'pushNotificationToken';
+
+        const user = await streakoid.user.updateCurrentUser({
+            updateData: {
+                pushNotification: {
+                    pushNotificationToken,
+                    deviceType: PushNotificationSupportedDeviceTypes.android,
+                },
+            },
+        });
+
+        expect(user.endpointArn).toBeDefined();
+        expect(user.pushNotificationToken).toEqual(pushNotificationToken);
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'email',
+                'followers',
+                'following',
+                'totalStreakCompletes',
+                'totalLiveStreaks',
+                'achievements',
+                'membershipInformation',
+                'profileImages',
+                'pushNotificationToken',
+                'endpointArn',
+                'pushNotifications',
+                'hasCompletedIntroduction',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
+            ].sort(),
+        );
+
+        await deleteEndpointAfterTest({
+            userId: user._id,
+            platformArn: 'arn:aws:sns:eu-west-1:932661412733:app/GCM/Firebase',
+        });
+    });
+
+    test(`if current user updates push notification information on an ios device their endpointArn should be defined and pushNotificationToken should be updated.`, async () => {
+        expect.assertions(3);
+
+        await getPayingUser();
+
+        const pushNotificationToken = '740f4707 bebcf74f 9b7c25d4 8e335894 5f6aa01d a5ddb387 462c7eaf 61bb78ad';
+
+        const user = await streakoid.user.updateCurrentUser({
+            updateData: {
+                pushNotification: {
+                    pushNotificationToken,
+                    deviceType: PushNotificationSupportedDeviceTypes.ios,
+                },
+            },
+        });
+
+        expect(user.endpointArn).toBeDefined();
+        expect(user.pushNotificationToken).toEqual(pushNotificationToken);
+
+        expect(Object.keys(user).sort()).toEqual(
+            [
+                '_id',
+                'createdAt',
+                'email',
+                'followers',
+                'following',
+                'totalStreakCompletes',
+                'totalLiveStreaks',
+                'achievements',
+                'membershipInformation',
+                'profileImages',
+                'pushNotificationToken',
+                'endpointArn',
+                'pushNotifications',
+                'hasCompletedIntroduction',
+                'timezone',
+                'updatedAt',
+                'userType',
+                'username',
+            ].sort(),
+        );
+
+        await deleteEndpointAfterTest({
+            userId: user._id,
+            platformArn: 'arn:aws:sns:eu-west-1:932661412733:app/APNS/IOS',
+        });
     });
 
     test(`if current user is following a user it returns the a populated following list`, async () => {
