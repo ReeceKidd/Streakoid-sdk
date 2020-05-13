@@ -4,7 +4,6 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
@@ -30,12 +29,12 @@ describe('GET /users/:userId', () => {
     });
 
     test(`retrieves user`, async () => {
-        expect.assertions(14);
+        expect.assertions(13);
 
         const user = await streakoid.users.getOne(userId);
 
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(user.username);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.followers).toEqual([]);
@@ -46,7 +45,6 @@ describe('GET /users/:userId', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -60,9 +58,9 @@ describe('GET /users/:userId', () => {
                 'following',
                 'totalStreakCompletes',
                 'totalLiveStreaks',
+                'pushNotificationToken',
                 'achievements',
                 'profileImages',
-                'pushNotificationToken',
                 'createdAt',
                 'updatedAt',
             ].sort(),

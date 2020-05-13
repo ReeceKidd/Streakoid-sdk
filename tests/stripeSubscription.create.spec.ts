@@ -6,10 +6,10 @@ import { streakoidTest } from './setup/streakoidTest';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { email, username } from './setup/environment';
 import { getUser } from './setup/getUser';
 import PaymentPlans from '@streakoid/streakoid-models/lib/Types/PaymentPlans';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import { getServiceConfig } from '../getServiceConfig';
 
 jest.setTimeout(120000);
 
@@ -18,24 +18,11 @@ const premiumEmail = 'premium@gmail.com';
 
 describe('POST /stripe-subscription', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
-    let premiumId: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const token: any = { id: 'tok_visa', email };
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getUser();
-            userId = user._id;
             streakoid = await streakoidTest();
-
-            const premiumUser = await streakoid.users.create({
-                username: premiumUsername,
-                email: premiumEmail,
-            });
-            premiumId = premiumUser._id;
-            await streakoid.stripe.createSubscription({ token, userId: premiumId, paymentPlan: PaymentPlans.Monthly });
         }
     });
 
@@ -46,20 +33,28 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(17);
+        expect.assertions(16);
+        const createdUser = await getUser();
+
+        const premiumUser = await streakoid.users.create({
+            username: premiumUsername,
+            email: premiumEmail,
+        });
+        const premiumId = premiumUser._id;
+        const token: any = { id: 'tok_visa', email: getServiceConfig().EMAIL };
+        await streakoid.stripe.createSubscription({ token, userId: premiumId, paymentPlan: PaymentPlans.Monthly });
         const user = await streakoid.stripe.createSubscription({
             token,
-            userId,
+            userId: createdUser._id,
             paymentPlan: PaymentPlans.Monthly,
         });
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(user.username);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -70,14 +65,14 @@ describe('POST /stripe-subscription', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
         );
 
-        const databaseUser = await mongoose.connection.db.collection('Users').findOne({ username });
+        const databaseUser = await mongoose.connection.db.collection('Users').findOne({ username: user.username });
         expect(Object.keys(databaseUser.stripe)).toEqual(['customer', 'subscription']);
         expect(databaseUser.stripe.subscription).toEqual(expect.any(String));
         expect(databaseUser.stripe.customer).toEqual(expect.any(String));
@@ -104,8 +99,7 @@ describe('POST /stripe-subscription', () => {
                 'email',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'createdAt',
@@ -116,7 +110,17 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(17);
+        expect.assertions(15);
+        const createdUser = await getUser();
+        const userId = createdUser._id;
+
+        const premiumUser = await streakoid.users.create({
+            username: premiumUsername,
+            email: premiumEmail,
+        });
+        const premiumId = premiumUser._id;
+        const token: any = { id: 'tok_visa', email: getServiceConfig().EMAIL };
+        await streakoid.stripe.createSubscription({ token, userId: premiumId, paymentPlan: PaymentPlans.Monthly });
         const user = await streakoid.stripe.createSubscription({
             token,
             userId,
@@ -124,12 +128,10 @@ describe('POST /stripe-subscription', () => {
         });
         expect(user.userType).toEqual(UserTypes.basic);
         expect(user._id).toEqual(expect.any(String));
-        expect(user.username).toEqual(username);
         expect(user.timezone).toEqual(londonTimezone);
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -140,14 +142,14 @@ describe('POST /stripe-subscription', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
             ].sort(),
         );
 
-        const databaseUser = await mongoose.connection.db.collection('Users').findOne({ username });
+        const databaseUser = await mongoose.connection.db.collection('Users').findOne({ username: user.username });
         expect(Object.keys(databaseUser.stripe)).toEqual(['customer', 'subscription']);
         expect(databaseUser.stripe.subscription).toEqual(expect.any(String));
         expect(databaseUser.stripe.customer).toEqual(expect.any(String));
@@ -174,8 +176,7 @@ describe('POST /stripe-subscription', () => {
                 'email',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'createdAt',
@@ -188,7 +189,10 @@ describe('POST /stripe-subscription', () => {
     test('sends correct error when cvc check fails', async () => {
         expect.assertions(2);
         try {
-            const token: any = { email, id: 'tok_cvcCheckFail' };
+            const user = await getUser();
+            const userId = user._id;
+
+            const token: any = { email: getServiceConfig().EMAIL, id: 'tok_cvcCheckFail' };
             await streakoid.stripe.createSubscription({ token, userId, paymentPlan: PaymentPlans.Monthly });
         } catch (err) {
             expect(err.response.status).toEqual(400);
@@ -199,7 +203,9 @@ describe('POST /stripe-subscription', () => {
     test('sends correct error when customer has insufficient funds', async () => {
         expect.assertions(2);
         try {
-            const token: any = { email, id: 'tok_chargeDeclinedInsufficientFunds' };
+            const user = await getUser();
+            const userId = user._id;
+            const token: any = { email: getServiceConfig().EMAIL, id: 'tok_chargeDeclinedInsufficientFunds' };
             await streakoid.stripe.createSubscription({ token, userId, paymentPlan: PaymentPlans.Monthly });
         } catch (err) {
             expect(err.response.status).toEqual(400);
@@ -210,6 +216,8 @@ describe('POST /stripe-subscription', () => {
     test('sends correct error when id is empty', async () => {
         expect.assertions(2);
         try {
+            await getUser();
+            const token: any = { id: 'tok_visa', email: getServiceConfig().EMAIL };
             await streakoid.stripe.createSubscription({ token, userId: '', paymentPlan: PaymentPlans.Monthly });
         } catch (err) {
             expect(err.response.status).toEqual(400);
@@ -223,6 +231,8 @@ describe('POST /stripe-subscription', () => {
         expect.assertions(2);
 
         try {
+            await getUser();
+            const token: any = { id: 'tok_visa', email: getServiceConfig().EMAIL };
             await streakoid.stripe.createSubscription({
                 token,
                 userId: 'invalid-id',
@@ -238,6 +248,8 @@ describe('POST /stripe-subscription', () => {
         expect.assertions(3);
 
         try {
+            await getUser();
+            const token: any = { id: 'tok_visa', email: getServiceConfig().EMAIL };
             await streakoid.stripe.createSubscription({
                 token,
                 userId: '5d053a174c64143898b78455',
@@ -247,18 +259,6 @@ describe('POST /stripe-subscription', () => {
             expect(err.response.status).toEqual(400);
             expect(err.response.data.code).toEqual('400-11');
             expect(err.response.data.message).toEqual('User does not exist.');
-        }
-    });
-
-    test('sends correct error when user is already premium', async () => {
-        expect.assertions(3);
-
-        try {
-            await streakoid.stripe.createSubscription({ token, userId: premiumId, paymentPlan: PaymentPlans.Monthly });
-        } catch (err) {
-            expect(err.response.status).toEqual(400);
-            expect(err.response.data.code).toEqual('400-12');
-            expect(err.response.data.message).toEqual('User is already subscribed.');
         }
     });
 });

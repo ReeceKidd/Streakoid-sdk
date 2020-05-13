@@ -1,9 +1,12 @@
-import { username, email } from './environment';
 import { streakoid } from '../../src/streakoid';
 import mongoose from 'mongoose';
 import { User } from '@streakoid/streakoid-models/lib/Models/User';
+import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
+import { getServiceConfig } from '../../getServiceConfig';
 
 const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
+    const username = getServiceConfig().USER;
+    const email = getServiceConfig().EMAIL;
     await streakoid.users.create({
         username,
         email,
@@ -18,7 +21,11 @@ const getUserWithPushNotificationsEnabled = async (): Promise<User> => {
                     isPayingMember: true,
                     currentMembershipStartDate: new Date(),
                 },
-                pushNotificationToken: 'ExponentPushToken[joIk5nKe5G3IjcfZ2PyurD]',
+                pushNotification: {
+                    token: 'token',
+                    endpointArn: 'endpointArn',
+                    deviceType: PushNotificationSupportedDeviceTypes.android,
+                },
             },
         },
     );

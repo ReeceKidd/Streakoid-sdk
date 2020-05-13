@@ -43,7 +43,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.totalStreakCompletes).toEqual(0);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -55,7 +55,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
@@ -82,7 +82,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -93,7 +93,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
@@ -119,7 +119,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -131,7 +131,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'totalStreakCompletes',
-                'pushNotificationToken',
+                'pushNotification',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -157,7 +157,7 @@ describe('GET /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.totalStreakCompletes).toEqual(expect.any(Number));
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -168,7 +168,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
@@ -193,7 +193,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -205,7 +205,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',
@@ -234,7 +234,7 @@ describe('GET /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.totalStreakCompletes).toEqual(expect.any(Number));
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
         expect(Object.keys(user).sort()).toEqual(
@@ -246,7 +246,7 @@ describe('GET /users', () => {
                 'timezone',
                 'profileImages',
                 'totalStreakCompletes',
-                'pushNotificationToken',
+                'pushNotification',
                 'createdAt',
                 'updatedAt',
             ].sort(),
@@ -284,7 +284,7 @@ describe('GET /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeDefined();
+        expect(user.pushNotification).toBeDefined();
         expect(user.totalStreakCompletes).toEqual(expect.any(Number));
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -296,7 +296,7 @@ describe('GET /users', () => {
                 'username',
                 'timezone',
                 'profileImages',
-                'pushNotificationToken',
+                'pushNotification',
                 'totalStreakCompletes',
                 'createdAt',
                 'updatedAt',

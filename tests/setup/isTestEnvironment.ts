@@ -1,7 +1,9 @@
-import { databaseUri } from './environment';
+import { getServiceConfig } from '../../getServiceConfig';
 
 const isTestEnvironment = (): boolean => {
-    return process.env.NODE_ENV === 'test' && databaseUri.includes('test');
+    const nodeEnv = getServiceConfig().NODE_ENV;
+    const databaseUri = getServiceConfig().DATABASE_URI;
+    return nodeEnv === 'test' && databaseUri.includes('test');
 };
 
 export { isTestEnvironment };

@@ -33,7 +33,7 @@
         "typescript": "^3.6.3"
     },
     "dependencies": {
-        "@streakoid/streakoid-models": "^1.0.27",
+        "@streakoid/streakoid-models": "^1.0.30",
         "@types/form-data": "^2.5.0",
         "@types/node-fetch": "^2.5.2",
         "@types/react": "^16.9.9",
@@ -41,6 +41,7 @@
         "@typescript-eslint/parser": "^2.3.2",
         "aws-amplify": "^1.2.2",
         "axios": "^0.19.0",
+        "dotenv": "^8.2.0",
         "eslint-config-prettier": "^6.4.0",
         "eslint-plugin-prettier": "^3.1.1",
         "mongoose": "^5.7.5",

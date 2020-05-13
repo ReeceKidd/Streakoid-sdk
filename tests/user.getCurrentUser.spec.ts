@@ -5,7 +5,6 @@ import { getFriend } from './setup/getFriend';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { username } from './setup/environment';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
 
@@ -31,13 +30,13 @@ describe('GET /user', () => {
     });
 
     test(`retrieves current user`, async () => {
-        expect.assertions(27);
+        expect.assertions(26);
 
         const user = await streakoid.user.getCurrentUser();
 
         expect(user._id).toEqual(expect.any(String));
         expect(user.email).toBeDefined();
-        expect(user.username).toEqual(username);
+        expect(user.username).toEqual(user.username);
         expect(user.userType).toEqual(UserTypes.basic);
         expect(Object.keys(user.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
@@ -62,8 +61,11 @@ describe('GET /user', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: expect.any(String),
         });
-        expect(user.pushNotificationToken).toBeNull();
-        expect(user.endpointArn).toBeNull();
+        expect(user.pushNotification).toEqual({
+            deviceType: null,
+            token: null,
+            endpointArn: null,
+        });
         expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -80,8 +82,7 @@ describe('GET /user', () => {
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -119,8 +120,7 @@ describe('GET /user', () => {
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -160,8 +160,7 @@ describe('GET /user', () => {
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',
@@ -225,8 +224,7 @@ describe('GET /user', () => {
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

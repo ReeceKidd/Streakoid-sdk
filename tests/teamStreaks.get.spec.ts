@@ -4,9 +4,12 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { username, originalImageUrl } from './setup/environment';
 import { GetAllTeamStreaksSortFields } from '../src/teamStreaks';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { getServiceConfig } from '../getServiceConfig';
+
+const username = getServiceConfig().USER;
+const originalImageUrl = getServiceConfig().ORIGINAL_IMAGE_URL;
 
 jest.setTimeout(120000);
 

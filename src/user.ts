@@ -23,8 +23,8 @@ const user = (streakoidClient: AxiosInstance) => {
             email?: string;
             timezone?: string;
             pushNotification?: {
-                pushNotificationToken: string;
                 deviceType: PushNotificationSupportedDeviceTypes;
+                token: string;
             };
             hasCompletedIntroduction?: boolean;
         };

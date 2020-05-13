@@ -30,7 +30,7 @@ describe('SDK users', () => {
                 email: 'email@email.com',
                 timezone: 'Europe/London',
                 pushNotification: {
-                    pushNotificationToken: 'pushNotificationToken',
+                    token: 'pushNotificationToken',
                     deviceType: PushNotificationSupportedDeviceTypes.android,
                 },
             };

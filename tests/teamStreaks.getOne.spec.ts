@@ -1,11 +1,14 @@
 import { StreakoidFactory, londonTimezone } from '../src/streakoid';
 import { streakoidTest } from './setup/streakoidTest';
 import { getPayingUser } from './setup/getPayingUser';
-import { username, originalImageUrl } from './setup/environment';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { getServiceConfig } from '../getServiceConfig';
+
+const username = getServiceConfig().USER;
+const originalImageUrl = getServiceConfig().ORIGINAL_IMAGE_URL;
 
 jest.setTimeout(120000);
 

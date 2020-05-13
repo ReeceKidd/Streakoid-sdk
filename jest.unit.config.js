@@ -14,4 +14,5 @@ module.exports = {
     testEnvironment: 'node',
     modulePathIgnorePatterns: ['./coverage/*', './jest.config.js', './lib/*', './tests/*'],
     testMatch: ['**/src/**/*.spec.(ts|js)'],
+    setupFiles: ['./getServiceConfig.ts'],
 };

@@ -5,30 +5,31 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
+import { getServiceConfig } from '../getServiceConfig';
 
 jest.setTimeout(120000);
-
-const username = 'username';
-const email = 'email@gmail.com';
 
 describe('POST /users', () => {
     let streakoid: StreakoidFactory;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
             streakoid = await streakoidTest();
         }
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
         if (isTestEnvironment()) {
             await tearDownDatabase();
         }
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(29);
+        expect.assertions(28);
+
+        const username = getServiceConfig().USER;
+        const email = getServiceConfig().EMAIL;
 
         const user = await streakoid.users.create({
             username,
@@ -64,8 +65,7 @@ describe('POST /users', () => {
         expect(user.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(user.pushNotificationToken).toBeNull();
-        expect(user.pushNotificationToken).toBeNull();
+        expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
         expect(user.hasCompletedIntroduction).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
@@ -81,8 +81,7 @@ describe('POST /users', () => {
                 'totalLiveStreaks',
                 'achievements',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -143,6 +142,9 @@ describe('POST /users', () => {
     test('fails because username already exists', async () => {
         expect.assertions(3);
         try {
+            const username = getServiceConfig().USER;
+            const email = getServiceConfig().EMAIL;
+            await streakoid.users.create({ username, email });
             await streakoid.users.create({ username, email: 'new-email@gmail.com' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
@@ -155,6 +157,7 @@ describe('POST /users', () => {
         expect.assertions(2);
 
         try {
+            const username = getServiceConfig().USER;
             await streakoid.users.create({ username, email: '' });
         } catch (err) {
             expect(err.response.status).toEqual(400);
@@ -166,8 +169,10 @@ describe('POST /users', () => {
 
     test('fails because email already exists', async () => {
         expect.assertions(3);
-
         try {
+            const username = getServiceConfig().USER;
+            const email = getServiceConfig().EMAIL;
+            await streakoid.users.create({ username, email });
             await streakoid.users.create({ username: 'tester01', email });
         } catch (err) {
             expect(err.response.status).toEqual(400);

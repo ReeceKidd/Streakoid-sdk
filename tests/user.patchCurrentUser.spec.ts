@@ -4,7 +4,6 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { username } from './setup/environment';
 import { getFriend } from './setup/getFriend';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
@@ -23,11 +22,13 @@ const updateData = {
 };
 
 import AWS from 'aws-sdk';
-const AWS_ACCESS_KEY_ID = 'AKIAI4DFSUY6CD6WEYPA';
-const AWS_SECRET_ACCESS_KEY = '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';
-const AWS_REGION = 'eu-west-1';
-const credentials = new AWS.Credentials({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY });
-AWS.config.update({ credentials, region: AWS_REGION });
+import { getServiceConfig } from '../getServiceConfig';
+
+const credentials = new AWS.Credentials({
+    accessKeyId: getServiceConfig().AWS_ACCESS_KEY_ID,
+    secretAccessKey: getServiceConfig().AWS_SECRET_ACCESS_KEY,
+});
+AWS.config.update({ credentials, region: getServiceConfig().AWS_REGION });
 export const SNS = new AWS.SNS({});
 
 const deleteEndpointAfterTest = async ({ userId, platformArn }: { userId: string; platformArn: string }) => {
@@ -66,7 +67,7 @@ describe('PATCH /user', () => {
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
         expect.assertions(28);
 
-        await getPayingUser();
+        const user = await getPayingUser();
 
         const updatedUser = await streakoid.user.updateCurrentUser({
             updateData,
@@ -74,7 +75,7 @@ describe('PATCH /user', () => {
 
         expect(updatedUser._id).toEqual(expect.any(String));
         expect(updatedUser.email).toEqual(updatedEmail);
-        expect(updatedUser.username).toEqual(username);
+        expect(updatedUser.username).toEqual(user.username);
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
@@ -101,7 +102,11 @@ describe('PATCH /user', () => {
         expect(updatedUser.profileImages).toEqual({
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
-        expect(updatedUser.pushNotificationToken).toEqual(updatedPushNotificationToken);
+        expect(updatedUser.pushNotification).toEqual({
+            deviceType: null,
+            token: null,
+            endpointArn: null,
+        });
         expect(updatedUser.hasCompletedIntroduction).toEqual(updatedHasCompletedIntroduction);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
@@ -117,8 +122,7 @@ describe('PATCH /user', () => {
                 'totalStreakCompletes',
                 'totalLiveStreaks',
                 'achievements',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -130,23 +134,26 @@ describe('PATCH /user', () => {
     });
 
     test(`if current user updates push notification information on an android device their endpointArn should be defined and pushNotificationToken should be updated.`, async () => {
-        expect.assertions(3);
+        expect.assertions(2);
 
         await getPayingUser();
 
-        const pushNotificationToken = 'pushNotificationToken';
+        const token = 'token';
 
         const user = await streakoid.user.updateCurrentUser({
             updateData: {
                 pushNotification: {
-                    pushNotificationToken,
+                    token,
                     deviceType: PushNotificationSupportedDeviceTypes.android,
                 },
             },
         });
 
-        expect(user.endpointArn).toBeDefined();
-        expect(user.pushNotificationToken).toEqual(pushNotificationToken);
+        expect(user.pushNotification).toEqual({
+            deviceType: PushNotificationSupportedDeviceTypes.android,
+            token,
+            endpointArn: expect.any(String),
+        });
 
         expect(Object.keys(user).sort()).toEqual(
             [
@@ -160,8 +167,7 @@ describe('PATCH /user', () => {
                 'achievements',
                 'membershipInformation',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -178,23 +184,26 @@ describe('PATCH /user', () => {
     });
 
     test(`if current user updates push notification information on an ios device their endpointArn should be defined and pushNotificationToken should be updated.`, async () => {
-        expect.assertions(3);
+        expect.assertions(2);
 
         await getPayingUser();
 
-        const pushNotificationToken = '740f4707 bebcf74f 9b7c25d4 8e335894 5f6aa01d a5ddb387 462c7eaf 61bb78ad';
+        const token = '740f4707 bebcf74f 9b7c25d4 8e335894 5f6aa01d a5ddb387 462c7eaf 61bb78ad';
 
         const user = await streakoid.user.updateCurrentUser({
             updateData: {
                 pushNotification: {
-                    pushNotificationToken,
+                    token,
                     deviceType: PushNotificationSupportedDeviceTypes.ios,
                 },
             },
         });
 
-        expect(user.endpointArn).toBeDefined();
-        expect(user.pushNotificationToken).toEqual(pushNotificationToken);
+        expect(user.pushNotification).toEqual({
+            token,
+            deviceType: PushNotificationSupportedDeviceTypes.ios,
+            endpointArn: expect.any(String),
+        });
 
         expect(Object.keys(user).sort()).toEqual(
             [
@@ -208,8 +217,7 @@ describe('PATCH /user', () => {
                 'achievements',
                 'membershipInformation',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -258,8 +266,7 @@ describe('PATCH /user', () => {
                 'achievements',
                 'membershipInformation',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -302,8 +309,7 @@ describe('PATCH /user', () => {
                 'achievements',
                 'membershipInformation',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'pushNotifications',
                 'hasCompletedIntroduction',
                 'timezone',
@@ -371,8 +377,7 @@ describe('PATCH /user', () => {
                 'membershipInformation',
                 'pushNotifications',
                 'profileImages',
-                'pushNotificationToken',
-                'endpointArn',
+                'pushNotification',
                 'hasCompletedIntroduction',
                 'timezone',
                 'updatedAt',

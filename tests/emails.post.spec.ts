@@ -4,7 +4,8 @@ import { getPayingUser } from './setup/getPayingUser';
 import { isTestEnvironment } from './setup/isTestEnvironment';
 import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
-import { username } from './setup/environment';
+import { getServiceConfig } from '../getServiceConfig';
+const username = getServiceConfig().USER;
 
 jest.setTimeout(120000);
 
