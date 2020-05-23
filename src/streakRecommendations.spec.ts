@@ -8,22 +8,15 @@ describe('SDK streakRecommendations', () => {
     });
 
     describe('getAll', () => {
-        test('calls GET with correct URL when random query paramter is true', async () => {
+        test('calls GET with correct URL when all query parameters are used', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.streakRecommendations.getAll({ random: true, limit: 5 });
+            await streakoid.streakRecommendations.getAll({ random: true, limit: 5, sortedByNumberOfMembers: true });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/streak-recommendations?random=true&limit=5&`);
-        });
-
-        test('calls GET with correct URL when random query paramter is false', async () => {
-            expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
-
-            await streakoid.streakRecommendations.getAll({ random: false, limit: 5 });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/streak-recommendations?limit=5&`);
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/streak-recommendations?random=true&limit=5&sortedByNumberOfMembers=true&`,
+            );
         });
     });
 });

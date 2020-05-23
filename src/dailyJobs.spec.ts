@@ -20,7 +20,7 @@ describe('SDK dailyJobs', () => {
             timezone,
         };
 
-        test('calls GET with correct URL when no query paramters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -29,7 +29,7 @@ describe('SDK dailyJobs', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/daily-jobs?`);
         });
 
-        test('calls GET with correct URL when all query paramters are passed', async () => {
+        test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 

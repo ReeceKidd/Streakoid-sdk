@@ -6,7 +6,15 @@ import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCatego
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const streakRecommendations = (streakoidClient: AxiosInstance) => {
-    const getAll = async ({ random, limit }: { random: boolean; limit: number }): Promise<Challenge[]> => {
+    const getAll = async ({
+        random,
+        limit,
+        sortedByNumberOfMembers,
+    }: {
+        random: boolean;
+        limit: number;
+        sortedByNumberOfMembers: boolean;
+    }): Promise<Challenge[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.streakRecommendations}?`;
 
@@ -16,6 +24,10 @@ const streakRecommendations = (streakoidClient: AxiosInstance) => {
 
             if (limit) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}limit=${limit}&`;
+            }
+
+            if (sortedByNumberOfMembers) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortedByNumberOfMembers=true&`;
             }
 
             const { data } = await streakoidClient.get(getAllSoloStreaksURL);

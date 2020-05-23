@@ -10,13 +10,15 @@ describe('SDK challenges', () => {
     describe('getAll', () => {
         const searchQuery = 'Yoga';
         const limit = 10;
+        const random = true;
 
         const query = {
             searchQuery,
             limit,
+            random,
         };
 
-        test('calls GET with correct URL when no query paramters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
@@ -25,13 +27,15 @@ describe('SDK challenges', () => {
             expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?`);
         });
 
-        test('calls GET with correct URL when all query paramters are passed', async () => {
+        test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             await streakoid.challenges.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&`);
+            expect(streakoidClient.get).toBeCalledWith(
+                `/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&random=${random}&`,
+            );
         });
     });
 

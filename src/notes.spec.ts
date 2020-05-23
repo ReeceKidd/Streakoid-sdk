@@ -9,7 +9,7 @@ describe('SDK notes', () => {
     });
 
     describe('getAll', () => {
-        test('calls GET with correct URL when no query paramters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
             streakoidClient.get = jest.fn().mockResolvedValue(true);
 
