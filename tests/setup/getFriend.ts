@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 import { streakoid } from '../../src/streakoid';
 import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
-import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
 export const friendUsername = 'follower';
 export const friendEmail = 'follower@gmail.com';
@@ -17,11 +16,6 @@ const getFriend = async (): Promise<PopulatedCurrentUser> => {
                 membershipInformation: {
                     isPayingMember: true,
                     currentMembershipStartDate: new Date(),
-                },
-                pushNotification: {
-                    token: 'token',
-                    endpointArn: 'endpointArn',
-                    deviceType: PushNotificationSupportedDeviceTypes.android,
                 },
             },
         },

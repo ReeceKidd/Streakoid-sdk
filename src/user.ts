@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import ApiVersions from './ApiVersions';
 import { pushNotifications } from './user.pushNotifications';
 import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
+import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
@@ -26,7 +27,9 @@ const user = (streakoidClient: AxiosInstance) => {
                 deviceType: PushNotificationSupportedDeviceTypes;
                 token: string;
             };
-            hasCompletedIntroduction?: boolean;
+            hasCompletedTutorial?: boolean;
+            onboarding?: Onboarding;
+            hasCompletedOnboarding?: boolean;
         };
     }): Promise<PopulatedCurrentUser> => {
         try {

@@ -33,7 +33,7 @@ describe('POST /stripe-subscription', () => {
     });
 
     test('signs user up for monthly subscription', async () => {
-        expect.assertions(16);
+        expect.assertions(15);
         const createdUser = await getUser();
 
         const premiumUser = await streakoid.users.create({
@@ -84,33 +84,10 @@ describe('POST /stripe-subscription', () => {
             'currentMembershipStartDate',
             'pastMemberships',
         ]);
-        expect(Object.keys(databaseUser).sort()).toEqual(
-            [
-                'stripe',
-                'userType',
-                'following',
-                'followers',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                '_id',
-                'username',
-                'email',
-                'timezone',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
-        );
     });
 
     test('signs user up for annual subscription', async () => {
-        expect.assertions(15);
+        expect.assertions(14);
         const createdUser = await getUser();
         const userId = createdUser._id;
 
@@ -161,29 +138,6 @@ describe('POST /stripe-subscription', () => {
             'currentMembershipStartDate',
             'pastMemberships',
         ]);
-        expect(Object.keys(databaseUser).sort()).toEqual(
-            [
-                'stripe',
-                'userType',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                '_id',
-                'username',
-                'email',
-                'timezone',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ].sort(),
-        );
     });
 
     test('sends correct error when cvc check fails', async () => {

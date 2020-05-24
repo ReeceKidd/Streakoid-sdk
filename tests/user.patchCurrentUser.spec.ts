@@ -23,6 +23,7 @@ const updateData = {
 
 import AWS from 'aws-sdk';
 import { getServiceConfig } from '../getServiceConfig';
+import { hasCorrectPopulatedCurrentUserKeys } from './helpers/hasCorrectPopulatedCurrentUserKeys';
 
 const credentials = new AWS.Credentials({
     accessKeyId: getServiceConfig().AWS_ACCESS_KEY_ID,
@@ -65,7 +66,7 @@ describe('PATCH /user', () => {
     });
 
     test(`that request passes when updatedUser is patched with correct keys`, async () => {
-        expect.assertions(28);
+        expect.assertions(31);
 
         const user = await getPayingUser();
 
@@ -107,30 +108,13 @@ describe('PATCH /user', () => {
             token: null,
             endpointArn: null,
         });
-        expect(updatedUser.hasCompletedIntroduction).toEqual(updatedHasCompletedIntroduction);
+        expect(user.hasCompletedTutorial).toEqual(false);
+        expect(user.onboarding.whatBestDescribesYouChoice).toEqual(null);
+        expect(user.onboarding.whyDoYouWantToBuildNewHabitsChoice).toEqual(null);
+        expect(user.hasCompletedOnboarding).toEqual(false);
         expect(updatedUser.createdAt).toEqual(expect.any(String));
         expect(updatedUser.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(updatedUser).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'membershipInformation',
-                'profileImages',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(updatedUser)).toEqual(true);
     });
 
     test(`if current user updates push notification information on an android device their endpointArn should be defined and pushNotificationToken should be updated.`, async () => {
@@ -155,27 +139,7 @@ describe('PATCH /user', () => {
             endpointArn: expect.any(String),
         });
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
 
         await deleteEndpointAfterTest({
             userId: user._id,
@@ -205,27 +169,7 @@ describe('PATCH /user', () => {
             endpointArn: expect.any(String),
         });
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
 
         await deleteEndpointAfterTest({
             userId: user._id,
@@ -254,27 +198,7 @@ describe('PATCH /user', () => {
         expect(following.profileImage).toEqual(expect.any(String));
         expect(Object.keys(following).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test(`if current user has a follower a user it returns the a populated follower list after an update.`, async () => {
@@ -297,27 +221,7 @@ describe('PATCH /user', () => {
         expect(follower.profileImage).toEqual(expect.any(String));
         expect(Object.keys(follower).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test(`if current user has an achievement it returns the current user with populated achievements after an update`, async () => {
@@ -364,26 +268,6 @@ describe('PATCH /user', () => {
             ['_id', 'achievementType', 'name', 'description', 'createdAt', 'updatedAt', '__v'].sort(),
         );
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotification',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 });

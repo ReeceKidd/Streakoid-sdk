@@ -6,6 +6,7 @@ import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 import { getServiceConfig } from '../getServiceConfig';
+import { hasCorrectPopulatedCurrentUserKeys } from './helpers/hasCorrectPopulatedCurrentUserKeys';
 
 jest.setTimeout(120000);
 
@@ -26,7 +27,7 @@ describe('POST /users', () => {
     });
 
     test('user can register successfully and account create activity feed item is generated', async () => {
-        expect.assertions(28);
+        expect.assertions(31);
 
         const username = getServiceConfig().USER;
         const email = getServiceConfig().EMAIL;
@@ -66,30 +67,13 @@ describe('POST /users', () => {
             originalImageUrl: 'https://streakoid-profile-pictures.s3-eu-west-1.amazonaws.com/steve.jpg',
         });
         expect(user.pushNotification).toEqual({ deviceType: null, token: null, endpointArn: null });
-        expect(user.hasCompletedIntroduction).toEqual(false);
+        expect(user.hasCompletedTutorial).toEqual(false);
+        expect(user.onboarding.whatBestDescribesYouChoice).toEqual(null);
+        expect(user.onboarding.whyDoYouWantToBuildNewHabitsChoice).toEqual(null);
+        expect(user.hasCompletedOnboarding).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'membershipInformation',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'profileImages',
-                'pushNotification',
-                'pushNotifications',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test('when user registers a CreateAccountActivityFeedItem is created', async () => {

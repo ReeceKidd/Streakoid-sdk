@@ -7,18 +7,16 @@ import { setUpDatabase } from './setup/setUpDatabase';
 import { tearDownDatabase } from './setup/tearDownDatabase';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementTypes';
+import { hasCorrectPopulatedCurrentUserKeys } from './helpers/hasCorrectPopulatedCurrentUserKeys';
 
 jest.setTimeout(120000);
 
 describe('GET /user', () => {
     let streakoid: StreakoidFactory;
-    let userId: string;
 
     beforeEach(async () => {
         if (isTestEnvironment()) {
             await setUpDatabase();
-            const user = await getPayingUser();
-            userId = user._id;
             streakoid = await streakoidTest();
         }
     });
@@ -30,7 +28,9 @@ describe('GET /user', () => {
     });
 
     test(`retrieves current user`, async () => {
-        expect.assertions(26);
+        expect.assertions(29);
+
+        await getPayingUser();
 
         const user = await streakoid.user.getCurrentUser();
 
@@ -66,34 +66,20 @@ describe('GET /user', () => {
             token: null,
             endpointArn: null,
         });
-        expect(user.hasCompletedIntroduction).toEqual(false);
+        expect(user.hasCompletedTutorial).toEqual(false);
+        expect(user.onboarding.whatBestDescribesYouChoice).toEqual(null);
+        expect(user.onboarding.whyDoYouWantToBuildNewHabitsChoice).toEqual(null);
+        expect(user.hasCompletedOnboarding).toEqual(false);
         expect(user.createdAt).toEqual(expect.any(String));
         expect(user.updatedAt).toEqual(expect.any(String));
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotification',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test(`if current user is following a user it returns the a populated following list`, async () => {
         expect.assertions(5);
+
+        const createdUser = await getPayingUser();
+        const userId = createdUser._id;
 
         const friend = await getFriend();
 
@@ -107,31 +93,14 @@ describe('GET /user', () => {
         expect(following.profileImage).toEqual(expect.any(String));
         expect(Object.keys(following).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotification',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test(`if current user has a follower a user it returns the a populated follower list`, async () => {
         expect.assertions(6);
+
+        const createdUser = await getPayingUser();
+        const userId = createdUser._id;
 
         const friend = await getFriend();
 
@@ -147,31 +116,14 @@ describe('GET /user', () => {
         expect(follower.profileImage).toEqual(expect.any(String));
         expect(Object.keys(follower).sort()).toEqual(['userId', 'username', 'profileImage'].sort());
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotification',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
     test(`if current user has an achievement it returns the current user with populated achievements`, async () => {
         expect.assertions(6);
+
+        const createdUser = await getPayingUser();
+        const userId = createdUser._id;
 
         const achievementName = '100 Hundred Days';
         const achievementDescription = '100 Day solo streak';
@@ -211,26 +163,6 @@ describe('GET /user', () => {
             ['_id', 'achievementType', 'name', 'description', 'createdAt', 'updatedAt', '__v'].sort(),
         );
 
-        expect(Object.keys(user).sort()).toEqual(
-            [
-                '_id',
-                'createdAt',
-                'email',
-                'followers',
-                'following',
-                'totalStreakCompletes',
-                'totalLiveStreaks',
-                'achievements',
-                'membershipInformation',
-                'pushNotifications',
-                'profileImages',
-                'pushNotification',
-                'hasCompletedIntroduction',
-                'timezone',
-                'updatedAt',
-                'userType',
-                'username',
-            ].sort(),
-        );
+        expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 });
