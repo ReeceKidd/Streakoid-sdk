@@ -72,6 +72,19 @@ describe('POST /users/temporary', () => {
         expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
     });
 
+    test('fails because userIdentifier already exists', async () => {
+        expect.assertions(2);
+
+        try {
+            const userIdentifier = 'userIdentifier';
+            await streakoid.users.createTemporary({ userIdentifier });
+            await streakoid.users.createTemporary({ userIdentifier });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.message).toEqual('User identifier already exists.');
+        }
+    });
+
     test('fails because userIdentifier is missing from request', async () => {
         expect.assertions(2);
 
