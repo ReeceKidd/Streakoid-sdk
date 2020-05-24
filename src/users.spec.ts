@@ -25,6 +25,21 @@ describe('SDK users', () => {
         });
     });
 
+    describe('createTemporary', () => {
+        test('calls POST with correct URL and  parameters', async () => {
+            expect.assertions(1);
+
+            streakoidClient.post = jest.fn().mockResolvedValue(true);
+            const userIdentifier = 'userIdentifier';
+
+            await streakoid.users.createTemporary({ userIdentifier });
+
+            expect(streakoidClient.post).toBeCalledWith(`/v1/users/temporary`, {
+                userIdentifier,
+            });
+        });
+    });
+
     describe('getAll', () => {
         test('calls GET with correct URL and skip paramter', async () => {
             expect.assertions(1);

@@ -10,12 +10,10 @@ describe('SDK challenges', () => {
     describe('getAll', () => {
         const searchQuery = 'Yoga';
         const limit = 10;
-        const random = true;
 
         const query = {
             searchQuery,
             limit,
-            random,
         };
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
@@ -33,9 +31,7 @@ describe('SDK challenges', () => {
 
             await streakoid.challenges.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&random=${random}&`,
-            );
+            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&`);
         });
     });
 

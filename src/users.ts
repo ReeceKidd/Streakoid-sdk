@@ -21,6 +21,17 @@ const users = (streakoidClient: AxiosInstance) => {
         }
     };
 
+    const createTemporary = async ({ userIdentifier }: { userIdentifier: string }): Promise<PopulatedCurrentUser> => {
+        try {
+            const response = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.users}/temporary`, {
+                userIdentifier,
+            });
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     const getAll = async ({
         limit,
         skip,
@@ -71,6 +82,7 @@ const users = (streakoidClient: AxiosInstance) => {
 
     return {
         create,
+        createTemporary,
         getAll,
         getOne,
         followers: followers(streakoidClient),
