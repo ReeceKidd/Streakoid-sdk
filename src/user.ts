@@ -22,6 +22,8 @@ const user = (streakoidClient: AxiosInstance) => {
     }: {
         updateData?: {
             email?: string;
+            username?: string;
+            name?: string;
             timezone?: string;
             pushNotification?: {
                 deviceType: PushNotificationSupportedDeviceTypes;

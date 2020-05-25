@@ -28,6 +28,8 @@ describe('SDK users', () => {
             streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const updateData = {
                 email: 'email@email.com',
+                username: 'username',
+                name: 'Tom Smith',
                 timezone: 'Europe/London',
                 pushNotification: {
                     token: 'pushNotificationToken',

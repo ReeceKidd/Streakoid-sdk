@@ -10,12 +10,16 @@ import AchievementTypes from '@streakoid/streakoid-models/lib/Types/AchievementT
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 
 const updatedEmail = 'email@gmail.com';
+const updatedUsername = 'updated';
+const updatedName = 'Tom Smith';
 const updatedTimezone = 'Europe/Paris';
 const updatedPushNotificationToken = 'push-notification-token';
 
 const updatedHasCompletedIntroduction = true;
 const updateData = {
     email: updatedEmail,
+    username: updatedUsername,
+    name: updatedName,
     timezone: updatedTimezone,
     pushNotificationToken: updatedPushNotificationToken,
     hasCompletedIntroduction: updatedHasCompletedIntroduction,
@@ -76,7 +80,7 @@ describe('PATCH /user', () => {
 
         expect(updatedUser._id).toEqual(expect.any(String));
         expect(updatedUser.email).toEqual(updatedEmail);
-        expect(updatedUser.username).toEqual(user.username);
+        expect(updatedUser.username).toEqual(updatedUsername);
         expect(updatedUser.userType).toEqual(UserTypes.basic);
         expect(Object.keys(updatedUser.membershipInformation).sort()).toEqual(
             ['isPayingMember', 'pastMemberships', 'currentMembershipStartDate'].sort(),
@@ -269,5 +273,31 @@ describe('PATCH /user', () => {
         );
 
         expect(hasCorrectPopulatedCurrentUserKeys(user)).toEqual(true);
+    });
+
+    test('fails because email already exists', async () => {
+        expect.assertions(3);
+        try {
+            const email = getServiceConfig().EMAIL;
+            await getPayingUser();
+            await streakoid.user.updateCurrentUser({ updateData: { email } });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.code).toEqual('400-102');
+            expect(err.response.data.message).toEqual(`Email already exists.`);
+        }
+    });
+
+    test('fails because username already exists', async () => {
+        expect.assertions(3);
+        try {
+            const username = getServiceConfig().USER;
+            await getPayingUser();
+            await streakoid.user.updateCurrentUser({ updateData: { username } });
+        } catch (err) {
+            expect(err.response.status).toEqual(400);
+            expect(err.response.data.code).toEqual('400-103');
+            expect(err.response.data.message).toEqual(`Username already exists.`);
+        }
     });
 });
