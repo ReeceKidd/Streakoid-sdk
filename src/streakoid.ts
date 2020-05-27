@@ -14,7 +14,7 @@ import { completeTeamStreaks } from './completeTeamStreaks';
 import { teamMemberStreaks } from './teamMemberStreaks';
 import { streakRecommendations } from './streakRecommendations';
 import { challenges } from './challenges';
-import { challengeStreaks } from './challengeStreak';
+import { challengeStreaks } from './challengeStreaks';
 
 import { AxiosInstance } from 'axios';
 import { streakoidClientFactory } from './streakoidClient';
