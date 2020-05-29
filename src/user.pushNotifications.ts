@@ -1,5 +1,3 @@
-import { AxiosInstance } from 'axios';
-
 import ApiVersions from './ApiVersions';
 import {
     CompleteAllStreaksReminder,
@@ -7,8 +5,10 @@ import {
 } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import { UserPushNotifications } from '@streakoid/streakoid-models/lib/Models/UserPushNotifications';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { PatchRequest } from './request';
 
-const pushNotifications = (streakoidClient: AxiosInstance) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const pushNotifications = ({ patchRequest }: { patchRequest: PatchRequest }) => {
     const updatePushNotifications = async ({
         completeAllStreaksReminder,
         customStreakReminders,
@@ -30,11 +30,10 @@ const pushNotifications = (streakoidClient: AxiosInstance) => {
                 newFollowerUpdates,
                 achievementUpdates,
             };
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.user}/push-notifications`,
-                updateData,
-            );
-            return data;
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.user}/push-notifications`,
+                params: updateData,
+            });
         } catch (err) {
             return Promise.reject(err);
         }

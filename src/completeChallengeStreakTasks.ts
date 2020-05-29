@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import ApiVersions from './ApiVersions';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { CompleteChallengeStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteChallengeStreakTask';
+import ApiVersions from './ApiVersions';
 import { GetRequest, PostRequest } from './request';
 
 const completeChallengeStreakTasks = ({
@@ -48,7 +48,6 @@ const completeChallengeStreakTasks = ({
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         create,

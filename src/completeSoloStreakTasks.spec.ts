@@ -1,70 +1,68 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { completeSoloStreakTasks as completeSoloStreakTasksImport } from './completeSoloStreakTasks';
 
 describe('SDK completeSoloStreakTasks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const completeSoloStreakTasks = completeSoloStreakTasksImport({
+        getRequest,
+        postRequest,
     });
-
     describe('getAll', () => {
         test('calls GET with correct URL when just userId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeSoloStreakTasks.getAll({ userId: 'userId' });
+            await completeSoloStreakTasks.getAll({ userId: 'userId' });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-solo-streak-tasks?userId=userId&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/complete-solo-streak-tasks?userId=userId&` });
         });
 
         test('calls GET with correct URL when just streakId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeSoloStreakTasks.getAll({ streakId: 'streakId' });
+            await completeSoloStreakTasks.getAll({ streakId: 'streakId' });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-solo-streak-tasks?streakId=streakId`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/complete-solo-streak-tasks?streakId=streakId` });
         });
 
         test('calls GET with correct URL when both userId and streakId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeSoloStreakTasks.getAll({
+            await completeSoloStreakTasks.getAll({
                 userId: 'userId',
                 streakId: 'streakId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-solo-streak-tasks?userId=userId&streakId=streakId`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/complete-solo-streak-tasks?userId=userId&streakId=streakId`,
+            });
         });
 
-        test('calls GET with correct URL when no query paramaters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeSoloStreakTasks.getAll({});
+            await completeSoloStreakTasks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-solo-streak-tasks?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/complete-solo-streak-tasks?` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const soloStreakId = 'soloStreakId';
 
-            await streakoid.completeSoloStreakTasks.create({
+            await completeSoloStreakTasks.create({
                 userId,
                 soloStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/complete-solo-streak-tasks`, {
-                userId,
-                soloStreakId,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/complete-solo-streak-tasks`,
+                params: {
+                    userId,
+                    soloStreakId,
+                },
             });
         });
     });

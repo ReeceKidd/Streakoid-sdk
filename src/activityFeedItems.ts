@@ -1,9 +1,10 @@
-import ApiVersions from './ApiVersions';
-import { AxiosInstance } from 'axios';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { ActivityFeedItemType } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest } from './request';
 
 export interface GetAllActivityFeedItemsResponse {
     activityFeedItems: ActivityFeedItemType[];
@@ -12,8 +13,7 @@ export interface GetAllActivityFeedItemsResponse {
 
 export const DEFAULT_ACTIVITY_FEED_LIMIT = 10;
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const activityFeedItems = (streakoidClient: AxiosInstance) => {
+const activityFeedItems = ({ getRequest, postRequest }: { getRequest: GetRequest; postRequest: PostRequest }) => {
     const getAll = async ({
         limit = DEFAULT_ACTIVITY_FEED_LIMIT,
         createdAtBefore,
@@ -68,10 +68,11 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
                 getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
-            const response = await streakoidClient.get(getAllActivityFeedItemsURL);
+            const response = await getRequest({ route: getAllActivityFeedItemsURL });
+
             return {
-                activityFeedItems: response.data,
-                totalCountOfActivityFeedItems: Number(response.headers[SupportedResponseHeaders.TotalCount]),
+                activityFeedItems: response.body || response.data,
+                totalCountOfActivityFeedItems: Number(response.header[SupportedResponseHeaders.TotalCount]),
             };
         } catch (err) {
             return Promise.reject(err);
@@ -80,16 +81,14 @@ const activityFeedItems = (streakoidClient: AxiosInstance) => {
 
     const create = async (activityFeedItem: ActivityFeedItemType): Promise<ActivityFeedItemType> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}`,
-                activityFeedItem,
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.activityFeedItems}`,
+                params: activityFeedItem,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         create,

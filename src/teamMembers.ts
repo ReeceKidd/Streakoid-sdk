@@ -1,12 +1,11 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
-
-import ApiVersions from './ApiVersions';
-
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { TeamMember } from '@streakoid/streakoid-models/lib/Models/TeamMember';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import TeamStreakRouterCategories from '@streakoid/streakoid-models/lib/Types/TeamStreakRouterCategories';
+import ApiVersions from './ApiVersions';
+import { PostRequest, DeleteRequest } from './request';
 
-const teamMembers = (streakoidClient: AxiosInstance) => {
+const teamMembers = ({ postRequest, deleteRequest }: { postRequest: PostRequest; deleteRequest: DeleteRequest }) => {
     const create = async ({
         followerId,
         teamStreakId,
@@ -15,32 +14,25 @@ const teamMembers = (streakoidClient: AxiosInstance) => {
         teamStreakId: string;
     }): Promise<TeamMember> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}`,
-                { followerId },
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}`,
+                params: { followerId },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
 
-    const deleteOne = ({
-        teamStreakId,
-        memberId,
-    }: {
-        teamStreakId: string;
-        memberId: string;
-    }): Promise<AxiosResponse> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const deleteOne = ({ teamStreakId, memberId }: { teamStreakId: string; memberId: string }): Promise<any> => {
         try {
-            return streakoidClient.delete(
-                `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}/${memberId}`,
-            );
+            return deleteRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}/${memberId}`,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         create,
         deleteOne,

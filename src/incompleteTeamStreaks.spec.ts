@@ -1,29 +1,26 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { incompleteTeamStreaks as incompleteTeamStreaksImport } from './incompleteTeamStreaks';
 
 describe('SDK incompleteTeamStreaks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const incompleteTeamStreaks = incompleteTeamStreaksImport({
+        getRequest,
     });
 
     describe('getAll', () => {
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.incompleteTeamStreaks.getAll({ teamStreakId: 'teamStreakId' });
+            await incompleteTeamStreaks.getAll({ teamStreakId: 'teamStreakId' });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-team-streaks?teamStreakId=teamStreakId`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/incomplete-team-streaks?teamStreakId=teamStreakId` });
         });
 
-        test('calls GET with correct URL when no query paramaters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.incompleteTeamStreaks.getAll({});
+            await incompleteTeamStreaks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/incomplete-team-streaks?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/incomplete-team-streaks?` });
         });
     });
 });

@@ -1,55 +1,54 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import { notes as notesImport } from './notes';
 
 describe('SDK notes', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const deleteRequest = jest.fn().mockResolvedValue(true);
+    const notes = notesImport({
+        getRequest,
+        postRequest,
+        deleteRequest,
     });
 
     describe('getAll', () => {
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.notes.getAll({});
+            await notes.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/notes?` });
         });
 
         test('calls GET with correct URL when userId query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const userId = 'userId';
 
-            await streakoid.notes.getAll({ userId });
+            await notes.getAll({ userId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/notes?userId=${userId}&` });
         });
 
         test('calls GET with correct URL when subjectId query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const subjectId = 'subjectId';
 
-            await streakoid.notes.getAll({ subjectId });
+            await notes.getAll({ subjectId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?subjectId=subjectId&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/notes?subjectId=subjectId&` });
         });
 
-        test('calls GET with correct URL when all available paramaters are passed', async () => {
+        test('calls GET with correct URL when all available parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const userId = 'userId';
             const subjectId = 'subjectId';
 
-            await streakoid.notes.getAll({ userId, subjectId });
+            await notes.getAll({ userId, subjectId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes?userId=${userId}&subjectId=${subjectId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/notes?userId=${userId}&subjectId=${subjectId}&` });
         });
     });
 
@@ -57,36 +56,36 @@ describe('SDK notes', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await notes.getOne('id');
 
-            await streakoid.notes.getOne('id');
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/notes/id`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/notes/id` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const subjectId = 'subjectId';
             const text = 'Finished reading 4 hour work week';
             const streakType = StreakTypes.solo;
 
-            await streakoid.notes.create({
+            await notes.create({
                 userId,
                 subjectId,
                 text,
                 streakType,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/notes`, {
-                userId,
-                subjectId,
-                text,
-                streakType,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/notes`,
+                params: {
+                    userId,
+                    subjectId,
+                    text,
+                    streakType,
+                },
             });
         });
     });
@@ -94,13 +93,12 @@ describe('SDK notes', () => {
     describe('deleteOne', () => {
         test('calls DELETE correct URL ', async () => {
             expect.assertions(1);
-            streakoidClient.delete = jest.fn();
 
-            await streakoid.notes.deleteOne({
+            await notes.deleteOne({
                 noteId: 'noteId',
             });
 
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/notes/noteId`);
+            expect(deleteRequest).toBeCalledWith({ route: `/v1/notes/noteId` });
         });
     });
 });

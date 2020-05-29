@@ -1,27 +1,28 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { incompleteChalllengeStreakTasks as incompleteChallengeStreakTasksImport } from './incompleteChallengeStreakTask';
 
 describe('SDK IncompleteChallengeStreakTasks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const incompleteChallengeStreakTasks = incompleteChallengeStreakTasksImport({
+        postRequest,
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const challengeStreakId = 'challengeStreakId';
 
-            await streakoid.incompleteChallengeStreakTasks.create({
+            await incompleteChallengeStreakTasks.create({
                 userId,
                 challengeStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/incomplete-challenge-streak-tasks`, {
-                userId,
-                challengeStreakId,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/incomplete-challenge-streak-tasks`,
+                params: {
+                    userId,
+                    challengeStreakId,
+                },
             });
         });
     });

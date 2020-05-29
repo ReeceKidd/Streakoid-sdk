@@ -1,40 +1,40 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { emails as emailsImport } from './emails';
 
-describe('SDK completeSoloStreakTasks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+describe('SDK emails', () => {
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const emails = emailsImport({
+        postRequest,
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and required parmaters', async () => {
+        test('calls POST with correct URL and required parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const name = 'John Doe';
             const email = 'john@test.com';
             const subject = 'subject';
             const message = 'Support request';
 
-            await streakoid.emails.create({
+            await emails.create({
                 name,
                 email,
                 subject,
                 message,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/emails`, {
-                name,
-                email,
-                subject,
-                message,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/emails`,
+                params: {
+                    name,
+                    email,
+                    subject,
+                    message,
+                },
             });
         });
 
-        test('calls POST with correct URL and all available parmaters', async () => {
+        test('calls POST with correct URL and all available parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const name = 'John Doe';
             const email = 'john@test.com';
@@ -43,7 +43,7 @@ describe('SDK completeSoloStreakTasks', () => {
             const userId = 'userId';
             const username = 'username';
 
-            await streakoid.emails.create({
+            await emails.create({
                 name,
                 email,
                 subject,
@@ -52,13 +52,16 @@ describe('SDK completeSoloStreakTasks', () => {
                 username,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/emails`, {
-                name,
-                email,
-                subject,
-                message,
-                userId,
-                username,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/emails`,
+                params: {
+                    name,
+                    email,
+                    subject,
+                    message,
+                    userId,
+                    username,
+                },
             });
         });
     });

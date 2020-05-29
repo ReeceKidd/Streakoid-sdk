@@ -1,93 +1,91 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { completeTeamMemberStreakTasks as completeTeamMemberStreakTasksImport } from './completeTeamMemberStreakTasks';
 
-describe('SDK completeSoloStreakTasks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+describe('SDK completeTeamMemberStreakTasks', () => {
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const completeTeamMemberStreakTasks = completeTeamMemberStreakTasksImport({
+        getRequest,
+        postRequest,
     });
 
     describe('getAll', () => {
         test('calls GET with correct URL when just userId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamMemberStreakTasks.getAll({
+            await completeTeamMemberStreakTasks.getAll({
                 userId: 'userId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-team-member-streak-tasks?userId=userId&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/complete-team-member-streak-tasks?userId=userId&` });
         });
 
         test('calls GET with correct URL when just teamMemberStreakId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamMemberStreakTasks.getAll({
+            await completeTeamMemberStreakTasks.getAll({
                 teamMemberStreakId: 'teamMemberStreakId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-team-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/complete-team-member-streak-tasks?teamMemberStreakId=teamMemberStreakId&`,
+            });
         });
 
         test('calls GET with correct URL when just teamStreakId is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamMemberStreakTasks.getAll({
+            await completeTeamMemberStreakTasks.getAll({
                 teamStreakId: 'teamStreakId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-team-member-streak-tasks?teamStreakId=teamStreakId&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/complete-team-member-streak-tasks?teamStreakId=teamStreakId&`,
+            });
         });
 
-        test('calls GET with correct URL when all query paramaters are passed', async () => {
+        test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeTeamMemberStreakTasks.getAll({
+            await completeTeamMemberStreakTasks.getAll({
                 userId: 'userId',
                 teamMemberStreakId: 'teamMemberStreakId',
                 teamStreakId: 'teamStreakId',
             });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/complete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&teamStreakId=teamStreakId&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/complete-team-member-streak-tasks?userId=userId&teamMemberStreakId=teamMemberStreakId&teamStreakId=teamStreakId&`,
+            });
         });
 
-        test('calls GET with correct URL when no query paramaters are passed', async () => {
+        test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.completeSoloStreakTasks.getAll({});
+            await completeTeamMemberStreakTasks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/complete-solo-streak-tasks?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/complete-team-member-streak-tasks?` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and parameters ', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const teamMemberStreakId = 'teamMemberStreakId';
             const teamStreakId = 'teamStreakId';
 
-            await streakoid.completeTeamMemberStreakTasks.create({
+            await completeTeamMemberStreakTasks.create({
                 userId,
                 teamMemberStreakId,
                 teamStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/complete-team-member-streak-tasks`, {
-                userId,
-                teamMemberStreakId,
-                teamStreakId,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/complete-team-member-streak-tasks`,
+                params: {
+                    userId,
+                    teamMemberStreakId,
+                    teamStreakId,
+                },
             });
         });
     });

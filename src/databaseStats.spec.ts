@@ -1,20 +1,16 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
-
+import { databaseStats as databaseStatsImport } from './databaseStats';
 describe('SDK stats', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const databaseStats = databaseStatsImport({
+        getRequest,
     });
-
     describe('get', () => {
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.databaseStats.get();
+            await databaseStats.get();
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/database-stats`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/database-stats` });
         });
     });
 });

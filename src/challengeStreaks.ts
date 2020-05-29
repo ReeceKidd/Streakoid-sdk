@@ -1,18 +1,25 @@
-import { AxiosInstance } from 'axios';
-
-import ApiVersions from './ApiVersions';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
+import { GetRequest, PostRequest, PatchRequest } from './request';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import ApiVersions from './ApiVersions';
 
 export enum GetAllChallengeStreaksSortFields {
     currentStreak = 'currentStreak',
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const challengeStreaks = (streakoidClient: AxiosInstance) => {
+const challengeStreaks = ({
+    getRequest,
+    postRequest,
+    patchRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+    patchRequest: PatchRequest;
+}) => {
     const getAll = async ({
         userId,
         challengeId,
@@ -61,8 +68,7 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
                 getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}sortField=${sortField}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllChallengeStreaksURL);
-            return data;
+            return getRequest({ route: getAllChallengeStreaksURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -70,10 +76,9 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
 
     const getOne = async ({ challengeStreakId }: { challengeStreakId: string }): Promise<ChallengeStreak> => {
         try {
-            const { data } = await streakoidClient.get(
-                `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,
-            );
-            return data;
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -87,11 +92,10 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         challengeId: string;
     }): Promise<ChallengeStreak> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.challengeStreaks}`, {
-                userId,
-                challengeId,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}`,
+                params: { userId, challengeId },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }
@@ -112,11 +116,10 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
         };
     }): Promise<ChallengeStreak> => {
         try {
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,
-                updateData,
-            );
-            return data;
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}`,
+                params: { ...updateData },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -125,8 +128,8 @@ const challengeStreaks = (streakoidClient: AxiosInstance) => {
     return {
         getAll,
         getOne,
-        update,
         create,
+        update,
     };
 };
 

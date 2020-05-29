@@ -1,12 +1,19 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
-
 import ApiVersions from './ApiVersions';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { Note } from '@streakoid/streakoid-models/lib/Models/Note';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import { GetRequest, PostRequest, DeleteRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const notes = (streakoidClient: AxiosInstance) => {
+const notes = ({
+    getRequest,
+    postRequest,
+    deleteRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+    deleteRequest: DeleteRequest;
+}) => {
     const getAll = async ({ userId, subjectId }: { userId?: string; subjectId?: string }): Promise<Note[]> => {
         try {
             let getAllNotesURL = `/${ApiVersions.v1}/${RouterCategories.notes}?`;
@@ -19,8 +26,7 @@ const notes = (streakoidClient: AxiosInstance) => {
                 getAllNotesURL = `${getAllNotesURL}subjectId=${subjectId}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllNotesURL);
-            return data;
+            return getRequest({ route: getAllNotesURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -28,8 +34,7 @@ const notes = (streakoidClient: AxiosInstance) => {
 
     const getOne = async (noteId: string): Promise<Note> => {
         try {
-            const { data } = await streakoidClient.get(`/${ApiVersions.v1}/${RouterCategories.notes}/${noteId}`);
-            return data;
+            return getRequest({ route: `/${ApiVersions.v1}/${RouterCategories.notes}/${noteId}` });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -47,21 +52,24 @@ const notes = (streakoidClient: AxiosInstance) => {
         streakType: StreakTypes;
     }): Promise<Note> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.notes}`, {
-                userId,
-                subjectId,
-                text,
-                streakType,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.notes}`,
+                params: {
+                    userId,
+                    subjectId,
+                    text,
+                    streakType,
+                },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }
     };
 
-    const deleteOne = ({ noteId }: { noteId: string }): Promise<AxiosResponse> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const deleteOne = ({ noteId }: { noteId: string }): Promise<any> => {
         try {
-            return streakoidClient.delete(`/${ApiVersions.v1}/${RouterCategories.notes}/${noteId}`);
+            return deleteRequest({ route: `/${ApiVersions.v1}/${RouterCategories.notes}/${noteId}` });
         } catch (err) {
             return Promise.reject(err);
         }

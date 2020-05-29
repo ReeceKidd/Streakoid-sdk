@@ -1,16 +1,20 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import { GetAllTeamStreaksSortFields } from './teamStreaks';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import { teamStreaks as teamStreaksImport } from './teamStreaks';
 
 describe('SDK TeamStreaks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const patchRequest = jest.fn().mockResolvedValue(true);
+    const deleteRequest = jest.fn().mockResolvedValue(true);
+    const teamStreaks = teamStreaksImport({
+        getRequest,
+        postRequest,
+        patchRequest,
+        deleteRequest,
     });
-
     describe('getAll', () => {
         const creatorId = 'creatorId';
         const memberId = 'memberId';
@@ -32,103 +36,91 @@ describe('SDK TeamStreaks', () => {
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await teamStreaks.getAll({});
 
-            await streakoid.teamStreaks.getAll({});
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?` });
         });
 
         test('calls GET with correct URL when creatorId query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ creatorId });
+            await teamStreaks.getAll({ creatorId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?creatorId=${creatorId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?creatorId=${creatorId}&` });
         });
 
         test('calls GET with correct URL when memberId query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ memberId });
+            await teamStreaks.getAll({ memberId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?memberId=${memberId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?memberId=${memberId}&` });
         });
 
         test('calls GET with correct URL when timezone query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ timezone });
+            await teamStreaks.getAll({ timezone });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?timezone=${timezone}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?timezone=${timezone}&` });
         });
 
         test('calls GET with correct URL when status query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ status });
+            await teamStreaks.getAll({ status });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?status=${status}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?status=${status}&` });
         });
 
         test('calls GET with correct URL when completedToday query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ completedToday });
+            await teamStreaks.getAll({ completedToday });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?completedToday=${completedToday}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?completedToday=${completedToday}&` });
         });
 
         test('calls GET with correct URL when active query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ active });
+            await teamStreaks.getAll({ active });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?active=${active}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?active=${active}&` });
         });
 
         test('calls GET with correct URL when sortField query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll({ sortField });
+            await teamStreaks.getAll({ sortField });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks?sortField=${sortField}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?sortField=${sortField}&` });
         });
 
-        test('calls GET with correct URL when all paramaters are passed', async () => {
+        test('calls GET with correct URL when all parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getAll(query);
+            await teamStreaks.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&completedToday=${completedToday}&active=${true}&sortField=${sortField}&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&completedToday=${completedToday}&active=${true}&sortField=${sortField}&`,
+            });
         });
     });
 
     describe('getOne', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.teamStreaks.getOne('id');
+            await teamStreaks.getOne('id');
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/team-streaks/id`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks/id` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const creatorId = 'abcdefgh';
             const streakName = 'Followed our calorie level';
@@ -136,26 +128,28 @@ describe('SDK TeamStreaks', () => {
 
             const members: [] = [];
 
-            await streakoid.teamStreaks.create({
+            await teamStreaks.create({
                 creatorId,
                 streakName,
                 streakDescription,
                 members,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/team-streaks`, {
-                creatorId,
-                streakName,
-                streakDescription,
-                members,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/team-streaks`,
+                params: {
+                    creatorId,
+                    streakName,
+                    streakDescription,
+                    members,
+                },
             });
         });
     });
 
     describe('update', () => {
-        test('calls PATCH with correct URL and  parmaters', async () => {
+        test('calls PATCH with correct URL and  parameters', async () => {
             expect.assertions(1);
-            streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const streakName = 'streakName';
             const streakDescription = 'streakDescription';
             const numberOfMinutes = 30;
@@ -181,14 +175,12 @@ describe('SDK TeamStreaks', () => {
                 active,
             };
 
-            await streakoid.teamStreaks.update({
+            await teamStreaks.update({
                 teamStreakId: 'id',
                 updateData,
             });
 
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/team-streaks/id`, {
-                ...updateData,
-            });
+            expect(patchRequest).toBeCalledWith({ route: `/v1/team-streaks/id`, params: updateData });
         });
     });
 });

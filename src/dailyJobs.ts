@@ -1,12 +1,12 @@
-import ApiVersions from './ApiVersions';
-import { AxiosInstance } from 'axios';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { DailyJob } from '@streakoid/streakoid-models/lib/Models/DailyJob';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 import AgendaJobNames from '@streakoid/streakoid-models/lib/Types/AgendaJobNames';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest } from './request';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const dailyJobs = (streakoidClient: AxiosInstance) => {
+const dailyJobs = ({ getRequest, postRequest }: { getRequest: GetRequest; postRequest: PostRequest }) => {
     const getAll = async ({
         agendaJobId,
         jobName,
@@ -31,12 +31,12 @@ const dailyJobs = (streakoidClient: AxiosInstance) => {
                 getAllDailyJobsURL = `${getAllDailyJobsURL}timezone=${timezone}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllDailyJobsURL);
-            return data;
+            return getRequest({ route: getAllDailyJobsURL });
         } catch (err) {
             return Promise.reject(err);
         }
     };
+
     const create = async ({
         agendaJobId,
         jobName,
@@ -51,19 +51,14 @@ const dailyJobs = (streakoidClient: AxiosInstance) => {
         streakType: StreakTypes;
     }): Promise<DailyJob> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.dailyJobs}`, {
-                agendaJobId,
-                jobName,
-                timezone,
-                localisedJobCompleteTime,
-                streakType,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.dailyJobs}`,
+                params: { agendaJobId, jobName, timezone, localisedJobCompleteTime, streakType },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         create,

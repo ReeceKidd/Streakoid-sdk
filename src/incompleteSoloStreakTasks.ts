@@ -1,10 +1,16 @@
 import ApiVersions from './ApiVersions';
 import { IncompleteSoloStreakTask } from '@streakoid/streakoid-models/lib/Models/IncompleteSoloStreakTask';
-import { AxiosInstance } from 'axios';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { GetRequest, PostRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const incompleteSoloStreakTasks = (streakoidClient: AxiosInstance) => {
+const incompleteSoloStreakTasks = ({
+    getRequest,
+    postRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+}) => {
     const getAll = async ({
         userId,
         streakId,
@@ -20,8 +26,7 @@ const incompleteSoloStreakTasks = (streakoidClient: AxiosInstance) => {
             if (streakId) {
                 getAllURL = `${getAllURL}streakId=${streakId}`;
             }
-            const { data } = await streakoidClient.get(getAllURL);
-            return data;
+            return getRequest({ route: getAllURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -35,14 +40,10 @@ const incompleteSoloStreakTasks = (streakoidClient: AxiosInstance) => {
         soloStreakId: string;
     }): Promise<IncompleteSoloStreakTask> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.incompleteSoloStreakTasks}`,
-                {
-                    userId,
-                    soloStreakId,
-                },
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.incompleteSoloStreakTasks}`,
+                params: { userId, soloStreakId },
+            });
         } catch (err) {
             return Promise.reject(err);
         }

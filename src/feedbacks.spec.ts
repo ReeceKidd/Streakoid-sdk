@@ -1,16 +1,12 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
-
-describe('SDK completeSoloStreakTasks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
-    });
-
+import { feedbacks as feedbacksImport } from './feedbacks';
+describe('SDK feedback', () => {
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        const postRequest = jest.fn().mockResolvedValue(true);
+        const feedbacks = feedbacksImport({
+            postRequest,
+        });
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const userId = '12345678';
             const pageUrl = '/solo-streaks';
@@ -18,7 +14,7 @@ describe('SDK completeSoloStreakTasks', () => {
             const username = 'username';
             const feedbackText = 'feedback';
 
-            await streakoid.feedbacks.create({
+            await feedbacks.create({
                 userId,
                 pageUrl,
                 username,
@@ -26,12 +22,15 @@ describe('SDK completeSoloStreakTasks', () => {
                 feedbackText,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/feedbacks`, {
-                userId,
-                pageUrl,
-                username,
-                userEmail,
-                feedbackText,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/feedbacks`,
+                params: {
+                    userId,
+                    pageUrl,
+                    username,
+                    userEmail,
+                    feedbackText,
+                },
             });
         });
     });

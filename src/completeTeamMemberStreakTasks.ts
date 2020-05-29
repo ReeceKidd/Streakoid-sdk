@@ -1,31 +1,16 @@
-import { AxiosInstance } from 'axios';
-import ApiVersions from './ApiVersions';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { CompleteTeamMemberStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteTeamMemberStreakTask';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest } from './request';
 
-export interface CompleteTeamMemberStreakTaskReturnType {
-    getAll: ({
-        userId,
-        teamMemberStreakId,
-        teamStreakId,
-    }: {
-        userId?: string;
-        teamMemberStreakId?: string;
-        teamStreakId?: string;
-    }) => Promise<CompleteTeamMemberStreakTask[]>;
-    create: ({
-        userId,
-        teamMemberStreakId,
-        teamStreakId,
-    }: {
-        userId: string;
-        teamMemberStreakId: string;
-        teamStreakId: string;
-    }) => Promise<CompleteTeamMemberStreakTask>;
-}
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const completeTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
+const completeTeamMemberStreakTasks = ({
+    getRequest,
+    postRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+}) => {
     const getAll = async ({
         userId,
         teamMemberStreakId,
@@ -47,8 +32,7 @@ const completeTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
                 getAllURL = `${getAllURL}teamStreakId=${teamStreakId}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllURL);
-            return data;
+            return getRequest({ route: getAllURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -64,20 +48,14 @@ const completeTeamMemberStreakTasks = (streakoidClient: AxiosInstance) => {
         teamStreakId: string;
     }): Promise<CompleteTeamMemberStreakTask> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}`,
-                {
-                    userId,
-                    teamMemberStreakId,
-                    teamStreakId,
-                },
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.completeTeamMemberStreakTasks}`,
+                params: { userId, teamMemberStreakId, teamStreakId },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         create,

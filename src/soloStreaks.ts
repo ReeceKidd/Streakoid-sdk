@@ -1,10 +1,9 @@
-import { AxiosInstance } from 'axios';
-
-import ApiVersions from './ApiVersions';
 import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest, PatchRequest } from './request';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
@@ -13,7 +12,15 @@ export enum GetAllSoloStreaksSortFields {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const soloStreaks = (streakoidClient: AxiosInstance) => {
+const soloStreaks = ({
+    getRequest,
+    postRequest,
+    patchRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+    patchRequest: PatchRequest;
+}) => {
     const getAll = async ({
         userId,
         completedToday,
@@ -56,8 +63,7 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortField=${sortField}&`;
             }
 
-            const { data } = await streakoidClient.get(getAllSoloStreaksURL);
-            return data;
+            return getRequest({ route: getAllSoloStreaksURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -65,10 +71,7 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
 
     const getOne = async (soloStreakId: string): Promise<SoloStreak> => {
         try {
-            const { data } = await streakoidClient.get(
-                `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
-            );
-            return data;
+            return getRequest({ route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}` });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -86,18 +89,14 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
         numberOfMinutes?: number;
     }): Promise<SoloStreak> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.soloStreaks}`, {
-                userId,
-                streakName,
-                streakDescription,
-                numberOfMinutes,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
+                params: { userId, streakName, streakDescription, numberOfMinutes },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     const update = async ({
         soloStreakId,
         updateData,
@@ -116,16 +115,14 @@ const soloStreaks = (streakoidClient: AxiosInstance) => {
         };
     }): Promise<SoloStreak> => {
         try {
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
-                updateData,
-            );
-            return data;
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}`,
+                params: updateData,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         getOne,

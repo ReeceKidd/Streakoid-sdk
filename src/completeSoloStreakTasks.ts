@@ -1,14 +1,10 @@
-import ApiVersions from './ApiVersions';
-import { AxiosInstance } from 'axios';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { CompleteSoloStreakTask } from '@streakoid/streakoid-models/lib/Models/CompleteSoloStreakTask';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest } from './request';
 
-export interface CompleteSoloStreakTasksReturnType {
-    getAll: ({ userId, streakId }: { userId?: string; streakId?: string }) => Promise<CompleteSoloStreakTask[]>;
-    create: ({ userId, soloStreakId }: { userId: string; soloStreakId: string }) => Promise<CompleteSoloStreakTask>;
-}
-
-const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloStreakTasksReturnType => {
+const completeSoloStreakTasks = ({ getRequest, postRequest }: { getRequest: GetRequest; postRequest: PostRequest }) => {
     const getAll = async ({
         userId,
         streakId,
@@ -24,8 +20,7 @@ const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloSt
             if (streakId) {
                 getAllURL = `${getAllURL}streakId=${streakId}`;
             }
-            const { data } = await streakoidClient.get(getAllURL);
-            return data;
+            return getRequest({ route: getAllURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -39,19 +34,14 @@ const completeSoloStreakTasks = (streakoidClient: AxiosInstance): CompleteSoloSt
         soloStreakId: string;
     }): Promise<CompleteSoloStreakTask> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}`,
-                {
-                    userId,
-                    soloStreakId,
-                },
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.completeSoloStreakTasks}`,
+                params: { userId, soloStreakId },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         create,

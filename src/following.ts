@@ -1,15 +1,25 @@
-import { AxiosInstance } from 'axios';
-
 import ApiVersions from './ApiVersions';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { GetRequest, PostRequest, PatchRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const following = (streakoidClient: AxiosInstance) => {
+const following = ({
+    getRequest,
+    postRequest,
+    patchRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+    patchRequest: PatchRequest;
+}) => {
     const getAll = async (userId: string): Promise<string[]> => {
-        const { data } = await streakoidClient.get(
-            `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}`,
-        );
-        return data;
+        try {
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}`,
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
     };
 
     const followUser = async ({
@@ -20,13 +30,10 @@ const following = (streakoidClient: AxiosInstance) => {
         userToFollowId: string;
     }): Promise<string[]> => {
         try {
-            const { data } = await streakoidClient.post(
-                `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}`,
-                {
-                    userToFollowId,
-                },
-            );
-            return data;
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}`,
+                params: { userToFollowId },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -40,10 +47,9 @@ const following = (streakoidClient: AxiosInstance) => {
         userToUnfollowId: string;
     }): Promise<string[]> => {
         try {
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}/${userToUnfollowId}`,
-            );
-            return data;
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.following}/${userToUnfollowId}`,
+            });
         } catch (err) {
             return Promise.reject(err);
         }

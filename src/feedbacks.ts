@@ -1,10 +1,10 @@
 import ApiVersions from './ApiVersions';
 import { Feedback } from '@streakoid/streakoid-models/lib/Models/Feedback';
-import { AxiosInstance } from 'axios';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { PostRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const feedbacks = (streakoidClient: AxiosInstance) => {
+const feedbacks = ({ postRequest }: { postRequest: PostRequest }) => {
     const create = async ({
         userId,
         pageUrl,
@@ -19,14 +19,16 @@ const feedbacks = (streakoidClient: AxiosInstance) => {
         feedbackText: string;
     }): Promise<Feedback> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.feedbacks}`, {
-                userId,
-                pageUrl,
-                username,
-                userEmail,
-                feedbackText,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.feedbacks}`,
+                params: {
+                    userId,
+                    pageUrl,
+                    username,
+                    userEmail,
+                    feedbackText,
+                },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }

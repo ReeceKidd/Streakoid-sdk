@@ -1,8 +1,14 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
-jest.genMockFromModule('./streakoid');
+import { users as usersImport } from './users';
 
 describe('SDK users', () => {
-    const streakoid = streakoidFactory(streakoidClient);
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const patchRequest = jest.fn().mockResolvedValue(true);
+    const users = usersImport({
+        getRequest,
+        postRequest,
+        patchRequest,
+    });
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -12,15 +18,17 @@ describe('SDK users', () => {
         test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const username = 'username';
             const email = 'email@gmail.com';
 
-            await streakoid.users.create({ username, email });
+            await users.create({ username, email });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/users`, {
-                username,
-                email,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/users`,
+                params: {
+                    username,
+                    email,
+                },
             });
         });
     });
@@ -29,13 +37,15 @@ describe('SDK users', () => {
         test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userIdentifier = 'userIdentifier';
 
-            await streakoid.users.createTemporary({ userIdentifier });
+            await users.createTemporary({ userIdentifier });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/users/temporary`, {
-                userIdentifier,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/users/temporary`,
+                params: {
+                    userIdentifier,
+                },
             });
         });
     });
@@ -44,73 +54,59 @@ describe('SDK users', () => {
         test('calls GET with correct URL and skip paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({ skip: 10 });
 
-            await streakoid.users.getAll({ skip: 10 });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?skip=10&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?skip=10&` });
         });
         test('calls GET with correct URL and limit paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({ limit: 10 });
 
-            await streakoid.users.getAll({ limit: 10 });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?limit=10&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?limit=10&` });
         });
         test('calls GET with correct URL and searchQuery paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({ searchQuery: 'searchQuery' });
 
-            await streakoid.users.getAll({ searchQuery: 'searchQuery' });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?searchQuery=searchQuery&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?searchQuery=searchQuery&` });
         });
 
         test('calls GET with correct URL without searchQuery paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({});
 
-            await streakoid.users.getAll({});
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?` });
         });
 
         test('calls GET with correct URL and username paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({ username: 'username' });
 
-            await streakoid.users.getAll({ username: 'username' });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?username=username&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?username=username&` });
         });
 
         test('calls GET with correct URL and email paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getAll({ email: 'email' });
 
-            await streakoid.users.getAll({ email: 'email' });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users?email=email&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users?email=email&` });
         });
 
         test('calls GET with correct URL and userIds paramter', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
-
             const userIds = ['user1', 'user2'];
 
-            await streakoid.users.getAll({ userIds });
+            await users.getAll({ userIds });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/users?userIds=${encodeURIComponent(JSON.stringify(userIds))}&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/users?userIds=${encodeURIComponent(JSON.stringify(userIds))}&`,
+            });
         });
     });
 
@@ -118,11 +114,9 @@ describe('SDK users', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await users.getOne('userId');
 
-            await streakoid.users.getOne('userId');
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users/userId`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users/userId` });
         });
     });
 });

@@ -1,12 +1,13 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import AgendaJobNames from '@streakoid/streakoid-models/lib/Types/AgendaJobNames';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
+import { dailyJobs as dailyJobsImport } from './dailyJobs';
 
 describe('SDK dailyJobs', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const dailyJobs = dailyJobsImport({
+        getRequest,
+        postRequest,
     });
 
     describe('getAll', () => {
@@ -22,66 +23,60 @@ describe('SDK dailyJobs', () => {
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.dailyJobs.getAll({});
+            await dailyJobs.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/daily-jobs?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/daily-jobs?` });
         });
 
         test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.dailyJobs.getAll(query);
+            await dailyJobs.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/daily-jobs?agendaJobId=${agendaJobId}&jobName=${jobName}&timezone=${timezone}&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/daily-jobs?agendaJobId=${agendaJobId}&jobName=${jobName}&timezone=${timezone}&`,
+            });
         });
 
         test('calls GET with correct URL when agendaJobId query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.dailyJobs.getAll({ agendaJobId });
+            await dailyJobs.getAll({ agendaJobId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/daily-jobs?agendaJobId=${agendaJobId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/daily-jobs?agendaJobId=${agendaJobId}&` });
         });
 
         test('calls GET with correct URL when jobName query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.dailyJobs.getAll({ jobName });
+            await dailyJobs.getAll({ jobName });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/daily-jobs?jobName=${jobName}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/daily-jobs?jobName=${jobName}&` });
         });
 
         test('calls GET with correct URL when timezone query paramter is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const timezone = `Europe/London`;
 
-            await streakoid.dailyJobs.getAll({ timezone });
+            await dailyJobs.getAll({ timezone });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/daily-jobs?timezone=${timezone}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/daily-jobs?timezone=${timezone}&` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const agendaJobId = 'agendaJobId';
             const jobName = AgendaJobNames.soloStreakDailyTracker;
             const timezone = 'Europe/London';
             const localisedJobCompleteTime = new Date().toString();
             const streakType = StreakTypes.solo;
 
-            await streakoid.dailyJobs.create({
+            await dailyJobs.create({
                 agendaJobId,
                 jobName,
                 timezone,
@@ -89,12 +84,15 @@ describe('SDK dailyJobs', () => {
                 streakType,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/daily-jobs`, {
-                agendaJobId,
-                jobName,
-                timezone,
-                localisedJobCompleteTime,
-                streakType,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/daily-jobs`,
+                params: {
+                    agendaJobId,
+                    jobName,
+                    timezone,
+                    localisedJobCompleteTime,
+                    streakType,
+                },
             });
         });
     });

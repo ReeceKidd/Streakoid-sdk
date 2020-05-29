@@ -1,7 +1,9 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
-
+import { streakRecommendations as streakRecommendationsImport } from './streakRecommendations';
 describe('SDK streakRecommendations', () => {
-    const streakoid = streakoidFactory(streakoidClient);
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const streakRecommendations = streakRecommendationsImport({
+        getRequest,
+    });
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -10,13 +12,12 @@ describe('SDK streakRecommendations', () => {
     describe('getAll', () => {
         test('calls GET with correct URL when all query parameters are used', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.streakRecommendations.getAll({ random: true, limit: 5, sortedByNumberOfMembers: true });
+            await streakRecommendations.getAll({ random: true, limit: 5, sortedByNumberOfMembers: true });
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/streak-recommendations?random=true&limit=5&sortedByNumberOfMembers=true&`,
-            );
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/streak-recommendations?random=true&limit=5&sortedByNumberOfMembers=true&`,
+            });
         });
     });
 });

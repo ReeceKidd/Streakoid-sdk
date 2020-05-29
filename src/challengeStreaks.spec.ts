@@ -1,99 +1,93 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
-import { GetAllChallengeStreaksSortFields } from './challengeStreaks';
+import { GetAllChallengeStreaksSortFields, challengeStreaks as challengeStreaksImport } from './challengeStreaks';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 describe('SDK challengeStreaks', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const patchRequest = jest.fn().mockResolvedValue(true);
+    const challengeStreaks = challengeStreaksImport({
+        getRequest,
+        postRequest,
+        patchRequest,
     });
 
     describe('getAll', () => {
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.challengeStreaks.getAll({});
+            await challengeStreaks.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?` });
         });
 
         test('calls GET with correct URL when userId query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const userId = 'userId';
 
-            await streakoid.challengeStreaks.getAll({ userId });
+            await challengeStreaks.getAll({ userId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?userId=${userId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?userId=${userId}&` });
         });
 
         test('calls GET with correct URL when challengeId query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const challengeId = 'challengeId';
 
-            await streakoid.challengeStreaks.getAll({ challengeId });
+            await challengeStreaks.getAll({ challengeId });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?challengeId=${challengeId}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?challengeId=${challengeId}&` });
         });
 
         test('calls GET with correct URL when completedToday query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const completedToday = true;
 
-            await streakoid.challengeStreaks.getAll({ completedToday });
+            await challengeStreaks.getAll({ completedToday });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?completedToday=true&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?completedToday=true&` });
         });
 
         test('calls GET with correct URL when timezone query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const timezone = `Europe/London`;
 
-            await streakoid.challengeStreaks.getAll({ timezone });
+            await challengeStreaks.getAll({ timezone });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?timezone=${timezone}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?timezone=${timezone}&` });
         });
 
         test('calls GET with correct URL when active query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const active = true;
 
-            await streakoid.challengeStreaks.getAll({ active });
+            await challengeStreaks.getAll({ active });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?active=${active}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?active=${active}&` });
         });
 
         test('calls GET with correct URL when status query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const status = StreakStatus.live;
 
-            await streakoid.challengeStreaks.getAll({ status });
+            await challengeStreaks.getAll({ status });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?status=${status}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?status=${status}&` });
         });
 
         test('calls GET with correct URL when sortField query parameters is passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
             const sortField = GetAllChallengeStreaksSortFields.currentStreak;
 
-            await streakoid.challengeStreaks.getAll({ sortField });
+            await challengeStreaks.getAll({ sortField });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks?sortField=${sortField}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?sortField=${sortField}&` });
         });
     });
 
@@ -101,54 +95,54 @@ describe('SDK challengeStreaks', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await challengeStreaks.getOne({ challengeStreakId: 'id' });
 
-            await streakoid.challengeStreaks.getOne({ challengeStreakId: 'id' });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenge-streaks/id`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks/id` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const userId = 'userId';
             const challengeId = 'challengeId';
 
-            await streakoid.challengeStreaks.create({
+            await challengeStreaks.create({
                 userId,
                 challengeId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/challenge-streaks`, {
-                userId,
-                challengeId,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/challenge-streaks`,
+                params: {
+                    userId,
+                    challengeId,
+                },
             });
         });
     });
 
     describe('update', () => {
-        test('calls PATCH with correct URL and  parmaters', async () => {
+        test('calls PATCH with correct URL and parameters', async () => {
             expect.assertions(1);
 
             const completedToday = true;
             const timezone = 'Europe/London';
 
-            streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const updateData = {
                 completedToday,
                 timezone,
             };
 
-            await streakoid.challengeStreaks.update({
+            await challengeStreaks.update({
                 challengeStreakId: 'id',
                 updateData,
             });
 
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/challenge-streaks/id`, {
-                ...updateData,
+            expect(patchRequest).toBeCalledWith({
+                route: `/v1/challenge-streaks/id`,
+                params: updateData,
             });
         });
     });

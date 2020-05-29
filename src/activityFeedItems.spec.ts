@@ -1,11 +1,15 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
 import { LostSoloStreakActivityFeedItem } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
+import { activityFeedItems as activityFeedItemsImport } from './activityFeedItems';
+import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 describe('SDK activityFeedItems', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest
+        .fn()
+        .mockResolvedValue({ body: true, header: { [SupportedResponseHeaders.TotalCount]: 10 } });
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const activityFeedItems = activityFeedItemsImport({
+        getRequest,
+        postRequest,
     });
 
     describe('getAll', () => {
@@ -31,31 +35,28 @@ describe('SDK activityFeedItems', () => {
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 
-            await streakoid.activityFeedItems.getAll({ limit });
+            await activityFeedItems.getAll({ limit });
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/activity-feed-items?limit=${limit}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/activity-feed-items?limit=${limit}&` });
         });
 
         test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue({ headers: {} });
 
-            await streakoid.activityFeedItems.getAll(query);
+            await activityFeedItems.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(
-                `/v1/activity-feed-items?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/activity-feed-items?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&soloStreakId=${soloStreakId}&challengeStreakId=${challengeStreakId}&challengeId=${challengeId}&teamStreakId=${teamStreakId}&activityFeedItemType=${activityFeedItemType}&`,
-            );
+            });
         });
     });
     describe('create', () => {
         test('calls POST with an ActivityFeedItemType', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const activityFeedItem: LostSoloStreakActivityFeedItem = {
                 activityFeedItemType: ActivityFeedItemTypes.lostSoloStreak,
                 userId: 'userId',
@@ -66,11 +67,9 @@ describe('SDK activityFeedItems', () => {
                 numberOfDaysLost: 1,
             };
 
-            await streakoid.activityFeedItems.create(activityFeedItem);
+            await activityFeedItems.create(activityFeedItem);
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/activity-feed-items`, {
-                ...activityFeedItem,
-            });
+            expect(postRequest).toBeCalledWith({ route: `/v1/activity-feed-items`, params: activityFeedItem });
         });
     });
 });

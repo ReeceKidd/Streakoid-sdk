@@ -1,23 +1,21 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
-jest.genMockFromModule('./streakoid');
+import { user as userImport } from './user';
 
 describe('SDK users', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const patchRequest = jest.fn().mockResolvedValue(true);
+    const user = userImport({
+        getRequest,
+        patchRequest,
     });
 
     describe('getCurrentUser', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await user.getCurrentUser();
 
-            await streakoid.user.getCurrentUser();
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/user`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/user` });
         });
     });
 
@@ -25,7 +23,6 @@ describe('SDK users', () => {
         test('calls PATCH with correct URL and parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const updateData = {
                 email: 'email@email.com',
                 username: 'username',
@@ -37,11 +34,9 @@ describe('SDK users', () => {
                 },
             };
 
-            await streakoid.user.updateCurrentUser({ updateData });
+            await user.updateCurrentUser({ updateData });
 
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/user`, {
-                ...updateData,
-            });
+            expect(patchRequest).toBeCalledWith({ route: `/v1/user`, params: updateData });
         });
     });
 });

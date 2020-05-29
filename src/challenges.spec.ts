@@ -1,10 +1,11 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { challenges as challengesImport } from './challenges';
 
 describe('SDK challenges', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const challenges = challengesImport({
+        getRequest,
+        postRequest,
     });
 
     describe('getAll', () => {
@@ -18,20 +19,18 @@ describe('SDK challenges', () => {
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.challenges.getAll({});
+            await challenges.getAll({});
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenges?` });
         });
 
         test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.challenges.getAll(query);
+            await challenges.getAll(query);
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenges?searchQuery=${searchQuery}&limit=${limit}&` });
         });
     });
 
@@ -39,44 +38,37 @@ describe('SDK challenges', () => {
         test('calls GET with correct URL', async () => {
             expect.assertions(1);
 
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
+            await challenges.getOne({ challengeId: 'challengeId' });
 
-            await streakoid.challenges.getOne({ challengeId: 'challengeId' });
-
-            expect(streakoidClient.get).toBeCalledWith(`/v1/challenges/challengeId`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenges/challengeId` });
         });
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and minimum parmaters', async () => {
+        test('calls POST with correct URL and minimum parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
 
-            await streakoid.challenges.create({
+            await challenges.create({
                 name,
                 description,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/challenges`, {
-                name,
-                description,
-            });
+            expect(postRequest).toBeCalledWith({ route: `/v1/challenges`, params: { name, description } });
         });
 
-        test('calls POST with correct URL and all available parmaters', async () => {
+        test('calls POST with correct URL and all available parameters', async () => {
             expect.assertions(1);
 
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
             const name = 'Spanish';
             const description = 'Study Spanish everyday';
             const icon = 'faCog';
             const color = 'red';
             const numberOfMinutes = 30;
 
-            await streakoid.challenges.create({
+            await challenges.create({
                 name,
                 description,
                 icon,
@@ -84,12 +76,15 @@ describe('SDK challenges', () => {
                 numberOfMinutes,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/challenges`, {
-                name,
-                description,
-                icon,
-                color,
-                numberOfMinutes,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/challenges`,
+                params: {
+                    name,
+                    description,
+                    icon,
+                    color,
+                    numberOfMinutes,
+                },
             });
         });
     });

@@ -1,13 +1,20 @@
-import { AxiosInstance } from 'axios';
-
-import ApiVersions from './ApiVersions';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest, PatchRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
+const teamMemberStreaks = ({
+    getRequest,
+    postRequest,
+    patchRequest,
+}: {
+    getRequest: GetRequest;
+    postRequest: PostRequest;
+    patchRequest: PatchRequest;
+}) => {
     const getAll = async ({
         userId,
         teamStreakId,
@@ -44,8 +51,7 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
                 getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}active=${Boolean(active)}`;
             }
 
-            const { data } = await streakoidClient.get(getAllTeamMemberStreaksURL);
-            return data;
+            return getRequest({ route: getAllTeamMemberStreaksURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -53,10 +59,9 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
 
     const getOne = async (teamMemberStreakId: string): Promise<TeamMemberStreak> => {
         try {
-            const { data } = await streakoidClient.get(
-                `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
-            );
-            return data;
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -70,11 +75,10 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
         teamStreakId: string;
     }): Promise<TeamMemberStreak> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}`, {
-                userId,
-                teamStreakId,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}`,
+                params: { userId, teamStreakId },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }
@@ -94,16 +98,14 @@ const teamMemberStreaks = (streakoidClient: AxiosInstance) => {
         };
     }): Promise<TeamMemberStreak> => {
         try {
-            const { data } = await streakoidClient.patch(
-                `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
-                updateData,
-            );
-            return data;
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}`,
+                params: updateData,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
     };
-
     return {
         getAll,
         getOne,

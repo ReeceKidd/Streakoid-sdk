@@ -1,13 +1,12 @@
-import { AxiosInstance } from 'axios';
-
-import ApiVersions from './ApiVersions';
 import StreakTrackingEventTypes from '@streakoid/streakoid-models/lib/Types/StreakTrackingEventTypes';
 import StreakTypes from '@streakoid/streakoid-models/lib/Types/StreakTypes';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { StreakTrackingEvent } from '@streakoid/streakoid-models/lib/Models/StreakTrackingEvent';
+import ApiVersions from './ApiVersions';
+import { GetRequest, PostRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
+const streakTrackingEvents = ({ getRequest, postRequest }: { getRequest: GetRequest; postRequest: PostRequest }) => {
     const getAll = async ({
         type,
         userId,
@@ -34,8 +33,7 @@ const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
             if (streakType) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}streakType=${streakType}&`;
             }
-            const { data } = await streakoidClient.get(getAllSoloStreaksURL);
-            return data;
+            return getRequest({ route: getAllSoloStreaksURL });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -43,10 +41,9 @@ const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
 
     const getOne = async (streakTrackingEventId: string): Promise<StreakTrackingEvent> => {
         try {
-            const { data } = await streakoidClient.get(
-                `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`,
-            );
-            return data;
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}/${streakTrackingEventId}`,
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -64,13 +61,15 @@ const streakTrackingEvents = (streakoidClient: AxiosInstance) => {
         userId?: string;
     }): Promise<StreakTrackingEvent> => {
         try {
-            const { data } = await streakoidClient.post(`/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`, {
-                type,
-                streakId,
-                userId,
-                streakType,
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.streakTrackingEvents}`,
+                params: {
+                    type,
+                    streakId,
+                    userId,
+                    streakType,
+                },
             });
-            return data;
         } catch (err) {
             return Promise.reject(err);
         }

@@ -1,4 +1,3 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
 import {
     CompleteAllStreaksReminder,
     CustomSoloStreakReminder,
@@ -8,17 +7,16 @@ import {
 } from '@streakoid/streakoid-models/lib/Models/StreakReminders';
 import { UserPushNotifications } from '@streakoid/streakoid-models/lib/Models/UserPushNotifications';
 import StreakReminderTypes from '@streakoid/streakoid-models/lib/Types/StreakReminderTypes';
-jest.genMockFromModule('./streakoid');
+import { pushNotifications as pushNotificationsImport } from './user.pushNotifications';
 
-describe('SDK users', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+describe('SDK pushNotifications', () => {
+    const patchRequest = jest.fn().mockResolvedValue(true);
+    const pushNotifications = pushNotificationsImport({
+        patchRequest,
     });
 
     describe('update', () => {
-        test('calls PATCH with correct URL and  parmaters', async () => {
+        test('calls PATCH with correct URL and  parameters', async () => {
             expect.assertions(1);
 
             const completeAllStreaksReminder: CompleteAllStreaksReminder = {
@@ -63,7 +61,6 @@ describe('SDK users', () => {
                 customTeamMemberStreakReminder,
             ];
 
-            streakoidClient.patch = jest.fn().mockResolvedValue(true);
             const updateData: UserPushNotifications = {
                 completeAllStreaksReminder,
                 teamStreakUpdates: {
@@ -78,11 +75,9 @@ describe('SDK users', () => {
                 customStreakReminders,
             };
 
-            await streakoid.user.pushNotifications.updatePushNotifications({ ...updateData });
+            await pushNotifications.updatePushNotifications({ ...updateData });
 
-            expect(streakoidClient.patch).toBeCalledWith(`/v1/user/push-notifications`, {
-                ...updateData,
-            });
+            expect(patchRequest).toBeCalledWith({ route: `/v1/user/push-notifications`, params: updateData });
         });
     });
 });

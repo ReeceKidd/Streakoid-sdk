@@ -1,28 +1,30 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { teamMembers as teamMembersImport } from './teamMembers';
 
 describe('SDK teamMembers', () => {
-    const streakoid = streakoidFactory(streakoidClient);
-
-    afterEach(() => {
-        jest.resetAllMocks();
+    const postRequest = jest.fn().mockResolvedValue(true);
+    const deleteRequest = jest.fn().mockResolvedValue(true);
+    const teamMembers = teamMembersImport({
+        postRequest,
+        deleteRequest,
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parmaters', async () => {
+        test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
-
-            streakoidClient.post = jest.fn().mockResolvedValue(true);
 
             const followerId = 'followerId';
             const teamStreakId = 'teamStreakId';
 
-            await streakoid.teamStreaks.teamMembers.create({
+            await teamMembers.create({
                 followerId,
                 teamStreakId,
             });
 
-            expect(streakoidClient.post).toBeCalledWith(`/v1/team-streaks/teamStreakId/members`, {
-                followerId,
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/team-streaks/teamStreakId/members`,
+                params: {
+                    followerId,
+                },
             });
         });
     });
@@ -30,14 +32,13 @@ describe('SDK teamMembers', () => {
     describe('deleteOne', () => {
         test('calls DELETE correct URL ', async () => {
             expect.assertions(1);
-            streakoidClient.delete = jest.fn();
 
-            await streakoid.teamStreaks.teamMembers.deleteOne({
+            await teamMembers.deleteOne({
                 teamStreakId: 'teamStreakId',
                 memberId: 'memberId',
             });
 
-            expect(streakoidClient.delete).toBeCalledWith(`/v1/team-streaks/teamStreakId/members/memberId`);
+            expect(deleteRequest).toBeCalledWith({ route: `/v1/team-streaks/teamStreakId/members/memberId` });
         });
     });
 });

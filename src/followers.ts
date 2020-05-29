@@ -1,15 +1,17 @@
-import { AxiosInstance } from 'axios';
-
 import ApiVersions from './ApiVersions';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { GetRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const followers = (streakoidClient: AxiosInstance) => {
+const followers = ({ getRequest }: { getRequest: GetRequest }) => {
     const getAll = async (userId: string): Promise<string[]> => {
-        const { data } = await streakoidClient.get(
-            `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.followers}`,
-        );
-        return data;
+        try {
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.users}/${userId}/${RouterCategories.followers}`,
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
     };
 
     return {

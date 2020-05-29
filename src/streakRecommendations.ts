@@ -1,11 +1,10 @@
-import { AxiosInstance } from 'axios';
-
 import ApiVersions from './ApiVersions';
 import { Challenge } from '@streakoid/streakoid-models/lib/Models/Challenge';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
+import { GetRequest } from './request';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const streakRecommendations = (streakoidClient: AxiosInstance) => {
+const streakRecommendations = ({ getRequest }: { getRequest: GetRequest }) => {
     const getAll = async ({
         random,
         limit,
@@ -30,8 +29,7 @@ const streakRecommendations = (streakoidClient: AxiosInstance) => {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortedByNumberOfMembers=true&`;
             }
 
-            const { data } = await streakoidClient.get(getAllSoloStreaksURL);
-            return data;
+            return getRequest({ route: getAllSoloStreaksURL });
         } catch (err) {
             return Promise.reject(err);
         }

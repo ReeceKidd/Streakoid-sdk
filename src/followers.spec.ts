@@ -1,7 +1,10 @@
-import { streakoidFactory, streakoidClient } from './streakoid';
+import { followers as followersImport } from './followers';
 
 describe('SDK followers', () => {
-    const streakoid = streakoidFactory(streakoidClient);
+    const getRequest = jest.fn().mockResolvedValue(true);
+    const followers = followersImport({
+        getRequest,
+    });
 
     afterEach(() => {
         jest.resetAllMocks();
@@ -10,11 +13,10 @@ describe('SDK followers', () => {
     describe('getAll', () => {
         test('calls GET with correct URL and userId', async () => {
             expect.assertions(1);
-            streakoidClient.get = jest.fn().mockResolvedValue(true);
 
-            await streakoid.users.followers.getAll('userId');
+            await followers.getAll('userId');
 
-            expect(streakoidClient.get).toBeCalledWith(`/v1/users/userId/followers`);
+            expect(getRequest).toBeCalledWith({ route: `/v1/users/userId/followers` });
         });
     });
 });
