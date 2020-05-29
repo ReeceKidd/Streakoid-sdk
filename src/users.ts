@@ -20,17 +20,17 @@ const users = ({
     const create = async ({
         username,
         email,
-        temporary,
+        userIdentifier,
     }: {
         username: string;
         email: string;
-        temporary?: boolean;
+        userIdentifier?: string;
     }): Promise<PopulatedCurrentUser> => {
         try {
-            if (temporary) {
+            if (userIdentifier) {
                 return postRequest({
                     route: `/${ApiVersions.v1}/${RouterCategories.users}`,
-                    params: { username, email, temporary },
+                    params: { username, email, userIdentifier },
                 });
             }
             return postRequest({ route: `/${ApiVersions.v1}/${RouterCategories.users}`, params: { username, email } });
