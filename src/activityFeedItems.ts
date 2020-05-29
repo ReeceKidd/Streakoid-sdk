@@ -2,7 +2,6 @@
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { ActivityFeedItemType } from '@streakoid/streakoid-models/lib/Models/ActivityFeedItemType';
 import ActivityFeedItemTypes from '@streakoid/streakoid-models/lib/Types/ActivityFeedItemTypes';
-import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 import ApiVersions from './ApiVersions';
 import { GetRequest, PostRequest } from './request';
 
@@ -13,7 +12,13 @@ export interface GetAllActivityFeedItemsResponse {
 
 export const DEFAULT_ACTIVITY_FEED_LIMIT = 10;
 
-const activityFeedItems = ({ getRequest, postRequest }: { getRequest: GetRequest; postRequest: PostRequest }) => {
+const activityFeedItems = ({
+    getActivityFeedRequest,
+    postRequest,
+}: {
+    getActivityFeedRequest: GetRequest;
+    postRequest: PostRequest;
+}) => {
     const getAll = async ({
         limit = DEFAULT_ACTIVITY_FEED_LIMIT,
         createdAtBefore,
@@ -68,12 +73,7 @@ const activityFeedItems = ({ getRequest, postRequest }: { getRequest: GetRequest
                 getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
-            const response = await getRequest({ route: getAllActivityFeedItemsURL });
-
-            return {
-                activityFeedItems: response.body || response.data,
-                totalCountOfActivityFeedItems: Number(response.header[SupportedResponseHeaders.TotalCount]),
-            };
+            return getActivityFeedRequest({ route: getAllActivityFeedItemsURL });
         } catch (err) {
             return Promise.reject(err);
         }

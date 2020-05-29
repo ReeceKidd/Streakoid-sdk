@@ -3,6 +3,7 @@
 import supertest from 'supertest';
 
 import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
+import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 
 export const apiTester = ({
     databaseURI,
@@ -35,7 +36,10 @@ export const apiTester = ({
         if (response.error) {
             throw response.error;
         }
-        return response;
+        return {
+            activityFeedItems: response.body,
+            totalCountOfActivityFeedItems: Number(response.header[SupportedResponseHeaders.TotalCount]),
+        };
     };
 
     const postRequest = async ({ route, params }: { route: string; params: any }) => {

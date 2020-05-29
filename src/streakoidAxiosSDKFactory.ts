@@ -1,13 +1,20 @@
 import { AxiosInstance } from 'axios';
 import { GetRequest, PostRequest, DeleteRequest, PatchRequest } from './request';
 import { StreakoidSDK, streakoidSDKFactory } from './streakoidSDKFactory';
+import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 
 export const streakoidAxiosSDKFactory = (streakoidClient: AxiosInstance): StreakoidSDK => {
     const getRequest: GetRequest = async ({ route }) => {
         const { data } = await streakoidClient.get(route);
         return data;
     };
-    const getRequestActivityFeed: GetRequest = ({ route }) => streakoidClient.get(route);
+    const getRequestActivityFeed: GetRequest = async ({ route }) => {
+        const response = await streakoidClient.get(route);
+        return {
+            activityFeedItems: response.data,
+            totalCountOfActivityFeedItems: Number(response.headers[SupportedResponseHeaders.TotalCount]),
+        };
+    };
     const postRequest: PostRequest = async ({ route, params }) => {
         const { data } = await streakoidClient.post(route, params);
         return data;
