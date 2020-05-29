@@ -37,6 +37,7 @@
         "@types/lodash": "^4.14.152",
         "@types/node-fetch": "^2.5.2",
         "@types/react": "^16.9.9",
+        "@types/supertest": "^2.0.9",
         "@typescript-eslint/eslint-plugin": "^2.3.2",
         "@typescript-eslint/parser": "^2.3.2",
         "aws-amplify": "^1.2.2",
@@ -48,7 +49,8 @@
         "mongoose": "^5.7.5",
         "node-fetch": "^2.6.0",
         "react": "^16.10.2",
-        "react-stripe-checkout": "^2.6.3"
+        "react-stripe-checkout": "^2.6.3",
+        "supertest": "^4.0.2"
     },
     "husky": {
         "hooks": {

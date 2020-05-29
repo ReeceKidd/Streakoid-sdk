@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import supertest from 'supertest';
 
 import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
 
 export const apiTester = ({
     databaseURI,
-    supertest,
     app,
     getIdToken,
 }: {
     databaseURI: string;
-    supertest: any;
     app: any;
     getIdToken: () => string;
 }) => {
