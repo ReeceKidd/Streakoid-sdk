@@ -11,7 +11,7 @@ export const streakoidTestSDKFactory = ({
     testName: string;
     getIdToken: () => string;
     getDatabaseURI: ({ testName }: { testName: string }) => string;
-    app: ({ databaseURI }: { databaseURI: string }) => Promise<any>;
+    app: ({ databaseURI }: { databaseURI: string }) => any;
 }): StreakoidSDK => {
     const { getRequest, getRequestActivityFeed, postRequest, patchRequest, deleteRequest } = apiTester({
         app,

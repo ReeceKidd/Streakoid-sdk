@@ -14,8 +14,8 @@ export const apiTester = ({
     getIdToken: () => string;
 }) => {
     const request = supertest(app({ databaseURI }));
-    const getRequest = async ({ route }: { route: string }): Promise<any> => {
-        const idToken = await getIdToken();
+    const getRequest = async ({ route }: { route: string }) => {
+        const idToken = getIdToken();
         const response = await request
             .get(route)
             .set(SupportedRequestHeaders.Timezone, 'Europe/London')
@@ -26,8 +26,8 @@ export const apiTester = ({
         return response.body;
     };
 
-    const getRequestActivityFeed = async ({ route }: { route: string }): Promise<any> => {
-        const idToken = await getIdToken();
+    const getRequestActivityFeed = async ({ route }: { route: string }) => {
+        const idToken = getIdToken();
         const response = await request
             .get(route)
             .set(SupportedRequestHeaders.Timezone, 'Europe/London')
@@ -38,8 +38,8 @@ export const apiTester = ({
         return response;
     };
 
-    const postRequest = async ({ route, params }: { route: string; params: any }): Promise<any> => {
-        const idToken = await getIdToken();
+    const postRequest = async ({ route, params }: { route: string; params: any }) => {
+        const idToken = getIdToken();
         const response = await request
             .post(route)
             .send(params)
@@ -51,8 +51,8 @@ export const apiTester = ({
         return response.body;
     };
 
-    const patchRequest = async ({ route, params }: { route: string; params?: any }): Promise<any> => {
-        const idToken = await getIdToken();
+    const patchRequest = async ({ route, params }: { route: string; params?: any }) => {
+        const idToken = getIdToken();
         const response = await request
             .patch(route)
             .send(params)
@@ -64,8 +64,8 @@ export const apiTester = ({
         return response.body;
     };
 
-    const deleteRequest = async ({ route }: { route: string }): Promise<any> => {
-        const idToken = await getIdToken();
+    const deleteRequest = async ({ route }: { route: string }) => {
+        const idToken = getIdToken();
         const response = await request
             .delete(route)
             .set(SupportedRequestHeaders.Timezone, 'Europe/London')
