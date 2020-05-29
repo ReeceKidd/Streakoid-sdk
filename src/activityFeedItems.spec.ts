@@ -3,12 +3,12 @@ import { LostSoloStreakActivityFeedItem } from '@streakoid/streakoid-models/lib/
 import { activityFeedItems as activityFeedItemsImport } from './activityFeedItems';
 import SupportedResponseHeaders from '@streakoid/streakoid-models/lib/Types/SupportedResponseHeaders';
 describe('SDK activityFeedItems', () => {
-    const getRequest = jest
+    const getActivityFeedRequest = jest
         .fn()
         .mockResolvedValue({ body: true, header: { [SupportedResponseHeaders.TotalCount]: 10 } });
     const postRequest = jest.fn().mockResolvedValue(true);
     const activityFeedItems = activityFeedItemsImport({
-        getRequest,
+        getActivityFeedRequest,
         postRequest,
     });
 
@@ -38,7 +38,7 @@ describe('SDK activityFeedItems', () => {
 
             await activityFeedItems.getAll({ limit });
 
-            expect(getRequest).toBeCalledWith({ route: `/v1/activity-feed-items?limit=${limit}&` });
+            expect(getActivityFeedRequest).toBeCalledWith({ route: `/v1/activity-feed-items?limit=${limit}&` });
         });
 
         test('calls GET with correct URL when all query parameters are passed', async () => {
@@ -46,7 +46,7 @@ describe('SDK activityFeedItems', () => {
 
             await activityFeedItems.getAll(query);
 
-            expect(getRequest).toBeCalledWith({
+            expect(getActivityFeedRequest).toBeCalledWith({
                 route: `/v1/activity-feed-items?limit=${limit}&createdAtBefore=${createdAtBefore.toISOString()}&userIds=${encodeURIComponent(
                     JSON.stringify(userIds),
                 )}&soloStreakId=${soloStreakId}&challengeStreakId=${challengeStreakId}&challengeId=${challengeId}&teamStreakId=${teamStreakId}&activityFeedItemType=${activityFeedItemType}&`,
