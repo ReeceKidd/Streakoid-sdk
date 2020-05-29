@@ -20,20 +20,27 @@ const users = ({
     const create = async ({
         username,
         email,
-        userIdentifier,
     }: {
         username?: string;
         email?: string;
-        userIdentifier?: string;
     }): Promise<PopulatedCurrentUser> => {
         try {
-            if (userIdentifier) {
-                return postRequest({
-                    route: `/${ApiVersions.v1}/${RouterCategories.users}`,
-                    params: { username, email, userIdentifier },
-                });
-            }
             return postRequest({ route: `/${ApiVersions.v1}/${RouterCategories.users}`, params: { username, email } });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
+    const createWithIdentifier = async ({
+        userIdentifier,
+    }: {
+        userIdentifier: string;
+    }): Promise<PopulatedCurrentUser> => {
+        try {
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.users}/temporary`,
+                params: { userIdentifier },
+            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -86,6 +93,7 @@ const users = ({
     };
     return {
         create,
+        createWithIdentifier,
         getAll,
         getOne,
         followers: followers({ getRequest }),
