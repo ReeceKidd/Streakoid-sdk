@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import app from '../../src/app';
-import supertest from 'supertest';
-import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
-import { getIdToken } from '../../tests/setup/getIdToken';
 
-export const apiTester = ({ databaseURI }: { databaseURI: string }) => {
+import SupportedRequestHeaders from '@streakoid/streakoid-models/lib/Types/SupportedRequestHeaders';
+
+export const apiTester = ({
+    databaseURI,
+    supertest,
+    app,
+    getIdToken,
+}: {
+    databaseURI: string;
+    supertest: any;
+    app: any;
+    getIdToken: () => string;
+}) => {
     const request = supertest(app({ databaseURI }));
     const getRequest = async ({ route }: { route: string }): Promise<any> => {
         const idToken = await getIdToken();
