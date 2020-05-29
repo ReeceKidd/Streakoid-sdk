@@ -15,7 +15,7 @@ describe('SDK users', () => {
     });
 
     describe('create', () => {
-        test('calls POST with correct URL and  parameters', async () => {
+        test('calls POST with correct URL and parameters when temporary is undefined', async () => {
             expect.assertions(1);
 
             const username = 'username';
@@ -31,20 +31,22 @@ describe('SDK users', () => {
                 },
             });
         });
-    });
 
-    describe('createTemporary', () => {
-        test('calls POST with correct URL and  parameters', async () => {
+        test('calls POST with correct URL and parameters when temporary is defined', async () => {
             expect.assertions(1);
 
-            const userIdentifier = 'userIdentifier';
+            const username = 'username';
+            const email = 'email@gmail.com';
+            const temporary = true;
 
-            await users.createTemporary({ userIdentifier });
+            await users.create({ username, email, temporary });
 
             expect(postRequest).toBeCalledWith({
-                route: `/v1/users/temporary`,
+                route: `/v1/users`,
                 params: {
-                    userIdentifier,
+                    username,
+                    email,
+                    temporary,
                 },
             });
         });

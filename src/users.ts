@@ -17,20 +17,23 @@ const users = ({
     postRequest: PostRequest;
     patchRequest: PatchRequest;
 }) => {
-    const create = async ({ username, email }: { username: string; email: string }): Promise<PopulatedCurrentUser> => {
+    const create = async ({
+        username,
+        email,
+        temporary,
+    }: {
+        username: string;
+        email: string;
+        temporary?: boolean;
+    }): Promise<PopulatedCurrentUser> => {
         try {
+            if (temporary) {
+                return postRequest({
+                    route: `/${ApiVersions.v1}/${RouterCategories.users}`,
+                    params: { username, email, temporary },
+                });
+            }
             return postRequest({ route: `/${ApiVersions.v1}/${RouterCategories.users}`, params: { username, email } });
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
-    const createTemporary = async ({ userIdentifier }: { userIdentifier: string }): Promise<PopulatedCurrentUser> => {
-        try {
-            return postRequest({
-                route: `/${ApiVersions.v1}/${RouterCategories.users}/temporary`,
-                params: { userIdentifier },
-            });
         } catch (err) {
             return Promise.reject(err);
         }
@@ -83,7 +86,6 @@ const users = ({
     };
     return {
         create,
-        createTemporary,
         getAll,
         getOne,
         followers: followers({ getRequest }),
