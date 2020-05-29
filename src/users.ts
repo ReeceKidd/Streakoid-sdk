@@ -22,8 +22,8 @@ const users = ({
         email,
         userIdentifier,
     }: {
-        username: string;
-        email: string;
+        username?: string;
+        email?: string;
         userIdentifier?: string;
     }): Promise<PopulatedCurrentUser> => {
         try {
