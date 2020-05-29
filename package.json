@@ -6,10 +6,8 @@
     "types": "lib",
     "scripts": {
         "build": "tsc -p .",
-        "unit-tests": "jest --config=./jest.unit.config.js",
         "lint": "eslint **/*.ts",
-        "intergration-tests": "jest --config=./jest.intergration.config.js --runInBand --forceExit",
-        "test": "npm run unit-tests && npm run intergration-tests",
+        "test": "jest",
         "prepare": "npm run build",
         "preversion": "npm run lint",
         "version": "git add -A src",
