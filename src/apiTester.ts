@@ -10,7 +10,7 @@ export const apiTester = ({
     getIdToken,
 }: {
     databaseURI: string;
-    app: any;
+    app: ({ databaseURI }: { databaseURI: string }) => Promise<any>;
     getIdToken: () => string;
 }) => {
     const request = supertest(app({ databaseURI }));
