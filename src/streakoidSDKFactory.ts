@@ -89,7 +89,7 @@ export const streakoidSDKFactory = ({
         challenges: challenges({ getRequest, postRequest }),
         challengeStreaks: challengeStreaks({ getRequest, postRequest, patchRequest }),
         notes: notes({ getRequest, postRequest, deleteRequest }),
-        activityFeedItems: activityFeedItems({ getRequest: getRequestActivityFeed, postRequest }),
+        activityFeedItems: activityFeedItems({ getRequestActivityFeed, postRequest }),
         databaseStats: databaseStats({ getRequest }),
         achievements: achievements({ getRequest, postRequest }),
     };

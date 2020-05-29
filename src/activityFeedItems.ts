@@ -13,10 +13,10 @@ export interface GetAllActivityFeedItemsResponse {
 export const DEFAULT_ACTIVITY_FEED_LIMIT = 10;
 
 const activityFeedItems = ({
-    getActivityFeedRequest,
+    getRequestActivityFeed,
     postRequest,
 }: {
-    getActivityFeedRequest: GetRequest;
+    getRequestActivityFeed: GetRequest;
     postRequest: PostRequest;
 }) => {
     const getAll = async ({
@@ -73,7 +73,7 @@ const activityFeedItems = ({
                 getAllActivityFeedItemsURL = `${getAllActivityFeedItemsURL}activityFeedItemType=${activityFeedItemType}&`;
             }
 
-            return getActivityFeedRequest({ route: getAllActivityFeedItemsURL });
+            return getRequestActivityFeed({ route: getAllActivityFeedItemsURL });
         } catch (err) {
             return Promise.reject(err);
         }
