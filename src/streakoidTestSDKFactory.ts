@@ -1,9 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StreakoidSDK, streakoidSDKFactory } from './streakoidSDKFactory';
 import { apiTester } from './apiTester';
-import { getDatabaseURI } from '../../tests/setup/getDatabaseURI';
 
-export const streakoidTestSDKFactory = ({ testName }: { testName: string }): StreakoidSDK => {
+export const streakoidTestSDKFactory = ({
+    testName,
+    getDatabaseURI,
+    getIdToken,
+    supertest,
+    app,
+}: {
+    testName: string;
+    getIdToken: () => string;
+    getDatabaseURI: ({ testName }: { testName: string }) => string;
+    supertest: any;
+    app: any;
+}): StreakoidSDK => {
     const { getRequest, getRequestActivityFeed, postRequest, patchRequest, deleteRequest } = apiTester({
+        app,
+        getIdToken,
+        supertest,
         databaseURI: getDatabaseURI({ testName }),
     });
 
