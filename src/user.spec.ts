@@ -1,5 +1,6 @@
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { user as userImport } from './user';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 describe('SDK users', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
@@ -32,6 +33,7 @@ describe('SDK users', () => {
                     token: 'pushNotificationToken',
                     deviceType: PushNotificationSupportedDeviceTypes.android,
                 },
+                userType: UserTypes.basic,
             };
 
             await user.updateCurrentUser({ updateData });

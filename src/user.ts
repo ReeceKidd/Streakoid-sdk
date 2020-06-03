@@ -5,6 +5,7 @@ import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { GetRequest, PatchRequest } from './request';
+import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchRequest: PatchRequest }) => {
@@ -32,6 +33,7 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
             hasCompletedIntroduction?: boolean;
             onboarding?: Onboarding;
             hasCompletedOnboarding?: boolean;
+            userType?: UserTypes;
         };
     }): Promise<PopulatedCurrentUser> => {
         try {
