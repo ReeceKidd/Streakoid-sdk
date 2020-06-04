@@ -1,6 +1,6 @@
 {
     "name": "@streakoid/streakoid-sdk",
-    "version": "1.0.543",
+    "version": "1.0.544",
     "description": "Streakoid SDK",
     "main": "lib/index.js",
     "types": "lib",
@@ -55,7 +55,7 @@
     "husky": {
         "hooks": {
             "pre-commit": "npm run lint&& pretty-quick --staged --verbose",
-            "pre-push": "npm run test"
+            "pre-push": "npm run unit-tests"
         }
     },
     "directories": {
