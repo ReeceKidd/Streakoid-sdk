@@ -31,6 +31,7 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
                 deviceType: PushNotificationSupportedDeviceTypes;
                 token: string;
             };
+            hasProfileImageBeenCustomized?: boolean;
             hasCompletedTutorial?: boolean;
             hasCompletedIntroduction?: boolean;
             onboarding?: Onboarding;

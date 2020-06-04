@@ -35,6 +35,7 @@ describe('SDK users', () => {
                     token: 'pushNotificationToken',
                     deviceType: PushNotificationSupportedDeviceTypes.android,
                 },
+                hasProfileImageBeenCustomized: false,
                 userType: UserTypes.basic,
             };
 

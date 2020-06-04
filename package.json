@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc -p .",
         "lint": "eslint **/*.ts",
-        "test": "jest",
+        "unit-tests": "jest",
         "prepare": "npm run build",
         "preversion": "npm run lint",
         "version": "git add -A src",
