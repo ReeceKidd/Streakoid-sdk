@@ -27,7 +27,9 @@ describe('SDK users', () => {
             const updateData = {
                 email: 'email@email.com',
                 username: 'username',
-                name: 'Tom Smith',
+                firstName: 'Tom',
+                lastName: 'Smith',
+                hasUsernameBeenCustomized: false,
                 timezone: 'Europe/London',
                 pushNotification: {
                     token: 'pushNotificationToken',

@@ -23,7 +23,9 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
         updateData?: {
             email?: string;
             username?: string;
-            name?: string;
+            firstName?: string;
+            lastName?: string;
+            hasUsernameBeenCustomized?: boolean;
             timezone?: string;
             pushNotification?: {
                 deviceType: PushNotificationSupportedDeviceTypes;
