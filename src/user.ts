@@ -37,6 +37,8 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
             onboarding?: Onboarding;
             hasCompletedOnboarding?: boolean;
             userType?: UserTypes;
+            hasVerifiedEmail?: boolean;
+            hasCustomPassword?: boolean;
         };
     }): Promise<PopulatedCurrentUser> => {
         try {

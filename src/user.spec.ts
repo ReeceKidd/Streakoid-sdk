@@ -37,6 +37,8 @@ describe('SDK users', () => {
                 },
                 hasProfileImageBeenCustomized: false,
                 userType: UserTypes.basic,
+                hasVerifiedEmail: true,
+                hasCustomPassword: true,
             };
 
             await user.updateCurrentUser({ updateData });
