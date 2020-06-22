@@ -113,6 +113,7 @@ const challengeStreaks = ({
             active?: boolean;
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
+            userDefinedIndex?: number;
         };
     }): Promise<ChallengeStreak> => {
         try {

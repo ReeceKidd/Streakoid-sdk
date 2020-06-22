@@ -127,12 +127,17 @@ describe('SDK challengeStreaks', () => {
         test('calls PATCH with correct URL and parameters', async () => {
             expect.assertions(1);
 
-            const completedToday = true;
-            const timezone = 'Europe/London';
-
             const updateData = {
-                completedToday,
-                timezone,
+                status: StreakStatus.archived,
+                completedToday: true,
+                timezone: 'Europe/London',
+                active: false,
+                currentStreak: {
+                    startDate: new Date().toString(),
+                    numberOfDaysInARow: 10,
+                },
+                pastStreaks: [],
+                userDefinedIndex: 10,
             };
 
             await challengeStreaks.update({
