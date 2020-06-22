@@ -39,8 +39,6 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
             userType?: UserTypes;
             hasVerifiedEmail?: boolean;
             hasCustomPassword?: boolean;
-            soloStreaksOrder?: string[];
-            challengeStreaksOrder?: string[];
             teamStreaksOrder?: string[];
         };
     }): Promise<PopulatedCurrentUser> => {
