@@ -1,6 +1,8 @@
 import { GetAllSoloStreaksSortFields } from './soloStreaks';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { soloStreaks as soloStreaksImport } from './soloStreaks';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 describe('SDK soloStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
@@ -122,9 +124,29 @@ describe('SDK soloStreaks', () => {
 
             const streakName = 'name';
             const streakDescription = 'description';
+            const status = StreakStatus.archived;
+            const numberOfMinutes = 30;
+            const completedToday = false;
+            const timezone = 'Europe/London';
+            const active = true;
+            const currentStreak: CurrentStreak = {
+                numberOfDaysInARow: 13,
+                startDate: new Date().toString(),
+                endDate: undefined,
+            };
+            const pastStreaks: PastStreak[] = [];
+            const userDefinedIndex = 10;
             const updateData = {
                 streakName,
                 streakDescription,
+                status,
+                numberOfMinutes,
+                completedToday,
+                timezone,
+                active,
+                currentStreak,
+                pastStreaks,
+                userDefinedIndex,
             };
 
             await soloStreaks.update({
