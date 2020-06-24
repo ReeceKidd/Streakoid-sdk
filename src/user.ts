@@ -3,7 +3,6 @@ import { pushNotifications } from './user.pushNotifications';
 import { PopulatedCurrentUser } from '@streakoid/streakoid-models/lib/Models/PopulatedCurrentUser';
 import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
-import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { GetRequest, PatchRequest } from './request';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
@@ -28,8 +27,8 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
             hasUsernameBeenCustomized?: boolean;
             timezone?: string;
             pushNotification?: {
-                deviceType: PushNotificationSupportedDeviceTypes;
-                token: string;
+                androidToken?: string;
+                iosToken?: string;
             };
             hasProfileImageBeenCustomized?: boolean;
             hasCompletedTutorial?: boolean;

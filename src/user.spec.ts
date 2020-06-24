@@ -1,4 +1,3 @@
-import PushNotificationSupportedDeviceTypes from '@streakoid/streakoid-models/lib/Types/PushNotificationSupportedDeviceTypes';
 import { user as userImport } from './user';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
 
@@ -32,8 +31,8 @@ describe('SDK users', () => {
                 hasUsernameBeenCustomized: false,
                 timezone: 'Europe/London',
                 pushNotification: {
-                    token: 'pushNotificationToken',
-                    deviceType: PushNotificationSupportedDeviceTypes.android,
+                    androidToken: 'androidToken',
+                    iosToken: 'iosToken',
                 },
                 hasProfileImageBeenCustomized: false,
                 userType: UserTypes.basic,
