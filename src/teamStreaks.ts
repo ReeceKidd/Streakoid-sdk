@@ -135,7 +135,7 @@ const teamStreaks = ({
         }
     };
 
-    const inviteKey = async ({ teamStreakId }: { teamStreakId: string }): Promise<string> => {
+    const inviteKey = async ({ teamStreakId }: { teamStreakId: string }): Promise<{ inviteKey: string }> => {
         try {
             return getRequest({
                 route: `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.inviteKey}`,
