@@ -7,6 +7,7 @@ import ApiVersions from './ApiVersions';
 import { teamMembers } from './teamMembers';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { GetRequest, PostRequest, PatchRequest, DeleteRequest } from './request';
+import TeamStreakRouterCategories from '@streakoid/streakoid-models/lib/Types/TeamStreakRouterCategories';
 
 export enum GetAllTeamStreaksSortFields {
     currentStreak = 'currentStreak',
@@ -133,11 +134,22 @@ const teamStreaks = ({
             return Promise.reject(err);
         }
     };
+
+    const inviteKey = async ({ teamStreakId }: { teamStreakId: string }): Promise<PopulatedTeamStreak> => {
+        try {
+            return getRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.inviteKey}`,
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
     return {
         getAll,
         getOne,
         create,
         update,
+        inviteKey,
         teamMembers: teamMembers({ postRequest, deleteRequest }),
     };
 };

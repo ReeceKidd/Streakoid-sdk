@@ -15,6 +15,10 @@ describe('SDK TeamStreaks', () => {
         patchRequest,
         deleteRequest,
     });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
     describe('getAll', () => {
         const creatorId = 'creatorId';
         const memberId = 'memberId';
@@ -181,6 +185,18 @@ describe('SDK TeamStreaks', () => {
             });
 
             expect(patchRequest).toBeCalledWith({ route: `/v1/team-streaks/id`, params: updateData });
+        });
+    });
+
+    describe('inviteKey', () => {
+        test('calls GET with correct URL', async () => {
+            expect.assertions(1);
+
+            const teamStreakId = 'teamStreakId';
+
+            await teamStreaks.inviteKey({ teamStreakId });
+
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks/${teamStreakId}/invite-key` });
         });
     });
 });
