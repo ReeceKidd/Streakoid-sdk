@@ -6,17 +6,11 @@ import ApiVersions from './ApiVersions';
 import { PostRequest, DeleteRequest } from './request';
 
 const teamMembers = ({ postRequest, deleteRequest }: { postRequest: PostRequest; deleteRequest: DeleteRequest }) => {
-    const create = async ({
-        followerId,
-        teamStreakId,
-    }: {
-        followerId: string;
-        teamStreakId: string;
-    }): Promise<TeamMember> => {
+    const create = async ({ userId, teamStreakId }: { userId: string; teamStreakId: string }): Promise<TeamMember> => {
         try {
             return postRequest({
                 route: `/${ApiVersions.v1}/${RouterCategories.teamStreaks}/${teamStreakId}/${TeamStreakRouterCategories.members}`,
-                params: { followerId },
+                params: { userId },
             });
         } catch (err) {
             return Promise.reject(err);

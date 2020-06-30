@@ -12,18 +12,18 @@ describe('SDK teamMembers', () => {
         test('calls POST with correct URL and  parameters', async () => {
             expect.assertions(1);
 
-            const followerId = 'followerId';
+            const userId = 'userId';
             const teamStreakId = 'teamStreakId';
 
             await teamMembers.create({
-                followerId,
+                userId,
                 teamStreakId,
             });
 
             expect(postRequest).toBeCalledWith({
                 route: `/v1/team-streaks/teamStreakId/members`,
                 params: {
-                    followerId,
+                    userId,
                 },
             });
         });
