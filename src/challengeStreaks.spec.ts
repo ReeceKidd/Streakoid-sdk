@@ -151,4 +151,18 @@ describe('SDK challengeStreaks', () => {
             });
         });
     });
+
+    describe('recover', () => {
+        test('calls PATCH with correct URL', async () => {
+            expect.assertions(1);
+
+            await challengeStreaks.recover({
+                challengeStreakId: 'id',
+            });
+
+            expect(patchRequest).toBeCalledWith({
+                route: `/v1/challenge-streaks/id/recover`,
+            });
+        });
+    });
 });

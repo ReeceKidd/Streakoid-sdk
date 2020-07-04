@@ -126,11 +126,22 @@ const challengeStreaks = ({
         }
     };
 
+    const recover = async ({ challengeStreakId }: { challengeStreakId: string }): Promise<ChallengeStreak> => {
+        try {
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}/${challengeStreakId}/recover`,
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     return {
         getAll,
         getOne,
         create,
         update,
+        recover,
     };
 };
 
