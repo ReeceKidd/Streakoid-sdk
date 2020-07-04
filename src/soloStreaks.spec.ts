@@ -13,6 +13,7 @@ describe('SDK soloStreaks', () => {
         postRequest,
         patchRequest,
     });
+
     describe('getAll', () => {
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
@@ -119,7 +120,7 @@ describe('SDK soloStreaks', () => {
     });
 
     describe('update', () => {
-        test('calls PATCH with correct URL and  parameters', async () => {
+        test('calls PATCH with correct URL and parameters', async () => {
             expect.assertions(1);
 
             const streakName = 'name';
@@ -159,6 +160,20 @@ describe('SDK soloStreaks', () => {
                 params: {
                     ...updateData,
                 },
+            });
+        });
+    });
+
+    describe('recover', () => {
+        test('calls PATCH with correct URL', async () => {
+            expect.assertions(1);
+
+            await soloStreaks.recover({
+                soloStreakId: 'id',
+            });
+
+            expect(patchRequest).toBeCalledWith({
+                route: `/v1/solo-streaks/id/recover`,
             });
         });
     });

@@ -124,11 +124,21 @@ const soloStreaks = ({
             return Promise.reject(err);
         }
     };
+    const recover = async ({ soloStreakId }: { soloStreakId: string }): Promise<SoloStreak> => {
+        try {
+            return patchRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}/recover`,
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
     return {
         getAll,
         getOne,
         create,
         update,
+        recover,
     };
 };
 
