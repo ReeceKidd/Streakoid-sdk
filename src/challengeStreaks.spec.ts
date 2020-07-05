@@ -160,8 +160,9 @@ describe('SDK challengeStreaks', () => {
                 challengeStreakId: 'id',
             });
 
-            expect(patchRequest).toBeCalledWith({
+            expect(postRequest).toBeCalledWith({
                 route: `/v1/challenge-streaks/id/recover`,
+                params: {},
             });
         });
     });
