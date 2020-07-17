@@ -135,4 +135,19 @@ describe('SDK teamMemberStreaks', () => {
             });
         });
     });
+
+    describe('recover', () => {
+        test('calls POST with correct URL', async () => {
+            expect.assertions(1);
+
+            await teamMemberStreaks.recover({
+                teamMemberStreakId: 'id',
+            });
+
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/team-member-streaks/id/recover`,
+                params: {},
+            });
+        });
+    });
 });

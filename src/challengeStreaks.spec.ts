@@ -153,7 +153,7 @@ describe('SDK challengeStreaks', () => {
     });
 
     describe('recover', () => {
-        test('calls PATCH with correct URL', async () => {
+        test('calls POST with correct URL', async () => {
             expect.assertions(1);
 
             await challengeStreaks.recover({

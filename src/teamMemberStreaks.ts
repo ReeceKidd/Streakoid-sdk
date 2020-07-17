@@ -106,11 +106,23 @@ const teamMemberStreaks = ({
             return Promise.reject(err);
         }
     };
+
+    const recover = async ({ teamMemberStreakId }: { teamMemberStreakId: string }): Promise<TeamMemberStreak> => {
+        try {
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}/${teamMemberStreakId}/recover`,
+                params: {},
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
     return {
         getAll,
         getOne,
         create,
         update,
+        recover,
     };
 };
 
