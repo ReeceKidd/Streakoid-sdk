@@ -9,7 +9,7 @@ import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 
 export enum GetAllSoloStreaksSortFields {
     currentStreak = 'currentStreak',
-    longestEverStreak = 'longestEverStreak',
+    longestSoloStreak = 'longestSoloStreak',
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
