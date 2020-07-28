@@ -9,6 +9,7 @@ import ApiVersions from './ApiVersions';
 
 export enum GetAllChallengeStreaksSortFields {
     currentStreak = 'currentStreak',
+    longestEverStreak = 'longestEverStreak',
 }
 
 const challengeStreaks = ({

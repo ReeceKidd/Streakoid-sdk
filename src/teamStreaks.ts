@@ -11,6 +11,7 @@ import TeamStreakRouterCategories from '@streakoid/streakoid-models/lib/Types/Te
 
 export enum GetAllTeamStreaksSortFields {
     currentStreak = 'currentStreak',
+    longestEverStreak = 'longestEverStreak',
 }
 
 const teamStreaks = ({
