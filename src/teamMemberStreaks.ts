@@ -7,7 +7,7 @@ import { GetRequest, PostRequest, PatchRequest } from './request';
 
 export enum GetAllTeamMemberStreaksSortFields {
     currentStreak = 'currentStreak',
-    longestChallengeStreak = 'longestChallengeStreak',
+    longestTeamMemberStreak = 'longestTeamMemberStreak',
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
