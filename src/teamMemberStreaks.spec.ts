@@ -1,4 +1,4 @@
-import { teamMemberStreaks as teamMemberStreaksImport } from './teamMemberStreaks';
+import { teamMemberStreaks as teamMemberStreaksImport, GetAllTeamMemberStreaksSortFields } from './teamMemberStreaks';
 describe('SDK teamMemberStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
     const postRequest = jest.fn().mockResolvedValue(true);
@@ -15,6 +15,7 @@ describe('SDK teamMemberStreaks', () => {
         const completedToday = true;
         const timezone = 'Europe/London';
         const active = true;
+        const sortField = GetAllTeamMemberStreaksSortFields.currentStreak;
 
         const query = {
             userId,
@@ -22,6 +23,7 @@ describe('SDK teamMemberStreaks', () => {
             completedToday,
             timezone,
             active,
+            sortField,
         };
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
@@ -69,7 +71,17 @@ describe('SDK teamMemberStreaks', () => {
 
             await teamMemberStreaks.getAll({ active });
 
-            expect(getRequest).toBeCalledWith({ route: `/v1/team-member-streaks?active=${active}` });
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-member-streaks?active=${active}&` });
+        });
+
+        test('calls GET with correct URL when active sort paramter is passed', async () => {
+            expect.assertions(1);
+
+            await teamMemberStreaks.getAll({ sortField });
+
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/team-member-streaks?sortField=${sortField}&`,
+            });
         });
 
         test('calls GET with correct URL when all query parameters are passed', async () => {
@@ -78,7 +90,7 @@ describe('SDK teamMemberStreaks', () => {
             await teamMemberStreaks.getAll(query);
 
             expect(getRequest).toBeCalledWith({
-                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}`,
+                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&`,
             });
         });
     });

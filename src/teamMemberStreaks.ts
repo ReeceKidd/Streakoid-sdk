@@ -5,6 +5,11 @@ import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import ApiVersions from './ApiVersions';
 import { GetRequest, PostRequest, PatchRequest } from './request';
 
+export enum GetAllTeamMemberStreaksSortFields {
+    currentStreak = 'currentStreak',
+    longestChallengeStreak = 'longestChallengeStreak',
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const teamMemberStreaks = ({
     getRequest,
@@ -21,12 +26,14 @@ const teamMemberStreaks = ({
         completedToday,
         timezone,
         active,
+        sortField,
     }: {
         userId?: string;
         teamStreakId?: string;
         completedToday?: boolean;
         timezone?: string;
         active?: boolean;
+        sortField?: GetAllTeamMemberStreaksSortFields;
     }): Promise<TeamMemberStreak[]> => {
         try {
             let getAllTeamMemberStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}?`;
@@ -48,7 +55,10 @@ const teamMemberStreaks = ({
             }
 
             if (active !== undefined) {
-                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}active=${Boolean(active)}`;
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}active=${Boolean(active)}&`;
+            }
+            if (sortField) {
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}sortField=${sortField}&`;
             }
 
             return getRequest({ route: getAllTeamMemberStreaksURL });
