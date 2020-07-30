@@ -29,6 +29,7 @@ const challengeStreaks = ({
         active,
         status,
         sortField,
+        limit,
     }: {
         userId?: string;
         challengeId?: string;
@@ -37,6 +38,7 @@ const challengeStreaks = ({
         active?: boolean;
         completedToday?: boolean;
         sortField?: GetAllChallengeStreaksSortFields;
+        limit?: number;
     }): Promise<ChallengeStreak[]> => {
         try {
             let getAllChallengeStreaksURL = `/${ApiVersions.v1}/${RouterCategories.challengeStreaks}?`;
@@ -67,6 +69,10 @@ const challengeStreaks = ({
 
             if (sortField) {
                 getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}sortField=${sortField}&`;
+            }
+
+            if (limit) {
+                getAllChallengeStreaksURL = `${getAllChallengeStreaksURL}limit=${limit}&`;
             }
 
             return getRequest({ route: getAllChallengeStreaksURL });

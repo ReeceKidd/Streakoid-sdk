@@ -27,6 +27,7 @@ const teamMemberStreaks = ({
         timezone,
         active,
         sortField,
+        limit,
     }: {
         userId?: string;
         teamStreakId?: string;
@@ -34,6 +35,7 @@ const teamMemberStreaks = ({
         timezone?: string;
         active?: boolean;
         sortField?: GetAllTeamMemberStreaksSortFields;
+        limit?: number;
     }): Promise<TeamMemberStreak[]> => {
         try {
             let getAllTeamMemberStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}?`;
@@ -59,6 +61,9 @@ const teamMemberStreaks = ({
             }
             if (sortField) {
                 getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}sortField=${sortField}&`;
+            }
+            if (limit) {
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}limit=${limit}&`;
             }
 
             return getRequest({ route: getAllTeamMemberStreaksURL });

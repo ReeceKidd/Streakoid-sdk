@@ -89,6 +89,16 @@ describe('SDK challengeStreaks', () => {
 
             expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?sortField=${sortField}&` });
         });
+
+        test('calls GET with correct URL when limit query parameters is passed', async () => {
+            expect.assertions(1);
+
+            const limit = 20;
+
+            await challengeStreaks.getAll({ limit });
+
+            expect(getRequest).toBeCalledWith({ route: `/v1/challenge-streaks?limit=${limit}&` });
+        });
     });
 
     describe('getOne', () => {

@@ -33,6 +33,7 @@ const teamStreaks = ({
         completedToday,
         active,
         sortField,
+        limit,
     }: {
         creatorId?: string;
         memberId?: string;
@@ -41,6 +42,7 @@ const teamStreaks = ({
         completedToday?: boolean;
         active?: boolean;
         sortField?: GetAllTeamStreaksSortFields;
+        limit?: number;
     }): Promise<PopulatedTeamStreak[]> => {
         try {
             let getAllTeamStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamStreaks}?`;
@@ -65,6 +67,10 @@ const teamStreaks = ({
             if (sortField) {
                 getAllTeamStreaksURL = `${getAllTeamStreaksURL}sortField=${sortField}&`;
             }
+            if (limit) {
+                getAllTeamStreaksURL = `${getAllTeamStreaksURL}limit=${limit}&`;
+            }
+
             return getRequest({ route: getAllTeamStreaksURL });
         } catch (err) {
             return Promise.reject(err);

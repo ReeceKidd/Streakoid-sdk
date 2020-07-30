@@ -82,6 +82,16 @@ describe('SDK soloStreaks', () => {
 
             expect(getRequest).toBeCalledWith({ route: `/v1/solo-streaks?sortField=${sortField}&` });
         });
+
+        test('calls GET with correct URL when limit paramter is passed', async () => {
+            expect.assertions(1);
+
+            const limit = 20;
+
+            await soloStreaks.getAll({ limit });
+
+            expect(getRequest).toBeCalledWith({ route: `/v1/solo-streaks?limit=${limit}&` });
+        });
     });
 
     describe('getOne', () => {

@@ -29,6 +29,7 @@ const soloStreaks = ({
         active,
         status,
         sortField,
+        limit,
     }: {
         userId?: string;
         timezone?: string;
@@ -36,6 +37,7 @@ const soloStreaks = ({
         active?: boolean;
         completedToday?: boolean;
         sortField?: GetAllSoloStreaksSortFields;
+        limit?: number;
     }): Promise<SoloStreak[]> => {
         try {
             let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
@@ -62,6 +64,10 @@ const soloStreaks = ({
 
             if (sortField) {
                 getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortField=${sortField}&`;
+            }
+
+            if (limit) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}limit=${limit}&`;
             }
 
             return getRequest({ route: getAllSoloStreaksURL });

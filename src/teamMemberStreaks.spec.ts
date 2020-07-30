@@ -16,6 +16,7 @@ describe('SDK teamMemberStreaks', () => {
         const timezone = 'Europe/London';
         const active = true;
         const sortField = GetAllTeamMemberStreaksSortFields.currentStreak;
+        const limit = 20;
 
         const query = {
             userId,
@@ -24,6 +25,7 @@ describe('SDK teamMemberStreaks', () => {
             timezone,
             active,
             sortField,
+            limit,
         };
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
@@ -84,13 +86,23 @@ describe('SDK teamMemberStreaks', () => {
             });
         });
 
+        test('calls GET with correct URL when limit paramter is passed', async () => {
+            expect.assertions(1);
+
+            await teamMemberStreaks.getAll({ limit });
+
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/team-member-streaks?limit=${limit}&`,
+            });
+        });
+
         test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
 
             await teamMemberStreaks.getAll(query);
 
             expect(getRequest).toBeCalledWith({
-                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&`,
+                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&limit=${limit}&`,
             });
         });
     });

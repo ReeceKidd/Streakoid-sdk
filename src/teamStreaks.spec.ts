@@ -27,6 +27,7 @@ describe('SDK TeamStreaks', () => {
         const completedToday = true;
         const active = true;
         const sortField = GetAllTeamStreaksSortFields.currentStreak;
+        const limit = 20;
 
         const query = {
             creatorId,
@@ -36,6 +37,7 @@ describe('SDK TeamStreaks', () => {
             completedToday,
             active,
             sortField,
+            limit,
         };
         test('calls GET with correct URL when no query parameters are passed', async () => {
             expect.assertions(1);
@@ -101,13 +103,21 @@ describe('SDK TeamStreaks', () => {
             expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?sortField=${sortField}&` });
         });
 
+        test('calls GET with correct URL when limit query paramter is passed', async () => {
+            expect.assertions(1);
+
+            await teamStreaks.getAll({ limit });
+
+            expect(getRequest).toBeCalledWith({ route: `/v1/team-streaks?limit=${limit}&` });
+        });
+
         test('calls GET with correct URL when all parameters are passed', async () => {
             expect.assertions(1);
 
             await teamStreaks.getAll(query);
 
             expect(getRequest).toBeCalledWith({
-                route: `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&completedToday=${completedToday}&active=${true}&sortField=${sortField}&`,
+                route: `/v1/team-streaks?creatorId=${creatorId}&memberId=${memberId}&timezone=${timezone}&status=${status}&completedToday=${completedToday}&active=${true}&sortField=${sortField}&limit=${limit}&`,
             });
         });
     });
