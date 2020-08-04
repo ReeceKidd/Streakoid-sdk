@@ -8,6 +8,7 @@ import { PostRequest } from './request';
 
 export enum stripeRouterPaths {
     subscriptions = 'subscriptions',
+    portalSession = 'portal-session',
     deleteSubscriptions = 'delete-subscriptions',
 }
 
@@ -36,8 +37,20 @@ const stripe = ({ postRequest }: { postRequest: PostRequest }) => {
         }
     };
 
+    const createPortalSession = async (): Promise<FormattedUser> => {
+        try {
+            return postRequest({
+                route: `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.portalSession}`,
+                params: {},
+            });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     return {
         createSubscription,
+        createPortalSession,
     };
 };
 

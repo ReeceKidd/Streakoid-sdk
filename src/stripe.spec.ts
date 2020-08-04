@@ -28,4 +28,17 @@ describe('SDK stripe', () => {
             });
         });
     });
+
+    describe('createPortalSession', () => {
+        test('calls POST with correct URL and  properties', async () => {
+            expect.assertions(1);
+
+            await stripe.createPortalSession();
+
+            expect(postRequest).toBeCalledWith({
+                route: `/v1/stripe/portal-session`,
+                params: {},
+            });
+        });
+    });
 });
