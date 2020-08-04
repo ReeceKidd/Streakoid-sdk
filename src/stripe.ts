@@ -37,7 +37,14 @@ const stripe = ({ postRequest }: { postRequest: PostRequest }) => {
         }
     };
 
-    const createPortalSession = async (): Promise<FormattedUser> => {
+    const createPortalSession = async (): Promise<{
+        _id: string;
+        object: string;
+        created: number;
+        livemode: boolean;
+        url: string;
+        return_url: string;
+    }> => {
         try {
             return postRequest({
                 route: `/${ApiVersions.v1}/${RouterCategories.stripe}/${stripeRouterPaths.portalSession}`,
