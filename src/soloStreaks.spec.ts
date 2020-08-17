@@ -3,6 +3,7 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { soloStreaks as soloStreaksImport } from './soloStreaks';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 describe('SDK soloStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
@@ -147,6 +148,7 @@ describe('SDK soloStreaks', () => {
             };
             const pastStreaks: PastStreak[] = [];
             const userDefinedIndex = 10;
+            const visibility = VisibilityTypes.onlyMe;
             const updateData = {
                 streakName,
                 streakDescription,
@@ -158,6 +160,7 @@ describe('SDK soloStreaks', () => {
                 currentStreak,
                 pastStreaks,
                 userDefinedIndex,
+                visibility,
             };
 
             await soloStreaks.update({
