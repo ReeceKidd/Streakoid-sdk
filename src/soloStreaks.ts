@@ -77,54 +77,6 @@ const soloStreaks = ({
         }
     };
 
-    const getAllForCurrentUser = async ({
-        completedToday,
-        timezone,
-        active,
-        status,
-        sortField,
-        limit,
-    }: {
-        timezone?: string;
-        status?: StreakStatus;
-        active?: boolean;
-        completedToday?: boolean;
-        sortField?: GetAllSoloStreaksSortFields;
-        limit?: number;
-    }): Promise<SoloStreak[]> => {
-        try {
-            let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.soloStreaks}?`;
-
-            if (timezone) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}&`;
-            }
-
-            if (status) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
-            }
-
-            if (completedToday !== undefined) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(completedToday)}&`;
-            }
-
-            if (active !== undefined) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}&`;
-            }
-
-            if (sortField) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortField=${sortField}&`;
-            }
-
-            if (limit) {
-                getAllSoloStreaksURL = `${getAllSoloStreaksURL}limit=${limit}&`;
-            }
-
-            return getRequest({ route: getAllSoloStreaksURL });
-        } catch (err) {
-            return Promise.reject(err);
-        }
-    };
-
     const getOne = async (soloStreakId: string): Promise<SoloStreak> => {
         try {
             return getRequest({ route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}/${soloStreakId}` });
@@ -192,7 +144,6 @@ const soloStreaks = ({
     };
     return {
         getAll,
-        getAllForCurrentUser,
         getOne,
         create,
         update,

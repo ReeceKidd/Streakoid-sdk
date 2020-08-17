@@ -5,6 +5,9 @@ import { Onboarding } from '@streakoid/streakoid-models/lib/Models/Onboarding';
 import RouterCategories from '@streakoid/streakoid-models/lib/Types/RouterCategories';
 import { GetRequest, PatchRequest } from './request';
 import UserTypes from '@streakoid/streakoid-models/lib/Types/UserTypes';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import { GetAllSoloStreaksSortFields } from './soloStreaks';
+import { SoloStreak } from '@streakoid/streakoid-models/lib/Models/SoloStreak';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchRequest: PatchRequest }) => {
@@ -48,10 +51,59 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
         }
     };
 
+    const soloStreaks = async ({
+        completedToday,
+        timezone,
+        active,
+        status,
+        sortField,
+        limit,
+    }: {
+        timezone?: string;
+        status?: StreakStatus;
+        active?: boolean;
+        completedToday?: boolean;
+        sortField?: GetAllSoloStreaksSortFields;
+        limit?: number;
+    }): Promise<SoloStreak[]> => {
+        try {
+            let getAllSoloStreaksURL = `/${ApiVersions.v1}/${RouterCategories.user}/solo-streaks?`;
+
+            if (timezone) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}timezone=${timezone}&`;
+            }
+
+            if (status) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}status=${status}&`;
+            }
+
+            if (completedToday !== undefined) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}completedToday=${Boolean(completedToday)}&`;
+            }
+
+            if (active !== undefined) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}active=${Boolean(active)}&`;
+            }
+
+            if (sortField) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}sortField=${sortField}&`;
+            }
+
+            if (limit) {
+                getAllSoloStreaksURL = `${getAllSoloStreaksURL}limit=${limit}&`;
+            }
+
+            return getRequest({ route: getAllSoloStreaksURL });
+        } catch (err) {
+            return Promise.reject(err);
+        }
+    };
+
     return {
         getCurrentUser,
         updateCurrentUser,
         pushNotifications: pushNotifications({ patchRequest }),
+        soloStreaks,
     };
 };
 
