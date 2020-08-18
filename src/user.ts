@@ -13,6 +13,7 @@ import { GetAllTeamMemberStreaksSortFields } from './teamMemberStreaks';
 import { GetAllTeamStreaksSortFields } from './teamStreaks';
 import { TeamMemberStreak } from '@streakoid/streakoid-models/lib/Models/TeamMemberStreak';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
+import { ChallengeStreak } from '@streakoid/streakoid-models/lib/Models/ChallengeStreak';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchRequest: PatchRequest }) => {
@@ -118,7 +119,7 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
         completedToday?: boolean;
         sortField?: GetAllChallengeStreaksSortFields;
         limit?: number;
-    }): Promise<SoloStreak[]> => {
+    }): Promise<ChallengeStreak[]> => {
         try {
             let getAllChallengeStreaksURL = `/${ApiVersions.v1}/${RouterCategories.user}/${RouterCategories.challengeStreaks}?`;
 
