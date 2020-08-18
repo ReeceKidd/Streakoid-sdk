@@ -1,5 +1,6 @@
 import { GetAllChallengeStreaksSortFields, challengeStreaks as challengeStreaksImport } from './challengeStreaks';
 import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 describe('SDK challengeStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
@@ -148,6 +149,7 @@ describe('SDK challengeStreaks', () => {
                 },
                 pastStreaks: [],
                 userDefinedIndex: 10,
+                visibility: VisibilityTypes.onlyMe,
             };
 
             await challengeStreaks.update({

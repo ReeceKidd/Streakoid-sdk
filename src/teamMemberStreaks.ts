@@ -4,6 +4,7 @@ import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStr
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import ApiVersions from './ApiVersions';
 import { GetRequest, PostRequest, PatchRequest } from './request';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 export enum GetAllTeamMemberStreaksSortFields {
     currentStreak = 'currentStreak',
@@ -110,6 +111,7 @@ const teamMemberStreaks = ({
             active?: boolean;
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
+            visibility?: VisibilityTypes;
         };
     }): Promise<TeamMemberStreak> => {
         try {

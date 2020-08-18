@@ -6,6 +6,7 @@ import { GetRequest, PostRequest, PatchRequest } from './request';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import ApiVersions from './ApiVersions';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 
 export enum GetAllChallengeStreaksSortFields {
     currentStreak = 'currentStreak',
@@ -121,6 +122,7 @@ const challengeStreaks = ({
             currentStreak?: CurrentStreak;
             pastStreaks?: PastStreak[];
             userDefinedIndex?: number;
+            visibility?: VisibilityTypes;
         };
     }): Promise<ChallengeStreak> => {
         try {

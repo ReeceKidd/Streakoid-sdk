@@ -1,4 +1,7 @@
 import { teamMemberStreaks as teamMemberStreaksImport, GetAllTeamMemberStreaksSortFields } from './teamMemberStreaks';
+import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
+import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
+import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 describe('SDK teamMemberStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
     const postRequest = jest.fn().mockResolvedValue(true);
@@ -143,9 +146,24 @@ describe('SDK teamMemberStreaks', () => {
         test('calls PATCH with correct URL and  parameters', async () => {
             expect.assertions(1);
 
+            const completedToday = false;
+            const active = true;
+            const currentStreak: CurrentStreak = {
+                numberOfDaysInARow: 10,
+                startDate: new Date().toString(),
+                endDate: new Date().toString(),
+            };
+            const pastStreaks: PastStreak[] = [];
+            const visibility = VisibilityTypes.onlyMe;
+
             const timezone = 'Europe/Paris';
             const updateData = {
                 timezone,
+                completedToday,
+                active,
+                currentStreak,
+                pastStreaks,
+                visibility,
             };
 
             await teamMemberStreaks.update({
