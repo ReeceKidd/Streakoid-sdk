@@ -8,7 +8,7 @@ import { teamMembers } from './teamMembers';
 import { PopulatedTeamStreak } from '@streakoid/streakoid-models/lib/Models/PopulatedTeamStreak';
 import { GetRequest, PostRequest, PatchRequest, DeleteRequest } from './request';
 import TeamStreakRouterCategories from '@streakoid/streakoid-models/lib/Types/TeamStreakRouterCategories';
-import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 
 export enum GetAllTeamStreaksSortFields {
     currentStreak = 'currentStreak',
@@ -131,7 +131,7 @@ const teamStreaks = ({
             pastStreaks?: PastStreak[];
             completedToday?: boolean;
             active?: boolean;
-            visibility?: VisibilityTypes;
+            visibility?: TeamVisibilityTypes;
         };
     }): Promise<PopulatedTeamStreak> => {
         try {
