@@ -3,7 +3,7 @@ import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import { teamStreaks as teamStreaksImport } from './teamStreaks';
-import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 
 describe('SDK TeamStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
@@ -177,7 +177,7 @@ describe('SDK TeamStreaks', () => {
             const pastStreaks: PastStreak[] = [];
             const completedToday = true;
             const active = true;
-            const visibility = VisibilityTypes.onlyMe;
+            const visibility = TeamVisibilityTypes.members;
 
             const updateData = {
                 streakName,

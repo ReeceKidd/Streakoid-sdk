@@ -1,7 +1,7 @@
 import { teamMemberStreaks as teamMemberStreaksImport, GetAllTeamMemberStreaksSortFields } from './teamMemberStreaks';
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
-import VisibilityTypes from '@streakoid/streakoid-models/lib/Types/VisibilityTypes';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
+import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
 describe('SDK teamMemberStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
     const postRequest = jest.fn().mockResolvedValue(true);
@@ -154,7 +154,7 @@ describe('SDK teamMemberStreaks', () => {
                 endDate: new Date().toString(),
             };
             const pastStreaks: PastStreak[] = [];
-            const visibility = VisibilityTypes.onlyMe;
+            const visibility = TeamVisibilityTypes.members;
 
             const timezone = 'Europe/Paris';
             const updateData = {
