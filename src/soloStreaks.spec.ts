@@ -112,6 +112,8 @@ describe('SDK soloStreaks', () => {
             const userId = 'userId';
             const streakName = 'streakName';
             const streakDescription = 'streakDescription';
+            const numberOfMinutes = 30;
+            const visibility = IndividualVisibilityTypes.everyone;
 
             await soloStreaks.create({
                 userId,
@@ -125,6 +127,8 @@ describe('SDK soloStreaks', () => {
                     userId,
                     streakName,
                     streakDescription,
+                    numberOfMinutes,
+                    visibility,
                 },
             });
         });

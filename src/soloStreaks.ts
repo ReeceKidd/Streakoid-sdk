@@ -90,16 +90,18 @@ const soloStreaks = ({
         streakName,
         streakDescription,
         numberOfMinutes,
+        visibility,
     }: {
         userId: string;
         streakName: string;
         streakDescription?: string;
         numberOfMinutes?: number;
+        visibility?: IndividualVisibilityTypes;
     }): Promise<SoloStreak> => {
         try {
             return postRequest({
                 route: `/${ApiVersions.v1}/${RouterCategories.soloStreaks}`,
-                params: { userId, streakName, streakDescription, numberOfMinutes },
+                params: { userId, streakName, streakDescription, numberOfMinutes, visibility },
             });
         } catch (err) {
             return Promise.reject(err);
