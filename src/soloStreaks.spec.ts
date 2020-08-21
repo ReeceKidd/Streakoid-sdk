@@ -119,6 +119,8 @@ describe('SDK soloStreaks', () => {
                 userId,
                 streakName,
                 streakDescription,
+                numberOfMinutes,
+                visibility,
             });
 
             expect(postRequest).toBeCalledWith({
