@@ -142,12 +142,14 @@ describe('SDK TeamStreaks', () => {
             const streakDescription = 'Stuck to our recommended calorie level';
 
             const members: [] = [];
+            const visibility = TeamVisibilityTypes.members;
 
             await teamStreaks.create({
                 creatorId,
                 streakName,
                 streakDescription,
                 members,
+                visibility,
             });
 
             expect(postRequest).toBeCalledWith({
@@ -157,6 +159,7 @@ describe('SDK TeamStreaks', () => {
                     streakName,
                     streakDescription,
                     members,
+                    visibility,
                 },
             });
         });

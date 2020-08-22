@@ -92,12 +92,14 @@ const teamStreaks = ({
         streakDescription,
         numberOfMinutes,
         members,
+        visibility,
     }: {
         creatorId: string;
         streakName: string;
         members: { memberId: string; teamMemberStreakId?: string }[];
         streakDescription?: string;
         numberOfMinutes?: number;
+        visibility?: TeamVisibilityTypes;
     }): Promise<PopulatedTeamStreak> => {
         try {
             return postRequest({
@@ -108,6 +110,7 @@ const teamStreaks = ({
                     streakDescription,
                     numberOfMinutes,
                     members,
+                    visibility,
                 },
             });
         } catch (err) {
