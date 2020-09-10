@@ -118,7 +118,7 @@ describe('SDK teamMemberStreaks', () => {
             await teamMemberStreaks.getAll(query);
 
             expect(getRequest).toBeCalledWith({
-                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&limit=${limit}&status=${status}`,
+                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&limit=${limit}&status=${status}&`,
             });
         });
     });
