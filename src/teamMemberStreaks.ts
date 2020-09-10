@@ -5,6 +5,7 @@ import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import ApiVersions from './ApiVersions';
 import { GetRequest, PostRequest, PatchRequest } from './request';
 import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 
 export enum GetAllTeamMemberStreaksSortFields {
     currentStreak = 'currentStreak',
@@ -29,6 +30,7 @@ const teamMemberStreaks = ({
         active,
         sortField,
         limit,
+        status,
     }: {
         userId?: string;
         teamStreakId?: string;
@@ -37,6 +39,7 @@ const teamMemberStreaks = ({
         active?: boolean;
         sortField?: GetAllTeamMemberStreaksSortFields;
         limit?: number;
+        status?: StreakStatus;
     }): Promise<TeamMemberStreak[]> => {
         try {
             let getAllTeamMemberStreaksURL = `/${ApiVersions.v1}/${RouterCategories.teamMemberStreaks}?`;
@@ -65,6 +68,9 @@ const teamMemberStreaks = ({
             }
             if (limit) {
                 getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}limit=${limit}&`;
+            }
+            if (status) {
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}status=${status}&`;
             }
 
             return getRequest({ route: getAllTeamMemberStreaksURL });

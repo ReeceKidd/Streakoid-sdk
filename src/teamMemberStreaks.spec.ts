@@ -2,6 +2,7 @@ import { teamMemberStreaks as teamMemberStreaksImport, GetAllTeamMemberStreaksSo
 import { CurrentStreak } from '@streakoid/streakoid-models/lib/Models/CurrentStreak';
 import { PastStreak } from '@streakoid/streakoid-models/lib/Models/PastStreak';
 import TeamVisibilityTypes from '@streakoid/streakoid-models/lib/Types/TeamVisibilityTypes';
+import StreakStatus from '@streakoid/streakoid-models/lib/Types/StreakStatus';
 describe('SDK teamMemberStreaks', () => {
     const getRequest = jest.fn().mockResolvedValue(true);
     const postRequest = jest.fn().mockResolvedValue(true);
@@ -20,6 +21,7 @@ describe('SDK teamMemberStreaks', () => {
         const active = true;
         const sortField = GetAllTeamMemberStreaksSortFields.currentStreak;
         const limit = 20;
+        const status = StreakStatus.archived;
 
         const query = {
             userId,
@@ -29,6 +31,7 @@ describe('SDK teamMemberStreaks', () => {
             active,
             sortField,
             limit,
+            status,
         };
 
         test('calls GET with correct URL when no query parameters are passed', async () => {
@@ -99,13 +102,23 @@ describe('SDK teamMemberStreaks', () => {
             });
         });
 
+        test('calls GET with correct URL when status paramter is passed', async () => {
+            expect.assertions(1);
+
+            await teamMemberStreaks.getAll({ status });
+
+            expect(getRequest).toBeCalledWith({
+                route: `/v1/team-member-streaks?status=${status}&`,
+            });
+        });
+
         test('calls GET with correct URL when all query parameters are passed', async () => {
             expect.assertions(1);
 
             await teamMemberStreaks.getAll(query);
 
             expect(getRequest).toBeCalledWith({
-                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&limit=${limit}&`,
+                route: `/v1/team-member-streaks?userId=${userId}&teamStreakId=${teamStreakId}&completedToday=${completedToday}&timezone=${timezone}&active=${active}&sortField=${sortField}&limit=${limit}&status=${status}`,
             });
         });
     });
