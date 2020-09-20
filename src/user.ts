@@ -156,6 +156,7 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
     const teamMemberStreaks = async ({
         userId,
         teamStreakId,
+        status,
         completedToday,
         timezone,
         active,
@@ -164,6 +165,7 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
     }: {
         userId?: string;
         teamStreakId?: string;
+        status?: StreakStatus;
         completedToday?: boolean;
         timezone?: string;
         active?: boolean;
@@ -179,6 +181,10 @@ const user = ({ getRequest, patchRequest }: { getRequest: GetRequest; patchReque
 
             if (teamStreakId) {
                 getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}teamStreakId=${teamStreakId}&`;
+            }
+
+            if (status) {
+                getAllTeamMemberStreaksURL = `${getAllTeamMemberStreaksURL}status=${status}&`;
             }
 
             if (completedToday !== undefined) {

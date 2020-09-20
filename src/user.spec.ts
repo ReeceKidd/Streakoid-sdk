@@ -194,6 +194,7 @@ describe('SDK users', () => {
     describe('teamMemberStreaks', () => {
         const userId = 'userId';
         const teamStreakId = 'teamStreakId';
+        const status = StreakStatus.live;
         const completedToday = true;
         const timezone = 'Europe/London';
         const active = true;
@@ -203,6 +204,7 @@ describe('SDK users', () => {
         const query = {
             userId,
             teamStreakId,
+            status,
             completedToday,
             timezone,
             active,
@@ -232,6 +234,14 @@ describe('SDK users', () => {
             await user.teamMemberStreaks({ teamStreakId });
 
             expect(getRequest).toBeCalledWith({ route: `/v1/user/team-member-streaks?teamStreakId=${teamStreakId}&` });
+        });
+
+        test('calls GET with correct URL when status query paramter is passed', async () => {
+            expect.assertions(1);
+
+            await user.teamMemberStreaks({ status });
+
+            expect(getRequest).toBeCalledWith({ route: `/v1/user/team-member-streaks?status=${status}&` });
         });
 
         test('calls GET with correct URL when completedToday query paramter is passed', async () => {
